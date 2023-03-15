@@ -33,7 +33,7 @@ Public Sub CopyOneSheet()
         Sheets("2").Copy Before:=Sheets("Q1")
     End If
     
-    ActiveSheet.Name = CStr(n_sheets + 1)
+    ActiveSheet.name = CStr(n_sheets + 1)
     Range("b2").value = "W-" & (n_sheets + 1)
     Range("e15").value = CStr(n_sheets + 1)
     
