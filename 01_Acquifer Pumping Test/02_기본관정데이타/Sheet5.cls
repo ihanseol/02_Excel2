@@ -87,29 +87,35 @@ Private Sub CommandButton5_Click()
     Sheets("Aggregate2").Select
 End Sub
 
-
 'one button
 'delete all well except for one ...
 
 Private Sub CommandButton6_Click()
     Dim i, nofWell As Integer
+    Dim response As VbMsgBoxResult
     
     nofWell = GetNumberOfWell()
     
-    For i = 2 To nofWell
-         RemoveSheetIfExists (CStr(i))
-    Next i
-    
-    Sheets("Well").Activate
-    Rows("5:" & CStr(nofWell + 3)).Select
-    Selection.Delete Shift:=xlUp
-    
-    For i = 1 To 12
-        If Not RemoveSheetIfExists("p" & CStr(i)) Then Exit For
-    Next i
-    
-    Call DecorateWellBorder(1)
-    Range("A1").Select
+    If nofWell = 1 Then Exit Sub
+
+    response = MsgBox("Do you deletel all water well?", vbYesNo)
+    If response = vbYes Then
+         For i = 2 To nofWell
+             RemoveSheetIfExists (CStr(i))
+        Next i
+        
+        Sheets("Well").Activate
+        Rows("5:" & CStr(nofWell + 3)).Select
+        Selection.Delete Shift:=xlUp
+        
+        For i = 1 To 12
+            If Not RemoveSheetIfExists("p" & CStr(i)) Then Exit For
+        Next i
+        
+        Call DecorateWellBorder(1)
+        Range("A1").Select
+    End If
+   
 End Sub
 
 Function RemoveSheetIfExists(shname As String) As Boolean
