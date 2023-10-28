@@ -2,7 +2,7 @@ Attribute VB_Name = "WebScraper_bySelenium"
 Option Explicit
 
 Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr) 'For 64 Bit Systems
-Private cd As Selenium.ChromeDriver
+Private driver As Selenium.ChromeDriver
 
 
 Public Function StringToIntArray(str As String) As Variant
@@ -95,7 +95,7 @@ End Function
 
 
 Sub get_weather_data()
-    Dim cd As New ChromeDriver
+    Dim driver As New ChromeDriver
     Dim ddl As Selenium.SelectElement
     
     Dim url As String
@@ -106,33 +106,42 @@ Sub get_weather_data()
     Range("B2").Value = "30년 " & Range("S8").Value & "데이터, " & Now()
     
     url = "https://data.kma.go.kr/stcs/grnd/grndRnList.do?pgmNo=69"
-    Set cd = New Selenium.ChromeDriver
+    Set driver = New Selenium.ChromeDriver
     
-    cd.Start
-    cd.AddArgument "--headless"
-    cd.Window.Maximize
-    cd.Get url
+    driver.Start
+    driver.AddArgument "--headless"
+    driver.Window.Maximize
+    driver.Get url
 
-    Sleep (1 * 1000)
+    Sleep (2 * 1000)
+        
+    '2023/10/28 일, 홈페이지 코드가 변경됨 ...
+    ' id="ztree_61_switch"
+    ' <a href="javascript:;" id="ztree_61_switch" onclick="treeBtChange(this)" class="button level1 switch center_close" treenode_switch=""><span class="blind">열기</span></a>
+    ' #ztree_61_switch, selector복사로 취득
     
-
     one_string = "ztree_" & CStr(Range("S10").Value) & "_switch"
+       
     two_string = Range("S8").Value & " (" & CStr(Range("S9").Value) & ")"
-    
-    Set ddl = cd.FindElementByCss("#dataFormCd").AsSelect
+    '금산 (238)
+        
+    Set ddl = driver.FindElementByCss("#dataFormCd").AsSelect
     ddl.SelectByText ("월")
     Sleep (0.5 * 1000)
     
     
     ' ---------------------------------------------------------------
     
-    cd.FindElementByCss("#txtStnNm").Click
+    driver.FindElementByCss("#txtStnNm").Click
     Sleep (1 * 1000)
-    cd.FindElementByCss("#" & one_string).Click
+    
+    driver.FindElementByCss("#" & one_string).Click
     Sleep (1 * 1000)
-    cd.FindElementByLinkText(two_string).Click
+    
+    driver.FindElementByLinkText(two_string).Click
     Sleep (1 * 1000)
-    cd.FindElementByLinkText("선택완료").Click
+    
+    driver.FindElementByLinkText("선택완료").Click
     
     
     ' ---------------------------------------------------------------
@@ -141,42 +150,40 @@ Sub get_weather_data()
     eYear = Year(Now()) - 1
     sYear = eYear - 29
     
-    Set ddl = cd.FindElementByCss("#startYear").AsSelect
+    Set ddl = driver.FindElementByCss("#startYear").AsSelect
     ddl.SelectByText (CStr(sYear))
     Sleep (0.5 * 1000)
    
-    Set ddl = cd.FindElementByCss("#endYear").AsSelect
+    Set ddl = driver.FindElementByCss("#endYear").AsSelect
     ddl.SelectByText (CStr(eYear))
     Sleep (0.5 * 1000)
     ' ---------------------------------------------------------------
     
     ' Search Button
-    ' cd.FindElementByXPath("//*[@id='schForm']/div[2]").Click
+    ' driver.FindElementByXPath("//*[@id='schForm']/div[2]").Click
     ' copy by selector
     
     '검색 버튼클릭
-    ' cd.FindElementByCss("#schForm > div.wrap_btn > button").Click
-    cd.FindElementByCss("button.SEARCH_BTN").Click
+    ' driver.FindElementByCss("#schForm > div.wrap_btn > button").Click
+    driver.FindElementByCss("button.SEARCH_BTN").Click
     
 
     Sleep (2 * 1000)
     
     ' Excel download button
-    ' cd.FindElementByLinkText("Excel").Click
+    ' driver.FindElementByLinkText("Excel").Click
      
      
     'Excel download
-    ' cd.FindElementByCss("#wrap_content > div:nth-child(15) > div.hd_itm > div > a.DOWNLOAD_BTN_XLS").Click
+    ' driver.FindElementByCss("#wrap_content > div:nth-child(15) > div.hd_itm > div > a.DOWNLOAD_BTN_XLS").Click
       
     'CSV download
-    ' cd.FindElementByCss("#wrap_content > div:nth-child(15) > div.hd_itm > div > a.DOWNLOAD_BTN").Click
-    cd.FindElementByCss("a.DOWNLOAD_BTN").Click
+    ' driver.FindElementByCss("#wrap_content > div:nth-child(15) > div.hd_itm > div > a.DOWNLOAD_BTN").Click
+    driver.FindElementByCss("a.DOWNLOAD_BTN").Click
     
     
     Sleep (3 * 1000)
 
-    
-    
 End Sub
 
 
