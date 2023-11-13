@@ -12,7 +12,6 @@ HWP_OUTPUT = "iyong(result).hwp"
 
 def get_desktop():
     desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-    desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
     return desktop
 
 def initial_work():
