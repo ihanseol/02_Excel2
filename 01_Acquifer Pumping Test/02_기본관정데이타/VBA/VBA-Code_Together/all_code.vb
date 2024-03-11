@@ -3689,8 +3689,6 @@ Function ColumnLetterToNumber(ByVal columnLetter As String) As Long
 End Function
 
 
-
-
 Sub BackGroundFill(rngLine As Range, FLAG As Boolean)
 
 If FLAG Then
@@ -4174,37 +4172,12 @@ Private Sub AggregateOne_Import(ByVal singleWell As Integer, ByVal isSingleWellI
         
     Dim fName As String
     Dim nofwell, i As Integer
-    Dim q1() As Double
-    Dim qq1() As Double
-    Dim q2() As Double
-    Dim q3() As Double
-    
-    Dim ratio() As Double
-    
-    Dim C() As Double
-    Dim B() As Double
-    
-    Dim S1() As Double
-    Dim S2() As Double
-    
+    Dim q1, qq1, q2, q3, ratio, C, B, S1, S2 As Double
+    Dim wsYangSoo As Worksheet
     
     nofwell = GetNumberOfWell()
     Sheets("Aggregate1").Select
     
-    ReDim q1(1 To nofwell) '한계양수량
-    ReDim q2(1 To nofwell) '적정취수량
-    ReDim q3(1 To nofwell) '취수계획량
-    ReDim qq1(1 To nofwell) '1단계 양수량
-    
-    ReDim ratio(1 To nofwell)
-    
-    ReDim C(1 To nofwell)
-    ReDim B(1 To nofwell)
-    
-    ReDim S1(1 To nofwell)
-    ReDim S2(1 To nofwell)
- 
-    Dim wsYangSoo As Worksheet
     Set wsYangSoo = Worksheets("YangSoo")
     
     
@@ -4225,27 +4198,27 @@ Private Sub AggregateOne_Import(ByVal singleWell As Integer, ByVal isSingleWellI
         
 SINGLE_ITERATION:
 
-        q1(i) = wsYangSoo.Cells(4 + i, "aa").value
-        qq1(i) = wsYangSoo.Cells(4 + i, "ac").value
+        q1 = wsYangSoo.Cells(4 + i, "aa").value
+        qq1 = wsYangSoo.Cells(4 + i, "ac").value
         
-        q2(i) = wsYangSoo.Cells(4 + i, "ab").value
-        q3(i) = wsYangSoo.Cells(4 + i, "k").value
+        q2 = wsYangSoo.Cells(4 + i, "ab").value
+        q3 = wsYangSoo.Cells(4 + i, "k").value
         
-        ratio(i) = wsYangSoo.Cells(4 + i, "ah").value
+        ratio = wsYangSoo.Cells(4 + i, "ah").value
         
-        S1(i) = wsYangSoo.Cells(4 + i, "ad").value
-        S2(i) = wsYangSoo.Cells(4 + i, "ae").value
+        S1 = wsYangSoo.Cells(4 + i, "ad").value
+        S2 = wsYangSoo.Cells(4 + i, "ae").value
         
-        C(i) = wsYangSoo.Cells(4 + i, "af").value
-        B(i) = wsYangSoo.Cells(4 + i, "ag").value
+        C = wsYangSoo.Cells(4 + i, "af").value
+        B = wsYangSoo.Cells(4 + i, "ag").value
         
         
-        Call TurnOffStuff
+        TurnOffStuff
         
-        Call WriteWellData36_Single(q1(i), q2(i), q3(i), ratio(i), C(i), B(i), i, isSingleWellImport)
-        Call Write_Tentative_water_intake_Single(qq1(i), S2(i), S1(i), q2(i), i, isSingleWellImport)
+        Call WriteWellData36_Single(q1, q2, q3, ratio, C, B, i, isSingleWellImport)
+        Call Write_Tentative_water_intake_Single(qq1, S2, S1, q2, i, isSingleWellImport)
         
-        Call TurnOnStuff
+        TurnOnStuff
         
 NEXT_ITERATION:
         
@@ -4376,70 +4349,16 @@ Private Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Q() As Double          '양수량
-    Dim natural() As Double    '자연수위
-    Dim stable() As Double      '안정수위
-    Dim recover() As Double     '회복수위
-    
-    Dim radius() As Double       ' 공반경
-    Dim deltas() As Double       ' deltas
-    Dim deltah() As Double       ' deltah : 수위강하량
-    Dim daeSoo() As Double       ' 대수층 두께
-    
-    Dim T1() As Double            ' T1
-    Dim T2() As Double            ' T2
-    Dim TA() As Double            ' TA - (T1+T2)/2, TAverage
-    
-    Dim K() As Double
-    Dim time_() As Double           ' 안정수위도달시간
-    
-    Dim S1() As Double            ' S1
-    Dim S2() As Double            ' S2 - 스킨팩터 해석, s값
-    
-    Dim schultz() As Double
-    Dim webber() As Double
-    Dim jcob() As Double
-    
-    Dim skin() As Double ' skin factor
-    Dim er() As Double   ' effective radius
+    Dim Q, natural, stable, recover, radius, deltas, deltah, daeSoo, T1, T2, TA As Double
+    Dim K, time_, S1, S2, schultz, webber, jcob, skin, er As Double
     
 
     nofwell = GetNumberOfWell()
     Sheets("Aggregate2").Select
     
-    ' --------------------------------------------------------------------------------------
-    
-    ReDim Q(1 To nofwell)
-    ReDim natural(1 To nofwell)
-    ReDim stable(1 To nofwell)
-    ReDim recover(1 To nofwell)
-    
-    ReDim radius(1 To nofwell)
-    ReDim deltas(1 To nofwell)
-    ReDim deltah(1 To nofwell)
-    ReDim daeSoo(1 To nofwell)
-    
-    ReDim T1(1 To nofwell)
-    ReDim T2(1 To nofwell)
-    ReDim TA(1 To nofwell)
-    ReDim K(1 To nofwell)
-    ReDim time_(1 To nofwell)
-    
-    ReDim S1(1 To nofwell)
-    ReDim S2(1 To nofwell)
-    
-    ReDim shultz(1 To nofwell)
-    ReDim webber(1 To nofwell)
-    ReDim jcob(1 To nofwell)
-    
-    ReDim skin(1 To nofwell) ' skin factor
-    ReDim er(1 To nofwell)   ' effective radius
-    
     Dim wsYangSoo As Worksheet
     Set wsYangSoo = Worksheets("YangSoo")
     
-    
-    ' --------------------------------------------------------------------------------------
 
     If Not isSingleWellImport Then
     ' if All Colect Data Pressed ...
@@ -4459,44 +4378,44 @@ Private Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport
         
 SINGLE_ITERATION:
    
-        Q(i) = wsYangSoo.Cells(4 + i, "k").value
+        Q = wsYangSoo.Cells(4 + i, "k").value
         
-        natural(i) = wsYangSoo.Cells(4 + i, "b").value
-        stable(i) = wsYangSoo.Cells(4 + i, "c").value
-        recover(i) = wsYangSoo.Cells(4 + i, "d").value
+        natural = wsYangSoo.Cells(4 + i, "b").value
+        stable = wsYangSoo.Cells(4 + i, "c").value
+        recover = wsYangSoo.Cells(4 + i, "d").value
         
-        radius(i) = wsYangSoo.Cells(4 + i, "h").value
+        radius = wsYangSoo.Cells(4 + i, "h").value
         
-        deltas(i) = wsYangSoo.Cells(4 + i, "l").value
-        deltah(i) = wsYangSoo.Cells(4 + i, "f").value
-        daeSoo(i) = wsYangSoo.Cells(4 + i, "n").value
+        deltas = wsYangSoo.Cells(4 + i, "l").value
+        deltah = wsYangSoo.Cells(4 + i, "f").value
+        daeSoo = wsYangSoo.Cells(4 + i, "n").value
         
         
-        T1(i) = wsYangSoo.Cells(4 + i, "o").value
-        T2(i) = wsYangSoo.Cells(4 + i, "p").value
-        TA(i) = wsYangSoo.Cells(4 + i, "q").value
+        T1 = wsYangSoo.Cells(4 + i, "o").value
+        T2 = wsYangSoo.Cells(4 + i, "p").value
+        TA = wsYangSoo.Cells(4 + i, "q").value
         
-        time_(i) = wsYangSoo.Cells(4 + i, "u").value
+        time_ = wsYangSoo.Cells(4 + i, "u").value
                 
-        S1(i) = wsYangSoo.Cells(4 + i, "r").value
-        S2(i) = wsYangSoo.Cells(4 + i, "s").value
-        K(i) = wsYangSoo.Cells(4 + i, "t").value
+        S1 = wsYangSoo.Cells(4 + i, "r").value
+        S2 = wsYangSoo.Cells(4 + i, "s").value
+        K = wsYangSoo.Cells(4 + i, "t").value
         
-        shultz(i) = wsYangSoo.Cells(4 + i, "v").value
-        webber(i) = wsYangSoo.Cells(4 + i, "w").value
-        jcob(i) = wsYangSoo.Cells(4 + i, "x").value
+        shultz = wsYangSoo.Cells(4 + i, "v").value
+        webber = wsYangSoo.Cells(4 + i, "w").value
+        jcob = wsYangSoo.Cells(4 + i, "x").value
         
         
-        skin(i) = wsYangSoo.Cells(4 + i, "y").value
-        er(i) = wsYangSoo.Cells(4 + i, "z").value
+        skin = wsYangSoo.Cells(4 + i, "y").value
+        er = wsYangSoo.Cells(4 + i, "z").value
         
         Call TurnOffStuff
         
-        Call WriteWellData_Single(Q(i), natural(i), stable(i), recover(i), radius(i), deltas(i), daeSoo(i), T1(i), S1(i), i, isSingleWellImport)
-        Call WriteData37_RadiusOfInfluence_Single(TA(i), K(i), S2(i), time_(i), deltah(i), daeSoo(i), i, isSingleWellImport)
-        Call WriteData36_TS_Analysis_Single(T1(i), T2(i), TA(i), S2(i), i, isSingleWellImport)
-        Call Write38_RadiusOfInfluence_Result_Single(shultz(i), webber(i), jcob(i), i, isSingleWellImport)
-        Call Wrote34_SkinFactor_Single(skin(i), er(i), i, isSingleWellImport)
+        Call WriteWellData_Single(Q, natural, stable, recover, radius, deltas, daeSoo, T1, S1, i, isSingleWellImport)
+        Call WriteData37_RadiusOfInfluence_Single(TA, K, S2, time_, deltah, daeSoo, i, isSingleWellImport)
+        Call WriteData36_TS_Analysis_Single(T1, T2, TA, S2, i, isSingleWellImport)
+        Call Write38_RadiusOfInfluence_Result_Single(shultz, webber, jcob, i, isSingleWellImport)
+        Call Wrote34_SkinFactor_Single(skin, er, i, isSingleWellImport)
         
         Call TurnOnStuff
         
@@ -4849,178 +4768,92 @@ Function getDirectionFromWell(i) As Integer
 End Function
 
 
-
 Private Sub CommandButton2_Click()
 ' Collect Data
 
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Q() As Double
-    Dim daeSoo() As Double
+    Dim Q, daeSoo, T1, S1, direction, gradient As Double
     
-    Dim T1() As Double
-    Dim S1() As Double
-    
-    Dim direction() As Integer
-    Dim gradient() As Double
-    
-    
-    nofwell = GetNumberOfWell()
+    nofwell = sheets_count()
     If ActiveSheet.name <> "aggWhpa" Then Sheets("aggWhpa").Select
-    
-    ReDim Q(1 To nofwell) As Double
-    ReDim daeSoo(1 To nofwell) As Double
-    
-    ReDim T1(1 To nofwell) As Double
-    ReDim S1(1 To nofwell) As Double
-    
-    ReDim direction(1 To nofwell) As Integer
-    ReDim gradient(1 To nofwell) As Double
-      
-
-    ' --------------------------------------------------------------------------------------
-    
-    For i = 1 To nofwell
-        
-        Sheets(CStr(i)).Select
-        
-        Q(i) = Sheets(CStr(i)).Range("c16").value
-        daeSoo(i) = Sheets(CStr(i)).Range("c14").value
-        
-        T1(i) = Sheets(CStr(i)).Range("e7").value
-        S1(i) = Sheets(CStr(i)).Range("g7").value
-        
-        direction(i) = getDirectionFromWell(i)
-        gradient(i) = Sheets(CStr(i)).Range("k18").value
-        
-    Next i
-
-
-    Sheets("aggWhpa").Select
-    Call WriteWellData(Q, daeSoo, T1, S1, direction, gradient, nofwell)
-    Call DrawOutline
-    
-    Range("a1").Select
-    Application.CutCopyMode = False
-    
-End Sub
-
-Sub DrawOutline()
-
-    Application.ScreenUpdating = False
-    
-    Range("C3:O34").Select
-    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    
-    With Selection.Borders(xlEdgeLeft)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    
-    With Selection.Borders(xlEdgeTop)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    
-    With Selection.Borders(xlEdgeBottom)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    
-    With Selection.Borders(xlEdgeRight)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    
-    With Selection.Borders(xlInsideVertical)
-        .LineStyle = xlContinuous
-        .ColorIndex = xlAutomatic
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    Range("B31").Select
-    
-    Application.ScreenUpdating = True
-End Sub
-
-
-Private Sub WriteWellData(Q As Variant, daeSoo As Variant, T1 As Variant, S1 As Variant, direction As Variant, gradient As Variant, ByVal nofwell As Integer)
-    Dim i As Integer
-    Dim t_sum As Double
-    Dim daesoo_sum As Double
-    Dim gradient_sum As Double
-    Dim direction_sum As Double
-    
-    t_sum = 0
-    daesoo_sum = 0
-    gradient_sum = 0
-    direction_sum = 0
-    
-    
-    Application.ScreenUpdating = False
     Call EraseCellData("C4:O34")
-            
-    Call UnmergeAllCells
+    
+    TurnOffStuff
     
     For i = 1 To nofwell
-    
-        Cells(3 + i, "c").value = "W-" & CStr(i)
+        Q = Sheets(CStr(i)).Range("c16").value
+        daeSoo = Sheets(CStr(i)).Range("c14").value
         
-        Cells(3 + i, "e").value = Q(i)
-        Cells(3 + i, "f").value = T1(i)
-        t_sum = t_sum + T1(i)
+        T1 = Sheets(CStr(i)).Range("e7").value
+        S1 = Sheets(CStr(i)).Range("g7").value
         
-        Cells(3 + i, "i").value = daeSoo(i)
-        daesoo_sum = daesoo_sum + daeSoo(i)
+        direction = getDirectionFromWell(i)
+        gradient = Sheets(CStr(i)).Range("k18").value
         
-        Cells(3 + i, "k").value = direction(i)
-        direction_sum = direction_sum + direction(i)
-        
-        Cells(3 + i, "m").value = Format(gradient(i), "###0.0000")
-        gradient_sum = gradient_sum + gradient(i)
-        
-        Cells(4, "d").value = "5년"
-    
+        Call WriteWellData_Single(Q, daeSoo, T1, S1, direction, gradient, i)
     Next i
     
-   
+    Sheets("aggWhpa").Select
+    
+    Call MakeAverageAndMergeCells(nofwell)
+    Call DrawOutline
+    TurnOnStuff
+    
+End Sub
+
+Private Sub WriteWellData_Single(Q As Variant, daeSoo As Variant, T1 As Variant, S1 As Variant, direction As Variant, gradient As Variant, ByVal i As Integer)
+    
+    Call UnmergeAllCells
+        
+    Cells(3 + i, "c").value = "W-" & CStr(i)
+    Cells(3 + i, "e").value = Q
+    Cells(3 + i, "f").value = T1
+    Cells(3 + i, "i").value = daeSoo
+    Cells(3 + i, "k").value = direction
+    Cells(3 + i, "m").value = Format(gradient, "###0.0000")
+    Cells(4, "d").value = "5년"
+    
+End Sub
+
+
+Sub MakeAverageAndMergeCells(ByVal nofwell As Integer)
+    Dim t_sum, daesoo_sum, gradient_sum, direction_sum As Double
+    Dim i As Integer
+
+    For i = 1 To nofwell
+        t_sum = t_sum + Range("F" & (i + 3)).value
+        daesoo_sum = daesoo_sum + Range("I" & (i + 3)).value
+        direction_sum = direction_sum + Range("K" & (i + 3)).value
+        gradient_sum = gradient_sum + Range("M" & (i + 3)).value
+    Next i
+    
+    
     Cells(4, "g").value = Round(t_sum / nofwell, 4)
     Cells(4, "g").NumberFormat = "0.0000"
-    Call merge_cells("d", nofwell)
-    Call merge_cells("g", nofwell)
     
     Cells(4, "j").value = Round(daesoo_sum / nofwell, 1)
     Cells(4, "j").NumberFormat = "0.0"
-    Call merge_cells("j", nofwell)
-    
+        
     Cells(4, "l").value = Round(direction_sum / nofwell, 1)
     Cells(4, "l").NumberFormat = "0.0"
-    Call merge_cells("l", nofwell)
-    
+        
     Cells(4, "n").value = Round(gradient_sum / nofwell, 4)
     Cells(4, "n").NumberFormat = "0.0000"
-    Call merge_cells("n", nofwell)
-    
+       
     Cells(4, "o").value = "무경계조건"
-    Call merge_cells("o", nofwell)
-    
     Cells(4, "h").value = 0.03
+    
+    Call merge_cells("d", nofwell)
+    Call merge_cells("g", nofwell)
+    Call merge_cells("j", nofwell)
+    Call merge_cells("l", nofwell)
+    Call merge_cells("n", nofwell)
+    Call merge_cells("o", nofwell)
     Call merge_cells("h", nofwell)
-    
-    Application.ScreenUpdating = True
-    
-End Sub
 
+End Sub
 
 
 Sub merge_cells(cel As String, ByVal nofwell As Integer)
@@ -5113,6 +4946,54 @@ Private Sub EraseCellData(str_range As String)
     With Range(str_range)
         .value = ""
     End With
+End Sub
+
+
+Sub DrawOutline()
+
+    Application.ScreenUpdating = False
+    
+    Range("C3:O34").Select
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    Range("B31").Select
+    
+    Application.ScreenUpdating = True
 End Sub
 
 
@@ -5755,40 +5636,15 @@ Private Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImp
 ' 999 & False --> 모든관정을 임포트
 '
 
-
-    Dim fName As String
     Dim nofwell, i As Integer
-    
-    
-    Dim a1() As String
-    Dim a2() As String
-    Dim a3() As String
-    
-    Dim Q() As String
-    Dim h() As String
-    Dim delta_h() As String
-    Dim qsw() As String
-    Dim swq() As String
+    Dim a1, a2, a3, Q, h, delta_h, qsw, swq As String
+    Dim fName As String
     
     nofwell = GetNumberOfWell()
-    ' --------------------------------------------------------------------------------------
-    ReDim a1(1 To nofwell)
-    ReDim a2(1 To nofwell)
-    ReDim a3(1 To nofwell)
-    
-    ReDim Q(1 To nofwell)
-    ReDim h(1 To nofwell)
-    ReDim delta_h(1 To nofwell)
-    ReDim qsw(1 To nofwell)
-    ReDim swq(1 To nofwell)
-    
     
     Dim wb As Workbook
     Dim wsInput As Worksheet
     Dim rngString As String
-    
-    
-    ' --------------------------------------------------------------------------------------
     
     If ActiveSheet.name <> "AggStep" Then Sheets("AggStep").Select
     
@@ -5797,6 +5653,13 @@ Private Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImp
         Call EraseCellData(rngString)
     Else
         rngString = "C5:K36"
+        
+        fName = "A1_ge_OriginalSaveFile.xlsm"
+        If Not IsWorkBookOpen(fName) Then
+            MsgBox "Please open the yangsoo data ! " & fName
+            Exit Sub
+        End If
+        
         Call EraseCellData(rngString)
     End If
         
@@ -5820,17 +5683,17 @@ SINGLE_ITERATION:
         Set wb = Workbooks(fName)
         Set wsInput = wb.Worksheets("Input")
         
-        Q(i) = wsInput.Range("q64").value
-        h(i) = wsInput.Range("r64").value
-        delta_h(i) = wsInput.Range("s64").value
-        qsw(i) = wsInput.Range("t64").value
-        swq(i) = wsInput.Range("u64").value
+        Q = wsInput.Range("q64").value
+        h = wsInput.Range("r64").value
+        delta_h = wsInput.Range("s64").value
+        qsw = wsInput.Range("t64").value
+        swq = wsInput.Range("u64").value
 
-        a1(i) = wsInput.Range("v64").value
-        a2(i) = wsInput.Range("w64").value
-        a3(i) = wsInput.Range("x64").value
+        a1 = wsInput.Range("v64").value
+        a2 = wsInput.Range("w64").value
+        a3 = wsInput.Range("x64").value
         
-        Call Write31_StepTestData_Single(a1(i), a2(i), a3(i), Q(i), h(i), delta_h(i), qsw(i), swq(i), i)
+        Call Write31_StepTestData_Single(a1, a2, a3, Q, h, delta_h, qsw, swq, i)
 
 NEXT_ITERATION:
 
@@ -5880,6 +5743,34 @@ Private Sub CommandButton2_Click()
 End Sub
 
 
+Private Sub CommandButton3_Click()
+    'single well import
+    
+    Dim singleWell  As Integer
+    Dim WB_NAME As String
+    
+    'If Workbook Is Nothing Then
+    '    GetOtherFileName = "Empty"
+    'Else
+    '    GetOtherFileName = Workbook.name
+    'End If
+        
+    WB_NAME = GetOtherFileName
+    
+    If WB_NAME = "Empty" Then
+        MsgBox "WorkBook is Empty"
+        Exit Sub
+    Else
+        singleWell = CInt(ExtractNumberFromString(WB_NAME))
+    '   MsgBox (SingleWell)
+    End If
+    
+    Call WriteAllCharts(singleWell, True)
+
+End Sub
+
+
+
 Private Sub EraseCellData(str_range As String)
     With Range(str_range)
         .value = ""
@@ -5887,31 +5778,9 @@ Private Sub EraseCellData(str_range As String)
 End Sub
 
 
-Private Sub CommandButton3_Click()
-'single well import
 
-Dim singleWell  As Integer
-Dim WB_NAME As String
 
-'If Workbook Is Nothing Then
-'    GetOtherFileName = "Empty"
-'Else
-'    GetOtherFileName = Workbook.name
-'End If
-    
-WB_NAME = GetOtherFileName
 
-If WB_NAME = "Empty" Then
-    MsgBox "WorkBook is Empty"
-    Exit Sub
-Else
-    singleWell = CInt(ExtractNumberFromString(WB_NAME))
-'   MsgBox (SingleWell)
-End If
-
-Call WriteAllCharts(singleWell, True)
-
-End Sub
 Option Explicit
 
 Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr)
@@ -5966,7 +5835,7 @@ Sub WriteAllCharts(ByVal singleWell As Integer, ByVal isSingleWellImport As Bool
     source_name = ActiveWorkbook.name
     
     
-    Call TurnOffStuff
+    TurnOffStuff
     
     For i = 1 To nofwell
     
@@ -5982,7 +5851,7 @@ SINGLE_ITERATION:
 NEXT_ITERATION:
     Next i
     
-    Call TurnOnStuff
+    TurnOnStuff
 End Sub
 
 Sub Write_InsertChart(well As Integer, source_name As String)
@@ -6111,136 +5980,19 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
     Dim nofwell, i As Integer
     Dim rngString As String
         
-    Dim natural() As Double ' 자연수위, natural depth
-    Dim stable() As Double  ' 안정수위, stable depth
-    Dim recover() As Double ' 회복수위, recover depth
-    Dim Sw() As Double ' 수위회복량 - 안정수위 - 회복수위
-    
-    Dim delta_h() As Double ' deltah : 수위강하량
-    
-    Dim radius() As Double ' 공반경
-    Dim Rw() As Double      ' 공반경 / 2000
-    
-    Dim well_depth() As Double     ' 관정심도, well depth
-    Dim casing() As Double  ' 케이싱심도
-    
-    Dim Q() As Double       '취수계획량
-    Dim delta_s() As Double
-    Dim hp() As Double
-    
-    Dim daeSoo() As Double  ' 대수층 두께
-    
-    Dim T1() As Double      ' T1
-    Dim T2() As Double      ' T2
-    Dim TA() As Double      ' TA - (T1+T2)/2, TAverage
-    
-    Dim S1() As Double      ' S1
-    Dim S2() As Double      ' S2 - 스킨팩터 해석, s값
-    
-    Dim T0() As Double         ' 단계양수시험의 T값
-    Dim S0() As Double         ' S값, 0.005: 피압대수층, 0.001: 누수대수층, 0.1: 자유면대수층
-    Dim ER_MODE() As String    ' 영향반경산정공식 선정
-    Dim ER1() As Double
-    Dim ER2() As Double
-    Dim ER3() As Double
-    
-    Dim K() As Double
-    Dim time_() As Double   ' 안정수위도달시간
-    
-    Dim shultze() As Double
-    Dim webber() As Double
-    Dim jacob() As Double
-    
-    Dim skin() As Double ' skin factor
-    Dim er() As Double   ' effective radius, 유효우물반경
-        
-    
-    Dim qh() As Double ' 한계양수량
-    Dim qg() As Double ' 가채수량
-    Dim q1() As Double ' Q1
-    
-    
-    Dim sd1() As Double ' 1단계 수위강하량
-    Dim sd2() As Double ' 4단계 수위강하량
-    
-    
-    Dim C() As Double
-    Dim B() As Double
-    
-    Dim ratio() As Double
-    
-    
- ' --------------------------------------------------------------------------------------
-
-    nofwell = GetNumberOfWell()
-    Sheets("YangSoo").Select
-    
- ' --------------------------------------------------------------------------------------
-    
-    ReDim natural(1 To nofwell)
-    ReDim stable(1 To nofwell)
-    ReDim recover(1 To nofwell)
-    ReDim delta_h(1 To nofwell)
-    ReDim Sw(1 To nofwell)
-    
-    
-    ReDim radius(1 To nofwell)
-    ReDim Rw(1 To nofwell)
-    
-    ReDim well_depth(1 To nofwell)
-    ReDim casing(1 To nofwell)
-    
-    ReDim Q(1 To nofwell)
-    ReDim delta_s(1 To nofwell)
-    ReDim hp(1 To nofwell)
-    
-    ReDim daeSoo(1 To nofwell)
-    
-    ReDim T1(1 To nofwell)
-    ReDim T2(1 To nofwell)
-    ReDim TA(1 To nofwell)
-    
-    ReDim S1(1 To nofwell)
-    ReDim S2(1 To nofwell)
-    
-    ReDim K(1 To nofwell)
-    ReDim time_(1 To nofwell)
-    
-    ReDim shultze(1 To nofwell)
-    ReDim webber(1 To nofwell)
-    ReDim jacob(1 To nofwell)
-    
-    ReDim skin(1 To nofwell)
-    ReDim er(1 To nofwell)
-        
-    ReDim ER1(1 To nofwell)
-    ReDim ER2(1 To nofwell)
-    ReDim ER3(1 To nofwell)
-    
-    ReDim qh(1 To nofwell)
-    ReDim qg(1 To nofwell)
-    
-    
-    ReDim sd1(1 To nofwell)
-    ReDim sd2(1 To nofwell)
-    ReDim q1(1 To nofwell)
-    
-    ReDim C(1 To nofwell)
-    ReDim B(1 To nofwell)
-    
-    ReDim ratio(1 To nofwell)
-    
-    
-    ReDim T0(1 To nofwell)         ' 단계양수시험의 T값
-    ReDim S0(1 To nofwell)         ' S값, 0.005: 피압대수층, 0.001: 누수대수층, 0.1: 자유면대수층
-    ReDim ER_MODE(1 To nofwell)
+    Dim natural, stable, recover, Sw, delta_h, radius, Rw, well_depth As Double
+    Dim casing, Q, delta_s, hp, daeSoo As Double
+    Dim T1, T2, TA, S1, S2, T0, S0, ER_MODE, ER1, ER2, ER3 As Double
+    Dim K, time_, shultze, webber, jacob, skin, er As Double
+    Dim qh, qg, q1, sd1, sd2, C, B, ratio As Double
     
     Dim wb As Workbook
     Dim wsInput As Worksheet
     Dim wsSkinFactor As Worksheet
     Dim wsSafeYield As Worksheet
     
-
+    nofwell = GetNumberOfWell()
+    Sheets("YangSoo").Select
     
     If isSingleWellImport Then
         rngString = "A" & (singleWell + 5 - 1) & ":AN" & (singleWell + 5 - 1)
@@ -6273,155 +6025,155 @@ SINGLE_ITERATION:
         Set wsSafeYield = wb.Worksheets("SafeYield")
         
         
-        Q(i) = wsInput.Range("m51").value
-        hp(i) = wsInput.Range("i48").value
+        Q = wsInput.Range("m51").value
+        hp = wsInput.Range("i48").value
         
-        natural(i) = wsInput.Range("m48").value
-        stable(i) = wsInput.Range("m49").value
-        radius(i) = wsInput.Range("m44").value
-        Rw(i) = radius(i) / 2000
+        natural = wsInput.Range("m48").value
+        stable = wsInput.Range("m49").value
+        radius = wsInput.Range("m44").value
+        Rw = radius / 2000
         
-        well_depth(i) = wsInput.Range("m45").value
-        casing(i) = wsInput.Range("i52").value
-        
-        
-        C(i) = wsInput.Range("A31").value
-        B(i) = wsInput.Range("B31").value
+        well_depth = wsInput.Range("m45").value
+        casing = wsInput.Range("i52").value
         
         
+        C = wsInput.Range("A31").value
+        B = wsInput.Range("B31").value
         
-        recover(i) = wsSkinFactor.Range("c10").value
-        Sw(i) = stable(i) - recover(i)
         
-        delta_h(i) = wsSkinFactor.Range("b16").value
-        delta_s(i) = wsSkinFactor.Range("b4").value
         
-        daeSoo(i) = wsSkinFactor.Range("c16").value
+        recover = wsSkinFactor.Range("c10").value
+        Sw = stable - recover
+        
+        delta_h = wsSkinFactor.Range("b16").value
+        delta_s = wsSkinFactor.Range("b4").value
+        
+        daeSoo = wsSkinFactor.Range("c16").value
         
         '----------------------------------------------------------------------------------
         
-        T0(i) = wsSkinFactor.Range("d4").value
-        S0(i) = wsSkinFactor.Range("f4").value
-        ER_MODE(i) = wsSkinFactor.Range("h10").value
+        T0 = wsSkinFactor.Range("d4").value
+        S0 = wsSkinFactor.Range("f4").value
+        ER_MODE = wsSkinFactor.Range("h10").value
         
-        T1(i) = wsSkinFactor.Range("d5").value
-        T2(i) = wsSkinFactor.Range("h13").value
-        TA(i) = (T1(i) + T2(i)) / 2
+        T1 = wsSkinFactor.Range("d5").value
+        T2 = wsSkinFactor.Range("h13").value
+        TA = (T1 + T2) / 2
         
-        S1(i) = wsSkinFactor.Range("e10").value
-        S2(i) = wsSkinFactor.Range("i16").value
+        S1 = wsSkinFactor.Range("e10").value
+        S2 = wsSkinFactor.Range("i16").value
         
-        K(i) = wsSkinFactor.Range("e16").value
-        time_(i) = wsSkinFactor.Range("h16").value
+        K = wsSkinFactor.Range("e16").value
+        time_ = wsSkinFactor.Range("h16").value
         
-        shultze(i) = wsSkinFactor.Range("c13").value
-        webber(i) = wsSkinFactor.Range("c18").value
-        jacob(i) = wsSkinFactor.Range("c23").value
+        shultze = wsSkinFactor.Range("c13").value
+        webber = wsSkinFactor.Range("c18").value
+        jacob = wsSkinFactor.Range("c23").value
         
-        skin(i) = wsSkinFactor.Range("g6").value
-        er(i) = wsSkinFactor.Range("c8").value
+        skin = wsSkinFactor.Range("g6").value
+        er = wsSkinFactor.Range("c8").value
         
         
         ' 경험식, 1번, 2번, 3번의 유효우물반경
-        ER1(i) = wsSkinFactor.Range("K8").value
-        ER2(i) = wsSkinFactor.Range("K9").value
-        ER3(i) = wsSkinFactor.Range("K10").value
+        ER1 = wsSkinFactor.Range("K8").value
+        ER2 = wsSkinFactor.Range("K9").value
+        ER3 = wsSkinFactor.Range("K10").value
         
         '----------------------------------------------------------------------------------
         
-        qh(i) = wsSafeYield.Range("b13").value
-        qg(i) = wsSafeYield.Range("b7").value
+        qh = wsSafeYield.Range("b13").value
+        qg = wsSafeYield.Range("b7").value
         
-        sd1(i) = wsSafeYield.Range("b3").value
-        sd2(i) = wsSafeYield.Range("b4").value
-        q1(i) = wsSafeYield.Range("b2").value
+        sd1 = wsSafeYield.Range("b3").value
+        sd2 = wsSafeYield.Range("b4").value
+        q1 = wsSafeYield.Range("b2").value
         
-        ratio(i) = wsSafeYield.Range("b11").value
+        ratio = wsSafeYield.Range("b11").value
         
         '*****************************************************************************************
         
-        Cells(4 + i, "a").value = "W-" & CStr(i)
-        Cells(4 + i, "b").value = natural(i)
-        Cells(4 + i, "c").value = stable(i)
+        Cells(4 + i, "a").value = "W-" & i
+        Cells(4 + i, "b").value = natural
+        Cells(4 + i, "c").value = stable
         
-        Cells(4 + i, "d").value = recover(i)
+        Cells(4 + i, "d").value = recover
         Cells(4 + i, "d").NumberFormat = "0.00"
         
-        Cells(4 + i, "e").value = Sw(i)
+        Cells(4 + i, "e").value = Sw
         Cells(4 + i, "e").NumberFormat = "0.00"
         
-        Cells(4 + i, "f").value = delta_h(i)
+        Cells(4 + i, "f").value = delta_h
         Cells(4 + i, "f").NumberFormat = "0.00"
         
-        Cells(4 + i, "g").value = radius(i)
-        Cells(4 + i, "h").value = Rw(i)
-        Cells(4 + i, "i").value = well_depth(i)
-        Cells(4 + i, "j").value = casing(i)
-        Cells(4 + i, "k").value = Q(i)
+        Cells(4 + i, "g").value = radius
+        Cells(4 + i, "h").value = Rw
+        Cells(4 + i, "i").value = well_depth
+        Cells(4 + i, "j").value = casing
+        Cells(4 + i, "k").value = Q
         
-        Cells(4 + i, "l").value = delta_s(i)
+        Cells(4 + i, "l").value = delta_s
         Cells(4 + i, "l").NumberFormat = "0.00"
         
-        Cells(4 + i, "m").value = hp(i)
-        Cells(4 + i, "n").value = daeSoo(i)
+        Cells(4 + i, "m").value = hp
+        Cells(4 + i, "n").value = daeSoo
         
-        Cells(4 + i, "o").value = T1(i)
+        Cells(4 + i, "o").value = T1
         Cells(4 + i, "o").NumberFormat = "0.0000"
          
-        Cells(4 + i, "p").value = T2(i)
+        Cells(4 + i, "p").value = T2
         Cells(4 + i, "p").NumberFormat = "0.0000"
          
-        Cells(4 + i, "q").value = TA(i)
+        Cells(4 + i, "q").value = TA
         Cells(4 + i, "q").NumberFormat = "0.0000"
         
-        Cells(4 + i, "r").value = S1(i)
+        Cells(4 + i, "r").value = S1
         
-        Cells(4 + i, "s").value = S2(i)
+        Cells(4 + i, "s").value = S2
         Cells(4 + i, "s").NumberFormat = "0.0000000"
         
-        Cells(4 + i, "t").value = K(i)
+        Cells(4 + i, "t").value = K
         Cells(4 + i, "t").NumberFormat = "0.0000"
         
-        Cells(4 + i, "u").value = time_(i)
+        Cells(4 + i, "u").value = time_
         
-        Cells(4 + i, "v").value = shultze(i)
+        Cells(4 + i, "v").value = shultze
         Cells(4 + i, "v").NumberFormat = "0.0"
         
-        Cells(4 + i, "w").value = webber(i)
+        Cells(4 + i, "w").value = webber
         Cells(4 + i, "w").NumberFormat = "0.0"
         
-        Cells(4 + i, "x").value = jacob(i)
+        Cells(4 + i, "x").value = jacob
         Cells(4 + i, "x").NumberFormat = "0.0"
         
         
         
-        Cells(4 + i, "y").value = Format(skin(i), "0.0000")
+        Cells(4 + i, "y").value = Format(skin, "0.0000")
         
-        Cells(4 + i, "z").value = er(i)
+        Cells(4 + i, "z").value = er
         Cells(4 + i, "z").NumberFormat = "0.0000"
         
-        Cells(4 + i, "aa").value = Format(qh(i), "0.")
-        Cells(4 + i, "ab").value = Format(qg(i), "0.00")
-        Cells(4 + i, "ac").value = Format(q1(i), "0.")
+        Cells(4 + i, "aa").value = Format(qh, "0.")
+        Cells(4 + i, "ab").value = Format(qg, "0.00")
+        Cells(4 + i, "ac").value = Format(q1, "0.")
         
-        Cells(4 + i, "ad").value = Format(sd1(i), "0.00")
-        Cells(4 + i, "ae").value = Format(sd2(i), "0.00")
+        Cells(4 + i, "ad").value = Format(sd1, "0.00")
+        Cells(4 + i, "ae").value = Format(sd2, "0.00")
         
-        Cells(4 + i, "af").value = C(i)
-        Cells(4 + i, "ag").value = B(i)
+        Cells(4 + i, "af").value = C
+        Cells(4 + i, "ag").value = B
         
-        Cells(4 + i, "ah").value = ratio(i)
+        Cells(4 + i, "ah").value = ratio
         Cells(4 + i, "ah").NumberFormat = "0.0%"
         
         
         ' 2023/09/22 새로 추가한 값들 ...
-        Cells(4 + i, "AI").value = Format(T0(i), "0.0000")
-        Cells(4 + i, "AJ").value = Format(S0(i), "0.0000")
-        Cells(4 + i, "AK").value = ER_MODE(i)
+        Cells(4 + i, "AI").value = Format(T0, "0.0000")
+        Cells(4 + i, "AJ").value = Format(S0, "0.0000")
+        Cells(4 + i, "AK").value = ER_MODE
         
-        Cells(4 + i, "AL").value = Format(ER1(i), "0.0000")
-        Cells(4 + i, "AM").value = Format(ER2(i), "0.0000")
-        Cells(4 + i, "AN").value = Format(ER3(i), "0.0000")
+        Cells(4 + i, "AL").value = Format(ER1, "0.0000")
+        Cells(4 + i, "AM").value = Format(ER2, "0.0000")
+        Cells(4 + i, "AN").value = Format(ER3, "0.0000")
         
 NEXT_ITERATION:
 

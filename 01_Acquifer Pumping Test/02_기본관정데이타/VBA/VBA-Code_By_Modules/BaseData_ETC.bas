@@ -55,8 +55,6 @@ Function ColumnLetterToNumber(ByVal columnLetter As String) As Long
 End Function
 
 
-
-
 Sub BackGroundFill(rngLine As Range, FLAG As Boolean)
 
 If FLAG Then

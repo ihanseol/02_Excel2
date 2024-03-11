@@ -64,40 +64,15 @@ Private Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImp
 ' 999 & False --> 모든관정을 임포트
 '
 
-
-    Dim fName As String
     Dim nofwell, i As Integer
-    
-    
-    Dim a1() As String
-    Dim a2() As String
-    Dim a3() As String
-    
-    Dim Q() As String
-    Dim h() As String
-    Dim delta_h() As String
-    Dim qsw() As String
-    Dim swq() As String
+    Dim a1, a2, a3, Q, h, delta_h, qsw, swq As String
+    Dim fName As String
     
     nofwell = GetNumberOfWell()
-    ' --------------------------------------------------------------------------------------
-    ReDim a1(1 To nofwell)
-    ReDim a2(1 To nofwell)
-    ReDim a3(1 To nofwell)
-    
-    ReDim Q(1 To nofwell)
-    ReDim h(1 To nofwell)
-    ReDim delta_h(1 To nofwell)
-    ReDim qsw(1 To nofwell)
-    ReDim swq(1 To nofwell)
-    
     
     Dim wb As Workbook
     Dim wsInput As Worksheet
     Dim rngString As String
-    
-    
-    ' --------------------------------------------------------------------------------------
     
     If ActiveSheet.name <> "AggStep" Then Sheets("AggStep").Select
     
@@ -106,6 +81,13 @@ Private Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImp
         Call EraseCellData(rngString)
     Else
         rngString = "C5:K36"
+        
+        fName = "A1_ge_OriginalSaveFile.xlsm"
+        If Not IsWorkBookOpen(fName) Then
+            MsgBox "Please open the yangsoo data ! " & fName
+            Exit Sub
+        End If
+        
         Call EraseCellData(rngString)
     End If
         
@@ -129,17 +111,17 @@ SINGLE_ITERATION:
         Set wb = Workbooks(fName)
         Set wsInput = wb.Worksheets("Input")
         
-        Q(i) = wsInput.Range("q64").value
-        h(i) = wsInput.Range("r64").value
-        delta_h(i) = wsInput.Range("s64").value
-        qsw(i) = wsInput.Range("t64").value
-        swq(i) = wsInput.Range("u64").value
+        Q = wsInput.Range("q64").value
+        h = wsInput.Range("r64").value
+        delta_h = wsInput.Range("s64").value
+        qsw = wsInput.Range("t64").value
+        swq = wsInput.Range("u64").value
 
-        a1(i) = wsInput.Range("v64").value
-        a2(i) = wsInput.Range("w64").value
-        a3(i) = wsInput.Range("x64").value
+        a1 = wsInput.Range("v64").value
+        a2 = wsInput.Range("w64").value
+        a3 = wsInput.Range("x64").value
         
-        Call Write31_StepTestData_Single(a1(i), a2(i), a3(i), Q(i), h(i), delta_h(i), qsw(i), swq(i), i)
+        Call Write31_StepTestData_Single(a1, a2, a3, Q, h, delta_h, qsw, swq, i)
 
 NEXT_ITERATION:
 

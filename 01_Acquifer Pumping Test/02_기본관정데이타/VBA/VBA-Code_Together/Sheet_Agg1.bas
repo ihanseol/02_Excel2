@@ -65,37 +65,12 @@ Private Sub AggregateOne_Import(ByVal singleWell As Integer, ByVal isSingleWellI
         
     Dim fName As String
     Dim nofwell, i As Integer
-    Dim q1() As Double
-    Dim qq1() As Double
-    Dim q2() As Double
-    Dim q3() As Double
-    
-    Dim ratio() As Double
-    
-    Dim C() As Double
-    Dim B() As Double
-    
-    Dim S1() As Double
-    Dim S2() As Double
-    
+    Dim q1, qq1, q2, q3, ratio, C, B, S1, S2 As Double
+    Dim wsYangSoo As Worksheet
     
     nofwell = GetNumberOfWell()
     Sheets("Aggregate1").Select
     
-    ReDim q1(1 To nofwell) '한계양수량
-    ReDim q2(1 To nofwell) '적정취수량
-    ReDim q3(1 To nofwell) '취수계획량
-    ReDim qq1(1 To nofwell) '1단계 양수량
-    
-    ReDim ratio(1 To nofwell)
-    
-    ReDim C(1 To nofwell)
-    ReDim B(1 To nofwell)
-    
-    ReDim S1(1 To nofwell)
-    ReDim S2(1 To nofwell)
- 
-    Dim wsYangSoo As Worksheet
     Set wsYangSoo = Worksheets("YangSoo")
     
     
@@ -116,27 +91,27 @@ Private Sub AggregateOne_Import(ByVal singleWell As Integer, ByVal isSingleWellI
         
 SINGLE_ITERATION:
 
-        q1(i) = wsYangSoo.Cells(4 + i, "aa").value
-        qq1(i) = wsYangSoo.Cells(4 + i, "ac").value
+        q1 = wsYangSoo.Cells(4 + i, "aa").value
+        qq1 = wsYangSoo.Cells(4 + i, "ac").value
         
-        q2(i) = wsYangSoo.Cells(4 + i, "ab").value
-        q3(i) = wsYangSoo.Cells(4 + i, "k").value
+        q2 = wsYangSoo.Cells(4 + i, "ab").value
+        q3 = wsYangSoo.Cells(4 + i, "k").value
         
-        ratio(i) = wsYangSoo.Cells(4 + i, "ah").value
+        ratio = wsYangSoo.Cells(4 + i, "ah").value
         
-        S1(i) = wsYangSoo.Cells(4 + i, "ad").value
-        S2(i) = wsYangSoo.Cells(4 + i, "ae").value
+        S1 = wsYangSoo.Cells(4 + i, "ad").value
+        S2 = wsYangSoo.Cells(4 + i, "ae").value
         
-        C(i) = wsYangSoo.Cells(4 + i, "af").value
-        B(i) = wsYangSoo.Cells(4 + i, "ag").value
+        C = wsYangSoo.Cells(4 + i, "af").value
+        B = wsYangSoo.Cells(4 + i, "ag").value
         
         
-        Call TurnOffStuff
+        TurnOffStuff
         
-        Call WriteWellData36_Single(q1(i), q2(i), q3(i), ratio(i), C(i), B(i), i, isSingleWellImport)
-        Call Write_Tentative_water_intake_Single(qq1(i), S2(i), S1(i), q2(i), i, isSingleWellImport)
+        Call WriteWellData36_Single(q1, q2, q3, ratio, C, B, i, isSingleWellImport)
+        Call Write_Tentative_water_intake_Single(qq1, S2, S1, q2, i, isSingleWellImport)
         
-        Call TurnOnStuff
+        TurnOnStuff
         
 NEXT_ITERATION:
         

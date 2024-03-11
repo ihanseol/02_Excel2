@@ -45,70 +45,16 @@ Private Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Q() As Double          '양수량
-    Dim natural() As Double    '자연수위
-    Dim stable() As Double      '안정수위
-    Dim recover() As Double     '회복수위
-    
-    Dim radius() As Double       ' 공반경
-    Dim deltas() As Double       ' deltas
-    Dim deltah() As Double       ' deltah : 수위강하량
-    Dim daeSoo() As Double       ' 대수층 두께
-    
-    Dim T1() As Double            ' T1
-    Dim T2() As Double            ' T2
-    Dim TA() As Double            ' TA - (T1+T2)/2, TAverage
-    
-    Dim K() As Double
-    Dim time_() As Double           ' 안정수위도달시간
-    
-    Dim S1() As Double            ' S1
-    Dim S2() As Double            ' S2 - 스킨팩터 해석, s값
-    
-    Dim schultz() As Double
-    Dim webber() As Double
-    Dim jcob() As Double
-    
-    Dim skin() As Double ' skin factor
-    Dim er() As Double   ' effective radius
+    Dim Q, natural, stable, recover, radius, deltas, deltah, daeSoo, T1, T2, TA As Double
+    Dim K, time_, S1, S2, schultz, webber, jcob, skin, er As Double
     
 
     nofwell = GetNumberOfWell()
     Sheets("Aggregate2").Select
     
-    ' --------------------------------------------------------------------------------------
-    
-    ReDim Q(1 To nofwell)
-    ReDim natural(1 To nofwell)
-    ReDim stable(1 To nofwell)
-    ReDim recover(1 To nofwell)
-    
-    ReDim radius(1 To nofwell)
-    ReDim deltas(1 To nofwell)
-    ReDim deltah(1 To nofwell)
-    ReDim daeSoo(1 To nofwell)
-    
-    ReDim T1(1 To nofwell)
-    ReDim T2(1 To nofwell)
-    ReDim TA(1 To nofwell)
-    ReDim K(1 To nofwell)
-    ReDim time_(1 To nofwell)
-    
-    ReDim S1(1 To nofwell)
-    ReDim S2(1 To nofwell)
-    
-    ReDim shultz(1 To nofwell)
-    ReDim webber(1 To nofwell)
-    ReDim jcob(1 To nofwell)
-    
-    ReDim skin(1 To nofwell) ' skin factor
-    ReDim er(1 To nofwell)   ' effective radius
-    
     Dim wsYangSoo As Worksheet
     Set wsYangSoo = Worksheets("YangSoo")
     
-    
-    ' --------------------------------------------------------------------------------------
 
     If Not isSingleWellImport Then
     ' if All Colect Data Pressed ...
@@ -128,44 +74,44 @@ Private Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport
         
 SINGLE_ITERATION:
    
-        Q(i) = wsYangSoo.Cells(4 + i, "k").value
+        Q = wsYangSoo.Cells(4 + i, "k").value
         
-        natural(i) = wsYangSoo.Cells(4 + i, "b").value
-        stable(i) = wsYangSoo.Cells(4 + i, "c").value
-        recover(i) = wsYangSoo.Cells(4 + i, "d").value
+        natural = wsYangSoo.Cells(4 + i, "b").value
+        stable = wsYangSoo.Cells(4 + i, "c").value
+        recover = wsYangSoo.Cells(4 + i, "d").value
         
-        radius(i) = wsYangSoo.Cells(4 + i, "h").value
+        radius = wsYangSoo.Cells(4 + i, "h").value
         
-        deltas(i) = wsYangSoo.Cells(4 + i, "l").value
-        deltah(i) = wsYangSoo.Cells(4 + i, "f").value
-        daeSoo(i) = wsYangSoo.Cells(4 + i, "n").value
+        deltas = wsYangSoo.Cells(4 + i, "l").value
+        deltah = wsYangSoo.Cells(4 + i, "f").value
+        daeSoo = wsYangSoo.Cells(4 + i, "n").value
         
         
-        T1(i) = wsYangSoo.Cells(4 + i, "o").value
-        T2(i) = wsYangSoo.Cells(4 + i, "p").value
-        TA(i) = wsYangSoo.Cells(4 + i, "q").value
+        T1 = wsYangSoo.Cells(4 + i, "o").value
+        T2 = wsYangSoo.Cells(4 + i, "p").value
+        TA = wsYangSoo.Cells(4 + i, "q").value
         
-        time_(i) = wsYangSoo.Cells(4 + i, "u").value
+        time_ = wsYangSoo.Cells(4 + i, "u").value
                 
-        S1(i) = wsYangSoo.Cells(4 + i, "r").value
-        S2(i) = wsYangSoo.Cells(4 + i, "s").value
-        K(i) = wsYangSoo.Cells(4 + i, "t").value
+        S1 = wsYangSoo.Cells(4 + i, "r").value
+        S2 = wsYangSoo.Cells(4 + i, "s").value
+        K = wsYangSoo.Cells(4 + i, "t").value
         
-        shultz(i) = wsYangSoo.Cells(4 + i, "v").value
-        webber(i) = wsYangSoo.Cells(4 + i, "w").value
-        jcob(i) = wsYangSoo.Cells(4 + i, "x").value
+        shultz = wsYangSoo.Cells(4 + i, "v").value
+        webber = wsYangSoo.Cells(4 + i, "w").value
+        jcob = wsYangSoo.Cells(4 + i, "x").value
         
         
-        skin(i) = wsYangSoo.Cells(4 + i, "y").value
-        er(i) = wsYangSoo.Cells(4 + i, "z").value
+        skin = wsYangSoo.Cells(4 + i, "y").value
+        er = wsYangSoo.Cells(4 + i, "z").value
         
         Call TurnOffStuff
         
-        Call WriteWellData_Single(Q(i), natural(i), stable(i), recover(i), radius(i), deltas(i), daeSoo(i), T1(i), S1(i), i, isSingleWellImport)
-        Call WriteData37_RadiusOfInfluence_Single(TA(i), K(i), S2(i), time_(i), deltah(i), daeSoo(i), i, isSingleWellImport)
-        Call WriteData36_TS_Analysis_Single(T1(i), T2(i), TA(i), S2(i), i, isSingleWellImport)
-        Call Write38_RadiusOfInfluence_Result_Single(shultz(i), webber(i), jcob(i), i, isSingleWellImport)
-        Call Wrote34_SkinFactor_Single(skin(i), er(i), i, isSingleWellImport)
+        Call WriteWellData_Single(Q, natural, stable, recover, radius, deltas, daeSoo, T1, S1, i, isSingleWellImport)
+        Call WriteData37_RadiusOfInfluence_Single(TA, K, S2, time_, deltah, daeSoo, i, isSingleWellImport)
+        Call WriteData36_TS_Analysis_Single(T1, T2, TA, S2, i, isSingleWellImport)
+        Call Write38_RadiusOfInfluence_Result_Single(shultz, webber, jcob, i, isSingleWellImport)
+        Call Wrote34_SkinFactor_Single(skin, er, i, isSingleWellImport)
         
         Call TurnOnStuff
         
