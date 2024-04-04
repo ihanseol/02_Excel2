@@ -11,14 +11,14 @@ Function GetChrome(ByRef uia As CUIAutomation) As IUIAutomationElement
     Set el_ChromeWins = el_Desktop.FindAll(TreeScope_Children, cnd_ChromeWin)
     Set el_ChromeWin = Nothing
     
-    If el_ChromeWins.length = 0 Then
+    If el_ChromeWins.Length = 0 Then
         Debug.Print """Chrome_WidgetWin_1"" not found"
         Exit Function
     End If
     
     Dim count_ChromeWins As Integer
     Dim CurWinTitle As String ' Declare CurWinTitle variable
-    For count_ChromeWins = 0 To el_ChromeWins.length - 1
+    For count_ChromeWins = 0 To el_ChromeWins.Length - 1
         CurWinTitle = el_ChromeWins.GetElement(count_ChromeWins).CurrentName
         If (InStr(1, CurWinTitle, "Chrome")) Then
             Set el_ChromeWin = el_ChromeWins.GetElement(count_ChromeWins)

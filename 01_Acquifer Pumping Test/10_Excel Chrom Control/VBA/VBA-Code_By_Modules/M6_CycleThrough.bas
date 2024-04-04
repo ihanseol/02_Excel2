@@ -65,11 +65,11 @@ Public Function GetWindowHandle(ByVal substring As String) As LongPtr
 
     Do While hwnd <> 0
         Dim title As String * 255
-        Dim length As Long
-        length = GetWindowText(hwnd, title, Len(title))
+        Dim Length As Long
+        Length = GetWindowText(hwnd, title, Len(title))
         
         If IS_DEBUG Then
-            Print #FileNum, Left(title, length) ' Only write the actual text to the file
+            Print #FileNum, Left(title, Length) ' Only write the actual text to the file
         End If
         ' Check if the window title contains the specified substring
         If InStr(1, title, substring, vbTextCompare) > 0 Then

@@ -13,13 +13,13 @@ Dim hwnds As Collection
 ' Callback function to enumerate windows
 Private Function EnumWindowsProc(ByVal hwnd As LongPtr, ByVal lParam As LongPtr) As Long
     Dim windowText As String
-    Dim length As Long
+    Dim Length As Long
     
     If IsWindowVisible(hwnd) Then
-        length = GetWindowTextLength(hwnd)
-        If length > 0 Then
-            windowText = Space$(length + 1)
-            GetWindowText hwnd, windowText, length + 1
+        Length = GetWindowTextLength(hwnd)
+        If Length > 0 Then
+            windowText = Space$(Length + 1)
+            GetWindowText hwnd, windowText, Length + 1
             If InStr(1, windowText, "Google Chrome", vbTextCompare) > 0 Then
                 hwnds.Add hwnd
             End If

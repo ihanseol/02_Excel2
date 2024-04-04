@@ -15,13 +15,13 @@ Dim hwnds As Collection
 ' Callback function to enumerate windows
 Private Function EnumWindowsProc(ByVal hwnd As LongPtr, ByVal lParam As LongPtr) As Long
     Dim windowText As String
-    Dim length As Long
+    Dim Length As Long
     
     If IsWindowVisible(hwnd) Then
-        length = GetWindowTextLength(hwnd)
-        If length > 0 Then
-            windowText = Space$(length + 1)
-            GetWindowText hwnd, windowText, length + 1
+        Length = GetWindowTextLength(hwnd)
+        If Length > 0 Then
+            windowText = Space$(Length + 1)
+            GetWindowText hwnd, windowText, Length + 1
             If InStr(1, windowText, "Google Chrome", vbTextCompare) > 0 Then
                 hwnds.Add hwnd
             End If
@@ -96,11 +96,11 @@ Public Function GetWindowHandle(ByVal substring As String) As LongPtr
 
     Do While hwnd <> 0
         Dim title As String * 255
-        Dim length As Long
-        length = GetWindowText(hwnd, title, Len(title))
+        Dim Length As Long
+        Length = GetWindowText(hwnd, title, Len(title))
         
         If IS_DEBUG Then
-            Print #FileNum, Left(title, length) ' Only write the actual text to the file
+            Print #FileNum, Left(title, Length) ' Only write the actual text to the file
         End If
         ' Check if the window title contains the specified substring
         If InStr(1, title, substring, vbTextCompare) > 0 Then
@@ -250,11 +250,11 @@ Public Function GetWindowHandle(ByVal substring As String) As LongPtr
 
     Do While hwnd <> 0
         Dim title As String * 255
-        Dim length As Long
-        length = GetWindowText(hwnd, title, Len(title))
+        Dim Length As Long
+        Length = GetWindowText(hwnd, title, Len(title))
         
         If IS_DEBUG Then
-            Print #FileNum, Left(title, length) ' Only write the actual text to the file
+            Print #FileNum, Left(title, Length) ' Only write the actual text to the file
         End If
         ' Check if the window title contains the specified substring
         If InStr(1, title, substring, vbTextCompare) > 0 Then
@@ -433,14 +433,14 @@ Function GetChrome(ByRef uia As CUIAutomation) As IUIAutomationElement
     Set el_ChromeWins = el_Desktop.FindAll(TreeScope_Children, cnd_ChromeWin)
     Set el_ChromeWin = Nothing
     
-    If el_ChromeWins.length = 0 Then
+    If el_ChromeWins.Length = 0 Then
         Debug.Print """Chrome_WidgetWin_1"" not found"
         Exit Function
     End If
     
     Dim count_ChromeWins As Integer
     Dim CurWinTitle As String ' Declare CurWinTitle variable
-    For count_ChromeWins = 0 To el_ChromeWins.length - 1
+    For count_ChromeWins = 0 To el_ChromeWins.Length - 1
         CurWinTitle = el_ChromeWins.GetElement(count_ChromeWins).CurrentName
         If (InStr(1, CurWinTitle, "Chrome")) Then
             Set el_ChromeWin = el_ChromeWins.GetElement(count_ChromeWins)
@@ -559,11 +559,11 @@ Public Function GetWindowHandle(ByVal substring As String) As LongPtr
 
     Do While hwnd <> 0
         Dim title As String * 255
-        Dim length As Long
-        length = GetWindowText(hwnd, title, Len(title))
+        Dim Length As Long
+        Length = GetWindowText(hwnd, title, Len(title))
         
         If IS_DEBUG Then
-            Print #FileNum, Left(title, length) ' Only write the actual text to the file
+            Print #FileNum, Left(title, Length) ' Only write the actual text to the file
         End If
         ' Check if the window title contains the specified substring
         If InStr(1, title, substring, vbTextCompare) > 0 Then
@@ -798,3 +798,114 @@ CreateLogFile_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure CreateLogFile of Sub mod_TDD_Export"
 
 End Sub
+Sub ConvertJsonToDictionary()
+    Dim jsonStr As String
+    Dim dict As Object
+    
+    ' Your JSON string
+    jsonStr = "{""Name"": ""John"", ""Age"": 30, ""City"": ""New York""}"
+    
+    ' Convert JSON string to dictionary
+    Set dict = JsonToDictionary(jsonStr)
+    
+    ' Print values from dictionary
+    Debug.Print "Name: " & dict("Name")
+    Debug.Print "Age: " & dict("Age")
+    Debug.Print "City: " & dict("City")
+End Sub
+
+Function JsonToDictionary(jsonStr As String) As Object
+    Dim scriptControl As Object
+    Dim JsonObject As Object
+    
+    ' Create a ScriptControl object
+    Set scriptControl = CreateObject("ScriptControl")
+    scriptControl.Language = "JScript"
+    
+    ' Evaluate the JSON string to create a JSON object
+    Set JsonObject = scriptControl.Eval("(" + jsonStr + ")")
+    
+    ' Convert JSON object to dictionary
+    Set JsonToDictionary = JsonToDictionaryRecursive(JsonObject)
+End Function
+
+Function JsonToDictionaryRecursive(JsonObject As Object) As Object
+    Dim dict As Object
+    Dim Key As Variant
+    
+    ' Create a dictionary object
+    Set dict = CreateObject("Scripting.Dictionary")
+    
+    ' Iterate through the JSON object
+    For Each Key In JsonObject.Keys
+        If IsObject(JsonObject(Key)) Then
+            ' Recursively convert nested JSON objects
+            dict.Add Key, JsonToDictionaryRecursive(JsonObject(Key))
+        Else
+            ' Add key-value pairs to the dictionary
+            dict.Add Key, JsonObject(Key)
+        End If
+    Next Key
+    
+    ' Return the dictionary
+    Set JsonToDictionaryRecursive = dict
+End Function
+
+Option Explicit
+
+Private ScriptEngine As scriptControl
+
+Public Sub InitScriptEngine()
+On Error Resume Next
+    Set ScriptEngine = New scriptControl
+    ScriptEngine.Language = "JScript"
+On Error GoTo 0
+
+    ScriptEngine.AddCode "function getProperty(jsonObj, propertyName) { return jsonObj[propertyName]; } "
+    ScriptEngine.AddCode "function getKeys(jsonObj) { var keys = new Array(); for (var i in jsonObj) { keys.push(i); } return keys; } "
+End Sub
+
+Public Function DecodeJsonString(ByVal JSonString As String)
+    Set DecodeJsonString = ScriptEngine.Eval("(" + JSonString + ")")
+End Function
+
+Public Function GetProperty(ByVal JsonObject As Object, ByVal propertyName As String) 'As Variant
+    GetProperty = ScriptEngine.Run("getProperty", JsonObject, propertyName)
+End Function
+
+Public Function GetObjectProperty(ByVal JsonObject As Object, ByVal propertyName As String) 'As Object
+    Set GetObjectProperty = ScriptEngine.Run("getProperty", JsonObject, propertyName)
+End Function
+
+Public Function GetKeys(ByVal JsonObject As Object) As String()
+    Dim Length As Integer
+    Dim KeysArray() As String
+    Dim KeysObject As Object
+    Dim Index As Integer
+    Dim Key As Variant
+
+    Set KeysObject = ScriptEngine.Run("getKeys", JsonObject)
+    Length = GetProperty(KeysObject, "length")
+    ReDim KeysArray(Length - 1)
+    Index = 0
+    For Each Key In KeysObject
+        KeysArray(Index) = Key
+        Index = Index + 1
+    Next
+    GetKeys = KeysArray
+End Function
+
+Sub ConvertJsonToDictionary()
+    Dim jsonStr As String
+    Dim dict As Object
+    
+    ' Your JSON string
+    jsonStr = "{""Name"": ""John"", ""Age"": 30, ""City"": ""New York""}"
+    
+    Call InitScriptEngine
+    Debug.Print DecodeJsonString(jsonStr)
+    
+    
+    
+End Sub
+
