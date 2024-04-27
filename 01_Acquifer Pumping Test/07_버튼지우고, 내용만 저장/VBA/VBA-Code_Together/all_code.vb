@@ -82,18 +82,46 @@ Sub SaveJustXLSX(ByVal fName As String)
     ThisWorkbook.Activate
 End Sub
 
+Function CheckWorksheetExistence(ByVal fName As String) As Boolean
+    Dim ws As Worksheet
+    Dim wsName As String
+    
+    wsName = "Aggregate1"
+    
+    For Each ws In Workbooks(fName).Worksheets
+        If ws.Name = wsName Then
+            ' MsgBox "Worksheet '" & wsName & "' exists!"
+            CheckWorksheetExistence = True
+            Exit Function
+        End If
+    Next ws
+    CheckWorksheetExistence = False
+End Function
+
+
 Sub DeleteAllActiveXControls(ByVal fName As String)
     Dim myControl As Object
     
-    
     Workbooks(fName).Activate
     
-    For Each ws In Workbooks(fName).Worksheets
+    If CheckWorksheetExistence(fName) Then ' 만일 기본관정데이타 이라면 ...
+        For Each ws In Workbooks(fName).Worksheets
+            Select Case ws.Name
+                Case "AggSum", "YangSoo", "water", "AggStep", "AggChart", "Aggregate2", "Aggregate1", "aggWhpa"
+                    ' MsgBox "Worksheet '" & ws.Name & "' is in the list."
+                    Application.DisplayAlerts = False
+                    ws.Delete
+                    Application.DisplayAlerts = True
+                Case Else
+                    Debug.Print ws.Name
+            End Select
+        Next ws
+    End If
     
+    For Each ws In Workbooks(fName).Worksheets
         For Each myControl In ws.OLEObjects
             myControl.Delete
         Next myControl
-        
      Next ws
     
     ThisWorkbook.Activate
