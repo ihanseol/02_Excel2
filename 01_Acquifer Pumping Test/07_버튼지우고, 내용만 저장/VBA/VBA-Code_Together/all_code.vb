@@ -297,13 +297,15 @@ Sub DeleteAllActiveXControls(ByVal fName As String)
         Next i
         
         For i = 1 To nofwell
-            Workbooks(fName).Worksheets(i).Activate
+            Workbooks(fName).Worksheets(CStr(i)).Activate
             
-            Workbooks(fName).Worksheets(i).Range("F21").Select
-            Selection.Copy
-            Workbooks(fName).Worksheets(i).Range("F21").Select
-            Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-                :=False, Transpose:=False
+            With Workbooks(fName).Worksheets(CStr(i))
+                .Range("F21").Select
+                Selection.Copy
+                .Range("F21").Select
+                Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                    :=False, Transpose:=False
+            End With
         Next i
         
         For Each ws In Workbooks(fName).Worksheets
