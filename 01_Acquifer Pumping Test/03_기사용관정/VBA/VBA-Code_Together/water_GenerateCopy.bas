@@ -28,6 +28,11 @@ Private Function lastRowByFindAll() As Long
 End Function
 
 
+' 여기서 검색시, "AA" 같은 경우에는, 셀의 텍스트 데이타 뿐만 아니라 ...
+' =SUMIF(SS_INSIDE_AREA,"O",$L$2:$L$2) 의 경우에서 처럼, 이런것도 검색이 되기에,
+' 일단은 Ctrl+F 로 검색을 해보는것을 추천한다.
+' 이것은, 엑셀의 검색을 이용해서, 서치하는 함수이기 때문이다.
+
 Private Function lastRowByFind(ByVal str As String) As Long
     Dim lastrow As Long
     
@@ -238,7 +243,9 @@ Sub Finallize()
     
     End Select
     
-    
+    '
+    'if q is 0 then this section is not have water resource so clear next well
+    '
     If Range("L2").Value = 0 Then
         delStartRow = 3
         delEndRow = lastRowByKey("L1")
