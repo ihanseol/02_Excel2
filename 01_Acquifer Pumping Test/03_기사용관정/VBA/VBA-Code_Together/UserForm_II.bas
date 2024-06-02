@@ -3,15 +3,10 @@
 '
 ' ***************************************************************
 
-' Optionbutton1 - 가정용
-' Optionbutton2 - 일반용
-' Optionbutton3 - 청소용
-' Optionbutton4 - 민방위용
-' Optionbutton5 - 학교용
-' Optionbutton6 - 공동주택용
-' Optionbutton7 - 간이상수도
-' Optionbutton8 - 농생활겸용
-' Optionbutton9 - 기타
+' Optionbutton1 - 자유입지업체
+' Optionbutton2 - 기타
+' Optionbutton3 - 지방공단
+' Optionbutton4 - 농공단지
 
 
 Private Sub CommandButton1_Click()
@@ -20,10 +15,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("자유입지업체", "기타", "지방공단")
+    options = Array("자유입지업체", "기타", "지방공단", "농공단지")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 2
+    For i = 0 To 3
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For

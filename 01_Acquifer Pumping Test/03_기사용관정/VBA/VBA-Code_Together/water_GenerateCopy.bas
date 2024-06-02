@@ -19,16 +19,26 @@ Public Sub clearRowA()
     
 End Sub
 
-Private Function lastRowByFind() As Long
-    Dim lastRow As Long
+Private Function lastRowByFindAll() As Long
+    Dim lastrow As Long
     
-    lastRow = Cells.Find("*", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
+    lastrow = Cells.Find("*", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
     
-    lastRowByFind = lastRow
+    lastRowByFind = lastrow
 End Function
 
-Private Sub DoCopy(lastRow As Long)
-    Range("F2:H" & lastRow).Select
+
+Private Function lastRowByFind(ByVal str As String) As Long
+    Dim lastrow As Long
+    
+    lastrow = Cells.Find(str, SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
+    
+    lastRowByFind = lastrow
+End Function
+
+
+Private Sub DoCopy(lastrow As Long)
+    Range("F2:H" & lastrow).Select
     Selection.Copy
     
     Range("n2").Select
@@ -36,14 +46,14 @@ Private Sub DoCopy(lastRow As Long)
     
     
     ' 물량
-    Range("L2:L" & lastRow).Select
+    Range("L2:L" & lastrow).Select
     Selection.Copy
     
     Range("q2").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
         
-    Range("k2:k" & lastRow).Select
+    Range("k2:k" & lastrow).Select
     Selection.Copy
     
     Range("r2").Select
@@ -83,7 +93,7 @@ Sub ToggleOX()
     Dim activeCellColumn, activeCellRow As String
     Dim row As Long
     Dim col As Long
-    Dim lastRow As Long
+    Dim lastrow As Long
     Dim cp, fillRange As String
     
 
@@ -124,26 +134,34 @@ Sub ToggleOX()
     
     If activeCellColumn = "D" Then
         cp = Replace(ActiveCell.address, "$", "")
-        lastRow = lastRowByKey(ActiveCell.address)
+        lastrow = lastRowByKey(ActiveCell.address)
         
-        fillRange = "D" & Range(cp).row & ":D" & lastRow
-        
-        Range(cp).Select
-        Selection.AutoFill Destination:=Range(fillRange)
+        fillRange = "D" & Range(cp).row & ":D" & lastrow
         
         Range(cp).Select
+        Selection.Copy
+        Range(fillRange).Select
+        
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
     End If
     
     If activeCellColumn = "C" Then
         cp = Replace(ActiveCell.address, "$", "")
-        lastRow = lastRowByKey(ActiveCell.address)
+        lastrow = lastRowByKey(ActiveCell.address)
         
-        fillRange = "C" & Range(cp).row & ":C" & lastRow
-        
-        Range(cp).Select
-        Selection.AutoFill Destination:=Range(fillRange)
+        fillRange = "C" & Range(cp).row & ":C" & lastrow
         
         Range(cp).Select
+        Selection.Copy
+        Range(fillRange).Select
+        
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
     End If
     
     
@@ -160,20 +178,19 @@ Sub ToggleOX()
     End If
 End Sub
 
-
 Sub MainMoudleGenerateCopy()
-    Dim lastRow As Long
+    Dim lastrow As Long
         
-    lastRow = lastRowByKey("A1")
-    Call DoCopy(lastRow)
+    lastrow = lastRowByKey("A1")
+    Call DoCopy(lastrow)
 End Sub
 
 
 Sub SubModuleInitialClear()
-    Dim lastRow As Long
+    Dim lastrow As Long
     Dim userChoice As VbMsgBoxResult
     
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
   
     userChoice = MsgBox("Do you want to continue?", vbOKCancel, "Confirmation")
 
@@ -181,13 +198,13 @@ Sub SubModuleInitialClear()
         Exit Sub
     End If
     
-    Range("e2:j" & lastRow).Select
+    Range("e2:j" & lastrow).Select
     Selection.ClearContents
-    Range("n2:r" & lastRow).Select
+    Range("n2:r" & lastrow).Select
     Selection.ClearContents
     
-    If lastRow >= 23 Then
-        Rows("23:" & lastRow).Select
+    If lastrow >= 23 Then
+        Rows("23:" & lastrow).Select
         Selection.Delete Shift:=xlUp
     End If
     
@@ -201,12 +218,31 @@ End Sub
 
 
 Sub Finallize()
-    Dim lastRow As Long
-    Dim delStartRow As Long
+    Dim lastrow As Long
+    Dim delStartRow, delEndRow As Long
     Dim userChoice As VbMsgBoxResult
     
-    lastRow = lastRowByKey("A1")
-    delStartRow = lastRowByKey("E1") + 1
+    lastrow = lastRowByKey("A1")
+    delStartRow = lastRowByKey("D1") + 1
+    
+    Select Case ActiveSheet.Name
+    
+        Case "ss"
+            delEndRow = lastRowByFind("구분") - 4
+            
+        Case "aa"
+            delEndRow = lastRowByFind("유역내") - 4
+        
+        Case "ii"
+            delEndRow = lastRowByFind("유역내") - 6
+    
+    End Select
+    
+    
+    If Range("L2").Value = 0 Then
+        delStartRow = 3
+        delEndRow = lastRowByKey("L1")
+    End If
     
     
     userChoice = MsgBox("Do you want to continue?", vbOKCancel, "Confirmation")
@@ -215,10 +251,10 @@ Sub Finallize()
         Exit Sub
     End If
     
-    If delStartRow = 1048577 Or lastRow = 2 Then
+    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 3) Then
         Exit Sub
     Else
-        Rows(delStartRow & ":" & lastRow).Select
+        Rows(delStartRow & ":" & delEndRow).Select
         Selection.Delete Shift:=xlUp
         Range("A2").Select
     End If
@@ -226,10 +262,10 @@ Sub Finallize()
 End Sub
 
 Sub SubModuleCleanCopySection()
-    Dim lastRow As Long
+    Dim lastrow As Long
         
-    lastRow = lastRowByKey("A1")
-    Range("n2:r" & lastRow).Select
+    lastrow = lastRowByKey("A1")
+    Range("n2:r" & lastrow).Select
     Selection.ClearContents
     Range("P14").Select
 End Sub
@@ -238,7 +274,7 @@ End Sub
 ' 2023/4/19 - copy modify
 
 Sub insertRow()
-    Dim lastRow As Long, i As Long, j As Long
+    Dim lastrow As Long, i As Long, j As Long
     Dim selection_origin, selection_target As String
     Dim AddingRowCount As Long
     
@@ -246,9 +282,9 @@ Sub insertRow()
 
     AddingRowCount = 10
 
-    lastRow = lastRowByRowsCount("A")
+    lastrow = lastRowByRowsCount("A")
     
-    Rows(CStr(lastRow + 1) & ":" & CStr(lastRow + AddingRowCount)).Select
+    Rows(CStr(lastrow + 1) & ":" & CStr(lastrow + AddingRowCount)).Select
     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     
     

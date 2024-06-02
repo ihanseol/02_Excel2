@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm_SS 
    Caption         =   "SS, Contents Selection"
-   ClientHeight    =   2475
+   ClientHeight    =   2610
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   10500
+   ClientWidth     =   11805
    OleObjectBlob   =   "UserForm_SS.frx":0000
    StartUpPosition =   1  '소유자 가운데
 End
@@ -27,6 +27,9 @@ Attribute VB_Exposed = False
 ' Optionbutton7 - 간이상수도
 ' Optionbutton8 - 농생활겸용
 ' Optionbutton9 - 기타
+' Optionbutton10 - 공사용
+' Optionbutton11 - 지열냉난방
+' Optionbutton12 - 조경용
 
 
 Private Sub CommandButton1_Click()
@@ -35,10 +38,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("가정용", "일반용", "청소용", "민방위용", "학교용", "공동주택용", "간이상수도", "농생활겸용", "기타")
+    options = Array("가정용", "일반용", "청소용", "민방위용", "학교용", "공동주택용", "간이상수도", "농생활겸용", "기타", "공사용", "지열냉난방", "조경용")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 8
+    For i = 0 To 11
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For

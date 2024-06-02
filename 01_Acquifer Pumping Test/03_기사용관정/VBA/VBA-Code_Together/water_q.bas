@@ -154,21 +154,21 @@ End Function
 ' 물량계산
 Sub ComputeQ()
     Dim i As Integer
-    Dim lastRow As Long
+    Dim lastrow As Long
 
     Call initialize
     
     Sheets("ss").Activate
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
         Cells(i, "L").Value = ss_water(Range("I" & CStr(i)).Value, Range("K" & CStr(i)).Value, 100)
     Next i
     
     Sheets("aa").Activate
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
         Cells(i, "L").Value = aa_water(Range("I" & CStr(i)).Value, Range("K" & CStr(i)).Value, 100)
     Next i
 End Sub
@@ -241,6 +241,14 @@ Function ss_water(ByVal qhp As Integer, ByVal strPurpose As String, Optional ByV
         ss_water = Round(SS(svSCHOOL, 1) + npopulation * SS(svSCHOOL, 2), 2)
         Exit Function
     End If
+    
+    
+    ' 조경용
+    If CheckSubstring(strPurpose, "조경") Then
+        ss_water = Round(SS(svILBAN, 1) + qhp * SS(svILBAN, 2), 2)
+        Exit Function
+    End If
+    
     
    ss_water = 900
 End Function

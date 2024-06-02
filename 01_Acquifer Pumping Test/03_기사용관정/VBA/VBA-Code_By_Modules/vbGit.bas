@@ -1,8 +1,4 @@
 Attribute VB_Name = "vbGit"
-' ***************************************************************
-' vbGit
-'
-' ***************************************************************
 
 
 Sub GitSave()
@@ -45,7 +41,14 @@ Sub PrintAllCode()
     If Dir(pathToExport) <> "" Then Kill pathToExport & "*.*"
     
     For Each item In ThisWorkbook.VBProject.VBComponents
-        lineToPrint = item.CodeModule.Lines(1, item.CodeModule.CountOfLines)
+        
+        
+        If item.CodeModule.CountOfLines <> 0 Then
+            lineToPrint = item.CodeModule.Lines(1, item.CodeModule.CountOfLines)
+        Else
+            lineToPrint = "'This Module is Empty "
+        End If
+        
         
         fName = item.CodeModule.Name
         Debug.Print lineToPrint
@@ -140,3 +143,5 @@ CreateLogFile_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure CreateLogFile of Sub mod_TDD_Export"
 
 End Sub
+
+

@@ -381,21 +381,21 @@ End Function
 ' 물량계산
 Sub ComputeQ()
     Dim i As Integer
-    Dim lastRow As Long
+    Dim lastrow As Long
 
     Call initialize
     
     Sheets("ss").Activate
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
         Cells(i, "L").Value = ss_water(Range("I" & CStr(i)).Value, Range("K" & CStr(i)).Value, 100)
     Next i
     
     Sheets("aa").Activate
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
         Cells(i, "L").Value = aa_water(Range("I" & CStr(i)).Value, Range("K" & CStr(i)).Value, 100)
     Next i
 End Sub
@@ -468,6 +468,14 @@ Function ss_water(ByVal qhp As Integer, ByVal strPurpose As String, Optional ByV
         ss_water = Round(SS(svSCHOOL, 1) + npopulation * SS(svSCHOOL, 2), 2)
         Exit Function
     End If
+    
+    
+    ' 조경용
+    If CheckSubstring(strPurpose, "조경") Then
+        ss_water = Round(SS(svILBAN, 1) + qhp * SS(svILBAN, 2), 2)
+        Exit Function
+    End If
+    
     
    ss_water = 900
 End Function
@@ -554,16 +562,26 @@ Public Sub clearRowA()
     
 End Sub
 
-Private Function lastRowByFind() As Long
-    Dim lastRow As Long
+Private Function lastRowByFindAll() As Long
+    Dim lastrow As Long
     
-    lastRow = Cells.Find("*", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
+    lastrow = Cells.Find("*", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
     
-    lastRowByFind = lastRow
+    lastRowByFind = lastrow
 End Function
 
-Private Sub DoCopy(lastRow As Long)
-    Range("F2:H" & lastRow).Select
+
+Private Function lastRowByFind(ByVal str As String) As Long
+    Dim lastrow As Long
+    
+    lastrow = Cells.Find(str, SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
+    
+    lastRowByFind = lastrow
+End Function
+
+
+Private Sub DoCopy(lastrow As Long)
+    Range("F2:H" & lastrow).Select
     Selection.Copy
     
     Range("n2").Select
@@ -571,14 +589,14 @@ Private Sub DoCopy(lastRow As Long)
     
     
     ' 물량
-    Range("L2:L" & lastRow).Select
+    Range("L2:L" & lastrow).Select
     Selection.Copy
     
     Range("q2").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
         
-    Range("k2:k" & lastRow).Select
+    Range("k2:k" & lastrow).Select
     Selection.Copy
     
     Range("r2").Select
@@ -618,7 +636,7 @@ Sub ToggleOX()
     Dim activeCellColumn, activeCellRow As String
     Dim row As Long
     Dim col As Long
-    Dim lastRow As Long
+    Dim lastrow As Long
     Dim cp, fillRange As String
     
 
@@ -659,26 +677,34 @@ Sub ToggleOX()
     
     If activeCellColumn = "D" Then
         cp = Replace(ActiveCell.address, "$", "")
-        lastRow = lastRowByKey(ActiveCell.address)
+        lastrow = lastRowByKey(ActiveCell.address)
         
-        fillRange = "D" & Range(cp).row & ":D" & lastRow
-        
-        Range(cp).Select
-        Selection.AutoFill Destination:=Range(fillRange)
+        fillRange = "D" & Range(cp).row & ":D" & lastrow
         
         Range(cp).Select
+        Selection.Copy
+        Range(fillRange).Select
+        
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
     End If
     
     If activeCellColumn = "C" Then
         cp = Replace(ActiveCell.address, "$", "")
-        lastRow = lastRowByKey(ActiveCell.address)
+        lastrow = lastRowByKey(ActiveCell.address)
         
-        fillRange = "C" & Range(cp).row & ":C" & lastRow
-        
-        Range(cp).Select
-        Selection.AutoFill Destination:=Range(fillRange)
+        fillRange = "C" & Range(cp).row & ":C" & lastrow
         
         Range(cp).Select
+        Selection.Copy
+        Range(fillRange).Select
+        
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
     End If
     
     
@@ -695,20 +721,19 @@ Sub ToggleOX()
     End If
 End Sub
 
-
 Sub MainMoudleGenerateCopy()
-    Dim lastRow As Long
+    Dim lastrow As Long
         
-    lastRow = lastRowByKey("A1")
-    Call DoCopy(lastRow)
+    lastrow = lastRowByKey("A1")
+    Call DoCopy(lastrow)
 End Sub
 
 
 Sub SubModuleInitialClear()
-    Dim lastRow As Long
+    Dim lastrow As Long
     Dim userChoice As VbMsgBoxResult
     
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
   
     userChoice = MsgBox("Do you want to continue?", vbOKCancel, "Confirmation")
 
@@ -716,13 +741,13 @@ Sub SubModuleInitialClear()
         Exit Sub
     End If
     
-    Range("e2:j" & lastRow).Select
+    Range("e2:j" & lastrow).Select
     Selection.ClearContents
-    Range("n2:r" & lastRow).Select
+    Range("n2:r" & lastrow).Select
     Selection.ClearContents
     
-    If lastRow >= 23 Then
-        Rows("23:" & lastRow).Select
+    If lastrow >= 23 Then
+        Rows("23:" & lastrow).Select
         Selection.Delete Shift:=xlUp
     End If
     
@@ -736,12 +761,31 @@ End Sub
 
 
 Sub Finallize()
-    Dim lastRow As Long
-    Dim delStartRow As Long
+    Dim lastrow As Long
+    Dim delStartRow, delEndRow As Long
     Dim userChoice As VbMsgBoxResult
     
-    lastRow = lastRowByKey("A1")
-    delStartRow = lastRowByKey("E1") + 1
+    lastrow = lastRowByKey("A1")
+    delStartRow = lastRowByKey("D1") + 1
+    
+    Select Case ActiveSheet.Name
+    
+        Case "ss"
+            delEndRow = lastRowByFind("구분") - 4
+            
+        Case "aa"
+            delEndRow = lastRowByFind("유역내") - 4
+        
+        Case "ii"
+            delEndRow = lastRowByFind("유역내") - 6
+    
+    End Select
+    
+    
+    If Range("L2").Value = 0 Then
+        delStartRow = 3
+        delEndRow = lastRowByKey("L1")
+    End If
     
     
     userChoice = MsgBox("Do you want to continue?", vbOKCancel, "Confirmation")
@@ -750,10 +794,10 @@ Sub Finallize()
         Exit Sub
     End If
     
-    If delStartRow = 1048577 Or lastRow = 2 Then
+    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 3) Then
         Exit Sub
     Else
-        Rows(delStartRow & ":" & lastRow).Select
+        Rows(delStartRow & ":" & delEndRow).Select
         Selection.Delete Shift:=xlUp
         Range("A2").Select
     End If
@@ -761,10 +805,10 @@ Sub Finallize()
 End Sub
 
 Sub SubModuleCleanCopySection()
-    Dim lastRow As Long
+    Dim lastrow As Long
         
-    lastRow = lastRowByKey("A1")
-    Range("n2:r" & lastRow).Select
+    lastrow = lastRowByKey("A1")
+    Range("n2:r" & lastrow).Select
     Selection.ClearContents
     Range("P14").Select
 End Sub
@@ -773,7 +817,7 @@ End Sub
 ' 2023/4/19 - copy modify
 
 Sub insertRow()
-    Dim lastRow As Long, i As Long, j As Long
+    Dim lastrow As Long, i As Long, j As Long
     Dim selection_origin, selection_target As String
     Dim AddingRowCount As Long
     
@@ -781,9 +825,9 @@ Sub insertRow()
 
     AddingRowCount = 10
 
-    lastRow = lastRowByRowsCount("A")
+    lastrow = lastRowByRowsCount("A")
     
-    Rows(CStr(lastRow + 1) & ":" & CStr(lastRow + AddingRowCount)).Select
+    Rows(CStr(lastrow + 1) & ":" & CStr(lastrow + AddingRowCount)).Select
     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     
     
@@ -1386,7 +1430,7 @@ Option Explicit
 ' 이곳에다가 기본적인 설정값을 세팅해준다.
 ' 파일이름과, 조사일같은것들을 ...
 
-Const EXPORT_DATE As String = "2023-12-20"
+Const EXPORT_DATE As String = "2024-06-03"
 Const EXPORT_ADDR_HEADER As String = "서울특별시 "
 Const EXPORT_FILE_NAME As String = "d:\05_Send\iyong_template.xlsx"
         
@@ -1485,7 +1529,7 @@ End Function
 
 Sub Make_DataOut()
     Dim str_, address, id, purpose As String
-    Dim allowType, i, lastRow  As Integer
+    Dim allowType, i, lastrow  As Integer
     Dim simdo, diameter, hp, capacity, tochool, Q As Double
     Dim setting As String
     
@@ -1503,9 +1547,9 @@ Sub Make_DataOut()
     Sheets("data_mid").Activate
     
     Call initialize
-    lastRow = getlastrow()
+    lastrow = getlastrow()
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
     
         Call GetDataFromSheet(i, id, address, allowType, simdo, diameter, hp, capacity, tochool, purpose, Q)
         
@@ -2564,6 +2608,9 @@ End Sub
 ' Optionbutton7 - 간이상수도
 ' Optionbutton8 - 농생활겸용
 ' Optionbutton9 - 기타
+' Optionbutton10 - 공사용
+' Optionbutton11 - 지열냉난방
+' Optionbutton12 - 조경용
 
 
 Private Sub CommandButton1_Click()
@@ -2572,10 +2619,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("가정용", "일반용", "청소용", "민방위용", "학교용", "공동주택용", "간이상수도", "농생활겸용", "기타")
+    options = Array("가정용", "일반용", "청소용", "민방위용", "학교용", "공동주택용", "간이상수도", "농생활겸용", "기타", "공사용", "지열냉난방", "조경용")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 8
+    For i = 0 To 11
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For
@@ -2676,10 +2723,6 @@ Private Sub UserForm_KeyUp(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift A
     End If
 End Sub
 
-' ***************************************************************
-' vbGit
-'
-' ***************************************************************
 
 
 Sub GitSave()
@@ -2722,7 +2765,14 @@ Sub PrintAllCode()
     If Dir(pathToExport) <> "" Then Kill pathToExport & "*.*"
     
     For Each item In ThisWorkbook.VBProject.VBComponents
-        lineToPrint = item.CodeModule.Lines(1, item.CodeModule.CountOfLines)
+        
+        
+        If item.CodeModule.CountOfLines <> 0 Then
+            lineToPrint = item.CodeModule.Lines(1, item.CodeModule.CountOfLines)
+        Else
+            lineToPrint = "'This Module is Empty "
+        End If
+        
         
         fName = item.CodeModule.Name
         Debug.Print lineToPrint
@@ -2817,20 +2867,17 @@ CreateLogFile_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure CreateLogFile of Sub mod_TDD_Export"
 
 End Sub
+
+
 ' ***************************************************************
 ' UserForm_II
 '
 ' ***************************************************************
 
-' Optionbutton1 - 가정용
-' Optionbutton2 - 일반용
-' Optionbutton3 - 청소용
-' Optionbutton4 - 민방위용
-' Optionbutton5 - 학교용
-' Optionbutton6 - 공동주택용
-' Optionbutton7 - 간이상수도
-' Optionbutton8 - 농생활겸용
-' Optionbutton9 - 기타
+' Optionbutton1 - 자유입지업체
+' Optionbutton2 - 기타
+' Optionbutton3 - 지방공단
+' Optionbutton4 - 농공단지
 
 
 Private Sub CommandButton1_Click()
@@ -2839,10 +2886,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("자유입지업체", "기타", "지방공단")
+    options = Array("자유입지업체", "기타", "지방공단", "농공단지")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 2
+    For i = 0 To 3
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For

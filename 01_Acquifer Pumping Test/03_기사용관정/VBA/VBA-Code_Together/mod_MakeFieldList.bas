@@ -9,7 +9,7 @@ Option Explicit
 ' 이곳에다가 기본적인 설정값을 세팅해준다.
 ' 파일이름과, 조사일같은것들을 ...
 
-Const EXPORT_DATE As String = "2023-12-20"
+Const EXPORT_DATE As String = "2024-06-03"
 Const EXPORT_ADDR_HEADER As String = "서울특별시 "
 Const EXPORT_FILE_NAME As String = "d:\05_Send\iyong_template.xlsx"
         
@@ -108,7 +108,7 @@ End Function
 
 Sub Make_DataOut()
     Dim str_, address, id, purpose As String
-    Dim allowType, i, lastRow  As Integer
+    Dim allowType, i, lastrow  As Integer
     Dim simdo, diameter, hp, capacity, tochool, Q As Double
     Dim setting As String
     
@@ -126,9 +126,9 @@ Sub Make_DataOut()
     Sheets("data_mid").Activate
     
     Call initialize
-    lastRow = getlastrow()
+    lastrow = getlastrow()
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
     
         Call GetDataFromSheet(i, id, address, allowType, simdo, diameter, hp, capacity, tochool, purpose, Q)
         
