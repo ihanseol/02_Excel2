@@ -21,6 +21,19 @@ Private Sub CommandButton12_Click()
     Sheets("water").Select
 End Sub
 
+Private Sub CommandButton13_Click()
+    Dim nofwell, i  As Integer
+
+    nofwell = sheets_count()
+    
+    For i = 1 To nofwell
+        Sheets(CStr(i)).Activate
+        Module_ImportWellSpec.ImportWellSpec (i)
+    Next i
+    
+    Sheets("Well").Activate
+End Sub
+
 Private Sub CommandButton3_Click()
     Sheets("AggSum").Visible = True
     Sheets("AggSum").Select

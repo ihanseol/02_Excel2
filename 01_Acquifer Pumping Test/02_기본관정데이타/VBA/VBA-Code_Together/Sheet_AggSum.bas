@@ -327,7 +327,8 @@ Sub Write_WaterIntake(nofwell As Integer)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    ' rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    rngString = StartCol & ip & ":AG79"
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -358,7 +359,9 @@ Sub Write_DiggingDepth(nofwell As Integer)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    'rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    
+    rngString = StartCol & ip & ":AG84"
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -391,7 +394,9 @@ Sub Write_MotorPower(nofwell As Integer)
     StartCol = Values(1)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    'rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    
+    rngString = StartCol & ip & ":AG89"
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -421,7 +426,8 @@ Sub Write_NaturalLevel(nofwell As Integer)
     StartCol = Values(1)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    ' rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    rngString = StartCol & ip & ":AG94"
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -449,7 +455,9 @@ Sub Write_StableLevel(nofwell As Integer)
     StartCol = Values(1)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    'rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    
+    rngString = StartCol & ip & ":AG99"
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -479,7 +487,9 @@ Sub Write_MotorTochool(nofwell As Integer)
     StartCol = Values(1)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    'rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    rngString = StartCol & ip & ":AG104"
+    
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -510,7 +520,9 @@ Sub Write_MotorSimdo(nofwell As Integer)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + nofwell - 1)
     
     
-    rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    ' rngString = StartCol & ip & ":" & EndCol & (ip + 1)
+    
+    rngString = StartCol & ip & ":AG109"
     Call EraseCellData(rngString)
     
     If Sheets("AggSum").CheckBox1.value = True Then

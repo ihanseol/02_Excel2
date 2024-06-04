@@ -72,7 +72,7 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
     If Not isSingleWellImport And singleWell = 999 Then
         rngString = "A5:AN37"
     Else
-        rngString = "A5:AN" & (nofwell + 5 - 1)
+       rngString = "A" & (nofwell + 5 - 1) & ":AN" & (nofwell + 5 - 1)
     End If
         
     Call EraseCellData(rngString)
