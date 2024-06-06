@@ -27,10 +27,10 @@ Function ColumnNumberToLetter(ByVal columnNumber As Integer) As String
     Dim dividend As Integer
     Dim modulo As Integer
     Dim columnName As String
-    Dim result As String
+    Dim Result As String
     
     dividend = columnNumber
-    result = ""
+    Result = ""
     
     Do While dividend > 0
         modulo = (dividend - 1) Mod 26
@@ -44,14 +44,14 @@ End Function
 
 Function ColumnLetterToNumber(ByVal columnLetter As String) As Long
     Dim i As Long
-    Dim result As Long
+    Dim Result As Long
 
-    result = 0
+    Result = 0
     For i = 1 To Len(columnLetter)
-        result = result * 26 + (Asc(UCase(Mid(columnLetter, i, 1))) - 64)
+        Result = Result * 26 + (Asc(UCase(Mid(columnLetter, i, 1))) - 64)
     Next i
 
-    ColumnLetterToNumber = result
+    ColumnLetterToNumber = Result
 End Function
 
 
@@ -81,7 +81,7 @@ End Sub
 
 Function GetRowColumn(name As String) As Variant
     Dim acColumn, acRow As Variant
-    Dim result(1 To 2) As Variant
+    Dim Result(1 To 2) As Variant
 
     acColumn = Split(Range(name).Address, "$")(1)
     acRow = Split(Range(name).Address, "$")(2)
@@ -90,11 +90,11 @@ Function GetRowColumn(name As String) As Variant
     '  col = ActiveCell.Column
     
     
-    result(1) = acColumn
-    result(2) = acRow
+    Result(1) = acColumn
+    Result(2) = acRow
 
     Debug.Print acColumn, acRow
-    GetRowColumn = result
+    GetRowColumn = Result
 End Function
 
 
@@ -106,7 +106,7 @@ Function GetNumberOfWell() As Integer
     save_name = ActiveSheet.name
     With Sheets("Well")
         n = .Cells(.Rows.count, "A").End(xlUp).Row
-        n = CInt(GetNumeric2(.Cells(n, "A").value))
+        n = CInt(GetNumeric2(.Cells(n, "A").Value))
     End With
     
     GetNumberOfWell = n
@@ -220,13 +220,13 @@ End Function
 
 Function GetNumeric2(ByVal CellRef As String) As String
     Dim StringLength, i  As Integer
-    Dim result      As String
+    Dim Result      As String
     
     StringLength = Len(CellRef)
     For i = 1 To StringLength
-        If IsNumeric(Mid(CellRef, i, 1)) Then result = result & Mid(CellRef, i, 1)
+        If IsNumeric(Mid(CellRef, i, 1)) Then Result = Result & Mid(CellRef, i, 1)
     Next i
-    GetNumeric2 = result
+    GetNumeric2 = Result
 End Function
 
 '********************************************************************************************************************************************************************************

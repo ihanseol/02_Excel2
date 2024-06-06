@@ -179,7 +179,7 @@ Private Function get_efficiency_A(ByVal Q As Variant) As Variant
     Dim thresholds As Variant
     Dim results As Variant
     
-    Dim i, result As Integer
+    Dim i, Result As Integer
     Dim CHECK As Boolean
     
     CHECK = True
@@ -187,17 +187,17 @@ Private Function get_efficiency_A(ByVal Q As Variant) As Variant
     thresholds = Array(57.6, 72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(40, 42, 45, 48, 50, 52, 54, 57, 59, 61, 62, 64, 65)
     
-    result = results(0)
+    Result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            result = results(i - 1)
+            Result = results(i - 1)
             CHECK = False
             Exit For
         End If
     Next i
         
-    get_efficiency_A = result
+    get_efficiency_A = Result
     
     If Q < 57.6 Then get_efficiency_A = 40
     If Q > 1440 Then get_efficiency_A = 65
@@ -212,7 +212,7 @@ Private Function get_efficiency_B(ByVal Q As Variant) As Variant
     Dim thresholds As Variant
     Dim results As Variant
     
-    Dim i, result As Integer
+    Dim i, Result As Integer
     Dim CHECK As Boolean
     
     CHECK = True
@@ -220,17 +220,17 @@ Private Function get_efficiency_B(ByVal Q As Variant) As Variant
     thresholds = Array(57.6, 72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(34, 36, 38, 41, 42, 44, 46, 48, 50, 52, 53, 54, 55)
     
-    result = results(0)
+    Result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            result = results(i - 1)
+            Result = results(i - 1)
             CHECK = False
             Exit For
         End If
     Next i
         
-    get_efficiency_B = result
+    get_efficiency_B = Result
     
     If Q < 57.6 Then get_efficiency_B = 34
     If Q > 1440 Then get_efficiency_B = 55
@@ -244,23 +244,23 @@ End Function
 Private Function get_efficiency_dongho(ByVal Q As Variant) As Variant
     Dim results As Variant
     Dim thresholds As Variant
-    Dim i, result As Integer
+    Dim i, Result As Integer
     
     
     thresholds = Array(72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(38, 40.25, 43, 45.25, 47, 49, 51.25, 53.5, 55.5, 57, 58.25, 59.5)
         
-    result = results(0)
+    Result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            result = results(i)
+            Result = results(i)
             Exit For
         End If
     Next i
     
     
-    get_efficiency_dongho = result
+    get_efficiency_dongho = Result
     If Q < 57.6 Then get_efficiency_dongho = 37
     If Q > 1440 Then get_efficiency_dongho = 60
     
@@ -301,28 +301,28 @@ Public Sub getMotorPower()
     For i = 1 To nof_sheets
         Worksheets(CStr(i)).Activate
         
-        title(i) = Range("b2").value
-        simdo(i) = Range("c7").value
+        title(i) = Range("b2").Value
+        simdo(i) = Range("c7").Value
         
         ' 채수계획량을 선택할것인지, 양수량을 선택할것인지
-        If Sheets("Recharge").cbCheSoo.value = True Then
-            pump_q(i) = Range("c15").value
+        If Sheets("Recharge").cbCheSoo.Value = True Then
+            pump_q(i) = Range("c15").Value
         Else
-            pump_q(i) = Range("c16").value
+            pump_q(i) = Range("c16").Value
         End If
         
-        motor_depth(i) = Range("c18").value
+        motor_depth(i) = Range("c18").Value
         
         '2022/8/4 select efficiency
-        If Sheets("Recharge").OptionButton1.value Then
+        If Sheets("Recharge").OptionButton1.Value Then
           efficiency(i) = get_efficiency_A(pump_q(i))
-        ElseIf Sheets("Recharge").OptionButton2.value Then
+        ElseIf Sheets("Recharge").OptionButton2.Value Then
           efficiency(i) = get_efficiency_B(pump_q(i))
         Else
            efficiency(i) = get_efficiency_dongho(pump_q(i))
         End If
         
-        hp(i) = Range("c17").value
+        hp(i) = Range("c17").Value
     Next i
     
     Sheet_Recharge.Activate
@@ -357,15 +357,15 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     tenper = Round(motor_simdo / 10, 1)
     sum_simdo = motor_simdo + tenper
     
-    Cells(po, "A").value = title
-    Cells(po, "B").value = pump_q
-    Cells(po, "C").value = motor_simdo
-    Cells(po, "D").value = tenper
-    Cells(po, "E").value = sum_simdo
-    Cells(po, "F").value = e
-    Cells(po, "G").value = "-"
-    Cells(po, "H").value = Round((pump_q * (motor_simdo + tenper)) / (6572.5 * (e / 100)), 4)
-    Cells(po, "I").value = find_P2(Cells(po, "H").value)
+    Cells(po, "A").Value = title
+    Cells(po, "B").Value = pump_q
+    Cells(po, "C").Value = motor_simdo
+    Cells(po, "D").Value = tenper
+    Cells(po, "E").Value = sum_simdo
+    Cells(po, "F").Value = e
+    Cells(po, "G").Value = "-"
+    Cells(po, "H").Value = Round((pump_q * (motor_simdo + tenper)) / (6572.5 * (e / 100)), 4)
+    Cells(po, "I").Value = find_P2(Cells(po, "H").Value)
     
     
     Debug.Print "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
@@ -485,12 +485,12 @@ Private Sub insert_basic_entry(title As Variant, simdo As Variant, Q As Variant,
     Dim mychar As String
     
     mychar = ColumnNumberToLetter(i + 1)
-    Range(mychar & CStr(po + 1)).value = title
-    Range(mychar & CStr(po + 2)).value = simdo
-    Range(mychar & CStr(po + 3)).value = Q
-    Range(mychar & CStr(po + 4)).value = motor_depth
-    Range(mychar & CStr(po + 7)).value = e / 100
-    Range(mychar & CStr(po + 11)).value = hp
+    Range(mychar & CStr(po + 1)).Value = title
+    Range(mychar & CStr(po + 2)).Value = simdo
+    Range(mychar & CStr(po + 3)).Value = Q
+    Range(mychar & CStr(po + 4)).Value = motor_depth
+    Range(mychar & CStr(po + 7)).Value = e / 100
+    Range(mychar & CStr(po + 11)).Value = hp
     
     Call SetFontMalgun(mychar, ip)
 End Sub

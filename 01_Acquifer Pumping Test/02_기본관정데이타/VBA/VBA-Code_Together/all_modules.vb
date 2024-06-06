@@ -39,3 +39,8 @@ Module_Refactor
 Sheet_W2
 Sheet_W3
 Module_ImportWellSpec
+Sheet_W4
+Sheet_W5
+Sheet_W6
+Sheet_W7
+Class_Boolean

@@ -11,7 +11,7 @@ Private Sub CommandButton2_Click()
   Dim bTemp, ec1, ph1 As Double
   
   
-  cell = Range("d12").value
+  cell = Range("d12").Value
   
   thisname = ActiveWorkbook.name
   fName = "A" & GetNumeric2(cell) & "_ge_OriginalSaveFile.xlsm"
@@ -24,18 +24,18 @@ Private Sub CommandButton2_Click()
   ' Range("k2") = fname
    
   '------------------------------------------------------------------------
-  time = Workbooks(fName).Worksheets("w1").Range("c6").value
-  bTemp = Workbooks(fName).Worksheets("w1").Range("c7").value
+  time = Workbooks(fName).Worksheets("w1").Range("c6").Value
+  bTemp = Workbooks(fName).Worksheets("w1").Range("c7").Value
   
-  ec1 = Workbooks(fName).Worksheets("w1").Range("c8").value
-  ph1 = Workbooks(fName).Worksheets("w1").Range("c9").value
+  ec1 = Workbooks(fName).Worksheets("w1").Range("c8").Value
+  ph1 = Workbooks(fName).Worksheets("w1").Range("c9").Value
   
   '------------------------------------------------------------------------
   
-  Range("c6").value = time
-  Range("c7").value = bTemp
-  Range("c8").value = ec1
-  Range("c9").value = ph1
+  Range("c6").Value = time
+  Range("c7").Value = bTemp
+  Range("c8").Value = ec1
+  Range("c9").Value = ph1
     
   Call getModDataFromYangSooSingle(thisname, fName)
 End Sub
@@ -143,9 +143,9 @@ Function getEC(ByVal LOWHI As Integer, ByVal Well As Integer)
     Sheets("p" & Well).Activate
     
     If LOWHI = cellLOW Then
-        getEC = Sheets("p" & CStr(Well)).Range("e25").value
+        getEC = Sheets("p" & CStr(Well)).Range("e25").Value
     Else
-        getEC = Sheets("p" & CStr(Well)).Range("e24").value
+        getEC = Sheets("p" & CStr(Well)).Range("e24").Value
     End If
 End Function
 
@@ -153,9 +153,9 @@ Function getPH(ByVal LOWHI As Integer, ByVal Well As Integer)
     Sheets("p" & CStr(Well)).Activate
     
     If LOWHI = cellLOW Then
-        getPH = Sheets("p" & CStr(Well)).Range("f25").value
+        getPH = Sheets("p" & CStr(Well)).Range("f25").Value
     Else
-        getPH = Sheets("p" & CStr(Well)).Range("f24").value
+        getPH = Sheets("p" & CStr(Well)).Range("f24").Value
     End If
     
 End Function
@@ -164,9 +164,9 @@ Function getTEMP(ByVal LOWHI As Integer, ByVal Well As Integer)
     Sheets("p" & CStr(Well)).Activate
 
     If LOWHI = cellLOW Then
-        getTEMP = Sheets("p" & CStr(Well)).Range("d25").value
+        getTEMP = Sheets("p" & CStr(Well)).Range("d25").Value
     Else
-        getTEMP = Sheets("p" & CStr(Well)).Range("d24").value
+        getTEMP = Sheets("p" & CStr(Well)).Range("d24").Value
     End If
 End Function
 

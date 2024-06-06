@@ -113,6 +113,6 @@ Sub ListOpenWorkbookNames()
         workbookNames = workbookNames & Workbook.name & vbCrLf
     Next
     
-    Cells(1, 1).value = workbookNames
+    Cells(1, 1).Value = workbookNames
 End Sub
 

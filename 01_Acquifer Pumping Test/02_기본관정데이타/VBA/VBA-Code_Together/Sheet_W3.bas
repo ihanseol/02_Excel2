@@ -93,15 +93,15 @@ Private Sub CommandButton6_Click()
 'Select Recharge Factor
 
     
-   If Frame1.Controls("optionbutton1").value = True Then
+   If Frame1.Controls("optionbutton1").Value = True Then
         Call Set_RechargeFactor_One
    End If
     
-   If Frame1.Controls("optionbutton2").value = True Then
+   If Frame1.Controls("optionbutton2").Value = True Then
         Call Set_RechargeFactor_Two
    End If
     
-   If Frame1.Controls("optionbutton3").value = True Then
+   If Frame1.Controls("optionbutton3").Value = True Then
         Call Set_RechargeFactor_Three
    End If
     
@@ -128,7 +128,7 @@ Private Sub CommandButton8_Click()
     ' Range("i1") = Workbooks.count
     ' WBName = Range("i2").value
     
-    cell1 = Range("b2").value
+    cell1 = Range("b2").Value
     WBName = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
     
     If Not IsWorkBookOpen(WBName) Then
@@ -137,24 +137,24 @@ Private Sub CommandButton8_Click()
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").value
+    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").Value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").value
+    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").Value
+    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").Value
+    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").Value
     
     ' WkbkName.Close
-    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").value
+    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").Value
+    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").Value
+    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").Value
+    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").Value
+    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").Value
     
     ' yangsoo radius of influence
-    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").value
+    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").Value
+    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").Value
+    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").Value
     
     ' 유효우물반경 , 설정값에 따른
     ir = GetEffectiveRadius(WBName)
@@ -199,16 +199,16 @@ Private Sub Worksheet_Activate()
     Select Case get_rf_number
     
         Case "1"
-             Frame1.Controls("optionbutton1").value = True
+             Frame1.Controls("optionbutton1").Value = True
              
         Case "2"
-             Frame1.Controls("optionbutton2").value = True
+             Frame1.Controls("optionbutton2").Value = True
              
         Case "3"
-             Frame1.Controls("optionbutton3").value = True
+             Frame1.Controls("optionbutton3").Value = True
              
         Case Else
-            Frame1.Controls("optionbutton1").value = True
+            Frame1.Controls("optionbutton1").Value = True
            
     End Select
 

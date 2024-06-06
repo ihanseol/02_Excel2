@@ -101,15 +101,15 @@ Function getEC(ByVal LOWHI As Integer, ByVal Well As Integer)
     
     If remainder = 1 Then
         If LOWHI = cellLOW Then
-            getEC = Sheets("p" & CStr(page)).Range("e25").value
+            getEC = Sheets("p" & CStr(page)).Range("e25").Value
         Else
-            getEC = Sheets("p" & CStr(page)).Range("e24").value
+            getEC = Sheets("p" & CStr(page)).Range("e24").Value
         End If
     Else
         If LOWHI = cellLOW Then
-            getEC = Sheets("p" & CStr(page)).Range("h25").value
+            getEC = Sheets("p" & CStr(page)).Range("h25").Value
         Else
-            getEC = Sheets("p" & CStr(page)).Range("h24").value
+            getEC = Sheets("p" & CStr(page)).Range("h24").Value
         End If
     End If
 End Function
@@ -125,15 +125,15 @@ Function getPH(ByVal LOWHI As Integer, ByVal Well As Integer)
     
     If remainder = 1 Then
         If LOWHI = cellLOW Then
-            getPH = Sheets("p" & CStr(page)).Range("f25").value
+            getPH = Sheets("p" & CStr(page)).Range("f25").Value
         Else
-            getPH = Sheets("p" & CStr(page)).Range("f24").value
+            getPH = Sheets("p" & CStr(page)).Range("f24").Value
         End If
     Else
         If LOWHI = cellLOW Then
-            getPH = Sheets("p" & CStr(page)).Range("i25").value
+            getPH = Sheets("p" & CStr(page)).Range("i25").Value
         Else
-            getPH = Sheets("p" & CStr(page)).Range("i24").value
+            getPH = Sheets("p" & CStr(page)).Range("i24").Value
         End If
     End If
 End Function
@@ -149,15 +149,15 @@ Function getTEMP(ByVal LOWHI As Integer, ByVal Well As Integer)
     
     If remainder = 1 Then
         If LOWHI = cellLOW Then
-            getTEMP = Sheets("p" & CStr(page)).Range("d25").value
+            getTEMP = Sheets("p" & CStr(page)).Range("d25").Value
         Else
-            getTEMP = Sheets("p" & CStr(page)).Range("d24").value
+            getTEMP = Sheets("p" & CStr(page)).Range("d24").Value
         End If
     Else
         If LOWHI = cellLOW Then
-            getTEMP = Sheets("p" & CStr(page)).Range("g25").value
+            getTEMP = Sheets("p" & CStr(page)).Range("g25").Value
         Else
-            getTEMP = Sheets("p" & CStr(page)).Range("g24").value
+            getTEMP = Sheets("p" & CStr(page)).Range("g24").Value
         End If
     End If
 End Function
@@ -240,28 +240,28 @@ End Sub
 Function DivideWellsBy2(ByVal numberOfWells As Integer) As Integer()
     Dim quotient As Integer
     Dim remainder As Integer
-    Dim result(1) As Integer
+    Dim Result(1) As Integer
     
     quotient = (numberOfWells - 1) \ 2
     remainder = numberOfWells Mod 2
     
     
     If remainder = 0 Then
-        result(0) = quotient + 1
+        Result(0) = quotient + 1
     Else
-        result(0) = quotient
+        Result(0) = quotient
     End If
     
-    result(1) = remainder
+    Result(1) = remainder
     
-    DivideWellsBy2 = result
+    DivideWellsBy2 = Result
 End Function
 
 
 Private Sub CommandButton3_Click()
 ' make summary page
 
-    Dim result() As Integer
+    Dim Result() As Integer
     Dim w2page, wselect, restpage As Integer
     'wselect = 1 --> only w1
        
@@ -272,13 +272,13 @@ Private Sub CommandButton3_Click()
        
        
        
-    result = DivideWellsBy2(sheets_count())
+    Result = DivideWellsBy2(sheets_count())
     
     ' result(0) = quotient
     ' result(1) = remainder
     
-    w2page = result(0)
-    restpage = result(1)
+    w2page = Result(0)
+    restpage = Result(1)
     
     Call DuplicateQ2Page(w2page)
     
@@ -301,8 +301,8 @@ Private Sub CommandButton2_Click()
   
   
   
-  cell1 = Range("d12").value
-  cell2 = Range("g12").value
+  cell1 = Range("d12").Value
+  cell2 = Range("g12").Value
   
   thisname = ActiveWorkbook.name
   fname1 = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
@@ -322,27 +322,27 @@ Private Sub CommandButton2_Click()
   ' Range("k3") = fname2
   
   '------------------------------------------------------------------------
-  time1 = Workbooks(fname1).Worksheets("w1").Range("c6").value
-  bTemp1 = Workbooks(fname1).Worksheets("w1").Range("c7").value
-  bTemp2 = Workbooks(fname2).Worksheets("w1").Range("c7").value
+  time1 = Workbooks(fname1).Worksheets("w1").Range("c6").Value
+  bTemp1 = Workbooks(fname1).Worksheets("w1").Range("c7").Value
+  bTemp2 = Workbooks(fname2).Worksheets("w1").Range("c7").Value
   
-  ec1 = Workbooks(fname1).Worksheets("w1").Range("c8").value
-  ec2 = Workbooks(fname2).Worksheets("w1").Range("c8").value
+  ec1 = Workbooks(fname1).Worksheets("w1").Range("c8").Value
+  ec2 = Workbooks(fname2).Worksheets("w1").Range("c8").Value
   
-  ph1 = Workbooks(fname1).Worksheets("w1").Range("c9").value
-  ph2 = Workbooks(fname2).Worksheets("w1").Range("c9").value
+  ph1 = Workbooks(fname1).Worksheets("w1").Range("c9").Value
+  ph2 = Workbooks(fname2).Worksheets("w1").Range("c9").Value
   
   '------------------------------------------------------------------------
   
   
-  Range("c6").value = time1
-  Range("c7").value = bTemp1
-  Range("d7").value = bTemp2
-  Range("c8").value = ec1
-  Range("c9").value = ph1
+  Range("c6").Value = time1
+  Range("c7").Value = bTemp1
+  Range("d7").Value = bTemp2
+  Range("c8").Value = ec1
+  Range("c9").Value = ph1
   
-  Range("d8").value = ec2
-  Range("d9").value = ph2
+  Range("d8").Value = ec2
+  Range("d9").Value = ph2
   
   
   Call getModDataFromYangSooDual(thisname, fname1)

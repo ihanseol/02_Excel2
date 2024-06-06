@@ -14,7 +14,7 @@ End Sub
 
 Private Sub EraseCellData(str_range As String)
     With Range(str_range)
-        .value = ""
+        .Value = ""
     End With
 End Sub
 
@@ -210,13 +210,13 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
     End With
 
     ' Get value from dataCell
-    wellData = dataCell.value
+    wellData = dataCell.Value
     
-    Cells(4 + wellIndex, 1).value = "W-" & wellIndex
+    Cells(4 + wellIndex, 1).Value = "W-" & wellIndex
     
     ' Set value and number format based on dataArrayName
     With Cells(4 + wellIndex, GetColumnIndex(dataArrayName))
-        .value = wellData
+        .Value = wellData
         If numberFormats.Exists(dataArrayName) Then
             .NumberFormat = numberFormats(dataArrayName)
         End If
@@ -386,26 +386,26 @@ Private Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Intege
     
     
     For i = 1 To nofwell
-        T = Format(Cells(4 + i, "o").value, "0.0000")
-        Q = Cells(4 + i, "k").value
+        T = Format(Cells(4 + i, "o").Value, "0.0000")
+        Q = Cells(4 + i, "k").Value
         
-        T0 = Format(Cells(4 + i, "AI").value, "0.0000")
-        S0 = Format(Cells(4 + i, "AJ").value, "0.0000")
-        S1 = Cells(4 + i, "R").value
+        T0 = Format(Cells(4 + i, "AI").Value, "0.0000")
+        S0 = Format(Cells(4 + i, "AJ").Value, "0.0000")
+        S1 = Cells(4 + i, "R").Value
                 
-        delta_s = Format(Cells(4 + i, "l").value, "0.00")
-        radius = Format(Cells(4 + i, "h").value, "0.000")
-        skin = Format(Cells(4 + i, "y").value, "0.0000")
-        er = Format(Cells(4 + i, "z").value, "0.0000")
+        delta_s = Format(Cells(4 + i, "l").Value, "0.00")
+        radius = Format(Cells(4 + i, "h").Value, "0.000")
+        skin = Format(Cells(4 + i, "y").Value, "0.0000")
+        er = Format(Cells(4 + i, "z").Value, "0.0000")
         
         
-        B = Format(Cells(4 + i, "AG").value, "0.0000")
-        ER1 = Format(Cells(4 + i, "AL").value, "0.0000")
-        ER2 = Format(Cells(4 + i, "AM").value, "0.0000")
-        ER3 = Format(Cells(4 + i, "AN").value, "0.0000")
+        B = Format(Cells(4 + i, "AG").Value, "0.0000")
+        ER1 = Format(Cells(4 + i, "AL").Value, "0.0000")
+        ER2 = Format(Cells(4 + i, "AM").Value, "0.0000")
+        ER3 = Format(Cells(4 + i, "AN").Value, "0.0000")
         
         
-        Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").value)
+        Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").Value)
         ' 경험식 1번
         Case erRE1
             
@@ -487,11 +487,11 @@ Sub FormulaChwiSoo(FileNum As Integer)
     Print #FileNum, "************************************************************************************************************************************************************************************************"
     
     For i = 1 To nofwell
-        q1 = Cells(4 + i, "ac").value
+        q1 = Cells(4 + i, "ac").Value
  
-        S1 = Format(Cells(4 + i, "ad").value, "0.00")
-        S2 = Format(Cells(4 + i, "ae").value, "0.00")
-        res = Format(Cells(4 + i, "ab").value, "0.00")
+        S1 = Format(Cells(4 + i, "ad").Value, "0.00")
+        S2 = Format(Cells(4 + i, "ae").Value, "0.00")
+        res = Format(Cells(4 + i, "ab").Value, "0.00")
         
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
@@ -546,16 +546,16 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     
     For i = 1 To nofwell
-        schultze = CStr(Format(Cells(4 + i, "v").value, "0.00"))
-        webber = CStr(Format(Cells(4 + i, "w").value, "0.00"))
-        jacob = CStr(Format(Cells(4 + i, "x").value, "0.00"))
+        schultze = CStr(Format(Cells(4 + i, "v").Value, "0.00"))
+        webber = CStr(Format(Cells(4 + i, "w").Value, "0.00"))
+        jacob = CStr(Format(Cells(4 + i, "x").Value, "0.00"))
         
-        T = CStr(Format(Cells(4 + i, "q").value, "0.0000"))
-        S = CStr(Format(Cells(4 + i, "s").value, "0.0000000"))
-        K = CStr(Format(Cells(4 + i, "t").value, "0.0000"))
+        T = CStr(Format(Cells(4 + i, "q").Value, "0.0000"))
+        S = CStr(Format(Cells(4 + i, "s").Value, "0.0000000"))
+        K = CStr(Format(Cells(4 + i, "t").Value, "0.0000"))
     
-        delta_h = CStr(Format(Cells(4 + i, "f").value, "0.00"))
-        time_ = CStr(Format(Cells(4 + i, "u").value, "0.0000"))
+        delta_h = CStr(Format(Cells(4 + i, "f").Value, "0.00"))
+        time_ = CStr(Format(Cells(4 + i, "u").Value, "0.0000"))
         
         
         ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")

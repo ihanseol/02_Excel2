@@ -19,10 +19,10 @@ End Sub
 Public Sub make_frame2(ByVal sh As Integer)
     Worksheets(CStr(sh)).Activate
     
-    Range("i3").value = "투수량계수"
-    Range("i4").value = "대수층두께"
-    Range("i5").value = "유향"
-    Range("i6").value = "동수경사"
+    Range("i3").Value = "투수량계수"
+    Range("i4").Value = "대수층두께"
+    Range("i5").Value = "유향"
+    Range("i6").Value = "동수경사"
     
     Range("I3:K6").Select
     
@@ -96,10 +96,10 @@ Public Sub make_frame2(ByVal sh As Integer)
 End Sub
 
 Public Sub make_frame()
-    Range("i3").value = "투수량계수"
-    Range("i4").value = "대수층두께"
-    Range("i5").value = "유향"
-    Range("i6").value = "동수경사"
+    Range("i3").Value = "투수량계수"
+    Range("i4").Value = "대수층두께"
+    Range("i5").Value = "유향"
+    Range("i6").Value = "동수경사"
     
     Range("I3:K6").Select
     

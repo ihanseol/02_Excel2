@@ -34,16 +34,16 @@ Public Sub draw_motor_frame(ByVal nof_sheets As Integer, ByVal po As Integer)
     End With
     Selection.Merge
     
-    Range("a" & (po)).value = "펌프마력산정하는것"
-    Range("a" & (po + 2)).value = "굴착심도"
-    Range("a" & (po + 3)).value = "Q(물량)-양수량"
-    Range("a" & (po + 4)).value = "Depth(모터설치심도)"
-    Range("a" & (po + 5)).value = "Height(양정고)"
-    Range("a" & (po + 6)).value = "Sum (합계)"
-    Range("a" & (po + 7)).value = "E (효율)"
-    Range("a" & (po + 9)).value = "계산식"
-    Range("a" & (po + 11)).value = "허가필증의 마력"
-    Range("a" & (po + 12)).value = "이론상 양수능력"
+    Range("a" & (po)).Value = "펌프마력산정하는것"
+    Range("a" & (po + 2)).Value = "굴착심도"
+    Range("a" & (po + 3)).Value = "Q(물량)-양수량"
+    Range("a" & (po + 4)).Value = "Depth(모터설치심도)"
+    Range("a" & (po + 5)).Value = "Height(양정고)"
+    Range("a" & (po + 6)).Value = "Sum (합계)"
+    Range("a" & (po + 7)).Value = "E (효율)"
+    Range("a" & (po + 9)).Value = "계산식"
+    Range("a" & (po + 11)).Value = "허가필증의 마력"
+    Range("a" & (po + 12)).Value = "이론상 양수능력"
     
     Call decorationPumpHP(nof_sheets, po)
     Call decorationInerLine(nof_sheets, po)

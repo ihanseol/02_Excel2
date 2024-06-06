@@ -33,8 +33,8 @@ Public Sub CopyOneSheet()
     End If
     
     ActiveSheet.name = CStr(n_sheets + 1)
-    Range("b2").value = "W-" & (n_sheets + 1)
-    Range("e15").value = CStr(n_sheets + 1)
+    Range("b2").Value = "W-" & (n_sheets + 1)
+    Range("e15").Value = CStr(n_sheets + 1)
     
     '2022/6/9 ¿œ
     Range("i2") = "A" & CStr(n_sheets + 1) & "_ge_OriginalSaveFile.xlsm"

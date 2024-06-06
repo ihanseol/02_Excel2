@@ -10,7 +10,7 @@ Attribute DumpRangeToArrayAndSaveTest.VB_ProcData.VB_Invoke_Func = " \n14"
     Set rng = ThisWorkbook.ActiveSheet.Range("B6:N35")
     
     ' Read the range into an array
-    myArray = rng.value
+    myArray = rng.Value
     
     ' Save array to a file
     Dim filePath As String
@@ -52,13 +52,13 @@ Sub importFromArray()
     Dim myArray As Variant
     Dim rng As Range
     
-    indexString = "data_" & UCase(Range("s11").value)
+    indexString = "data_" & UCase(Range("s11").Value)
     
     myArray = Application.Run(indexString)
     
     
     Set rng = ThisWorkbook.ActiveSheet.Range("B6:N35")
-    rng.value = myArray
+    rng.Value = myArray
        
 End Sub
 

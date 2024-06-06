@@ -3,7 +3,7 @@ Option Explicit
 Private Sub CommandButton1_Click()
 ' add well
 
-    Call CopyOneSheet
+    Call BaseData_AddPumpingWell.CopyOneSheet
 End Sub
 
 Private Sub CommandButton10_Click()
@@ -22,16 +22,37 @@ Private Sub CommandButton12_Click()
 End Sub
 
 Private Sub CommandButton13_Click()
+' Import All Well Spec
+
     Dim nofwell, i  As Integer
+    Dim obj As New Class_Boolean
 
     nofwell = sheets_count()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        Module_ImportWellSpec.ImportWellSpec (i)
+        Call Module_ImportWellSpec.ImportWellSpec(i, obj)
+        
+        If obj.Result Then Exit For
     Next i
     
     Sheets("Well").Activate
+End Sub
+
+Private Sub CommandButton14_Click()
+    'wSet, WellSpec Setting
+
+    Dim nofwell, i As Integer
+
+    nofwell = sheets_count()
+    
+    For i = 1 To nofwell
+        Cells(i + 3, "E").formula = "=Recharge!$I$24"
+        Cells(i + 3, "F").formula = "=All!$B$2"
+        Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
+    Next i
+    
+
 End Sub
 
 Private Sub CommandButton3_Click()
@@ -68,8 +89,8 @@ Private Sub CommandButton2_Click()
     Dim nofwell As Integer
 
     nofwell = sheets_count()
-    Call JojungSheetData
-    Call make_wellstyle
+    Call BaseData_DataJOjung.JojungSheetData
+    Call BaseData_DataJOjung.make_wellstyle
     Call DecorateWellBorder(nofwell)
     
     Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address

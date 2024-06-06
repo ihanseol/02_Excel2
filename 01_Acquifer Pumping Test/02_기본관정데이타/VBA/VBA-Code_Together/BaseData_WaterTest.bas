@@ -56,7 +56,7 @@ Public Sub rnd_between()
         Dim SIGN As Integer
         SIGN = IIf(WorksheetFunction.RandBetween(0, 1), 1, -1)
         
-        Cells(i, 14).value = (WorksheetFunction.RandBetween(7, 12) / 100) * SIGN
+        Cells(i, 14).Value = (WorksheetFunction.RandBetween(7, 12) / 100) * SIGN
         
         With Cells(i, 14)
             .HorizontalAlignment = xlCenter

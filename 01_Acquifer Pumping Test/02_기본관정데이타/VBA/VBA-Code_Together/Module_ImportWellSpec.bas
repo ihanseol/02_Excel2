@@ -1,5 +1,5 @@
 
-Sub ImportWellSpec(ByVal well_no As Integer)
+Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBName As String
     Dim i As Integer
@@ -13,28 +13,31 @@ Sub ImportWellSpec(ByVal well_no As Integer)
     
     If Not IsWorkBookOpen(WBName) Then
         MsgBox "Please open the yangsoo data ! " & WBName
+        obj.Result = True
         Exit Sub
+    Else
+        obj.Result = False
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").value
+    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").Value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").value
+    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").Value
+    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").Value
+    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").Value
     
     ' WkbkName.Close
-    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").value
+    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").Value
+    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").Value
+    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").Value
+    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").Value
+    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").Value
     
     ' yangsoo radius of influence
-    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").value
+    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").Value
+    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").Value
+    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").Value
     
     ' 유효우물반경 , 설정값에 따른
     ir = GetEffectiveRadius(WBName)

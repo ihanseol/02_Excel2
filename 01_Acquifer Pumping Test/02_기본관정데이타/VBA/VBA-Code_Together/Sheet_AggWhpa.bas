@@ -9,9 +9,9 @@ End Sub
 Function getDirectionFromWell(i) As Integer
 
     If Sheets(CStr(i)).Range("k12").Font.Bold Then
-        getDirectionFromWell = Sheets(CStr(i)).Range("k12").value
+        getDirectionFromWell = Sheets(CStr(i)).Range("k12").Value
     Else
-        getDirectionFromWell = Sheets(CStr(i)).Range("l12").value
+        getDirectionFromWell = Sheets(CStr(i)).Range("l12").Value
     End If
 
 End Function
@@ -32,14 +32,14 @@ Private Sub CommandButton2_Click()
     TurnOffStuff
     
     For i = 1 To nofwell
-        Q = Sheets(CStr(i)).Range("c16").value
-        daeSoo = Sheets(CStr(i)).Range("c14").value
+        Q = Sheets(CStr(i)).Range("c16").Value
+        daeSoo = Sheets(CStr(i)).Range("c14").Value
         
-        T1 = Sheets(CStr(i)).Range("e7").value
-        S1 = Sheets(CStr(i)).Range("g7").value
+        T1 = Sheets(CStr(i)).Range("e7").Value
+        S1 = Sheets(CStr(i)).Range("g7").Value
         
         direction = getDirectionFromWell(i)
-        gradient = Sheets(CStr(i)).Range("k18").value
+        gradient = Sheets(CStr(i)).Range("k18").Value
         
         Call WriteWellData_Single(Q, daeSoo, T1, S1, direction, gradient, i)
     Next i
@@ -56,13 +56,13 @@ Private Sub WriteWellData_Single(Q As Variant, daeSoo As Variant, T1 As Variant,
     
     Call UnmergeAllCells
         
-    Cells(3 + i, "c").value = "W-" & CStr(i)
-    Cells(3 + i, "e").value = Q
-    Cells(3 + i, "f").value = T1
-    Cells(3 + i, "i").value = daeSoo
-    Cells(3 + i, "k").value = direction
-    Cells(3 + i, "m").value = Format(gradient, "###0.0000")
-    Cells(4, "d").value = "5년"
+    Cells(3 + i, "c").Value = "W-" & CStr(i)
+    Cells(3 + i, "e").Value = Q
+    Cells(3 + i, "f").Value = T1
+    Cells(3 + i, "i").Value = daeSoo
+    Cells(3 + i, "k").Value = direction
+    Cells(3 + i, "m").Value = Format(gradient, "###0.0000")
+    Cells(4, "d").Value = "5년"
     
 End Sub
 
@@ -72,27 +72,27 @@ Sub MakeAverageAndMergeCells(ByVal nofwell As Integer)
     Dim i As Integer
 
     For i = 1 To nofwell
-        t_sum = t_sum + Range("F" & (i + 3)).value
-        daesoo_sum = daesoo_sum + Range("I" & (i + 3)).value
-        direction_sum = direction_sum + Range("K" & (i + 3)).value
-        gradient_sum = gradient_sum + Range("M" & (i + 3)).value
+        t_sum = t_sum + Range("F" & (i + 3)).Value
+        daesoo_sum = daesoo_sum + Range("I" & (i + 3)).Value
+        direction_sum = direction_sum + Range("K" & (i + 3)).Value
+        gradient_sum = gradient_sum + Range("M" & (i + 3)).Value
     Next i
     
     
-    Cells(4, "g").value = Round(t_sum / nofwell, 4)
+    Cells(4, "g").Value = Round(t_sum / nofwell, 4)
     Cells(4, "g").NumberFormat = "0.0000"
     
-    Cells(4, "j").value = Round(daesoo_sum / nofwell, 1)
+    Cells(4, "j").Value = Round(daesoo_sum / nofwell, 1)
     Cells(4, "j").NumberFormat = "0.0"
         
-    Cells(4, "l").value = Round(direction_sum / nofwell, 1)
+    Cells(4, "l").Value = Round(direction_sum / nofwell, 1)
     Cells(4, "l").NumberFormat = "0.0"
         
-    Cells(4, "n").value = Round(gradient_sum / nofwell, 4)
+    Cells(4, "n").Value = Round(gradient_sum / nofwell, 4)
     Cells(4, "n").NumberFormat = "0.0000"
        
-    Cells(4, "o").value = "무경계조건"
-    Cells(4, "h").value = 0.03
+    Cells(4, "o").Value = "무경계조건"
+    Cells(4, "h").Value = 0.03
     
     Call merge_cells("d", nofwell)
     Call merge_cells("g", nofwell)
@@ -193,7 +193,7 @@ End Sub
 
 Private Sub EraseCellData(str_range As String)
     With Range(str_range)
-        .value = ""
+        .Value = ""
     End With
 End Sub
 
