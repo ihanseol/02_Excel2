@@ -104,8 +104,8 @@ End Function
 
 
 '2, 강수의 지하함양량
-Private Function Rating_NetRecharge(ByVal Value As Single) As Integer
-    Select Case Value
+Private Function Rating_NetRecharge(ByVal value As Single) As Integer
+    Select Case value
         Case Is < 5.08
             Rating_NetRecharge = 1
         Case Is < 10.16
@@ -122,7 +122,7 @@ End Function
 
 
 '3, 대수층
-Private Function Rating_AqMedia(ByVal Value As String) As Integer
+Private Function Rating_AqMedia(ByVal value As String) As Integer
     Dim ratings As New Dictionary
     
     ratings.Add "Massive Shale", 2
@@ -136,8 +136,8 @@ Private Function Rating_AqMedia(ByVal Value As String) As Integer
     ratings.Add "Basalt", 9
     ratings.Add "Karst Limestone", 10
 
-    If ratings.Exists(Value) Then
-        Rating_AqMedia = ratings(Value)
+    If ratings.Exists(value) Then
+        Rating_AqMedia = ratings(value)
     Else
         Rating_AqMedia = 0
     End If
@@ -146,8 +146,8 @@ End Function
 
 '4 토양특성에 대한 등급
 
-Private Function Rating_SoilMedia(ByVal Value As String) As Integer
-    Select Case Value
+Private Function Rating_SoilMedia(ByVal value As String) As Integer
+    Select Case value
         Case "Thin Or Absent", "Gravel"
             Rating_SoilMedia = 10
         Case "Sand"
@@ -173,8 +173,8 @@ End Function
 
 
 ' 5, 지형구배
-Private Function Rating_Topo(ByVal Value As Single) As Integer
-    Select Case Value
+Private Function Rating_Topo(ByVal value As Single) As Integer
+    Select Case value
         Case Is < 2
             Rating_Topo = 10
         Case Is < 6
@@ -192,8 +192,8 @@ End Function
 
 '6 비포화대의 영향에 대한 등급 Ir
 '
-Private Function Rating_Vadose(ByVal Value As String) As Integer
-    Select Case Value
+Private Function Rating_Vadose(ByVal value As String) As Integer
+    Select Case value
         Case "Confining Layer"
             Rating_Vadose = 1
         Case "Silt/Clay", "Shale"
@@ -214,8 +214,8 @@ End Function
 
 ' 7, 대수층의 수리전도도에 대한 등급 : Cr
 
-Private Function Rating_EC(ByVal Value As Double) As Integer
-    Select Case Value
+Private Function Rating_EC(ByVal value As Double) As Integer
+    Select Case value
         Case Is < 0.0000472
             Rating_EC = 1
         Case Is < 0.000142
@@ -251,19 +251,19 @@ Public Sub find_average()
         
         Worksheets(CStr(i)).Activate
         
-        nTooSoo = nTooSoo + Range("E7").Value
-        nDaeSoo = nDaeSoo + Range("C14").Value
+        nTooSoo = nTooSoo + Range("E7").value
+        nDaeSoo = nDaeSoo + Range("C14").value
         nDirection = nDirection + get_direction()
-        nGradient = nGradient + Range("K18").Value
+        nGradient = nGradient + Range("K18").value
         
     Next i
     
     Worksheets("1").Activate
     
-    Range("J3").Value = nTooSoo / n_sheets
-    Range("J4").Value = nDaeSoo / n_sheets
-    Range("J5").Value = nDirection / n_sheets
-    Range("J6").Value = nGradient / n_sheets
+    Range("J3").value = nTooSoo / n_sheets
+    Range("J4").value = nDaeSoo / n_sheets
+    Range("J5").value = nDirection / n_sheets
+    Range("J6").value = nGradient / n_sheets
     
     Range("k3").formula = "=round(j3,4)"
     Range("k4").formula = "=round(j4,1)"
@@ -290,18 +290,18 @@ Public Sub find_average2(ByVal sheet As Integer, ByVal nof_well As Integer)
     For i = 1 To nof_well
         Worksheets(CStr(i + sheet - 1)).Activate
         
-        nTooSoo = nTooSoo + Range("E7").Value
-        nDaeSoo = nDaeSoo + Range("C14").Value
+        nTooSoo = nTooSoo + Range("E7").value
+        nDaeSoo = nDaeSoo + Range("C14").value
         nDirection = nDirection + get_direction()
-        nGradient = nGradient + Range("K18").Value
+        nGradient = nGradient + Range("K18").value
     Next i
     
     Worksheets(CStr(sheet)).Activate
     
-    Range("J3").Value = nTooSoo / nof_well
-    Range("J4").Value = nDaeSoo / nof_well
-    Range("J5").Value = nDirection / nof_well
-    Range("J6").Value = nGradient / nof_well
+    Range("J3").value = nTooSoo / nof_well
+    Range("J4").value = nDaeSoo / nof_well
+    Range("J5").value = nDirection / nof_well
+    Range("J6").value = nGradient / nof_well
     
     Range("k3").formula = "=round(j3,4)"
     Range("k4").formula = "=round(j4,1)"
@@ -319,9 +319,9 @@ Private Function get_direction() As Long
     Range("k12").Select
     
     If Selection.Font.Bold Then
-        get_direction = Range("k12").Value
+        get_direction = Range("k12").value
     Else
-        get_direction = Range("L12").Value
+        get_direction = Range("L12").value
     End If
 End Function
 
@@ -341,32 +341,32 @@ Sub main_drasticindex()
         Worksheets(CStr(i)).Activate
         
         '1
-        water_level = Range("D26").Value
-        Range("D27").Value = Rating_UnderGroundWater(water_level)
+        water_level = Range("D26").value
+        Range("D27").value = Rating_UnderGroundWater(water_level)
         
         '2
-        net_recharge = Range("E26").Value
-        Range("E27").Value = Rating_NetRecharge(net_recharge)
+        net_recharge = Range("E26").value
+        Range("E27").value = Rating_NetRecharge(net_recharge)
         
         '3
-        AQ = Range("F26").Value
-        Range("F27").Value = Rating_AqMedia(AQ)
+        AQ = Range("F26").value
+        Range("F27").value = Rating_AqMedia(AQ)
         
         '4
-        Soil = Range("G26").Value
-        Range("G27").Value = Rating_SoilMedia(Soil)
+        Soil = Range("G26").value
+        Range("G27").value = Rating_SoilMedia(Soil)
         
         '5
-        topo = Range("H26").Value
-        Range("H27").Value = Rating_Topo(topo)
+        topo = Range("H26").value
+        Range("H27").value = Rating_Topo(topo)
         
         '6 Iv, Vadose
-        Vadose = Range("I26").Value
-        Range("I27").Value = Rating_Vadose(Vadose)
+        Vadose = Range("I26").value
+        Range("I27").value = Rating_Vadose(Vadose)
         
         '7
-        EC = Range("J26").Value
-        Range("J27").Value = Rating_EC(EC)
+        EC = Range("J26").value
+        Range("J27").value = Rating_EC(EC)
         
     Next i
 End Sub
@@ -376,16 +376,16 @@ Function check_DrasticIndex(ByVal dmMode As Integer) As String
     ' dmGENERAL = 0
     ' dmCHEMICAL = 1
     
-    Dim Value As Integer
+    Dim value As Integer
     Dim Result As String
     
     If dmMode = dmGENERAL Then
-        Value = Range("K30").Value
+        value = Range("K30").value
     Else
-        Value = Range("K31").Value
+        value = Range("K31").value
     End If
     
-    Select Case Value
+    Select Case value
         Case Is <= 100
             Result = "매우낮음"
         Case Is <= 120
@@ -413,8 +413,8 @@ Public Sub print_drastic_string()
     
     For i = 1 To n_sheets
         Worksheets(CStr(i)).Activate
-        Range("k26").Value = check_DrasticIndex(dmGENERAL)
-        Range("k27").Value = check_DrasticIndex(dmCHEMICAL)
+        Range("k26").value = check_DrasticIndex(dmGENERAL)
+        Range("k27").value = check_DrasticIndex(dmCHEMICAL)
     Next i
 End Sub
 

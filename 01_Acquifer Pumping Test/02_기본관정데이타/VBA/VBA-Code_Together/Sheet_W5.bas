@@ -1,6 +1,17 @@
 Private Sub CommandButton1_Click()
-    Call find_average
+    Dim nofwell, i  As Integer
+
+    nofwell = sheets_count()
+    
+    For i = 1 To nofwell
+        Sheets(CStr(i)).Activate
+        Module_ImportWellSpec.ImportWellSpec (i)
+    Next i
+    
+    Sheets("Well").Activate
+    
 End Sub
+
 
 Private Sub CommandButton4_Click()
     Call delete_allWhpaData
@@ -93,15 +104,15 @@ Private Sub CommandButton6_Click()
 'Select Recharge Factor
 
     
-   If Frame1.Controls("optionbutton1").Value = True Then
+   If Frame1.Controls("optionbutton1").value = True Then
         Call Set_RechargeFactor_One
    End If
     
-   If Frame1.Controls("optionbutton2").Value = True Then
+   If Frame1.Controls("optionbutton2").value = True Then
         Call Set_RechargeFactor_Two
    End If
     
-   If Frame1.Controls("optionbutton3").Value = True Then
+   If Frame1.Controls("optionbutton3").value = True Then
         Call Set_RechargeFactor_Three
    End If
     
@@ -113,22 +124,25 @@ End Sub
 ' 2022/6/9 Import YangSoo Data
 ' Radius of Influence - 양수영향반경
 ' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
 
 Private Sub CommandButton8_Click()
     Dim WkbkName As Object
     Dim WBName, cell1 As String
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
     
     ' nl : natural level, sl : stable level
     Dim nl, sl, deltas As Double
     Dim casing As Integer
     
+    BaseData_ETC_02.TurnOffStuff
+    
     i = 2
     ' Range("i1") = Workbooks.count
     ' WBName = Range("i2").value
     
-    cell1 = Range("b2").Value
+    cell1 = Range("b2").value
     WBName = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
     
     If Not IsWorkBookOpen(WBName) Then
@@ -137,24 +151,26 @@ Private Sub CommandButton8_Click()
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").Value
+    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").Value
-    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").Value
-    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").Value
+    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").value
+    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").value
+    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
-    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").Value
-    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").Value
-    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").Value
-    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").Value
-    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").Value
+    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").value
+    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").value
+    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").value
+    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").value
+    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").value
+    
+    skin = Workbooks(WBName).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
-    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").Value
-    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").Value
-    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").Value
+    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").value
+    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").value
+    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").value
     
     ' 유효우물반경 , 설정값에 따른
     ir = GetEffectiveRadius(WBName)
@@ -184,13 +200,16 @@ Private Sub CommandButton8_Click()
     Range("h7") = S1
     
     
-    Range("h6") = ir 'find influence radius
+    Range("h5") = skin 'skin coefficient
+    Range("h6") = ir    'find influence radius
     
     Range("e10") = RI1
     Range("f10") = RI2
     Range("g10") = RI3
     
     Range("c23") = Round(deltas, 2) 'deltas
+    
+    BaseData_ETC_02.TurnOnStuff
         
 End Sub
 
@@ -199,19 +218,20 @@ Private Sub Worksheet_Activate()
     Select Case get_rf_number
     
         Case "1"
-             Frame1.Controls("optionbutton1").Value = True
+             Frame1.Controls("optionbutton1").value = True
              
         Case "2"
-             Frame1.Controls("optionbutton2").Value = True
+             Frame1.Controls("optionbutton2").value = True
              
         Case "3"
-             Frame1.Controls("optionbutton3").Value = True
+             Frame1.Controls("optionbutton3").value = True
              
         Case Else
-            Frame1.Controls("optionbutton1").Value = True
+            Frame1.Controls("optionbutton1").value = True
            
     End Select
 
 End Sub
+
 
 

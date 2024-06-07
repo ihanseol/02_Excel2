@@ -17,7 +17,7 @@ Function GetER_Mode(ByVal WB_NAME As String) As Integer
     Dim er, r       As String
     
     ' er = Range("h10").value
-    er = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("h10").Value
+    er = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("h10").value
     'MsgBox er
     r = Mid(er, 5, 1)
     
@@ -40,13 +40,13 @@ Function GetEffectiveRadius(ByVal WB_NAME As String) As Double
     
     Select Case er
         Case erRE1
-            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k8").Value
+            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k8").value
         Case erRE2
-            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k9").Value
+            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k9").value
         Case erRE3
-            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k10").Value
+            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k10").value
         Case Else
-            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("C8").Value
+            GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("C8").value
     End Select
 
 End Function

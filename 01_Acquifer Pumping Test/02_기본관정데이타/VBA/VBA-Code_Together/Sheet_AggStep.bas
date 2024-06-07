@@ -52,7 +52,7 @@ End Sub
 
 Private Sub EraseCellData(str_range As String)
     With Range(str_range)
-        .Value = ""
+        .value = ""
     End With
 End Sub
 
@@ -111,15 +111,15 @@ SINGLE_ITERATION:
         Set wb = Workbooks(fName)
         Set wsInput = wb.Worksheets("Input")
         
-        Q = wsInput.Range("q64").Value
-        h = wsInput.Range("r64").Value
-        delta_h = wsInput.Range("s64").Value
-        qsw = wsInput.Range("t64").Value
-        swq = wsInput.Range("u64").Value
+        Q = wsInput.Range("q64").value
+        h = wsInput.Range("r64").value
+        delta_h = wsInput.Range("s64").value
+        qsw = wsInput.Range("t64").value
+        swq = wsInput.Range("u64").value
 
-        a1 = wsInput.Range("v64").Value
-        a2 = wsInput.Range("w64").Value
-        a3 = wsInput.Range("x64").Value
+        a1 = wsInput.Range("v64").value
+        a2 = wsInput.Range("w64").value
+        a3 = wsInput.Range("x64").value
         
         Call Write31_StepTestData_Single(a1, a2, a3, Q, h, delta_h, qsw, swq, i)
 
@@ -136,17 +136,17 @@ Sub Write31_StepTestData_Single(a1 As Variant, a2 As Variant, a3 As Variant, Q A
     
     ' Call EraseCellData("C5:K36")
     
-    Cells(4 + i, "c").Value = "W-" & CStr(i)
+    Cells(4 + i, "c").value = "W-" & CStr(i)
     
-    Cells(4 + i, "d").Value = a1
-    Cells(4 + i, "e").Value = a2
-    Cells(4 + i, "f").Value = a3
+    Cells(4 + i, "d").value = a1
+    Cells(4 + i, "e").value = a2
+    Cells(4 + i, "f").value = a3
 
-    Cells(4 + i, "g").Value = Q
-    Cells(4 + i, "h").Value = h
-    Cells(4 + i, "i").Value = delta_h
-    Cells(4 + i, "j").Value = qsw
-    Cells(4 + i, "k").Value = swq
+    Cells(4 + i, "g").value = Q
+    Cells(4 + i, "h").value = h
+    Cells(4 + i, "i").value = delta_h
+    Cells(4 + i, "j").value = qsw
+    Cells(4 + i, "k").value = swq
 
 End Sub
 

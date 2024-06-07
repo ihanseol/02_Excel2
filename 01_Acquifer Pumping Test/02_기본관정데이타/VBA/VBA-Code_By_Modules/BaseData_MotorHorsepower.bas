@@ -302,28 +302,28 @@ Public Sub getMotorPower()
     For i = 1 To nof_sheets
         Worksheets(CStr(i)).Activate
         
-        title(i) = Range("b2").Value
-        simdo(i) = Range("c7").Value
+        title(i) = Range("b2").value
+        simdo(i) = Range("c7").value
         
         ' 채수계획량을 선택할것인지, 양수량을 선택할것인지
-        If Sheets("Recharge").cbCheSoo.Value = True Then
-            pump_q(i) = Range("c15").Value
+        If Sheets("Recharge").cbCheSoo.value = True Then
+            pump_q(i) = Range("c15").value
         Else
-            pump_q(i) = Range("c16").Value
+            pump_q(i) = Range("c16").value
         End If
         
-        motor_depth(i) = Range("c18").Value
+        motor_depth(i) = Range("c18").value
         
         '2022/8/4 select efficiency
-        If Sheets("Recharge").OptionButton1.Value Then
+        If Sheets("Recharge").OptionButton1.value Then
           efficiency(i) = get_efficiency_A(pump_q(i))
-        ElseIf Sheets("Recharge").OptionButton2.Value Then
+        ElseIf Sheets("Recharge").OptionButton2.value Then
           efficiency(i) = get_efficiency_B(pump_q(i))
         Else
            efficiency(i) = get_efficiency_dongho(pump_q(i))
         End If
         
-        hp(i) = Range("c17").Value
+        hp(i) = Range("c17").value
     Next i
     
     Sheet_Recharge.Activate
@@ -358,15 +358,15 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     tenper = Round(motor_simdo / 10, 1)
     sum_simdo = motor_simdo + tenper
     
-    Cells(po, "A").Value = title
-    Cells(po, "B").Value = pump_q
-    Cells(po, "C").Value = motor_simdo
-    Cells(po, "D").Value = tenper
-    Cells(po, "E").Value = sum_simdo
-    Cells(po, "F").Value = e
-    Cells(po, "G").Value = "-"
-    Cells(po, "H").Value = Round((pump_q * (motor_simdo + tenper)) / (6572.5 * (e / 100)), 4)
-    Cells(po, "I").Value = find_P2(Cells(po, "H").Value)
+    Cells(po, "A").value = title
+    Cells(po, "B").value = pump_q
+    Cells(po, "C").value = motor_simdo
+    Cells(po, "D").value = tenper
+    Cells(po, "E").value = sum_simdo
+    Cells(po, "F").value = e
+    Cells(po, "G").value = "-"
+    Cells(po, "H").value = Round((pump_q * (motor_simdo + tenper)) / (6572.5 * (e / 100)), 4)
+    Cells(po, "I").value = find_P2(Cells(po, "H").value)
     
     
     Debug.Print "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
@@ -486,12 +486,12 @@ Private Sub insert_basic_entry(title As Variant, simdo As Variant, Q As Variant,
     Dim mychar As String
     
     mychar = ColumnNumberToLetter(i + 1)
-    Range(mychar & CStr(po + 1)).Value = title
-    Range(mychar & CStr(po + 2)).Value = simdo
-    Range(mychar & CStr(po + 3)).Value = Q
-    Range(mychar & CStr(po + 4)).Value = motor_depth
-    Range(mychar & CStr(po + 7)).Value = e / 100
-    Range(mychar & CStr(po + 11)).Value = hp
+    Range(mychar & CStr(po + 1)).value = title
+    Range(mychar & CStr(po + 2)).value = simdo
+    Range(mychar & CStr(po + 3)).value = Q
+    Range(mychar & CStr(po + 4)).value = motor_depth
+    Range(mychar & CStr(po + 7)).value = e / 100
+    Range(mychar & CStr(po + 11)).value = hp
     
     Call SetFontMalgun(mychar, ip)
 End Sub

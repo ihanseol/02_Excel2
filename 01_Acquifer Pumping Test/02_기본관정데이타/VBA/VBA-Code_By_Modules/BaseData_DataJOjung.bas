@@ -126,7 +126,7 @@ Private Sub JojungData(ByVal nsheet As Integer)
 End Sub
 
 Private Sub SetMyTabColor(ByVal index As Integer)
-    If Sheets("Well").SingleColor.Value Then
+    If Sheets("Well").SingleColor.value Then
         With ActiveWorkbook.Sheets(CStr(index)).Tab
             .Color = 192
             .TintAndShade = 0
@@ -148,12 +148,12 @@ Public Sub JojungSheetData()
     n_sheets = sheets_count()
     
     For i = 1 To n_sheets
-        Cells(i + 3, "A").Value = "W" & i
+        Cells(i + 3, "A").value = "W" & i
     Next i
     
     For i = 1 To n_sheets
         Sheets(CStr(i)).Activate
-        Range("B26").Value = "W-" & i
+        Range("B26").value = "W-" & i
         
         Call JojungData(i)
         Call SetMyTabColor(i)

@@ -1,9 +1,8 @@
-
 Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBName As String
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
     
     ' nl : natural level, sl : stable level
     Dim nl, sl, deltas As Double
@@ -20,24 +19,27 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").Value
+    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").Value
-    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").Value
-    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").Value
+    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").value
+    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").value
+    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
-    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").Value
-    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").Value
-    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").Value
-    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").Value
-    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").Value
+    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").value
+    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").value
+    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").value
+    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").value
+    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").value
+    
+    ' Skin Coefficient
+    skin = Workbooks(WBName).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
-    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").Value
-    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").Value
-    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").Value
+    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").value
+    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").value
+    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").value
     
     ' 유효우물반경 , 설정값에 따른
     ir = GetEffectiveRadius(WBName)
@@ -66,7 +68,7 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     
     Range("h7") = S1
     
-    
+    Range("h5") = skin 'skin coefficient
     Range("h6") = ir 'find influence radius
     
     Range("e10") = RI1
@@ -75,4 +77,3 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     
     Range("c23") = Round(deltas, 2) 'deltas
 End Sub
-

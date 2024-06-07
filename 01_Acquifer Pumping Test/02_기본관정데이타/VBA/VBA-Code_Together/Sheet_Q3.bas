@@ -168,9 +168,9 @@ Private Sub CommandButton2_Click()
   Dim time1 As Date
   Dim bTemp, bTemp2, bTemp3, ec1, ec2, ec3, ph1, ph2, ph3 As Double
   
-  cell1 = Range("d12").Value
-  cell2 = Range("g12").Value
-  cell3 = Range("j12").Value
+  cell1 = Range("d12").value
+  cell2 = Range("g12").value
+  cell3 = Range("j12").value
   
   
   thisname = ActiveWorkbook.name
@@ -198,36 +198,36 @@ Private Sub CommandButton2_Click()
   'Range("k4") = fname3
   
   '------------------------------------------------------------------------
-  time1 = Workbooks(fname1).Worksheets("w1").Range("c6").Value
+  time1 = Workbooks(fname1).Worksheets("w1").Range("c6").value
   
-  bTemp = Workbooks(fname1).Worksheets("w1").Range("c7").Value
-  ec1 = Workbooks(fname1).Worksheets("w1").Range("c8").Value
-  ph1 = Workbooks(fname1).Worksheets("w1").Range("c9").Value
+  bTemp = Workbooks(fname1).Worksheets("w1").Range("c7").value
+  ec1 = Workbooks(fname1).Worksheets("w1").Range("c8").value
+  ph1 = Workbooks(fname1).Worksheets("w1").Range("c9").value
   
   
-  bTemp2 = Workbooks(fname2).Worksheets("w1").Range("c7").Value
-  ec2 = Workbooks(fname2).Worksheets("w1").Range("c8").Value
-  ph2 = Workbooks(fname2).Worksheets("w1").Range("c9").Value
+  bTemp2 = Workbooks(fname2).Worksheets("w1").Range("c7").value
+  ec2 = Workbooks(fname2).Worksheets("w1").Range("c8").value
+  ph2 = Workbooks(fname2).Worksheets("w1").Range("c9").value
   
-  bTemp3 = Workbooks(fname3).Worksheets("w1").Range("c7").Value
-  ec3 = Workbooks(fname3).Worksheets("w1").Range("c8").Value
-  ph3 = Workbooks(fname3).Worksheets("w1").Range("c9").Value
+  bTemp3 = Workbooks(fname3).Worksheets("w1").Range("c7").value
+  ec3 = Workbooks(fname3).Worksheets("w1").Range("c8").value
+  ph3 = Workbooks(fname3).Worksheets("w1").Range("c9").value
   '------------------------------------------------------------------------
   
   
-  Range("c6").Value = time1
-  Range("c7").Value = bTemp
-  Range("d7").Value = bTemp2
-  Range("e7").Value = bTemp3
+  Range("c6").value = time1
+  Range("c7").value = bTemp
+  Range("d7").value = bTemp2
+  Range("e7").value = bTemp3
   
-  Range("c8").Value = ec1
-  Range("c9").Value = ph1
+  Range("c8").value = ec1
+  Range("c9").value = ph1
   
-  Range("d8").Value = ec2
-  Range("d9").Value = ph2
+  Range("d8").value = ec2
+  Range("d9").value = ph2
   
-  Range("e8").Value = ec3
-  Range("e9").Value = ph3
+  Range("e8").value = ec3
+  Range("e9").value = ph3
   
   
   Call getModDataFromYangSooTripple(thisname, fname1)
@@ -409,23 +409,23 @@ Function getEC(ByVal LOWHI As Integer, ByVal Well As Integer)
     Select Case remainder
         Case 0
             If LOWHI = cellLOW Then
-                getEC = Sheets("p" & CStr(page)).Range("k25").Value
+                getEC = Sheets("p" & CStr(page)).Range("k25").value
             Else
-                getEC = Sheets("p" & CStr(page)).Range("k24").Value
+                getEC = Sheets("p" & CStr(page)).Range("k24").value
             End If
             
         Case 1
             If LOWHI = cellLOW Then
-                getEC = Sheets("p" & CStr(page)).Range("e25").Value
+                getEC = Sheets("p" & CStr(page)).Range("e25").value
             Else
-                getEC = Sheets("p" & CStr(page)).Range("e24").Value
+                getEC = Sheets("p" & CStr(page)).Range("e24").value
             End If
         
         Case 2
             If LOWHI = cellLOW Then
-                getEC = Sheets("p" & CStr(page)).Range("h25").Value
+                getEC = Sheets("p" & CStr(page)).Range("h25").value
             Else
-                getEC = Sheets("p" & CStr(page)).Range("h24").Value
+                getEC = Sheets("p" & CStr(page)).Range("h24").value
             End If
     End Select
 End Function
@@ -440,23 +440,23 @@ Function getPH(ByVal LOWHI As Integer, ByVal Well As Integer)
     Select Case remainder
         Case 0
             If LOWHI = cellLOW Then
-                getPH = Sheets("p" & CStr(page)).Range("l25").Value
+                getPH = Sheets("p" & CStr(page)).Range("l25").value
             Else
-                getPH = Sheets("p" & CStr(page)).Range("l24").Value
+                getPH = Sheets("p" & CStr(page)).Range("l24").value
             End If
             
         Case 1
             If LOWHI = cellLOW Then
-                getPH = Sheets("p" & CStr(page)).Range("f25").Value
+                getPH = Sheets("p" & CStr(page)).Range("f25").value
             Else
-                getPH = Sheets("p" & CStr(page)).Range("f24").Value
+                getPH = Sheets("p" & CStr(page)).Range("f24").value
             End If
         
         Case 2
             If LOWHI = cellLOW Then
-                getPH = Sheets("p" & CStr(page)).Range("i25").Value
+                getPH = Sheets("p" & CStr(page)).Range("i25").value
             Else
-                getPH = Sheets("p" & CStr(page)).Range("i24").Value
+                getPH = Sheets("p" & CStr(page)).Range("i24").value
             End If
     End Select
 End Function
@@ -471,23 +471,23 @@ Function getTEMP(ByVal LOWHI As Integer, ByVal Well As Integer)
     Select Case remainder
         Case 0
             If LOWHI = cellLOW Then
-                getTEMP = Sheets("p" & CStr(page)).Range("J25").Value
+                getTEMP = Sheets("p" & CStr(page)).Range("J25").value
             Else
-                getTEMP = Sheets("p" & CStr(page)).Range("J24").Value
+                getTEMP = Sheets("p" & CStr(page)).Range("J24").value
             End If
             
         Case 1
             If LOWHI = cellLOW Then
-                getTEMP = Sheets("p" & CStr(page)).Range("d25").Value
+                getTEMP = Sheets("p" & CStr(page)).Range("d25").value
             Else
-                getTEMP = Sheets("p" & CStr(page)).Range("d24").Value
+                getTEMP = Sheets("p" & CStr(page)).Range("d24").value
             End If
         
         Case 2
             If LOWHI = cellLOW Then
-                getTEMP = Sheets("p" & CStr(page)).Range("g25").Value
+                getTEMP = Sheets("p" & CStr(page)).Range("g25").value
             Else
-                getTEMP = Sheets("p" & CStr(page)).Range("g24").Value
+                getTEMP = Sheets("p" & CStr(page)).Range("g24").value
             End If
     End Select
 End Function

@@ -3,7 +3,7 @@ Option Explicit
 Private Sub CommandButton1_Click()
 ' add well
 
-    Call BaseData_AddPumpingWell.CopyOneSheet
+    Call CopyOneSheet
 End Sub
 
 Private Sub CommandButton10_Click()
@@ -29,6 +29,8 @@ Private Sub CommandButton13_Click()
 
     nofwell = sheets_count()
     
+    BaseData_ETC_02.TurnOffStuff
+    
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
         Call Module_ImportWellSpec.ImportWellSpec(i, obj)
@@ -37,6 +39,8 @@ Private Sub CommandButton13_Click()
     Next i
     
     Sheets("Well").Activate
+    
+    BaseData_ETC_02.TurnOnStuff
 End Sub
 
 Private Sub CommandButton14_Click()
@@ -89,8 +93,8 @@ Private Sub CommandButton2_Click()
     Dim nofwell As Integer
 
     nofwell = sheets_count()
-    Call BaseData_DataJOjung.JojungSheetData
-    Call BaseData_DataJOjung.make_wellstyle
+    Call JojungSheetData
+    Call make_wellstyle
     Call DecorateWellBorder(nofwell)
     
     Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address

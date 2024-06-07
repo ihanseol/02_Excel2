@@ -5,7 +5,7 @@ End Sub
 
 Private Sub EraseCellData(str_range As String)
     With Range(str_range)
-        .Value = ""
+        .value = ""
     End With
 End Sub
 
@@ -49,9 +49,9 @@ Private Sub Write_SummaryTS(ByVal Well As Integer)
     
     i = Well - 1
     
-    Range("H" & (i + 80)).Value = "W-" & (i + 1)
-    Range("i" & (i + 80)).Value = Range("e" & (49 + i * 3)).Value
-    Range("J" & (i + 80)).Value = Range("f" & (48 + i * 3)).Value
+    Range("H" & (i + 80)).value = "W-" & (i + 1)
+    Range("i" & (i + 80)).value = Range("e" & (49 + i * 3)).value
+    Range("J" & (i + 80)).value = Range("f" & (48 + i * 3)).value
 
 End Sub
 
@@ -111,36 +111,36 @@ Private Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport
         
 SINGLE_ITERATION:
    
-        Q = wsYangSoo.Cells(4 + i, "k").Value
+        Q = wsYangSoo.Cells(4 + i, "k").value
         
-        natural = wsYangSoo.Cells(4 + i, "b").Value
-        stable = wsYangSoo.Cells(4 + i, "c").Value
-        recover = wsYangSoo.Cells(4 + i, "d").Value
+        natural = wsYangSoo.Cells(4 + i, "b").value
+        stable = wsYangSoo.Cells(4 + i, "c").value
+        recover = wsYangSoo.Cells(4 + i, "d").value
         
-        radius = wsYangSoo.Cells(4 + i, "h").Value
+        radius = wsYangSoo.Cells(4 + i, "h").value
         
-        deltas = wsYangSoo.Cells(4 + i, "l").Value
-        deltah = wsYangSoo.Cells(4 + i, "f").Value
-        daeSoo = wsYangSoo.Cells(4 + i, "n").Value
+        deltas = wsYangSoo.Cells(4 + i, "l").value
+        deltah = wsYangSoo.Cells(4 + i, "f").value
+        daeSoo = wsYangSoo.Cells(4 + i, "n").value
         
         
-        T1 = wsYangSoo.Cells(4 + i, "o").Value
-        T2 = wsYangSoo.Cells(4 + i, "p").Value
-        TA = wsYangSoo.Cells(4 + i, "q").Value
+        T1 = wsYangSoo.Cells(4 + i, "o").value
+        T2 = wsYangSoo.Cells(4 + i, "p").value
+        TA = wsYangSoo.Cells(4 + i, "q").value
         
-        time_ = wsYangSoo.Cells(4 + i, "u").Value
+        time_ = wsYangSoo.Cells(4 + i, "u").value
                 
-        S1 = wsYangSoo.Cells(4 + i, "r").Value
-        S2 = wsYangSoo.Cells(4 + i, "s").Value
-        K = wsYangSoo.Cells(4 + i, "t").Value
+        S1 = wsYangSoo.Cells(4 + i, "r").value
+        S2 = wsYangSoo.Cells(4 + i, "s").value
+        K = wsYangSoo.Cells(4 + i, "t").value
         
-        shultz = wsYangSoo.Cells(4 + i, "v").Value
-        webber = wsYangSoo.Cells(4 + i, "w").Value
-        jcob = wsYangSoo.Cells(4 + i, "x").Value
+        shultz = wsYangSoo.Cells(4 + i, "v").value
+        webber = wsYangSoo.Cells(4 + i, "w").value
+        jcob = wsYangSoo.Cells(4 + i, "x").value
         
         
-        skin = wsYangSoo.Cells(4 + i, "y").Value
-        er = wsYangSoo.Cells(4 + i, "z").Value
+        skin = wsYangSoo.Cells(4 + i, "y").value
+        er = wsYangSoo.Cells(4 + i, "z").value
         
         Call TurnOffStuff
         
@@ -179,32 +179,32 @@ Sub WriteWellData_Single(Q As Variant, natural As Variant, stable As Variant, re
        EraseCellData ("S" & (i + 2) & ":U" & (i + 2))
     End If
     
-    Range("C" & (i + 2)).Value = "W-" & i
-    Range("D" & (i + 2)).Value = 2880
+    Range("C" & (i + 2)).value = "W-" & i
+    Range("D" & (i + 2)).value = 2880
     
-    Range("e" & (i + 2)).Value = Q
-    Range("l" & (i + 2)).Value = Q
+    Range("e" & (i + 2)).value = Q
+    Range("l" & (i + 2)).value = Q
     
-    Range("f" & (i + 2)).Value = natural
-    Range("g" & (i + 2)).Value = stable
-    Range("h" & (i + 2)).Value = stable - natural
+    Range("f" & (i + 2)).value = natural
+    Range("g" & (i + 2)).value = stable
+    Range("h" & (i + 2)).value = stable - natural
     
-    Range("i" & (i + 2)).Value = radius
-    Range("j" & (i + 2)).Value = deltas
+    Range("i" & (i + 2)).value = radius
+    Range("j" & (i + 2)).value = deltas
     
     
     ' 3-4, aqtesolv 해석결과
-    Range("m" & (i + 2)).Value = radius
-    Range("n" & (i + 2)).Value = radius
-    Range("o" & (i + 2)).Value = daeSoo
-    Range("p" & (i + 2)).Value = T1
-    Range("q" & (i + 2)).Value = S1
+    Range("m" & (i + 2)).value = radius
+    Range("n" & (i + 2)).value = radius
+    Range("o" & (i + 2)).value = daeSoo
+    Range("p" & (i + 2)).value = T1
+    Range("q" & (i + 2)).value = S1
     
     
     '3-5, 수위회복시험 결과
-    Range("s" & (i + 2)).Value = stable
-    Range("t" & (i + 2)).Value = recover
-    Range("u" & (i + 2)).Value = stable - recover
+    Range("s" & (i + 2)).value = stable
+    Range("t" & (i + 2)).value = recover
+    Range("u" & (i + 2)).value = stable - recover
     
     remainder = i Mod 2
     If remainder = 0 Then
@@ -240,25 +240,25 @@ Sub WriteData37_RadiusOfInfluence_Single(TA As Variant, K As Variant, S2 As Vari
         Call EraseCellData(ColumnNumberToLetter(4 + i) & ip & ":" & ColumnNumberToLetter(4 + i) & (ip + 6))
     End If
     
-    Cells((ip + 0), (4 + i)).Value = "W-" & i
+    Cells((ip + 0), (4 + i)).value = "W-" & i
     
-    Cells((ip + 1), (4 + i)).Value = TA
+    Cells((ip + 1), (4 + i)).value = TA
     Cells((ip + 1), (4 + i)).NumberFormat = "0.0000"
     
-    Cells((ip + 2), (4 + i)).Value = K
+    Cells((ip + 2), (4 + i)).value = K
     Cells((ip + 2), (4 + i)).NumberFormat = "0.0000"
     
     
-    Cells((ip + 3), (4 + i)).Value = S2
+    Cells((ip + 3), (4 + i)).value = S2
     Cells((ip + 3), (4 + i)).NumberFormat = "0.0000000"
     
-    Cells((ip + 4), (4 + i)).Value = time_
+    Cells((ip + 4), (4 + i)).value = time_
     Cells((ip + 4), (4 + i)).NumberFormat = "0.0000"
     
-    Cells((ip + 5), (4 + i)).Value = deltah
+    Cells((ip + 5), (4 + i)).value = deltah
     Cells((ip + 5), (4 + i)).NumberFormat = "0.00"
     
-    Cells((ip + 6), (4 + i)).Value = daeSoo
+    Cells((ip + 6), (4 + i)).value = daeSoo
     
     
     remainder = i Mod 2
@@ -296,26 +296,26 @@ Sub WriteData36_TS_Analysis_Single(T1 As Variant, T2 As Variant, TA As Variant, 
         Call EraseCellData("C" & (ip + (i - 1) * 3) & ":F" & (ip + (i - 1) * 3 + 2))
     End If
     
-    Cells(ip + (i - 1) * 3, "C").Value = "W-" & i
+    Cells(ip + (i - 1) * 3, "C").value = "W-" & i
             
-    Cells((ip + 0) + (i - 1) * 3, "D").Value = "장기양수시험"
-    Cells((ip + 1) + (i - 1) * 3, "D").Value = "수위회복시험"
-    Cells((ip + 2) + (i - 1) * 3, "D").Value = "선택치"
+    Cells((ip + 0) + (i - 1) * 3, "D").value = "장기양수시험"
+    Cells((ip + 1) + (i - 1) * 3, "D").value = "수위회복시험"
+    Cells((ip + 2) + (i - 1) * 3, "D").value = "선택치"
 
-    Cells((ip + 0) + (i - 1) * 3, "E").Value = T1
+    Cells((ip + 0) + (i - 1) * 3, "E").value = T1
     Cells((ip + 0) + (i - 1) * 3, "E").NumberFormat = "0.0000"
     
-    Cells((ip + 1) + (i - 1) * 3, "E").Value = T2
+    Cells((ip + 1) + (i - 1) * 3, "E").value = T2
     Cells((ip + 1) + (i - 1) * 3, "E").NumberFormat = "0.0000"
     
-    Cells((ip + 2) + (i - 1) * 3, "E").Value = TA
+    Cells((ip + 2) + (i - 1) * 3, "E").value = TA
     Cells((ip + 2) + (i - 1) * 3, "E").NumberFormat = "0.0000"
     Cells((ip + 2) + (i - 1) * 3, "E").Font.Bold = True
     
-    Cells((ip + 0) + (i - 1) * 3, "F").Value = S2
+    Cells((ip + 0) + (i - 1) * 3, "F").value = S2
     Cells((ip + 0) + ip + (i - 1) * 3, "F").NumberFormat = "0.0000000"
     
-    Cells((ip + 2) + (i - 1) * 3, "F").Value = S2
+    Cells((ip + 2) + (i - 1) * 3, "F").value = S2
     Cells((ip + 2) + (i - 1) * 3, "F").NumberFormat = "0.0000000"
     Cells((ip + 2) + (i - 1) * 3, "F").Font.Bold = True
     
@@ -359,25 +359,25 @@ Sub Write38_RadiusOfInfluence_Result_Single(shultz As Variant, webber As Variant
         Call EraseCellData("H" & (ip + i - 1) & ":N" & (ip + i - 1))
     End If
     
-    Cells(ip + (i - 1), "h").Value = "W-" & i
+    Cells(ip + (i - 1), "h").value = "W-" & i
     Cells(ip + (i - 1), "h").NumberFormat = "0.0"
     
-    Cells(ip + (i - 1), "i").Value = shultz
+    Cells(ip + (i - 1), "i").value = shultz
     Cells(ip + (i - 1), "i").NumberFormat = "0.0"
     
-    Cells(ip + (i - 1), "j").Value = webber
+    Cells(ip + (i - 1), "j").value = webber
     Cells(ip + (i - 1), "j").NumberFormat = "0.0"
     
-    Cells(ip + (i - 1), "k").Value = jcob
+    Cells(ip + (i - 1), "k").value = jcob
     Cells(ip + (i - 1), "k").NumberFormat = "0.0"
 
-    Cells(ip + (i - 1), "l").Value = Round((shultz + webber + jcob) / 3, 1)
+    Cells(ip + (i - 1), "l").value = Round((shultz + webber + jcob) / 3, 1)
     Cells(ip + (i - 1), "l").NumberFormat = "0.0"
     
-    Cells(ip + (i - 1), "m").Value = Application.WorksheetFunction.max(shultz, webber, jcob)
+    Cells(ip + (i - 1), "m").value = Application.WorksheetFunction.max(shultz, webber, jcob)
     Cells(ip + (i - 1), "m").NumberFormat = "0.0"
     
-    Cells(ip + (i - 1), "n").Value = Application.WorksheetFunction.min(shultz, webber, jcob)
+    Cells(ip + (i - 1), "n").value = Application.WorksheetFunction.min(shultz, webber, jcob)
     Cells(ip + (i - 1), "n").NumberFormat = "0.0"
     
     
@@ -414,10 +414,10 @@ Sub Wrote34_SkinFactor_Single(skin As Variant, er As Variant, i As Variant, ByVa
         Call EraseCellData("P" & (ip + i - 1) & ":R" & (ip + i - 1))
     End If
     
-    Cells(ip + (i - 1), "p").Value = "W-" & i
-    Cells(ip + (i - 1), "q").Value = skin
+    Cells(ip + (i - 1), "p").value = "W-" & i
+    Cells(ip + (i - 1), "q").value = skin
     Cells(ip + (i - 1), "q").NumberFormat = "0.0000"
-    Cells(ip + (i - 1), "r").Value = er
+    Cells(ip + (i - 1), "r").value = er
     Cells(ip + (i - 1), "r").NumberFormat = "0.000"
     
     remainder = i Mod 2

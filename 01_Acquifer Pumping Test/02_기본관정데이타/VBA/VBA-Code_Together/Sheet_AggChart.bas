@@ -49,7 +49,7 @@ End Sub
 
 Private Sub EraseCellData(str_range As String)
     With Range(str_range)
-        .Value = ""
+        .value = ""
     End With
 End Sub
 

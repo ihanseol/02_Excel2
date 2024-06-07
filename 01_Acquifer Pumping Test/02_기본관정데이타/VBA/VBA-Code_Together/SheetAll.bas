@@ -11,13 +11,13 @@ Private Sub importRainfall()
     Dim myArray As Variant
     Dim rng As Range
 
-    Select Case UCase(Range("T6").Value)
+    Select Case UCase(Range("T6").value)
         Case "SEJONG", "HONGSUNG"
             Exit Sub
     End Select
 
     Dim indexString As String
-    indexString = "data_" & UCase(Range("T6").Value)
+    indexString = "data_" & UCase(Range("T6").value)
 
     On Error Resume Next
     myArray = Application.Run(indexString)
@@ -29,9 +29,9 @@ Private Sub importRainfall()
     End If
 
     Set rng = ThisWorkbook.ActiveSheet.Range("B5:N34")
-    rng.Value = myArray
+    rng.value = myArray
 
-    Range("B2").Value = Range("T5").Value & "기상청"
+    Range("B2").value = Range("T5").value & "기상청"
 End Sub
 
 
