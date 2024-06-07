@@ -118,14 +118,14 @@ End Sub
 
 Sub Write26_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
-    Dim i, ip, remainder As Integer
+    Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
     Dim Values As Variant
     
     Values = GetRowColumn("AggSum_26_AC")
-    ip = Values(2)
+    ip_Row = Values(2)
     
-    rngString = "D" & ip & ":J" & (ip + WELL_BUFFER - 1)
+    rngString = "D" & ip_Row & ":J" & (ip_Row + WELL_BUFFER - 1)
     Call EraseCellData(rngString)
         
     For i = 1 To nofwell
@@ -165,14 +165,14 @@ End Sub
 
 Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
-    Dim i, ip, remainder As Integer
+    Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
     Dim Values As Variant
     
     Values = GetRowColumn("AggSum_26_RightAC")
-    ip = Values(2)
+    ip_Row = Values(2)
     
-    rngString = "L" & ip & ":S" & (ip + WELL_BUFFER - 1)
+    rngString = "L" & ip_Row & ":S" & (ip_Row + WELL_BUFFER - 1)
     
     Call EraseCellData(rngString)
             
@@ -220,15 +220,15 @@ End Sub
 
 Sub Write_RadiusOfInfluence(nofwell As Integer)
 ' 양수영향반경
-    Dim i, ip, remainder As Integer
+    Dim i, ip_Row, remainder As Integer
     Dim unit, rngString01, rngString02 As String
     Dim Values As Variant
         
     Values = GetRowColumn("AggSum_ROI")
-    ip = Values(2)
+    ip_Row = Values(2)
     
-    rngString01 = "D" & ip & ":G" & (ip + WELL_BUFFER - 1)
-    rngString02 = "M" & ip & ":O" & (ip + WELL_BUFFER - 1)
+    rngString01 = "D" & ip_Row & ":G" & (ip_Row + WELL_BUFFER - 1)
+    rngString02 = "M" & ip_Row & ":O" & (ip_Row + WELL_BUFFER - 1)
     
     
     Call EraseCellData(rngString01)
@@ -243,27 +243,27 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
 
     For i = 1 To nofwell
         ' WellNum
-        Cells(ip - 1 + i, "D").value = "W-" & CStr(i)
+        Cells(ip_Row - 1 + i, "D").value = "W-" & CStr(i)
         ' 양수영향반경, 이것은 보고서에 따라서 다른데,
         ' 일단은 최대값, shultz, webber, jcob 의 최대값을 선택하는것으로 한다.
         ' 그리고 필요한 부분은, 후에 추가시켜준다.
-        Cells(ip - 1 + i, "E").value = Worksheets(CStr(i)).Range("H9").value & unit
-        Cells(ip - 1 + i, "F").value = Worksheets(CStr(i)).Range("K6").value & unit
-        Cells(ip - 1 + i, "G").value = Worksheets(CStr(i)).Range("K7").value & unit
+        Cells(ip_Row - 1 + i, "E").value = Worksheets(CStr(i)).Range("H9").value & unit
+        Cells(ip_Row - 1 + i, "F").value = Worksheets(CStr(i)).Range("K6").value & unit
+        Cells(ip_Row - 1 + i, "G").value = Worksheets(CStr(i)).Range("K7").value & unit
         
         
         '영향반경의 최대, 최소, 평균값을 추가해준다.
-        Cells(ip - 1 + i, "M").value = Worksheets(CStr(i)).Range("H9").value & unit
-        Cells(ip - 1 + i, "N").value = Worksheets(CStr(i)).Range("H10").value & unit
-        Cells(ip - 1 + i, "O").value = Worksheets(CStr(i)).Range("H11").value & unit
+        Cells(ip_Row - 1 + i, "M").value = Worksheets(CStr(i)).Range("H9").value & unit
+        Cells(ip_Row - 1 + i, "N").value = Worksheets(CStr(i)).Range("H10").value & unit
+        Cells(ip_Row - 1 + i, "O").value = Worksheets(CStr(i)).Range("H11").value & unit
         
         remainder = i Mod 2
         If remainder = 0 Then
-                Call BackGroundFill(Range(Cells(ip - 1 + i, "d"), Cells(ip - 1 + i, "g")), True)
-                Call BackGroundFill(Range(Cells(ip - 1 + i, "m"), Cells(ip - 1 + i, "o")), True)
+                Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "d"), Cells(ip_Row - 1 + i, "g")), True)
+                Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "m"), Cells(ip_Row - 1 + i, "o")), True)
         Else
-                Call BackGroundFill(Range(Cells(ip - 1 + i, "d"), Cells(ip - 1 + i, "j")), False)
-                Call BackGroundFill(Range(Cells(ip - 1 + i, "m"), Cells(ip - 1 + i, "o")), False)
+                Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "d"), Cells(ip_Row - 1 + i, "j")), False)
+                Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "m"), Cells(ip_Row - 1 + i, "o")), False)
         End If
         
         
@@ -273,27 +273,27 @@ End Sub
 
 Sub Write_DrasticIndex(nofwell As Integer)
 ' 드라스틱 인덱스
-    Dim i, ip, remainder As Integer
+    Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
     Dim Values As Variant
     
     Values = GetRowColumn("AggSum_DI")
-    ip = Values(2)
+    ip_Row = Values(2)
     
     rngString = "I" & Values(2) & ":K" & (Values(2) + WELL_BUFFER - 1)
     Call EraseCellData(rngString)
     
     For i = 1 To nofwell
         ' WellNum
-        Cells(ip - 1 + i, "I").value = "W-" & CStr(i)
-        Cells(ip - 1 + i, "J").value = Worksheets(CStr(i)).Range("k30").value
-        Cells(ip - 1 + i, "K").value = Worksheets(CStr(i)).Range("k31").value
+        Cells(ip_Row - 1 + i, "I").value = "W-" & CStr(i)
+        Cells(ip_Row - 1 + i, "J").value = Worksheets(CStr(i)).Range("k30").value
+        Cells(ip_Row - 1 + i, "K").value = Worksheets(CStr(i)).Range("k31").value
         
         remainder = i Mod 2
         If remainder = 0 Then
-                Call BackGroundFill(Range(Cells(ip - 1 + i, "i"), Cells(ip - 1 + i, "k")), True)
+                Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "i"), Cells(ip_Row - 1 + i, "k")), True)
         Else
-                Call BackGroundFill(Range(Cells(ip - 1 + i, "i"), Cells(ip - 1 + i, "k")), False)
+                Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "i"), Cells(ip_Row - 1 + i, "k")), False)
         End If
         
     Next i
@@ -316,283 +316,68 @@ Sub TestColumnLetter()
 
 End Sub
 
-Sub Write_WaterIntake(nofwell As Integer)
-' 취수계획량
+Sub Write_Data(nofwell As Integer, category As String, sheetName As String, rangeCell As String, unitSuffix As String)
+    ' Generalized subroutine to write data based on the category
     Dim i, ip_Row As Integer
     Dim unit, rngString As String
     Dim Values As Variant
     Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_Intake")
+
+    Values = GetRowColumn(category)
     ip_Row = Values(2)
-    
+
     StartCol = Values(1)
     EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    
+
     rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
     Call EraseCellData(rngString)
-    
+
     If Sheets("AggSum").CheckBox1.value = True Then
-            unit = Sheets("drastic").Range("a16").value
-        Else
-            unit = ""
+        unit = unitSuffix
+    Else
+        unit = ""
     End If
 
     For i = 1 To nofwell
-        ' WellNum
         Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("C15").value & unit
+        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range(rangeCell).value & unit
     Next i
 End Sub
 
+Sub Write_WaterIntake(nofwell As Integer)
+    Write_Data nofwell, "AggSum_Intake", "drastic", "C15", Sheets("drastic").Range("a16").value
+End Sub
 
 Sub Write_DiggingDepth(nofwell As Integer)
-' 굴착심도
-   Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_Simdo")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " m"
-        Else
-            unit = ""
-    End If
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c7").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_Simdo", "drastic", "C7", " m"
 End Sub
-
-
-
-' Write_MotorTochool
-' Write_MotorSimdo
 
 Sub Write_MotorPower(nofwell As Integer)
-' 모터마력
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_MotorHP")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " Hp"
-        Else
-            unit = ""
-    End If
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c17").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_MotorHP", "drastic", "C17", " Hp"
 End Sub
 
-
-
 Sub Write_NaturalLevel(nofwell As Integer)
-' 자연수위
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_NaturalLevel")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " m"
-        Else
-            unit = ""
-    End If
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c20").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_NaturalLevel", "drastic", "C20", " m"
 End Sub
 
 Sub Write_StableLevel(nofwell As Integer)
-' 안정수위
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_StableLevel")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " m"
-        Else
-            unit = ""
-    End If
-
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c21").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_StableLevel", "drastic", "C21", " m"
 End Sub
-
 
 Sub Write_MotorTochool(nofwell As Integer)
-' 토출구경
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_ToChool")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " mm"
-        Else
-            unit = ""
-    End If
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c19").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_ToChool", "drastic", "C19", " mm"
 End Sub
-
-
 
 Sub Write_MotorSimdo(nofwell As Integer)
-' 모터심도
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_MotorSimdo")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-        
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " m"
-        Else
-            unit = ""
-    End If
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c18").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_MotorSimdo", "drastic", "C18", " m"
 End Sub
-
-'    Call Write_WellDiameter(nofwell)
-'    Call Write_CasingDepth(nofwell)
 
 Sub Write_WellDiameter(nofwell As Integer)
-' 모터심도
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_WellDiameter")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " m"
-        Else
-            unit = ""
-    End If
-
-    'Well Diameter  = C8, Cell
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c8").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_WellDiameter", "drastic", "C8", " m"
 End Sub
 
-
-
-
 Sub Write_CasingDepth(nofwell As Integer)
-' 모터심도
-    Dim i, ip_Row As Integer
-    Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
-    
-    Values = GetRowColumn("AggSum_CasingDepth")
-    ip_Row = Values(2)
-    
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
-    
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
-    Call EraseCellData(rngString)
-    
-    If Sheets("AggSum").CheckBox1.value = True Then
-            unit = " m"
-        Else
-            unit = ""
-    End If
-
-    ' casing depth = C9, Cell
-
-    For i = 1 To nofwell
-        Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range("c9").value & unit
-    Next i
+    Write_Data nofwell, "AggSum_CasingDepth", "drastic", "C9", " m"
 End Sub
 
 

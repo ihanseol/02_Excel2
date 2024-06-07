@@ -2,13 +2,6 @@ Attribute VB_Name = "BaseData_AddPumpingWell"
 
 Option Explicit
 
-'쉬트를 생성할때에는 전체 관정데이타를 건들지 않고, 우선먼저 쉬트복제를 누르는것이 기본으로 정해져 있다.
-'Private Sub deleteCommandButton()
-'
-'     ActiveSheet.Shapes.Range(Array("CommandButton2")).Select
-'     Selection.Delete
-'
-'End Sub
 
 Private Sub DeleteCommandButton()
     ActiveSheet.Shapes.Range(Array("CommandButton2")).Delete
