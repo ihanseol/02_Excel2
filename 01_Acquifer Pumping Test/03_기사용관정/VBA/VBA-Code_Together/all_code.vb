@@ -110,7 +110,7 @@ Private Sub CommandButton2_Click()
 End Sub
 
 Private Sub CommandButton3_Click()
-    Call ComputeQ
+    Call water_q.ComputeQ
     Sheets("ss").Activate
 End Sub
 
@@ -472,6 +472,12 @@ Function ss_water(ByVal qhp As Integer, ByVal strPurpose As String, Optional ByV
     
     ' 조경용
     If CheckSubstring(strPurpose, "조경") Then
+        ss_water = Round(SS(svILBAN, 1) + qhp * SS(svILBAN, 2), 2)
+        Exit Function
+    End If
+    
+    ' 소방용
+    If CheckSubstring(strPurpose, "소방") Then
         ss_water = Round(SS(svILBAN, 1) + qhp * SS(svILBAN, 2), 2)
         Exit Function
     End If
@@ -2623,7 +2629,7 @@ End Sub
 ' Optionbutton10 - 공사용
 ' Optionbutton11 - 지열냉난방
 ' Optionbutton12 - 조경용
-
+' Optionbutton13 - 소방용
 
 Private Sub CommandButton1_Click()
     Dim i As Integer
@@ -2631,10 +2637,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("가정용", "일반용", "청소용", "민방위용", "학교용", "공동주택용", "간이상수도", "농생활겸용", "기타", "공사용", "지열냉난방", "조경용")
+    options = Array("가정용", "일반용", "청소용", "민방위용", "학교용", "공동주택용", "간이상수도", "농생활겸용", "기타", "공사용", "지열냉난방", "조경용", "소방용")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 11
+    For i = 0 To 12
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For

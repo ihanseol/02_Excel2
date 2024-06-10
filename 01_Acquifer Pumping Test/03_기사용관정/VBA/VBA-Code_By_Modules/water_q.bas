@@ -250,6 +250,12 @@ Function ss_water(ByVal qhp As Integer, ByVal strPurpose As String, Optional ByV
         Exit Function
     End If
     
+    ' 社号遂
+    If CheckSubstring(strPurpose, "社号") Then
+        ss_water = Round(SS(svILBAN, 1) + qhp * SS(svILBAN, 2), 2)
+        Exit Function
+    End If
+    
     
    ss_water = 900
 End Function

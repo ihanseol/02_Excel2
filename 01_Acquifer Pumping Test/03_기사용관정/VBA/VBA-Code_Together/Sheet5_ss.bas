@@ -95,7 +95,7 @@ Private Sub CommandButton2_Click()
 End Sub
 
 Private Sub CommandButton3_Click()
-    Call ComputeQ
+    Call water_q.ComputeQ
     Sheets("ss").Activate
 End Sub
 
