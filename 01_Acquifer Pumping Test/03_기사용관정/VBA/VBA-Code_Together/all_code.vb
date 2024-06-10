@@ -66,7 +66,7 @@ End Sub
 
 
 Private Sub CommandButton6_Click()
-    Call Finallize
+    Call water_GenerateCopy.Finallize
 End Sub
 
 Private Sub Worksheet_Activate()
@@ -767,11 +767,14 @@ End Sub
 
 Sub Finallize()
     Dim lastrow As Long
-    Dim delStartRow, delEndRow As Long
+    Dim delStartRow, delEndRow, delAddressStart As Long
     Dim userChoice As VbMsgBoxResult
     
     lastrow = lastRowByKey("A1")
     delStartRow = lastRowByKey("D1") + 1
+    
+    delAddressStart = lastRowByKey("E1") + 1
+    
     
     Select Case ActiveSheet.Name
     
@@ -792,6 +795,8 @@ Sub Finallize()
     If Range("L2").Value = 0 Then
         delStartRow = 3
         delEndRow = lastRowByKey("L1")
+    Else
+        delStartRow = delAddressStart
     End If
     
     

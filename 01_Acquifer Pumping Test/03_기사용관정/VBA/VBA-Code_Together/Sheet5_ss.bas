@@ -51,7 +51,7 @@ End Sub
 
 
 Private Sub CommandButton6_Click()
-    Call Finallize
+    Call water_GenerateCopy.Finallize
 End Sub
 
 Private Sub Worksheet_Activate()
