@@ -67,7 +67,7 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Range("g5") = S2
     Range("g5").NumberFormat = "0.0000000"
     
-    Range("h7") = S1
+    Range("G4") = S1
     
     Range("h5") = skin 'skin coefficient
     Range("h6") = ir 'find influence radius

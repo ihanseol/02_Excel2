@@ -56,7 +56,7 @@ Private Sub CommandButton2_Click()
 
     ' Summary, Aquifer Characterization  Appropriated Water Analysis
     
-    TurnOffStuff
+    BaseData_ETC_02.TurnOffStuff
     
     Call Write23_SummaryDevelopmentPotential
     Call Write26_AquiferCharacterization(nofwell)
@@ -82,7 +82,7 @@ Private Sub CommandButton2_Click()
 
 
     Range("D5").Select
-    TurnOnStuff
+    BaseData_ETC_02.TurnOnStuff
     
 End Sub
 

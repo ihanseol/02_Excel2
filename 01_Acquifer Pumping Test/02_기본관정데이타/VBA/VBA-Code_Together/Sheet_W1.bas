@@ -197,7 +197,8 @@ Private Sub CommandButton8_Click()
     Range("g5") = S2
     Range("g5").NumberFormat = "0.0000000"
     
-    Range("h7") = S1
+    '2024/6/10 move to s1 this G4 cell
+    Range("G4") = S1
     
     
     Range("h5") = skin 'skin coefficient

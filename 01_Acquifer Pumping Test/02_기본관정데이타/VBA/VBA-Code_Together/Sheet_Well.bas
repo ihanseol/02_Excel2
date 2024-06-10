@@ -3,7 +3,10 @@ Option Explicit
 Private Sub CommandButton1_Click()
 ' add well
 
+    BaseData_ETC_02.TurnOffStuff
     Call CopyOneSheet
+    BaseData_ETC_02.TurnOnStuff
+    
 End Sub
 
 Private Sub CommandButton10_Click()
@@ -92,12 +95,16 @@ End Sub
 Private Sub CommandButton2_Click()
     Dim nofwell As Integer
 
+    TurnOffStuff
+
     nofwell = sheets_count()
     Call JojungSheetData
     Call make_wellstyle
     Call DecorateWellBorder(nofwell)
     
     Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
+    
+    TurnOnStuff
 End Sub
 
 
