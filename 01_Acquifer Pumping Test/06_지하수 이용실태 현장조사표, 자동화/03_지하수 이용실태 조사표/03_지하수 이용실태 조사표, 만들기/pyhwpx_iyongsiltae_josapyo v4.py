@@ -1,9 +1,9 @@
+from pyhwpx import Hwp
 import os
-import shutil
 import pandas as pd
-from hwpapi.core import App
 
 XL_INPUT = "iyong_template.xlsx"
+XL_BASE = "d:\\05_Send"
 HWP_INPUT = "iyong(field).hwp"
 HWP_OUTPUT = "iyong(result).hwp"
 
@@ -15,18 +15,24 @@ def get_desktop():
 
 def initial_work():
     desktop = get_desktop()
-    excel = pd.read_excel(f"{desktop}\\{XL_INPUT}")
-    app = App(None, False)
-    return app, excel
+
+    try:
+        excel = pd.read_excel(f"{XL_BASE}\\{XL_INPUT}")
+    except FileNotFoundError:
+        return "Error: XLSX file must located your d:/05_Send/ folder."
+
+    hwp = Hwp(visible=False)
+    return hwp, excel
 
 
-def initial_opencopy(app, excel):
+def initial_opencopy(hwp, excel):
     desktop = get_desktop()
-    shutil.copyfile(f"{desktop}\\{HWP_INPUT}", f"{desktop}\\{HWP_OUTPUT}")
-    app.open(f"{desktop}\\{HWP_OUTPUT}")
-    hwp = app.api
 
-    field_list = [i for i in hwp.GetFieldList().split("\x02")]
+    if not hwp.open(f"{desktop}\\{HWP_INPUT}"):
+        print("Error: 'iyong(field).hwp' file must locate your desktop folder.")
+        return False
+
+    field_list = [i for i in hwp.get_field_list(0,0x02).split("\x02")]
     print(len(field_list), field_list)
 
     hwp.Run('SelectAll')
@@ -45,29 +51,8 @@ def initial_opencopy(app, excel):
     print('------------------------------------------------------')
     return field_list
 
-"""
-def copy_work(app, excel, field_list):
-    hwp = app.api
-    for page in range(len(excel)):
-        for field in field_list:
-            data = excel[field].iloc[page]
-            # if type(data) == str:
-            if pd.isna(data):
-                write_data = " "
-            else:
-                write_data = data
 
-            hwp.MoveToField(f'{field}{{{{{page}}}}}')
-            hwp.PutFieldText(f'{field}{{{{{page}}}}}', write_data)
-
-        print(f'{page + 1}:{excel.address[page]}')
-
-"""
-
-
-def copy_work(app, excel, field_list):
-    hwp = app.api
-
+def copy_work(hwp, excel, field_list):
     for page, address in enumerate(excel.address):
         for field in field_list:
             data = excel[field].iloc[page]
@@ -80,16 +65,16 @@ def copy_work(app, excel, field_list):
         print(f'{page + 1}:{address}')
 
 
-def end_work(app, excel):
-    app.api.Save()
-    app.quit()
+def end_work(hwp, excel):
+    hwp.save_as(f"d:/05_Send/{HWP_OUTPUT}")
+    hwp.quit()
 
 
 def main():
-    app, excel = initial_work()
-    field_list = initial_opencopy(app, excel)
-    copy_work(app, excel, field_list)
-    end_work(app, excel)
+    hwp, excel = initial_work()
+    field_list = initial_opencopy(hwp, excel)
+    copy_work(hwp, excel, field_list)
+    end_work(hwp, excel)
     print('------------------------------------------------------')
 
 
