@@ -10,6 +10,8 @@ Sub step_pumping_test()
     ' ----------------------------------------------------------------
     
     Range("D3:D7").Select
+    '물량, Q
+    
     Selection.Copy
     
     Range("Q44").Select
@@ -29,6 +31,8 @@ Sub step_pumping_test()
     ' ----------------------------------------------------------------
     
     Range("A3:A7").Select
+    ' 지하수위
+    
     Selection.Copy
     Range("R44").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
@@ -39,6 +43,8 @@ Sub step_pumping_test()
     ' ----------------------------------------------------------------
     
     Range("B3:B7").Select
+    'Sw, 강하수위
+    
     Selection.Copy
       
     Range("S44").Select
@@ -49,6 +55,8 @@ Sub step_pumping_test()
     ' ----------------------------------------------------------------
 
     Range("G3:G7").Select
+    'Q/Sw , 비양수량
+    
     Selection.Copy
     Range("T44").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
@@ -60,13 +68,17 @@ Sub step_pumping_test()
     ' ----------------------------------------------------------------
     
     Range("F3:F7").Select
+    'Sw/Q, 비수위강하량
+    
     Selection.Copy
     Range("U44").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
     
-    Range("T44:T48").Select
-    Selection.NumberFormatLocal = "0.000"
+    Call CutDownNumber("T", 5)
+    
+    'Range("T44:T48").Select
+    'Selection.NumberFormatLocal = "0.000"
     
     ' ----------------------------------------------------------------
     
@@ -144,7 +156,7 @@ Function ConcatenateCells(inRange As String) As String
     sFormat(2) = "###0.00"
     sFormat(3) = "###0.00"
     sFormat(4) = "###0.000"
-    sFormat(5) = "###0.000"
+    sFormat(5) = "###0.000000"
     
     i = Asc(Left(inRange, 1)) - Asc("P")
         
