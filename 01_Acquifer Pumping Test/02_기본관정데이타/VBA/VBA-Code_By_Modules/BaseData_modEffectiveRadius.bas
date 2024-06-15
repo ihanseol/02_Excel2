@@ -14,17 +14,17 @@ Public Enum ER_VALUE
 End Enum
 
 Function GetER_Mode(ByVal WB_NAME As String) As Integer
-    Dim er, r       As String
+    Dim er, R       As String
     
     ' er = Range("h10").value
     er = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("h10").value
     'MsgBox er
-    r = Mid(er, 5, 1)
+    R = Mid(er, 5, 1)
     
-    If r = "F" Then
+    If R = "F" Then
         GetER_Mode = 0
     Else
-        GetER_Mode = val(r)
+        GetER_Mode = val(R)
     End If
 End Function
 

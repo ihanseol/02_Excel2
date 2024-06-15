@@ -76,7 +76,7 @@ Sub DuplicateQ3Page(ByVal n As Integer)
         ActiveSheet.name = "p" & i
         
         With ActiveSheet.Tab
-            .ThemeColor = xlThemeColorAccent3
+            .themeColor = xlThemeColorAccent3
             .TintAndShade = 0
         End With
         
@@ -94,7 +94,7 @@ Sub DuplicateRest(ByVal wselect As Integer, ByVal w3page As Integer)
     ActiveSheet.name = "p" & CStr(w3page + 1)
     
     With ActiveSheet.Tab
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0
     End With
         

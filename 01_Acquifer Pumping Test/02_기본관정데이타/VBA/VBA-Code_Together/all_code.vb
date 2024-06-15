@@ -657,12 +657,12 @@ Private Sub CellBlack(S As Range)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent1
+        .themeColor = xlThemeColorAccent1
         .TintAndShade = -0.499984740745262
         .PatternTintAndShade = 0
     End With
     With Selection.Font
-        .ThemeColor = xlThemeColorDark1
+        .themeColor = xlThemeColorDark1
         .TintAndShade = 0
     End With
 End Sub
@@ -673,12 +673,12 @@ Private Sub CellLight(S As Range)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent6
+        .themeColor = xlThemeColorAccent6
         .TintAndShade = 0.799981688894314
         .PatternTintAndShade = 0
     End With
     With Selection.Font
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
     End With
 End Sub
@@ -1207,7 +1207,7 @@ Sub DuplicateQ1Page(ByVal n As Integer)
     ActiveSheet.name = "p" & n
     
     With ActiveSheet.Tab
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0
     End With
     
@@ -1417,7 +1417,7 @@ Public Sub make_frame()
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 11
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
     End With
     
@@ -1542,7 +1542,7 @@ Private Sub alignTitle(ByVal nof_sheets As Integer, ByVal po As Integer)
         .name = "¸¼Àº °íµñ"
         .Size = 12
         .Underline = xlUnderlineStyleNone
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .ThemeFont = xlThemeFontMinor
     End With
     
@@ -1552,7 +1552,7 @@ Private Sub alignTitle(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 11
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontMinor
     End With
@@ -1582,7 +1582,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 12
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontMinor
     End With
@@ -1592,7 +1592,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
     Selection.Font.Bold = True
     Selection.Font.Italic = True
     With Selection.Font
-        .Color = -16776961
+        .color = -16776961
         .TintAndShade = 0
     End With
     
@@ -1618,7 +1618,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
         .name = "¸¼Àº °íµñ"
         .Size = 14
         .Italic = True
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontMinor
     End With
@@ -1629,7 +1629,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
     Selection.Font.Bold = True
     Selection.Font.Italic = True
     With Selection.Font
-        .Color = -16776961
+        .color = -16776961
         .TintAndShade = 0
     End With
 End Sub
@@ -1644,7 +1644,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0.799981688894314
         .PatternTintAndShade = 0
     End With
@@ -1654,7 +1654,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent2
+        .themeColor = xlThemeColorAccent2
         .TintAndShade = 0.799981688894314
         .PatternTintAndShade = 0
     End With
@@ -1839,7 +1839,7 @@ Private Function getans_tabcolors() As Variant
     ReDim ans_tabcolors(0 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)
@@ -1875,7 +1875,7 @@ Private Function getkey_tabcolors() As Object
     ReDim new_tabcolors(1 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)
@@ -1899,7 +1899,7 @@ Private Sub get_tabsize(ByRef nof_sheets As Integer, ByRef nof_unique_tab As Int
     ReDim new_tabcolors(1 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)
@@ -2456,7 +2456,7 @@ Sub DuplicateQ3Page(ByVal n As Integer)
         ActiveSheet.name = "p" & i
         
         With ActiveSheet.Tab
-            .ThemeColor = xlThemeColorAccent3
+            .themeColor = xlThemeColorAccent3
             .TintAndShade = 0
         End With
         
@@ -2474,7 +2474,7 @@ Sub DuplicateRest(ByVal wselect As Integer, ByVal w3page As Integer)
     ActiveSheet.name = "p" & CStr(w3page + 1)
     
     With ActiveSheet.Tab
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0
     End With
         
@@ -3131,7 +3131,7 @@ Sub DuplicateQ2Page(ByVal n As Integer)
         ActiveSheet.name = "p" & i
         
         With ActiveSheet.Tab
-            .ThemeColor = xlThemeColorAccent3
+            .themeColor = xlThemeColorAccent3
             .TintAndShade = 0
         End With
         
@@ -3182,7 +3182,7 @@ Sub DuplicateRest(ByVal w2page As Integer)
     ActiveSheet.name = "p" & CStr(w2page + 1)
     
     With ActiveSheet.Tab
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0
     End With
         
@@ -3754,7 +3754,7 @@ If FLAG Then
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorDark1
+        .themeColor = xlThemeColorDark1
         .TintAndShade = -4.99893185216834E-02
         .PatternTintAndShade = 0
     End With
@@ -3763,7 +3763,7 @@ Else
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorDark1
+        .themeColor = xlThemeColorDark1
         .TintAndShade = 0
         .PatternTintAndShade = 0
     End With
@@ -3900,7 +3900,7 @@ Function ExtractNumberFromString(inputString As String) As String
         .Pattern = "\d+"
     End With
     
-    If regex.Test(inputString) Then
+    If regex.test(inputString) Then
         Set matches = regex.Execute(inputString)
         ExtractNumberFromString = matches(0)
     Else
@@ -3962,7 +3962,7 @@ Public Function GetLengthByColor(ByVal tabColor As Variant) As Integer
     nTab = 0
     
     For i = 1 To n_sheets
-        If (Sheets(CStr(i)).Tab.Color = tabColor) Then
+        If (Sheets(CStr(i)).Tab.color = tabColor) Then
             nTab = nTab + 1
         End If
     Next i
@@ -3985,7 +3985,7 @@ Private Sub get_tabsize_by_well(ByRef nof_sheets As Integer, ByRef nof_unique_ta
     ReDim limit(0 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)
@@ -4027,7 +4027,12 @@ Public Sub InitialSetColorValue()
 End Sub
 
 Private Sub initialize_wellstyle()
+    
+    Dim rng, cell As Range
+
+    Set rng = Range("C3:C22")
     Range("C3:C22").Select
+    
     Selection.NumberFormat = "General"
         
     With Selection
@@ -4044,17 +4049,17 @@ Private Sub initialize_wellstyle()
         .MergeCells = False
     End With
     
-    With Selection.Font
-        .name = "¸¼Àº °íµñ"
-        .Size = 10
-        .ThemeColor = xlThemeColorLight1
-    End With
+    ' 2024/6/15
+    For Each cell In rng
+        SetFontAndInteriorColorBasedOnBackground cell
+    Next cell
+
     
     Range("E19:G19").Select
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 12
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .ThemeFont = xlThemeFontNone
     End With
     
@@ -4062,7 +4067,7 @@ Private Sub initialize_wellstyle()
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 12
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontNone
     End With
@@ -4077,6 +4082,127 @@ Private Sub initialize_wellstyle()
     
     Range("d23").Select
 End Sub
+
+
+' 2024/6/15
+Sub test_SetFontAndInteriorColorBasedOnBackground()
+
+    Dim cell, rng As Range
+    
+    Set rng = ActiveSheet.Range("c7, c8, c9")
+
+    For Each cell In rng
+        SetFontAndInteriorColorBasedOnBackground cell
+    Next cell
+
+End Sub
+
+
+' 2024/6/15
+Function GetBackgroundColor(ByVal cell As Range) As Long
+    GetBackgroundColor = cell.Interior.color
+End Function
+
+
+' Subroutine to set the font and interior color based on the background color
+Sub SetFontAndInteriorColorBasedOnBackground(ByVal cell As Range)
+    Dim bgColor As Long
+    
+    ' Get the background color of the cell
+    bgColor = GetBackgroundColor(cell)
+    
+    ' Determine if the background color is dark
+    If IsDarkColor(bgColor) Then
+        With cell.Font
+            .name = "¸¼Àº °íµñ"
+            .Size = 10
+            .themeColor = xlThemeColorDark1 ' Light font color for dark background
+            .ThemeFont = xlThemeFontNone
+        End With
+    Else
+        With cell.Font
+            .name = "¸¼Àº °íµñ"
+            .Size = 10
+            .themeColor = xlThemeColorLight1 ' Dark font color for light background
+            .ThemeFont = xlThemeFontNone
+        End With
+    End If
+End Sub
+
+' Function to determine if a color is dark
+Function IsDarkColor(color As Long) As Boolean
+    Dim R As Long, G As Long, B As Long
+    R = (color Mod 256)
+    G = ((color \ 256) Mod 256)
+    B = ((color \ 65536) Mod 256)
+    
+    ' Calculate brightness (perceived luminance)
+    ' Using the formula: 0.299*R + 0.587*G + 0.114*B
+    If (0.299 * R + 0.587 * G + 0.114 * B) < 128 Then
+        IsDarkColor = True
+    Else
+        IsDarkColor = False
+    End If
+End Function
+
+
+' 2024/6/15
+Sub DetermineThemeColor()
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim themeColor As Long
+    
+    ' Set your worksheet and cell
+    Set ws = ActiveSheet
+    Set cell = ws.Range("c8")
+    
+    ' Get the theme color if it exists
+    On Error Resume Next
+    themeColor = cell.Interior.themeColor
+    On Error GoTo 0
+    
+    ' Check if the theme color is valid
+    If themeColor <> xlColorIndexNone Then
+        MsgBox "The theme color of the cell is: " & ThemeColorName(themeColor)
+    Else
+        MsgBox "The cell does not have a theme color."
+    End If
+End Sub
+
+
+' 2024/6/15
+Function ThemeColorName(themeColor As Long) As String
+    Select Case themeColor
+        Case xlThemeColorDark1
+            ThemeColorName = "Dark1"
+        Case xlThemeColorLight1
+            ThemeColorName = "Light1"
+        Case xlThemeColorDark2
+            ThemeColorName = "Dark2"
+        Case xlThemeColorLight2
+            ThemeColorName = "Light2"
+        Case xlThemeColorAccent1
+            ThemeColorName = "Accent1"
+        Case xlThemeColorAccent2
+            ThemeColorName = "Accent2"
+        Case xlThemeColorAccent3
+            ThemeColorName = "Accent3"
+        Case xlThemeColorAccent4
+            ThemeColorName = "Accent4"
+        Case xlThemeColorAccent5
+            ThemeColorName = "Accent5"
+        Case xlThemeColorAccent6
+            ThemeColorName = "Accent6"
+        Case xlThemeColorHyperlink
+            ThemeColorName = "Hyperlink"
+        Case xlThemeColorFollowedHyperlink
+            ThemeColorName = "Followed Hyperlink"
+        Case Else
+            ThemeColorName = "Unknown Theme Color"
+    End Select
+End Function
+
+
 
 Private Sub change_font_size()
     Range("J25").Select
@@ -4127,12 +4253,12 @@ End Sub
 Private Sub SetMyTabColor(ByVal index As Integer)
     If Sheets("Well").SingleColor.value Then
         With ActiveWorkbook.Sheets(CStr(index)).Tab
-            .Color = 192
+            .color = 192
             .TintAndShade = 0
         End With
     Else
         With ActiveWorkbook.Sheets(CStr(index)).Tab
-            .Color = ColorValue(index)
+            .color = ColorValue(index)
             .TintAndShade = 0
         End With
     End If
@@ -4814,17 +4940,17 @@ Public Enum ER_VALUE
 End Enum
 
 Function GetER_Mode(ByVal WB_NAME As String) As Integer
-    Dim er, r       As String
+    Dim er, R       As String
     
     ' er = Range("h10").value
     er = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("h10").value
     'MsgBox er
-    r = Mid(er, 5, 1)
+    R = Mid(er, 5, 1)
     
-    If r = "F" Then
+    If R = "F" Then
         GetER_Mode = 0
     Else
-        GetER_Mode = val(r)
+        GetER_Mode = val(R)
     End If
 End Function
 
@@ -6168,16 +6294,16 @@ End Sub
 '3 : Re3,         cell, G10
 
 Function DetermineEffectiveRadius(ERMode As String) As Integer
-    Dim er, r As String
+    Dim er, R As String
     
     er = ERMode
     'MsgBox er
-    r = Mid(er, 5, 1)
+    R = Mid(er, 5, 1)
     
-    If r = "F" Then
+    If R = "F" Then
         DetermineEffectiveRadius = erRE0
     Else
-        DetermineEffectiveRadius = val(r)
+        DetermineEffectiveRadius = val(R)
     End If
 End Function
 
@@ -10885,3 +11011,240 @@ End Property
 Public Property Get Result() As Boolean
     Result = mValue
 End Property
+Private Sub CommandButton1_Click()
+    Dim nofwell, i  As Integer
+
+    nofwell = sheets_count()
+    
+    For i = 1 To nofwell
+        Sheets(CStr(i)).Activate
+        Module_ImportWellSpec.ImportWellSpec (i)
+    Next i
+    
+    Sheets("Well").Activate
+    
+End Sub
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call main_drasticindex
+    Call print_drastic_string
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - ¾ç¼ö¿µÇâ¹Ý°æ
+' Effective Radius - À¯È¿¿ì¹°¹Ý°æ
+' 2024/6/7 - ½ºÅ²°è¼ö Ãß°¡ÇØÁÜ ...
+
+Private Sub CommandButton8_Click()
+    Dim WkbkName As Object
+    Dim WBName, cell1 As String
+    Dim i As Integer
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    
+    ' nl : natural level, sl : stable level
+    Dim nl, sl, deltas As Double
+    Dim casing As Integer
+    
+    BaseData_ETC_02.TurnOffStuff
+    
+    i = 2
+    ' Range("i1") = Workbooks.count
+    ' WBName = Range("i2").value
+    
+    cell1 = Range("b2").value
+    WBName = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
+    
+    If Not IsWorkBookOpen(WBName) Then
+        MsgBox "Please open the yangsoo data ! " & WBName
+        Exit Sub
+    End If
+
+    ' delta s : ÃÖÃÊ1ºÐÀÇ ¼öÀ§°­ÇÏ
+    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").value
+    
+    ' ÀÚ¿¬¼öÀ§, ¾ÈÁ¤¼öÀ§, ÄÉÀÌ½Ì ½Éµµ °áÁ¤
+    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").value
+    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").value
+    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").value
+    
+    ' WkbkName.Close
+    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").value
+    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").value
+    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").value
+    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").value
+    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").value
+    
+    skin = Workbooks(WBName).Worksheets("SkinFactor").Range("G6").value
+    
+    ' yangsoo radius of influence
+    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").value
+    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").value
+    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").value
+    
+    ' À¯È¿¿ì¹°¹Ý°æ , ¼³Á¤°ª¿¡ µû¸¥
+    ir = GetEffectiveRadius(WBName)
+    
+    ' ÀÚ¿¬¼öÀ§, ¾ÈÁ¤¼öÀ§, ÄÉÀÌ½Ì ½Éµµ °áÁ¤
+    Range("c20") = nl
+    Range("c20").NumberFormat = "0.00"
+    
+    Range("c21") = sl
+    Range("c21").NumberFormat = "0.00"
+    
+    Range("c10") = 5
+    Range("c11") = casing - 5
+    
+    'in recover test, s' value
+    Range("G6") = S3
+        
+    Range("E5") = T1
+    Range("E5").NumberFormat = "0.0000"
+     
+    Range("E6") = T2
+    Range("E6").NumberFormat = "0.0000"
+    
+    Range("g5") = S2
+    Range("g5").NumberFormat = "0.0000000"
+    
+    '2024/6/10 move to s1 this G4 cell
+    Range("G4") = S1
+    
+    
+    Range("h5") = skin 'skin coefficient
+    Range("h6") = ir    'find influence radius
+    
+    Range("e10") = RI1
+    Range("f10") = RI2
+    Range("g10") = RI3
+    
+    Range("c23") = Round(deltas, 2) 'deltas
+    
+    BaseData_ETC_02.TurnOnStuff
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+

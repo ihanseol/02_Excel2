@@ -287,16 +287,16 @@ End Sub
 '3 : Re3,         cell, G10
 
 Function DetermineEffectiveRadius(ERMode As String) As Integer
-    Dim er, r As String
+    Dim er, R As String
     
     er = ERMode
     'MsgBox er
-    r = Mid(er, 5, 1)
+    R = Mid(er, 5, 1)
     
-    If r = "F" Then
+    If R = "F" Then
         DetermineEffectiveRadius = erRE0
     Else
-        DetermineEffectiveRadius = val(r)
+        DetermineEffectiveRadius = val(R)
     End If
 End Function
 

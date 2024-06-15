@@ -62,7 +62,7 @@ If FLAG Then
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorDark1
+        .themeColor = xlThemeColorDark1
         .TintAndShade = -4.99893185216834E-02
         .PatternTintAndShade = 0
     End With
@@ -71,7 +71,7 @@ Else
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorDark1
+        .themeColor = xlThemeColorDark1
         .TintAndShade = 0
         .PatternTintAndShade = 0
     End With
@@ -208,7 +208,7 @@ Function ExtractNumberFromString(inputString As String) As String
         .Pattern = "\d+"
     End With
     
-    If regex.Test(inputString) Then
+    If regex.test(inputString) Then
         Set matches = regex.Execute(inputString)
         ExtractNumberFromString = matches(0)
     Else
@@ -270,7 +270,7 @@ Public Function GetLengthByColor(ByVal tabColor As Variant) As Integer
     nTab = 0
     
     For i = 1 To n_sheets
-        If (Sheets(CStr(i)).Tab.Color = tabColor) Then
+        If (Sheets(CStr(i)).Tab.color = tabColor) Then
             nTab = nTab + 1
         End If
     Next i
@@ -293,7 +293,7 @@ Private Sub get_tabsize_by_well(ByRef nof_sheets As Integer, ByRef nof_unique_ta
     ReDim limit(0 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)

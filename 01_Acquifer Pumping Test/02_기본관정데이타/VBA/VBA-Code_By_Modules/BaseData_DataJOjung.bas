@@ -28,7 +28,12 @@ Public Sub InitialSetColorValue()
 End Sub
 
 Private Sub initialize_wellstyle()
+    
+    Dim rng, cell As Range
+
+    Set rng = Range("C3:C22")
     Range("C3:C22").Select
+    
     Selection.NumberFormat = "General"
         
     With Selection
@@ -45,17 +50,17 @@ Private Sub initialize_wellstyle()
         .MergeCells = False
     End With
     
-    With Selection.Font
-        .name = "¸¼Àº °íµñ"
-        .Size = 10
-        .ThemeColor = xlThemeColorLight1
-    End With
+    ' 2024/6/15
+    For Each cell In rng
+        SetFontAndInteriorColorBasedOnBackground cell
+    Next cell
+
     
     Range("E19:G19").Select
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 12
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .ThemeFont = xlThemeFontNone
     End With
     
@@ -63,7 +68,7 @@ Private Sub initialize_wellstyle()
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 12
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontNone
     End With
@@ -78,6 +83,127 @@ Private Sub initialize_wellstyle()
     
     Range("d23").Select
 End Sub
+
+
+' 2024/6/15
+Sub test_SetFontAndInteriorColorBasedOnBackground()
+
+    Dim cell, rng As Range
+    
+    Set rng = ActiveSheet.Range("c7, c8, c9")
+
+    For Each cell In rng
+        SetFontAndInteriorColorBasedOnBackground cell
+    Next cell
+
+End Sub
+
+
+' 2024/6/15
+Function GetBackgroundColor(ByVal cell As Range) As Long
+    GetBackgroundColor = cell.Interior.color
+End Function
+
+
+' Subroutine to set the font and interior color based on the background color
+Sub SetFontAndInteriorColorBasedOnBackground(ByVal cell As Range)
+    Dim bgColor As Long
+    
+    ' Get the background color of the cell
+    bgColor = GetBackgroundColor(cell)
+    
+    ' Determine if the background color is dark
+    If IsDarkColor(bgColor) Then
+        With cell.Font
+            .name = "¸¼Àº °íµñ"
+            .Size = 10
+            .themeColor = xlThemeColorDark1 ' Light font color for dark background
+            .ThemeFont = xlThemeFontNone
+        End With
+    Else
+        With cell.Font
+            .name = "¸¼Àº °íµñ"
+            .Size = 10
+            .themeColor = xlThemeColorLight1 ' Dark font color for light background
+            .ThemeFont = xlThemeFontNone
+        End With
+    End If
+End Sub
+
+' Function to determine if a color is dark
+Function IsDarkColor(color As Long) As Boolean
+    Dim R As Long, G As Long, B As Long
+    R = (color Mod 256)
+    G = ((color \ 256) Mod 256)
+    B = ((color \ 65536) Mod 256)
+    
+    ' Calculate brightness (perceived luminance)
+    ' Using the formula: 0.299*R + 0.587*G + 0.114*B
+    If (0.299 * R + 0.587 * G + 0.114 * B) < 128 Then
+        IsDarkColor = True
+    Else
+        IsDarkColor = False
+    End If
+End Function
+
+
+' 2024/6/15
+Sub DetermineThemeColor()
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim themeColor As Long
+    
+    ' Set your worksheet and cell
+    Set ws = ActiveSheet
+    Set cell = ws.Range("c8")
+    
+    ' Get the theme color if it exists
+    On Error Resume Next
+    themeColor = cell.Interior.themeColor
+    On Error GoTo 0
+    
+    ' Check if the theme color is valid
+    If themeColor <> xlColorIndexNone Then
+        MsgBox "The theme color of the cell is: " & ThemeColorName(themeColor)
+    Else
+        MsgBox "The cell does not have a theme color."
+    End If
+End Sub
+
+
+' 2024/6/15
+Function ThemeColorName(themeColor As Long) As String
+    Select Case themeColor
+        Case xlThemeColorDark1
+            ThemeColorName = "Dark1"
+        Case xlThemeColorLight1
+            ThemeColorName = "Light1"
+        Case xlThemeColorDark2
+            ThemeColorName = "Dark2"
+        Case xlThemeColorLight2
+            ThemeColorName = "Light2"
+        Case xlThemeColorAccent1
+            ThemeColorName = "Accent1"
+        Case xlThemeColorAccent2
+            ThemeColorName = "Accent2"
+        Case xlThemeColorAccent3
+            ThemeColorName = "Accent3"
+        Case xlThemeColorAccent4
+            ThemeColorName = "Accent4"
+        Case xlThemeColorAccent5
+            ThemeColorName = "Accent5"
+        Case xlThemeColorAccent6
+            ThemeColorName = "Accent6"
+        Case xlThemeColorHyperlink
+            ThemeColorName = "Hyperlink"
+        Case xlThemeColorFollowedHyperlink
+            ThemeColorName = "Followed Hyperlink"
+        Case Else
+            ThemeColorName = "Unknown Theme Color"
+    End Select
+End Function
+
+
 
 Private Sub change_font_size()
     Range("J25").Select
@@ -128,12 +254,12 @@ End Sub
 Private Sub SetMyTabColor(ByVal index As Integer)
     If Sheets("Well").SingleColor.value Then
         With ActiveWorkbook.Sheets(CStr(index)).Tab
-            .Color = 192
+            .color = 192
             .TintAndShade = 0
         End With
     Else
         With ActiveWorkbook.Sheets(CStr(index)).Tab
-            .Color = ColorValue(index)
+            .color = ColorValue(index)
             .TintAndShade = 0
         End With
     End If

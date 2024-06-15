@@ -63,7 +63,7 @@ Private Sub alignTitle(ByVal nof_sheets As Integer, ByVal po As Integer)
         .name = "¸¼Àº °íµñ"
         .Size = 12
         .Underline = xlUnderlineStyleNone
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .ThemeFont = xlThemeFontMinor
     End With
     
@@ -73,7 +73,7 @@ Private Sub alignTitle(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 11
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontMinor
     End With
@@ -103,7 +103,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 12
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontMinor
     End With
@@ -113,7 +113,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
     Selection.Font.Bold = True
     Selection.Font.Italic = True
     With Selection.Font
-        .Color = -16776961
+        .color = -16776961
         .TintAndShade = 0
     End With
     
@@ -139,7 +139,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
         .name = "¸¼Àº °íµñ"
         .Size = 14
         .Italic = True
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
         .ThemeFont = xlThemeFontMinor
     End With
@@ -150,7 +150,7 @@ Private Sub decorationPumpHP(ByVal nof_sheets As Integer, ByVal po As Integer)
     Selection.Font.Bold = True
     Selection.Font.Italic = True
     With Selection.Font
-        .Color = -16776961
+        .color = -16776961
         .TintAndShade = 0
     End With
 End Sub
@@ -165,7 +165,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0.799981688894314
         .PatternTintAndShade = 0
     End With
@@ -175,7 +175,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent2
+        .themeColor = xlThemeColorAccent2
         .TintAndShade = 0.799981688894314
         .PatternTintAndShade = 0
     End With

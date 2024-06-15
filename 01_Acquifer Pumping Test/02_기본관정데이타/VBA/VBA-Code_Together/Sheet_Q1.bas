@@ -180,7 +180,7 @@ Sub DuplicateQ1Page(ByVal n As Integer)
     ActiveSheet.name = "p" & n
     
     With ActiveSheet.Tab
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0
     End With
     

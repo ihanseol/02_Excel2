@@ -37,7 +37,7 @@ Private Function getans_tabcolors() As Variant
     ReDim ans_tabcolors(0 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)
@@ -73,7 +73,7 @@ Private Function getkey_tabcolors() As Object
     ReDim new_tabcolors(1 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)
@@ -97,7 +97,7 @@ Private Sub get_tabsize(ByRef nof_sheets As Integer, ByRef nof_unique_tab As Int
     ReDim new_tabcolors(1 To n_sheets)
     
     For i = 1 To n_sheets
-        arr_tabcolors(i) = Sheets(CStr(i)).Tab.Color
+        arr_tabcolors(i) = Sheets(CStr(i)).Tab.color
     Next i
     
     new_tabcolors = getUnique(arr_tabcolors)

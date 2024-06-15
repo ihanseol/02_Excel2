@@ -177,7 +177,7 @@ Sub DuplicateQ2Page(ByVal n As Integer)
         ActiveSheet.name = "p" & i
         
         With ActiveSheet.Tab
-            .ThemeColor = xlThemeColorAccent3
+            .themeColor = xlThemeColorAccent3
             .TintAndShade = 0
         End With
         
@@ -228,7 +228,7 @@ Sub DuplicateRest(ByVal w2page As Integer)
     ActiveSheet.name = "p" & CStr(w2page + 1)
     
     With ActiveSheet.Tab
-        .ThemeColor = xlThemeColorAccent3
+        .themeColor = xlThemeColorAccent3
         .TintAndShade = 0
     End With
         

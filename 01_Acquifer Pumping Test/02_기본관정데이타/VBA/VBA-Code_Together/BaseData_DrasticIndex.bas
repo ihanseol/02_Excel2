@@ -52,12 +52,12 @@ Private Sub CellBlack(S As Range)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent1
+        .themeColor = xlThemeColorAccent1
         .TintAndShade = -0.499984740745262
         .PatternTintAndShade = 0
     End With
     With Selection.Font
-        .ThemeColor = xlThemeColorDark1
+        .themeColor = xlThemeColorDark1
         .TintAndShade = 0
     End With
 End Sub
@@ -68,12 +68,12 @@ Private Sub CellLight(S As Range)
     With Selection.Interior
         .Pattern = xlSolid
         .PatternColorIndex = xlAutomatic
-        .ThemeColor = xlThemeColorAccent6
+        .themeColor = xlThemeColorAccent6
         .TintAndShade = 0.799981688894314
         .PatternTintAndShade = 0
     End With
     With Selection.Font
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
     End With
 End Sub

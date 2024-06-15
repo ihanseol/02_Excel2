@@ -113,7 +113,7 @@ Public Sub make_frame()
     With Selection.Font
         .name = "¸¼Àº °íµñ"
         .Size = 11
-        .ThemeColor = xlThemeColorLight1
+        .themeColor = xlThemeColorLight1
         .TintAndShade = 0
     End With
     
