@@ -248,20 +248,34 @@ Sub set_CB1()
     Dim c           As Double
     Dim d           As Double
     
+    On Error GoTo ErrorCheck
     Call get_chart7(c, d)
     
     Range("a31").Value = c
     Range("b31").Value = d
+    Exit Sub
+    
+ErrorCheck:
+    ' MsgBox "Error " & Err.Number & ": " & Err.Description
+    
 End Sub
 
 Sub set_CB2()
     Dim c           As Double
     Dim d           As Double
     
+    On Error GoTo ErrorCheck
     Call get_chart8(c, d)
     
     Range("b38").Value = c
     Range("c38").Value = d
     Range("a38").Value = Range("d39").Value
+    Exit Sub
+    
+ErrorCheck:
+    ' MsgBox "Error " & Err.Number & ": " & Err.Description
+
 End Sub
+
+
 

@@ -9,11 +9,24 @@ Private Sub CommandButton1_Click()
 End Sub
 
 Private Sub CommandButton2_Click()
+    
+Top:
+    On Error GoTo ErrorCheck
     Call set_CB1
+    Exit Sub
+
+ErrorCheck:
+    GoTo Top
 End Sub
 
 Private Sub CommandButton3_Click()
+Top:
+    On Error GoTo ErrorCheck
     Call set_CB2
+    Exit Sub
+    
+ErrorCheck:
+    GoTo Top
 End Sub
 
 Private Sub CommandButton4_Click()
@@ -519,6 +532,8 @@ Private Sub CommandButton4_Click()
     Next i
     
 End Sub
+
+
 
 
 
@@ -1035,6 +1050,7 @@ Public Sub rnd_between()
         End With
     Next i
 End Sub
+
 
 
 
@@ -2245,22 +2261,36 @@ Sub set_CB1()
     Dim c           As Double
     Dim d           As Double
     
+    On Error GoTo ErrorCheck
     Call get_chart7(c, d)
     
     Range("a31").Value = c
     Range("b31").Value = d
+    Exit Sub
+    
+ErrorCheck:
+    ' MsgBox "Error " & Err.Number & ": " & Err.Description
+    
 End Sub
 
 Sub set_CB2()
     Dim c           As Double
     Dim d           As Double
     
+    On Error GoTo ErrorCheck
     Call get_chart8(c, d)
     
     Range("b38").Value = c
     Range("c38").Value = d
     Range("a38").Value = Range("d39").Value
+    Exit Sub
+    
+ErrorCheck:
+    ' MsgBox "Error " & Err.Number & ": " & Err.Description
+
 End Sub
+
+
 
 
 Option Explicit

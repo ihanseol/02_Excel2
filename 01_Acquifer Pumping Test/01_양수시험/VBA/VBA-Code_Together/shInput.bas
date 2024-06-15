@@ -8,11 +8,24 @@ Private Sub CommandButton1_Click()
 End Sub
 
 Private Sub CommandButton2_Click()
+    
+Top:
+    On Error GoTo ErrorCheck
     Call set_CB1
+    Exit Sub
+
+ErrorCheck:
+    GoTo Top
 End Sub
 
 Private Sub CommandButton3_Click()
+Top:
+    On Error GoTo ErrorCheck
     Call set_CB2
+    Exit Sub
+    
+ErrorCheck:
+    GoTo Top
 End Sub
 
 Private Sub CommandButton4_Click()
