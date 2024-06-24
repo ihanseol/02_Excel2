@@ -238,7 +238,7 @@ End Function
 Function IsWorkBookOpen(ByVal OWB As String) As Boolean
     IsWorkBookOpen = False
     Dim wb          As Excel.Workbook
-    Dim WBName      As String
+    Dim WBNAME      As String
     Dim WBPath      As String
     Dim OWBArray    As Variant
     
@@ -247,8 +247,8 @@ Function IsWorkBookOpen(ByVal OWB As String) As Boolean
     On Error Resume Next
     OWBArray = Split(OWB, Application.PathSeparator)
     Set wb = Application.Workbooks(OWBArray(UBound(OWBArray)))
-    WBName = OWBArray(UBound(OWBArray))
-    WBPath = wb.Path & Application.PathSeparator & WBName
+    WBNAME = OWBArray(UBound(OWBArray))
+    WBPath = wb.Path & Application.PathSeparator & WBNAME
     
     If Not wb Is Nothing Then
         If UBound(OWBArray) > 0 Then

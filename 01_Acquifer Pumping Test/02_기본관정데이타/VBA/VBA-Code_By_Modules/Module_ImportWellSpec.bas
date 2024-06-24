@@ -1,24 +1,34 @@
 Attribute VB_Name = "Module_ImportWellSpec"
 Function GetOtherFileName() As String
     Dim Workbook As Workbook
-    Dim workbookNames As String
+    Dim WBNAME As String
     Dim i As Long
 
-    workbookNames = ""
-    
+    If Workbooks.count <> 2 Then
+        GetOtherFileName = "NOTHING"
+        Exit Function
+    End If
+
     For Each Workbook In Application.Workbooks
-        If StrComp(ThisWorkbook.name, Workbook.name, vbTextCompare) = 0 Then
+        WBNAME = Workbook.name
+        If StrComp(ThisWorkbook.name, WBNAME, vbTextCompare) = 0 Then
+        ' 이름이 thisworkbook.name 과 같다면 , 다음분기로
             GoTo NEXT_ITERATION
         End If
         
-        If CheckSubstring(Workbook.name, "데이타") Then
+        If ThisWorkbook.name <> Workbook.name And CheckSubstring(WBNAME, "데이타") Then
             Exit For
         End If
         
 NEXT_ITERATION:
     Next
     
-    GetOtherFileName = Workbook.name
+    
+    If ThisWorkbook.name <> WBNAME And CheckSubstring(WBNAME, "데이타") Then
+        GetOtherFileName = WBNAME
+    Else
+        GetOtherFileName = "NOTHING"
+    End If
 End Function
 
 
@@ -74,6 +84,9 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
    
     
     WB_NAME = GetOtherFileName
+    If WB_NAME = "NOTHING" Then
+        GoTo SheetDoesNotExist
+    End If
     
     On Error GoTo SheetDoesNotExist
     
@@ -110,7 +123,7 @@ End Sub
 
 Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
-    Dim WBName As String
+    Dim WBNAME As String
     Dim i As Integer
     Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
     
@@ -118,10 +131,10 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Dim nl, sl, deltas As Double
     Dim casing As Integer
 
-    WBName = "A" & GetNumeric2(well_no) & "_ge_OriginalSaveFile.xlsm"
+    WBNAME = "A" & GetNumeric2(well_no) & "_ge_OriginalSaveFile.xlsm"
     
-    If Not IsWorkBookOpen(WBName) Then
-        MsgBox "Please open the yangsoo data ! " & WBName
+    If Not IsWorkBookOpen(WBNAME) Then
+        MsgBox "Please open the yangsoo data ! " & WBNAME
         obj.Result = True
         Exit Sub
     Else
@@ -129,30 +142,30 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBName).Worksheets("SkinFactor").Range("b4").value
+    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBName).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBName).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBName).Worksheets("SkinFactor").Range("i10").value
+    nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
+    sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
+    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
-    T1 = Workbooks(WBName).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBName).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBName).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBName).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBName).Worksheets("SkinFactor").Range("i13").value
+    T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
+    S1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("E10").value
+    T2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("H13").value
+    S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
+    S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
     
     ' Skin Coefficient
-    skin = Workbooks(WBName).Worksheets("SkinFactor").Range("G6").value
+    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
-    RI1 = Workbooks(WBName).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBName).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBName).Worksheets("SkinFactor").Range("C23").value
+    RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
+    RI2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C18").value
+    RI3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C23").value
     
     ' 유효우물반경 , 설정값에 따른
-    ir = GetEffectiveRadius(WBName)
+    ir = GetEffectiveRadius(WBNAME)
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     Range("c20") = nl
