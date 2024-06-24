@@ -62,6 +62,40 @@ Private Sub CommandButton14_Click()
 
 End Sub
 
+Private Sub CommandButton15_Click()
+' dupl, duplicate basic well data ...
+' 기본관정데이타 복사하는것
+' 관정을 순회하면서, 거기에서 데이터를 가지고 오는데 …
+' 와파 , 장축부, 단축부
+' 유향, 거리, 관정높이, 지표수표고 이렇게 가지고 오면 될듯하다.
+
+' k6 - 장축부 / long axis
+' k7 - 단축부 / short axis
+' k12 - degree of flow
+' k13 - well distance
+' k14 - well height
+' k15 - surfacewater height
+
+    Dim nofwell, i  As Integer
+    Dim obj As New Class_Boolean
+
+    nofwell = sheets_count()
+    BaseData_ETC_02.TurnOffStuff
+    
+    For i = 1 To nofwell
+        Sheets(CStr(i)).Activate
+        Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, i, obj)
+        
+        If obj.Result Then Exit For
+    Next i
+    
+    Sheets("Well").Activate
+    BaseData_ETC_02.TurnOnStuff
+
+End Sub
+
+
+
 Private Sub CommandButton3_Click()
     Sheets("AggSum").Visible = True
     Sheets("AggSum").Select

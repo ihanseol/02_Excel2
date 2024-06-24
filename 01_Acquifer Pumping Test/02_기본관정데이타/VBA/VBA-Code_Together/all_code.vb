@@ -185,6 +185,40 @@ Private Sub CommandButton14_Click()
 
 End Sub
 
+Private Sub CommandButton15_Click()
+' dupl, duplicate basic well data ...
+' 기본관정데이타 복사하는것
+' 관정을 순회하면서, 거기에서 데이터를 가지고 오는데 …
+' 와파 , 장축부, 단축부
+' 유향, 거리, 관정높이, 지표수표고 이렇게 가지고 오면 될듯하다.
+
+' k6 - 장축부 / long axis
+' k7 - 단축부 / short axis
+' k12 - degree of flow
+' k13 - well distance
+' k14 - well height
+' k15 - surfacewater height
+
+    Dim nofwell, i  As Integer
+    Dim obj As New Class_Boolean
+
+    nofwell = sheets_count()
+    BaseData_ETC_02.TurnOffStuff
+    
+    For i = 1 To nofwell
+        Sheets(CStr(i)).Activate
+        Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, i, obj)
+        
+        If obj.Result Then Exit For
+    Next i
+    
+    Sheets("Well").Activate
+    BaseData_ETC_02.TurnOnStuff
+
+End Sub
+
+
+
 Private Sub CommandButton3_Click()
     Sheets("AggSum").Visible = True
     Sheets("AggSum").Select
@@ -5606,7 +5640,7 @@ Sub Write_MotorSimdo(nofwell As Integer)
 End Sub
 
 Sub Write_WellDiameter(nofwell As Integer)
-    Write_Data nofwell, "AggSum_WellDiameter", "drastic", "C8", " m"
+    Write_Data nofwell, "AggSum_WellDiameter", "drastic", "C8", " mm"
 End Sub
 
 Sub Write_CasingDepth(nofwell As Integer)
@@ -10917,6 +10951,115 @@ CreateLogFile_Error:
 End Sub
 
 'This Module is Empty 
+Function GetOtherFileName() As String
+    Dim Workbook As Workbook
+    Dim workbookNames As String
+    Dim i As Long
+
+    workbookNames = ""
+    
+    For Each Workbook In Application.Workbooks
+        If StrComp(ThisWorkbook.name, Workbook.name, vbTextCompare) = 0 Then
+            GoTo NEXT_ITERATION
+        End If
+        
+        If CheckSubstring(Workbook.name, "데이타") Then
+            Exit For
+        End If
+        
+NEXT_ITERATION:
+    Next
+    
+    GetOtherFileName = Workbook.name
+End Function
+
+
+Function CheckSubstring(str As String, chk As String) As Boolean
+    
+    If InStr(str, chk) > 0 Then
+        ' The string contains "chk"
+        CheckSubstring = True
+    Else
+        ' The string does not contain "chk"
+        CheckSubstring = False
+    End If
+End Function
+
+Sub CheckSheetExists(WB_NAME As String)
+    Dim ws As Worksheet
+    Dim sheetExists As Boolean
+    
+    sheetExists = False
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.name = "All" Then
+            sheetExists = True
+            Exit For
+        End If
+    Next ws
+    
+    ' Do something if sheet exists
+    If sheetExists Then
+        MsgBox "Sheet 'All' exists!"
+        ' Place your code here to do something
+    Else
+        MsgBox "Sheet 'All' does not exist."
+    End If
+End Sub
+
+
+Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj As Class_Boolean)
+    Dim WB_NAME As String
+    Dim i As Integer
+    Dim long_axis, short_axis, well_distance, well_height, surface_water_height As Long
+    Dim degree_of_flow As Double
+
+
+'    obj.Result = False, 문제없음
+'    obj.Result = True , 문제있음
+      
+    If Workbooks.count <> 2 Then
+        MsgBox "Please Open, 기본관정데이타의 복사,  기본관정데이타 파일 하나만 불러올수가 있습니다. ", vbOKOnly
+        obj.Result = True
+        Exit Sub
+    End If
+   
+    
+    WB_NAME = GetOtherFileName
+    
+    On Error GoTo SheetDoesNotExist
+    
+    With Workbooks(WB_NAME).Worksheets(CStr(well_no))
+        long_axis = .Range("K6").value
+        short_axis = .Range("K7").value
+        degree_of_flow = .Range("K12").value
+        well_distance = .Range("K13").value
+        well_height = .Range("K14").value
+        surface_water_height = .Range("K15").value
+    End With
+    
+
+    With Workbooks(this_WBNAME).Worksheets(CStr(well_no))
+        .Range("K6") = long_axis
+        .Range("K7") = short_axis
+        .Range("K12") = degree_of_flow
+        .Range("K13") = well_distance
+        .Range("K14") = well_height
+        .Range("K15") = surface_water_height
+    End With
+    
+    obj.Result = False
+    Exit Sub
+
+SheetDoesNotExist:
+    MsgBox "Please Open, 기본관정데이타 파일이 아닙니다. ", vbOKOnly
+    obj.Result = True
+    
+End Sub
+
+
+
+
 Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBName As String
@@ -11248,3 +11391,89 @@ Private Sub Worksheet_Activate()
 End Sub
 
 
+Sub 매크로1()
+'
+' 매크로1 매크로
+'
+
+'
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    
+    
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    Range("I148").Select
+End Sub

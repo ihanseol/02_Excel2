@@ -1,3 +1,112 @@
+Function GetOtherFileName() As String
+    Dim Workbook As Workbook
+    Dim workbookNames As String
+    Dim i As Long
+
+    workbookNames = ""
+    
+    For Each Workbook In Application.Workbooks
+        If StrComp(ThisWorkbook.name, Workbook.name, vbTextCompare) = 0 Then
+            GoTo NEXT_ITERATION
+        End If
+        
+        If CheckSubstring(Workbook.name, "데이타") Then
+            Exit For
+        End If
+        
+NEXT_ITERATION:
+    Next
+    
+    GetOtherFileName = Workbook.name
+End Function
+
+
+Function CheckSubstring(str As String, chk As String) As Boolean
+    
+    If InStr(str, chk) > 0 Then
+        ' The string contains "chk"
+        CheckSubstring = True
+    Else
+        ' The string does not contain "chk"
+        CheckSubstring = False
+    End If
+End Function
+
+Sub CheckSheetExists(WB_NAME As String)
+    Dim ws As Worksheet
+    Dim sheetExists As Boolean
+    
+    sheetExists = False
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.name = "All" Then
+            sheetExists = True
+            Exit For
+        End If
+    Next ws
+    
+    ' Do something if sheet exists
+    If sheetExists Then
+        MsgBox "Sheet 'All' exists!"
+        ' Place your code here to do something
+    Else
+        MsgBox "Sheet 'All' does not exist."
+    End If
+End Sub
+
+
+Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj As Class_Boolean)
+    Dim WB_NAME As String
+    Dim i As Integer
+    Dim long_axis, short_axis, well_distance, well_height, surface_water_height As Long
+    Dim degree_of_flow As Double
+
+
+'    obj.Result = False, 문제없음
+'    obj.Result = True , 문제있음
+      
+    If Workbooks.count <> 2 Then
+        MsgBox "Please Open, 기본관정데이타의 복사,  기본관정데이타 파일 하나만 불러올수가 있습니다. ", vbOKOnly
+        obj.Result = True
+        Exit Sub
+    End If
+   
+    
+    WB_NAME = GetOtherFileName
+    
+    On Error GoTo SheetDoesNotExist
+    
+    With Workbooks(WB_NAME).Worksheets(CStr(well_no))
+        long_axis = .Range("K6").value
+        short_axis = .Range("K7").value
+        degree_of_flow = .Range("K12").value
+        well_distance = .Range("K13").value
+        well_height = .Range("K14").value
+        surface_water_height = .Range("K15").value
+    End With
+    
+
+    With Workbooks(this_WBNAME).Worksheets(CStr(well_no))
+        .Range("K6") = long_axis
+        .Range("K7") = short_axis
+        .Range("K12") = degree_of_flow
+        .Range("K13") = well_distance
+        .Range("K14") = well_height
+        .Range("K15") = surface_water_height
+    End With
+    
+    obj.Result = False
+    Exit Sub
+
+SheetDoesNotExist:
+    MsgBox "Please Open, 기본관정데이타 파일이 아닙니다. ", vbOKOnly
+    obj.Result = True
+    
+End Sub
+
+
+
+
 Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBName As String

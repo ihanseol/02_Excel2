@@ -373,7 +373,7 @@ Sub Write_MotorSimdo(nofwell As Integer)
 End Sub
 
 Sub Write_WellDiameter(nofwell As Integer)
-    Write_Data nofwell, "AggSum_WellDiameter", "drastic", "C8", " m"
+    Write_Data nofwell, "AggSum_WellDiameter", "drastic", "C8", " mm"
 End Sub
 
 Sub Write_CasingDepth(nofwell As Integer)
