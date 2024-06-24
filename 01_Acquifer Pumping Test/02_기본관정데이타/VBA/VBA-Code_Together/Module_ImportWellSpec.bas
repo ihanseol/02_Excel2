@@ -65,11 +65,104 @@ Sub CheckSheetExists(WB_NAME As String)
 End Sub
 
 
-Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj As Class_Boolean)
-    Dim WB_NAME As String
+'**********************************************************************************************************************
+
+Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
+
+    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
+    
+    If Range("k12").Font.Bold Then
+        Range("K12").Font.Bold = False
+        Range("L12").Font.Bold = True
+        
+        CellBlack (ActiveSheet.Range("L12"))
+        CellLight (ActiveSheet.Range("K12"))
+    Else
+        Range("K12").Font.Bold = True
+        Range("L12").Font.Bold = False
+        
+        CellBlack (ActiveSheet.Range("K12"))
+        CellLight (ActiveSheet.Range("L12"))
+    End If
+End Sub
+
+Sub InteriorCopyDirection(this_WBNAME As String, well_no As Integer, IS_OVER180 As Boolean)
+
+    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
+    
+    If IS_OVER180 Then
+        Range("K12").Font.Bold = True
+        Range("L12").Font.Bold = False
+        
+        CellBlack (ActiveSheet.Range("K12"))
+        CellLight (ActiveSheet.Range("L12"))
+    Else
+        Range("K12").Font.Bold = False
+        Range("L12").Font.Bold = True
+        
+        CellBlack (ActiveSheet.Range("L12"))
+        CellLight (ActiveSheet.Range("K12"))
+    End If
+End Sub
+
+
+Private Sub CellBlack(S As Range)
+    S.Select
+    
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .themeColor = xlThemeColorAccent1
+        .TintAndShade = -0.499984740745262
+        .PatternTintAndShade = 0
+    End With
+    With Selection.Font
+        .themeColor = xlThemeColorDark1
+        .TintAndShade = 0
+    End With
+End Sub
+
+Private Sub CellLight(S As Range)
+    S.Select
+    
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .themeColor = xlThemeColorAccent6
+        .TintAndShade = 0.799981688894314
+        .PatternTintAndShade = 0
+    End With
+    With Selection.Font
+        .themeColor = xlThemeColorLight1
+        .TintAndShade = 0
+    End With
+End Sub
+
+
+Private Function get_direction() As Long
+    ' get direction is cell is bold
+    ' 셀이 볼드값이면 선택을 한다.  방향이 두개중에서 하나를 선택하게 된다.
+    ' 2019/10/18일
+    
+    Range("k12").Select
+    
+    If Selection.Font.Bold Then
+        get_direction = Range("k12").value
+    Else
+        get_direction = Range("L12").value
+    End If
+End Function
+
+
+'**********************************************************************************************************************
+
+
+Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal well_no As Integer, obj As Class_Boolean)
+    ' Dim WB_NAME As String
     Dim i As Integer
     Dim long_axis, short_axis, well_distance, well_height, surface_water_height As Long
     Dim degree_of_flow As Double
+    Dim IS_OVER180 As Boolean
 
 
 '    obj.Result = False, 문제없음
@@ -82,7 +175,9 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
     End If
    
     
-    WB_NAME = GetOtherFileName
+    ' WB_NAME = GetOtherFileName
+    IS_OVER180 = False
+    
     If WB_NAME = "NOTHING" Then
         GoTo SheetDoesNotExist
     End If
@@ -93,6 +188,11 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
         long_axis = .Range("K6").value
         short_axis = .Range("K7").value
         degree_of_flow = .Range("K12").value
+        
+        If .Range("K12").Font.Bold Then
+            IS_OVER180 = True
+        End If
+        
         well_distance = .Range("K13").value
         well_height = .Range("K14").value
         surface_water_height = .Range("K15").value
@@ -108,6 +208,8 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
         .Range("K15") = surface_water_height
     End With
     
+    Call InteriorCopyDirection(this_WBNAME, well_no, IS_OVER180)
+
     obj.Result = False
     Exit Sub
 
@@ -117,7 +219,49 @@ SheetDoesNotExist:
     
 End Sub
 
+Sub Duplicate_WATER(ByVal this_WBNAME As String, ByVal WB_NAME As String)
 
+    Dim cpRange As String
+    
+    cpRange = "E7:L8"
+    
+'    Workbooks(WB_NAME).Sheets("water").Visible = True
+'    Workbooks(this_WBNAME).Sheets("water").Visible = True
+    
+    Workbooks(WB_NAME).Worksheets("water").Activate
+    Workbooks(WB_NAME).Worksheets("water").Range(cpRange).Select
+    Selection.Copy
+    
+    
+    Workbooks(this_WBNAME).Worksheets("water").Activate
+    Workbooks(this_WBNAME).Worksheets("water").Range("E7").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+'    Workbooks(WB_NAME).Sheets("water").Visible = False
+'    Workbooks(this_WBNAME).Sheets("water").Visible = False
+
+End Sub
+
+Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
+
+   Dim cpRange As String
+    
+    cpRange = "A4:P" & (nofwell + 4 - 1)
+    
+    Workbooks(WB_NAME).Worksheets("Well").Activate
+    Workbooks(WB_NAME).Worksheets("Well").Range(cpRange).Select
+    Selection.Copy
+    
+    Workbooks(this_WBNAME).Worksheets("Well").Activate
+    Workbooks(this_WBNAME).Worksheets("Well").Range("A4").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    
+    Application.CutCopyMode = False
+    Range("A4").Select
+End Sub
 
 
 Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)

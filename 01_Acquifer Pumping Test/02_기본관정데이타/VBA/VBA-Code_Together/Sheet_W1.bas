@@ -35,7 +35,7 @@ End Sub
 
 
 Private Sub CommandButton5_Click()
-    Call ToggleDirection
+    Call BaseData_DrasticIndex.ToggleDirection
 End Sub
 
 

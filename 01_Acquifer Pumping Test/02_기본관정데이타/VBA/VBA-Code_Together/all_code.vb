@@ -181,12 +181,10 @@ Private Sub CommandButton14_Click()
         Cells(i + 3, "F").formula = "=All!$B$2"
         Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
     Next i
-    
-
 End Sub
 
 Private Sub CommandButton15_Click()
-' dupl, duplicate basic well data ...
+' 2024/6/24 - dupl, duplicate basic well data ...
 ' 기본관정데이타 복사하는것
 ' 관정을 순회하면서, 거기에서 데이터를 가지고 오는데 …
 ' 와파 , 장축부, 단축부
@@ -201,20 +199,41 @@ Private Sub CommandButton15_Click()
 
     Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
+    Dim WB_NAME As String
+    
 
     nofwell = sheets_count()
-    BaseData_ETC_02.TurnOffStuff
+     
+    WB_NAME = Module_ImportWellSpec.GetOtherFileName
     
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, i, obj)
+    If WB_NAME = "NOTHING" Then
+        MsgBox "기본관정데이타를 복사해야 하므로, 기본관정데이터를 열어두시기 바랍니다. ", vbOK
+        Exit Sub
+    Else
+        BaseData_ETC_02.TurnOffStuff
         
-        If obj.Result Then Exit For
-    Next i
-    
-    Sheets("Well").Activate
-    BaseData_ETC_02.TurnOnStuff
-
+        Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
+        Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
+        
+        ' 각 관정별 데이터 복사
+        For i = 1 To nofwell
+            Sheets(CStr(i)).Activate
+            Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
+            
+            If obj.Result Then Exit For
+        Next i
+        
+        
+        'WSet Button, CommandButton14
+        For i = 1 To nofwell
+            Cells(i + 3, "E").formula = "=Recharge!$I$24"
+            Cells(i + 3, "F").formula = "=All!$B$2"
+            Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
+        Next i
+        
+        Sheets("Well").Activate
+        BaseData_ETC_02.TurnOnStuff
+    End If
 End Sub
 
 
@@ -437,7 +456,7 @@ End Sub
 
 
 Private Sub CommandButton5_Click()
-    Call ToggleDirection
+    Call BaseData_DrasticIndex.ToggleDirection
 End Sub
 
 
@@ -11018,11 +11037,104 @@ Sub CheckSheetExists(WB_NAME As String)
 End Sub
 
 
-Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj As Class_Boolean)
-    Dim WB_NAME As String
+'**********************************************************************************************************************
+
+Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
+
+    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
+    
+    If Range("k12").Font.Bold Then
+        Range("K12").Font.Bold = False
+        Range("L12").Font.Bold = True
+        
+        CellBlack (ActiveSheet.Range("L12"))
+        CellLight (ActiveSheet.Range("K12"))
+    Else
+        Range("K12").Font.Bold = True
+        Range("L12").Font.Bold = False
+        
+        CellBlack (ActiveSheet.Range("K12"))
+        CellLight (ActiveSheet.Range("L12"))
+    End If
+End Sub
+
+Sub InteriorCopyDirection(this_WBNAME As String, well_no As Integer, IS_OVER180 As Boolean)
+
+    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
+    
+    If IS_OVER180 Then
+        Range("K12").Font.Bold = True
+        Range("L12").Font.Bold = False
+        
+        CellBlack (ActiveSheet.Range("K12"))
+        CellLight (ActiveSheet.Range("L12"))
+    Else
+        Range("K12").Font.Bold = False
+        Range("L12").Font.Bold = True
+        
+        CellBlack (ActiveSheet.Range("L12"))
+        CellLight (ActiveSheet.Range("K12"))
+    End If
+End Sub
+
+
+Private Sub CellBlack(S As Range)
+    S.Select
+    
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .themeColor = xlThemeColorAccent1
+        .TintAndShade = -0.499984740745262
+        .PatternTintAndShade = 0
+    End With
+    With Selection.Font
+        .themeColor = xlThemeColorDark1
+        .TintAndShade = 0
+    End With
+End Sub
+
+Private Sub CellLight(S As Range)
+    S.Select
+    
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .themeColor = xlThemeColorAccent6
+        .TintAndShade = 0.799981688894314
+        .PatternTintAndShade = 0
+    End With
+    With Selection.Font
+        .themeColor = xlThemeColorLight1
+        .TintAndShade = 0
+    End With
+End Sub
+
+
+Private Function get_direction() As Long
+    ' get direction is cell is bold
+    ' 셀이 볼드값이면 선택을 한다.  방향이 두개중에서 하나를 선택하게 된다.
+    ' 2019/10/18일
+    
+    Range("k12").Select
+    
+    If Selection.Font.Bold Then
+        get_direction = Range("k12").value
+    Else
+        get_direction = Range("L12").value
+    End If
+End Function
+
+
+'**********************************************************************************************************************
+
+
+Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal well_no As Integer, obj As Class_Boolean)
+    ' Dim WB_NAME As String
     Dim i As Integer
     Dim long_axis, short_axis, well_distance, well_height, surface_water_height As Long
     Dim degree_of_flow As Double
+    Dim IS_OVER180 As Boolean
 
 
 '    obj.Result = False, 문제없음
@@ -11035,7 +11147,9 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
     End If
    
     
-    WB_NAME = GetOtherFileName
+    ' WB_NAME = GetOtherFileName
+    IS_OVER180 = False
+    
     If WB_NAME = "NOTHING" Then
         GoTo SheetDoesNotExist
     End If
@@ -11046,6 +11160,11 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
         long_axis = .Range("K6").value
         short_axis = .Range("K7").value
         degree_of_flow = .Range("K12").value
+        
+        If .Range("K12").Font.Bold Then
+            IS_OVER180 = True
+        End If
+        
         well_distance = .Range("K13").value
         well_height = .Range("K14").value
         surface_water_height = .Range("K15").value
@@ -11061,6 +11180,8 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal well_no As Integer, obj
         .Range("K15") = surface_water_height
     End With
     
+    Call InteriorCopyDirection(this_WBNAME, well_no, IS_OVER180)
+
     obj.Result = False
     Exit Sub
 
@@ -11070,7 +11191,49 @@ SheetDoesNotExist:
     
 End Sub
 
+Sub Duplicate_WATER(ByVal this_WBNAME As String, ByVal WB_NAME As String)
 
+    Dim cpRange As String
+    
+    cpRange = "E7:L8"
+    
+'    Workbooks(WB_NAME).Sheets("water").Visible = True
+'    Workbooks(this_WBNAME).Sheets("water").Visible = True
+    
+    Workbooks(WB_NAME).Worksheets("water").Activate
+    Workbooks(WB_NAME).Worksheets("water").Range(cpRange).Select
+    Selection.Copy
+    
+    
+    Workbooks(this_WBNAME).Worksheets("water").Activate
+    Workbooks(this_WBNAME).Worksheets("water").Range("E7").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+'    Workbooks(WB_NAME).Sheets("water").Visible = False
+'    Workbooks(this_WBNAME).Sheets("water").Visible = False
+
+End Sub
+
+Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
+
+   Dim cpRange As String
+    
+    cpRange = "A4:P" & (nofwell + 4 - 1)
+    
+    Workbooks(WB_NAME).Worksheets("Well").Activate
+    Workbooks(WB_NAME).Worksheets("Well").Range(cpRange).Select
+    Selection.Copy
+    
+    Workbooks(this_WBNAME).Worksheets("Well").Activate
+    Workbooks(this_WBNAME).Worksheets("Well").Range("A4").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    
+    
+    Application.CutCopyMode = False
+    Range("A4").Select
+End Sub
 
 
 Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
@@ -11404,89 +11567,3 @@ Private Sub Worksheet_Activate()
 End Sub
 
 
-Sub 매크로1()
-'
-' 매크로1 매크로
-'
-
-'
-    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    With Selection.Borders(xlEdgeLeft)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlEdgeTop)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlEdgeBottom)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlEdgeRight)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlInsideVertical)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlInsideHorizontal)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    
-    
-    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    With Selection.Borders(xlEdgeLeft)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeTop)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeBottom)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeRight)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlInsideVertical)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlInsideHorizontal)
-        .LineStyle = xlContinuous
-        .ColorIndex = 0
-        .TintAndShade = 0
-        .Weight = xlThin
-    End With
-    Range("I148").Select
-End Sub

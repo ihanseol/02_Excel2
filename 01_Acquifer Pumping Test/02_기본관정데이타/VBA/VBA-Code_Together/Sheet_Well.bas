@@ -58,12 +58,10 @@ Private Sub CommandButton14_Click()
         Cells(i + 3, "F").formula = "=All!$B$2"
         Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
     Next i
-    
-
 End Sub
 
 Private Sub CommandButton15_Click()
-' dupl, duplicate basic well data ...
+' 2024/6/24 - dupl, duplicate basic well data ...
 ' 기본관정데이타 복사하는것
 ' 관정을 순회하면서, 거기에서 데이터를 가지고 오는데 …
 ' 와파 , 장축부, 단축부
@@ -78,20 +76,41 @@ Private Sub CommandButton15_Click()
 
     Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
+    Dim WB_NAME As String
+    
 
     nofwell = sheets_count()
-    BaseData_ETC_02.TurnOffStuff
+     
+    WB_NAME = Module_ImportWellSpec.GetOtherFileName
     
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, i, obj)
+    If WB_NAME = "NOTHING" Then
+        MsgBox "기본관정데이타를 복사해야 하므로, 기본관정데이터를 열어두시기 바랍니다. ", vbOK
+        Exit Sub
+    Else
+        BaseData_ETC_02.TurnOffStuff
         
-        If obj.Result Then Exit For
-    Next i
-    
-    Sheets("Well").Activate
-    BaseData_ETC_02.TurnOnStuff
-
+        Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
+        Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
+        
+        ' 각 관정별 데이터 복사
+        For i = 1 To nofwell
+            Sheets(CStr(i)).Activate
+            Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
+            
+            If obj.Result Then Exit For
+        Next i
+        
+        
+        'WSet Button, CommandButton14
+        For i = 1 To nofwell
+            Cells(i + 3, "E").formula = "=Recharge!$I$24"
+            Cells(i + 3, "F").formula = "=All!$B$2"
+            Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
+        Next i
+        
+        Sheets("Well").Activate
+        BaseData_ETC_02.TurnOnStuff
+    End If
 End Sub
 
 
