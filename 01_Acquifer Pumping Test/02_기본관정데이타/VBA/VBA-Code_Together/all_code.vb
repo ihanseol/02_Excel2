@@ -9176,9 +9176,9 @@ Function getEC_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
     Sheets("p" & Well).Activate
     
     If LOWHI = cellLOW Then
-        getEC = Sheets("p" & CStr(Well)).Range("e25").value
+        getEC_Q1 = Sheets("p" & CStr(Well)).Range("e25").value
     Else
-        getEC = Sheets("p" & CStr(Well)).Range("e24").value
+        getEC_Q1 = Sheets("p" & CStr(Well)).Range("e24").value
     End If
 End Function
 
@@ -9186,9 +9186,9 @@ Function getPH_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
     Sheets("p" & CStr(Well)).Activate
     
     If LOWHI = cellLOW Then
-        getPH = Sheets("p" & CStr(Well)).Range("f25").value
+        getPH_Q1 = Sheets("p" & CStr(Well)).Range("f25").value
     Else
-        getPH = Sheets("p" & CStr(Well)).Range("f24").value
+        getPH_Q1 = Sheets("p" & CStr(Well)).Range("f24").value
     End If
     
 End Function
@@ -9197,9 +9197,9 @@ Function getTEMP_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
     Sheets("p" & CStr(Well)).Activate
 
     If LOWHI = cellLOW Then
-        getTEMP = Sheets("p" & CStr(Well)).Range("d25").value
+        getTEMP_Q1 = Sheets("p" & CStr(Well)).Range("d25").value
     Else
-        getTEMP = Sheets("p" & CStr(Well)).Range("d24").value
+        getTEMP_Q1 = Sheets("p" & CStr(Well)).Range("d24").value
     End If
 End Function
 
