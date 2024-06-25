@@ -19,7 +19,7 @@ Sub DuplicateQ2Page(ByVal n As Integer)
 End Sub
 
 
-Sub make_step_document()
+Sub Make_Step_Document()
     ' StepTest º¹»ç
     ' select last sheet -- Sheets(Sheets.Count).Select
     Dim ws As Worksheet
@@ -28,7 +28,7 @@ Sub make_step_document()
     Application.ScreenUpdating = False
     ws.Copy After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
     
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -47,7 +47,7 @@ Sub make_step_document()
     ActiveSheet.Shapes.Range(Array("ComboBox1")).Select
     Selection.Delete
     
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     With Selection.Font
         .name = "¸¼Àº °íµñ"
     End With
@@ -75,7 +75,7 @@ End Sub
 
 
 
-Sub Make2880Document()
+Sub Make2880_Document()
     Dim lang_code   As Long
     Dim randomNumber As Integer
     
@@ -101,7 +101,7 @@ Sub Make2880Document()
     
     
     '---------------------------------------------------------------------------------
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -134,7 +134,7 @@ Sub Make2880Document()
     Range("F109").Select
     ActiveWindow.SmallScroll Down:=-105
     
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     With Selection.Interior
         .Pattern = xlNone
         .TintAndShade = 0
@@ -163,8 +163,8 @@ End Sub
 
 '2019/11/24
 
-Sub modify_cell_value()
-    Dim i           As Integer, j As Integer
+Sub Modify_Cell_Value()
+    Dim i As Integer, j As Integer
     
     For i = 10 To 101
         Cells(i, "F").Value = Round(Cells(i, "F").Value, 2)

@@ -1,4 +1,4 @@
-Attribute VB_Name = "mod_W1LongtermTEST"
+Attribute VB_Name = "mod_W1_LongtermTEST"
 Public MY_TIME      As Integer
 
 Public gDicStableTime As Scripting.Dictionary

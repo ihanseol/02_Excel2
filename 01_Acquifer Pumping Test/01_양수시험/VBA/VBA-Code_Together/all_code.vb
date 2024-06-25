@@ -1,25 +1,17 @@
 
 Option Explicit
 
-
-' pumping test
-Private Sub CommandButton1_Click()
-    Call step_pumping_test
-    Call vertical_copy
-End Sub
-
-Private Sub CommandButton2_Click()
-    
+Private Sub CommandButton_CB1_Click()
 Top:
     On Error GoTo ErrorCheck
     Call set_CB1
     Exit Sub
-
+    
 ErrorCheck:
     GoTo Top
 End Sub
 
-Private Sub CommandButton3_Click()
+Private Sub CommandButton_CB2_Click()
 Top:
     On Error GoTo ErrorCheck
     Call set_CB2
@@ -29,95 +21,83 @@ ErrorCheck:
     GoTo Top
 End Sub
 
-Private Sub CommandButton4_Click()
-    Call make_step_document
-End Sub
-
-Private Sub CommandButton5_Click()
-    'Call make_long_document
-    Call Make2880Document
-End Sub
-
-Private Sub CommandButton6_Click()
-    Dim gong As Integer
-    Dim KeyCell As Range
+' Chart Button
+Private Sub CommandButton_Chart_Click()
+    Dim gong        As Integer
+    Dim KeyCell     As Range
     
     Call adjustChartGraph
     
     Set KeyCell = Range("J48")
     
     gong = Val(CleanString(KeyCell.Value))
-    Call SetChartTitleText(gong)
+    Call mod_Chart.SetChartTitleText(gong)
+    
+    Call mod_INPUT.Step_Pumping_Test
+    Call mod_INPUT.Vertical_Copy
 End Sub
 
-Private Sub CommandButton7_Click()
-    Call Make2880Document
+Private Sub CommandButton_ClearReport_Click()
+    
+    DeleteStepSheet
+       
+End Sub
+
+Sub DeleteStepSheet()
+    Dim ws1 As Worksheet
+    Dim ws2 As Worksheet
+    
+    On Error Resume Next
+    Set ws1 = Sheets("Step")
+    Set ws2 = Sheets("out")
+    On Error GoTo 0
+    
+    If Not ws1 Is Nothing Then
+        Application.DisplayAlerts = False
+        Sheets("Step").Delete
+        Application.DisplayAlerts = True
+    Else
+        Debug.Print "Sheet 'Step' does not exist."
+    End If
+    
+    If Not ws2 Is Nothing Then
+        Application.DisplayAlerts = False
+        Sheets("out").Delete
+        Application.DisplayAlerts = True
+    Else
+        Debug.Print "Sheet 'out' does not exist."
+    End If
+End Sub
+
+
+
+Private Sub CommandButton_STEP_Click()
+    Call Make_Step_Document
+End Sub
+
+Private Sub CommandButton_2880_Click()
+    'Call make_long_document
+    Call Make2880_Document
+End Sub
+
+Private Sub CommandButton_1440_Click()
+    Call Make2880_Document
     Call make1440sheet
 End Sub
-
 
 Private Sub CommandButton8_Click()
     Call set_CB_ALL
 End Sub
 
 Private Sub Worksheet_Activate()
-  
-'  Dim gong As Integer
-'  Dim KeyCell As Range
-'
-'  Set KeyCell = Range("J48")
-'
-'  gong = Val(CleanString(KeyCell.Value))
-'  Call SetChartTitleText(gong)
-
+    '  Dim gong     As Integer
+    '  Dim KeyCell  As Range
+    '
+    '  Set KeyCell = Range("J48")
+    '
+    '  gong = Val(CleanString(KeyCell.Value))
+    '  Call SetChartTitleText(gong)
 End Sub
-
-
-
-Private Sub SetChartTitleText(ByVal i As Integer)
-
-    Call SetGONGBEON
-
-    ActiveSheet.ChartObjects("Chart 7").Activate
-    ActiveChart.Axes(xlCategory).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    
-    ActiveChart.Axes(xlCategory).Select
-    ActiveChart.Axes(xlValue).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
-    
-
-    ActiveSheet.ChartObjects("Chart 5").Activate
-    ActiveChart.Axes(xlCategory).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    
-    ActiveChart.Axes(xlCategory).Select
-    ActiveChart.Axes(xlValue).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
-    
-    ActiveSheet.ChartObjects("Chart 9").Activate
-    ActiveChart.Axes(xlCategory).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(Q)(W-" & CStr(i) & ")"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(Q)(W-" & CStr(i) & ")"
-    
-    ActiveChart.Axes(xlCategory).Select
-    ActiveChart.Axes(xlValue).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "수위강하량(Sw)"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "수위강하량(Sw)"
-    
-End Sub
-
-
-
-
-
-
-
-
 Private Sub CommandButton1_Click()
     Call show_gachae
 End Sub
@@ -536,8 +516,6 @@ End Sub
 
 
 
-
-
 Private Sub Workbook_Open()
       
     'Sheet6.Activate
@@ -633,6 +611,44 @@ Sub adjustChartGraph()
     
     Call SetGONGBEON
 End Sub
+
+
+Sub SetChartTitleText(ByVal i As Integer)
+    
+    Call SetGONGBEON
+    
+    ActiveSheet.ChartObjects("Chart 7").Activate
+    ActiveChart.Axes(xlCategory).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    
+    ActiveChart.Axes(xlCategory).Select
+    ActiveChart.Axes(xlValue).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
+    
+    ActiveSheet.ChartObjects("Chart 5").Activate
+    ActiveChart.Axes(xlCategory).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    
+    ActiveChart.Axes(xlCategory).Select
+    ActiveChart.Axes(xlValue).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
+    
+    ActiveSheet.ChartObjects("Chart 9").Activate
+    ActiveChart.Axes(xlCategory).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(Q)(W-" & CStr(i) & ")"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(Q)(W-" & CStr(i) & ")"
+    
+    ActiveChart.Axes(xlCategory).Select
+    ActiveChart.Axes(xlValue).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "수위강하량(Sw)"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "수위강하량(Sw)"
+    
+End Sub
+
 
 
 Public Sub SetGONGBEON()
@@ -739,7 +755,7 @@ Sub DuplicateQ2Page(ByVal n As Integer)
 End Sub
 
 
-Sub make_step_document()
+Sub Make_Step_Document()
     ' StepTest 복사
     ' select last sheet -- Sheets(Sheets.Count).Select
     Dim ws As Worksheet
@@ -748,7 +764,7 @@ Sub make_step_document()
     Application.ScreenUpdating = False
     ws.Copy After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
     
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -767,7 +783,7 @@ Sub make_step_document()
     ActiveSheet.Shapes.Range(Array("ComboBox1")).Select
     Selection.Delete
     
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     With Selection.Font
         .name = "맑은 고딕"
     End With
@@ -795,7 +811,7 @@ End Sub
 
 
 
-Sub Make2880Document()
+Sub Make2880_Document()
     Dim lang_code   As Long
     Dim randomNumber As Integer
     
@@ -821,7 +837,7 @@ Sub Make2880Document()
     
     
     '---------------------------------------------------------------------------------
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -854,7 +870,7 @@ Sub Make2880Document()
     Range("F109").Select
     ActiveWindow.SmallScroll Down:=-105
     
-    Application.GoTo Reference:="Print_Area"
+    Application.Goto Reference:="Print_Area"
     With Selection.Interior
         .Pattern = xlNone
         .TintAndShade = 0
@@ -883,8 +899,8 @@ End Sub
 
 '2019/11/24
 
-Sub modify_cell_value()
-    Dim i           As Integer, j As Integer
+Sub Modify_Cell_Value()
+    Dim i As Integer, j As Integer
     
     For i = 10 To 101
         Cells(i, "F").Value = Round(Cells(i, "F").Value, 2)
@@ -1050,7 +1066,6 @@ Public Sub rnd_between()
         End With
     Next i
 End Sub
-
 
 
 
@@ -2014,89 +2029,6 @@ End Sub
 Option Explicit
 Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr)
 
-Sub step_pumping_test()
-    Dim i           As Integer
-    
-    Application.ScreenUpdating = False
-    
-    ' ----------------------------------------------------------------
-    
-    Range("D3:D7").Select
-    '물량, Q
-    
-    Selection.Copy
-    
-    Range("Q44").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-                           :=False, Transpose:=False
-    Selection.NumberFormatLocal = "0"
-    
-    Range("Q44:Q48").Select
-    With Selection
-        .HorizontalAlignment = xlRight
-        .VerticalAlignment = xlCenter
-    End With
-    
-    
-    Call CutDownNumber("Q", 0)
-    
-    ' ----------------------------------------------------------------
-    
-    Range("A3:A7").Select
-    ' 지하수위
-    
-    Selection.Copy
-    Range("R44").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-                           :=False, Transpose:=False
-    Selection.NumberFormatLocal = "0.00"
-    
-    
-    ' ----------------------------------------------------------------
-    
-    Range("B3:B7").Select
-    'Sw, 강하수위
-    
-    Selection.Copy
-      
-    Range("S44").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-                           :=False, Transpose:=False
-    Selection.NumberFormatLocal = "0.00"
-    
-    ' ----------------------------------------------------------------
-
-    Range("G3:G7").Select
-    'Q/Sw , 비양수량
-    
-    Selection.Copy
-    Range("T44").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-                           :=False, Transpose:=False
-    ' Selection.NumberFormatLocal = "0.000"
-    
-    Call CutDownNumber("T", 3)
-     Application.CutCopyMode = False
-    ' ----------------------------------------------------------------
-    
-    Range("F3:F7").Select
-    'Sw/Q, 비수위강하량
-    
-    Selection.Copy
-    Range("U44").Select
-    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-                           :=False, Transpose:=False
-    
-    Call CutDownNumber("T", 5)
-    
-    'Range("T44:T48").Select
-    'Selection.NumberFormatLocal = "0.000"
-    
-    ' ----------------------------------------------------------------
-    
-    Application.CutCopyMode = False
-    Application.ScreenUpdating = True
-End Sub
 
 Sub CutDownNumber(po As String, cutdown As Integer)
     Dim i, chrcode As Integer
@@ -2105,33 +2037,12 @@ Sub CutDownNumber(po As String, cutdown As Integer)
     Next i
 End Sub
 
-Private Sub EraseCellData(str_range As String)
+Sub EraseCellData(ByVal str_range As String)
     With Range(str_range)
         .Value = ""
     End With
 End Sub
 
-Sub vertical_copy()
-    Dim strValue(1 To 5) As String
-    Dim result As String
-    Dim i As Integer
-    
-    EraseCellData ("q64:x64")
-    
-    strValue(1) = "Q44:Q48"
-    strValue(2) = "R44:R48"
-    strValue(3) = "S44:S48"
-    strValue(4) = "T44:T48"
-    strValue(5) = "U44:U48"
-
-    For i = 1 To 5
-        result = ConcatenateCells(strValue(i))
-        Cells(64, Chr(81 + i - 1)).Value = result
-    Next i
-    
-    Range("q63").Select
-    Call WriteStringEtc
-End Sub
 
 
 Sub WriteStringEtc()
@@ -2289,8 +2200,6 @@ ErrorCheck:
     ' MsgBox "Error " & Err.Number & ": " & Err.Description
 
 End Sub
-
-
 
 
 Option Explicit
@@ -2975,3 +2884,114 @@ Sub 매크로1()
 '
     ActiveSheet.VPageBreaks(1).DragOff Direction:=xlToRight, RegionIndex:=1
 End Sub
+
+
+Sub Step_Pumping_Test()
+    Dim i           As Integer
+    
+    Application.ScreenUpdating = False
+    
+    ' ----------------------------------------------------------------
+    
+    Range("D3:D7").Select
+    '물량, Q
+    
+    Selection.Copy
+    
+    Range("Q44").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                           :=False, Transpose:=False
+    Selection.NumberFormatLocal = "0"
+    
+    Range("Q44:Q48").Select
+    With Selection
+        .HorizontalAlignment = xlRight
+        .VerticalAlignment = xlCenter
+    End With
+    
+    
+    Call CutDownNumber("Q", 0)
+    
+    ' ----------------------------------------------------------------
+    
+    Range("A3:A7").Select
+    ' 지하수위
+    
+    Selection.Copy
+    Range("R44").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                           :=False, Transpose:=False
+    Selection.NumberFormatLocal = "0.00"
+    
+    
+    ' ----------------------------------------------------------------
+    
+    Range("B3:B7").Select
+    'Sw, 강하수위
+    
+    Selection.Copy
+      
+    Range("S44").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                           :=False, Transpose:=False
+    Selection.NumberFormatLocal = "0.00"
+    
+    ' ----------------------------------------------------------------
+
+    Range("G3:G7").Select
+    'Q/Sw , 비양수량
+    
+    Selection.Copy
+    Range("T44").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                           :=False, Transpose:=False
+    ' Selection.NumberFormatLocal = "0.000"
+    
+    Call CutDownNumber("T", 3)
+     Application.CutCopyMode = False
+    ' ----------------------------------------------------------------
+    
+    Range("F3:F7").Select
+    'Sw/Q, 비수위강하량
+    
+    Selection.Copy
+    Range("U44").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+                           :=False, Transpose:=False
+    
+    Call CutDownNumber("T", 5)
+    
+    'Range("T44:T48").Select
+    'Selection.NumberFormatLocal = "0.000"
+    
+    ' ----------------------------------------------------------------
+    
+    Application.CutCopyMode = False
+    Application.ScreenUpdating = True
+End Sub
+
+Sub Vertical_Copy()
+    Dim strValue(1 To 5) As String
+    Dim result As String
+    Dim i As Integer
+    
+    EraseCellData ("q64:x64")
+    
+    strValue(1) = "Q44:Q48"
+    strValue(2) = "R44:R48"
+    strValue(3) = "S44:S48"
+    strValue(4) = "T44:T48"
+    strValue(5) = "U44:U48"
+
+    For i = 1 To 5
+        result = ConcatenateCells(strValue(i))
+        Cells(64, Chr(81 + i - 1)).Value = result
+    Next i
+    
+    Range("q63").Select
+    Call WriteStringEtc
+End Sub
+
+
+
+

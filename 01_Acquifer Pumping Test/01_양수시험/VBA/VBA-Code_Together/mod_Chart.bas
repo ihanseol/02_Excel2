@@ -28,6 +28,44 @@ Sub adjustChartGraph()
 End Sub
 
 
+Sub SetChartTitleText(ByVal i As Integer)
+    
+    Call SetGONGBEON
+    
+    ActiveSheet.ChartObjects("Chart 7").Activate
+    ActiveChart.Axes(xlCategory).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    
+    ActiveChart.Axes(xlCategory).Select
+    ActiveChart.Axes(xlValue).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
+    
+    ActiveSheet.ChartObjects("Chart 5").Activate
+    ActiveChart.Axes(xlCategory).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
+    
+    ActiveChart.Axes(xlCategory).Select
+    ActiveChart.Axes(xlValue).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
+    
+    ActiveSheet.ChartObjects("Chart 9").Activate
+    ActiveChart.Axes(xlCategory).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(Q)(W-" & CStr(i) & ")"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(Q)(W-" & CStr(i) & ")"
+    
+    ActiveChart.Axes(xlCategory).Select
+    ActiveChart.Axes(xlValue).AxisTitle.Select
+    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "수위강하량(Sw)"
+    Selection.Format.TextFrame2.TextRange.Characters.Text = "수위강하량(Sw)"
+    
+End Sub
+
+
+
 Public Sub SetGONGBEON()
     Dim gong As Integer
                   

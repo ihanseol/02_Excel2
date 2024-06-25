@@ -1,24 +1,16 @@
 Option Explicit
 
-
-' pumping test
-Private Sub CommandButton1_Click()
-    Call step_pumping_test
-    Call vertical_copy
-End Sub
-
-Private Sub CommandButton2_Click()
-    
+Private Sub CommandButton_CB1_Click()
 Top:
     On Error GoTo ErrorCheck
     Call set_CB1
     Exit Sub
-
+    
 ErrorCheck:
     GoTo Top
 End Sub
 
-Private Sub CommandButton3_Click()
+Private Sub CommandButton_CB2_Click()
 Top:
     On Error GoTo ErrorCheck
     Call set_CB2
@@ -28,92 +20,80 @@ ErrorCheck:
     GoTo Top
 End Sub
 
-Private Sub CommandButton4_Click()
-    Call make_step_document
-End Sub
-
-Private Sub CommandButton5_Click()
-    'Call make_long_document
-    Call Make2880Document
-End Sub
-
-Private Sub CommandButton6_Click()
-    Dim gong As Integer
-    Dim KeyCell As Range
+' Chart Button
+Private Sub CommandButton_Chart_Click()
+    Dim gong        As Integer
+    Dim KeyCell     As Range
     
     Call adjustChartGraph
     
     Set KeyCell = Range("J48")
     
     gong = Val(CleanString(KeyCell.Value))
-    Call SetChartTitleText(gong)
+    Call mod_Chart.SetChartTitleText(gong)
+    
+    Call mod_INPUT.Step_Pumping_Test
+    Call mod_INPUT.Vertical_Copy
 End Sub
 
-Private Sub CommandButton7_Click()
-    Call Make2880Document
+Private Sub CommandButton_ClearReport_Click()
+    
+    DeleteStepSheet
+       
+End Sub
+
+Sub DeleteStepSheet()
+    Dim ws1 As Worksheet
+    Dim ws2 As Worksheet
+    
+    On Error Resume Next
+    Set ws1 = Sheets("Step")
+    Set ws2 = Sheets("out")
+    On Error GoTo 0
+    
+    If Not ws1 Is Nothing Then
+        Application.DisplayAlerts = False
+        Sheets("Step").Delete
+        Application.DisplayAlerts = True
+    Else
+        Debug.Print "Sheet 'Step' does not exist."
+    End If
+    
+    If Not ws2 Is Nothing Then
+        Application.DisplayAlerts = False
+        Sheets("out").Delete
+        Application.DisplayAlerts = True
+    Else
+        Debug.Print "Sheet 'out' does not exist."
+    End If
+End Sub
+
+
+
+Private Sub CommandButton_STEP_Click()
+    Call Make_Step_Document
+End Sub
+
+Private Sub CommandButton_2880_Click()
+    'Call make_long_document
+    Call Make2880_Document
+End Sub
+
+Private Sub CommandButton_1440_Click()
+    Call Make2880_Document
     Call make1440sheet
 End Sub
-
 
 Private Sub CommandButton8_Click()
     Call set_CB_ALL
 End Sub
 
 Private Sub Worksheet_Activate()
-  
-'  Dim gong As Integer
-'  Dim KeyCell As Range
-'
-'  Set KeyCell = Range("J48")
-'
-'  gong = Val(CleanString(KeyCell.Value))
-'  Call SetChartTitleText(gong)
-
+    '  Dim gong     As Integer
+    '  Dim KeyCell  As Range
+    '
+    '  Set KeyCell = Range("J48")
+    '
+    '  gong = Val(CleanString(KeyCell.Value))
+    '  Call SetChartTitleText(gong)
 End Sub
-
-
-
-Private Sub SetChartTitleText(ByVal i As Integer)
-
-    Call SetGONGBEON
-
-    ActiveSheet.ChartObjects("Chart 7").Activate
-    ActiveChart.Axes(xlCategory).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    
-    ActiveChart.Axes(xlCategory).Select
-    ActiveChart.Axes(xlValue).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
-    
-
-    ActiveSheet.ChartObjects("Chart 5").Activate
-    ActiveChart.Axes(xlCategory).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(㎥/day)(W-" & CStr(i) & ")"
-    
-    ActiveChart.Axes(xlCategory).Select
-    ActiveChart.Axes(xlValue).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "비수위강하량(day/㎡)"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "비수위강하량(day/㎡)"
-    
-    ActiveSheet.ChartObjects("Chart 9").Activate
-    ActiveChart.Axes(xlCategory).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "양수량(Q)(W-" & CStr(i) & ")"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "양수량(Q)(W-" & CStr(i) & ")"
-    
-    ActiveChart.Axes(xlCategory).Select
-    ActiveChart.Axes(xlValue).AxisTitle.Select
-    ActiveChart.Axes(xlValue, xlPrimary).AxisTitle.Text = "수위강하량(Sw)"
-    Selection.Format.TextFrame2.TextRange.Characters.Text = "수위강하량(Sw)"
-    
-End Sub
-
-
-
-
-
-
-
-
