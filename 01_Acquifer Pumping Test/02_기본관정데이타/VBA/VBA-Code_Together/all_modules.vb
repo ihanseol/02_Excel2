@@ -27,7 +27,7 @@ Sheet_AggWhpa
 Sheet_AggSum
 Sheet_AggStep
 Sheet_AggChart
-Mod_InsertCHART
+modAggChart
 Sheet_AggFX
 Sheet4_Water
 modDumpArrayMyData
@@ -39,3 +39,12 @@ Module_Refactor
 Module_ImportWellSpec
 Class_Boolean
 Sheet_W2
+modWaterQualityTest
+Sheet_W3
+modWell
+modAggFX
+modAgg2
+modAgg1
+modAggStep
+modAggWhpa
+modAggSum

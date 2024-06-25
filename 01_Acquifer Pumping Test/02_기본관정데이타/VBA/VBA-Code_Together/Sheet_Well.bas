@@ -1,5 +1,9 @@
 Option Explicit
 
+Private Sub CommandButton_PressAll_Click()
+    Call PressAll_Button
+End Sub
+
 Private Sub CommandButton1_Click()
 ' add well
 
@@ -9,11 +13,15 @@ Private Sub CommandButton1_Click()
     
 End Sub
 
+
+'AggChart Button
 Private Sub CommandButton10_Click()
     Sheets("AggChart").Visible = True
     Sheets("AggChart").Select
 End Sub
 
+
+'AggFx Button
 Private Sub CommandButton11_Click()
     Sheets("YangSoo").Visible = True
     Sheets("YangSoo").Select
@@ -26,25 +34,9 @@ End Sub
 
 Private Sub CommandButton13_Click()
 ' Import All Well Spec
-
-    Dim nofwell, i  As Integer
-    Dim obj As New Class_Boolean
-
-    nofwell = sheets_count()
-    
-    BaseData_ETC_02.TurnOffStuff
-    
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.ImportWellSpec(i, obj)
-        
-        If obj.Result Then Exit For
-    Next i
-    
-    Sheets("Well").Activate
-    
-    BaseData_ETC_02.TurnOnStuff
+    Call ImportAll_EachWellSpec
 End Sub
+
 
 Private Sub CommandButton14_Click()
     'wSet, WellSpec Setting
@@ -74,63 +66,37 @@ Private Sub CommandButton15_Click()
 ' k14 - well height
 ' k15 - surfacewater height
 
-    Dim nofwell, i  As Integer
-    Dim obj As New Class_Boolean
-    Dim WB_NAME As String
-    
-
-    nofwell = sheets_count()
-     
-    WB_NAME = Module_ImportWellSpec.GetOtherFileName
-    
-    If WB_NAME = "NOTHING" Then
-        MsgBox "기본관정데이타를 복사해야 하므로, 기본관정데이터를 열어두시기 바랍니다. ", vbOK
-        Exit Sub
-    Else
-        BaseData_ETC_02.TurnOffStuff
-        
-        Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
-        Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
-        
-        ' 각 관정별 데이터 복사
-        For i = 1 To nofwell
-            Sheets(CStr(i)).Activate
-            Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
-            
-            If obj.Result Then Exit For
-        Next i
-        
-        
-        'WSet Button, CommandButton14
-        For i = 1 To nofwell
-            Cells(i + 3, "E").formula = "=Recharge!$I$24"
-            Cells(i + 3, "F").formula = "=All!$B$2"
-            Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
-        Next i
-        
-        Sheets("Well").Activate
-        BaseData_ETC_02.TurnOnStuff
-    End If
+    Call DuplicateBasicWellData
+  
 End Sub
 
 
 
+
+'AggSum Button
 Private Sub CommandButton3_Click()
     Sheets("AggSum").Visible = True
     Sheets("AggSum").Select
 End Sub
 
+
+
+'Aggregate1 Button
 Private Sub CommandButton4_Click()
     Sheets("Aggregate1").Visible = True
     Sheets("Aggregate1").Select
 End Sub
 
+
+
+'Aggregate2 Button
 Private Sub CommandButton5_Click()
     Sheets("Aggregate2").Visible = True
     Sheets("Aggregate2").Select
 End Sub
 
 
+'AggWhpa Button
 Private Sub CommandButton7_Click()
     Sheets("aggWhpa").Visible = True
     Sheets("aggWhpa").Select
@@ -146,42 +112,17 @@ End Sub
 'Jojung Button
 'add new feature - correct border frame ...
 Private Sub CommandButton2_Click()
-    Dim nofwell As Integer
-
-    TurnOffStuff
-
-    nofwell = sheets_count()
-    Call JojungSheetData
-    Call make_wellstyle
-    Call DecorateWellBorder(nofwell)
-    
-    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
-    
-    TurnOnStuff
+    Call JojungButton
 End Sub
+
 
 
 ' delete last
 Private Sub CommandButton8_Click()
-    Dim nofwell As Integer
-    'nofwell = GetNumberOfWell()
-    nofwell = sheets_count()
-    
-    If nofwell = 1 Then
-        MsgBox "Last is not delete ... ", vbOK
-        Exit Sub
-    End If
-    
-    Rows(nofwell + 3).Delete
-    Call DeleteWorksheet(nofwell)
-    Call DecorateWellBorder(nofwell - 1)
+    Call DeleteLast
 End Sub
 
-Sub DeleteWorksheet(Well As Integer)
-    Application.DisplayAlerts = False
-    ThisWorkbook.Worksheets(CStr(Well)).Delete
-    Application.DisplayAlerts = True
-End Sub
+
 
 
 Private Sub Worksheet_Activate()
@@ -189,56 +130,6 @@ Private Sub Worksheet_Activate()
 End Sub
 
 
-Private Sub DecorateWellBorder(ByVal nofwell As Integer)
-    Sheets("Well").Activate
-    Range("A2:R" & CStr(nofwell + 3)).Select
-    
-    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
-    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
-    With Selection.Borders(xlEdgeLeft)
-        .LineStyle = xlContinuous
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeTop)
-        .LineStyle = xlContinuous
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeBottom)
-        .LineStyle = xlContinuous
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlEdgeRight)
-        .LineStyle = xlContinuous
-        .Weight = xlMedium
-    End With
-    With Selection.Borders(xlInsideVertical)
-        .LineStyle = xlDot
-        .Weight = xlThin
-    End With
-    With Selection.Borders(xlInsideHorizontal)
-        .LineStyle = xlDot
-        .Weight = xlThin
-    End With
-    
-    Range("D15").Select
-End Sub
-
-
-Private Sub getDuoSolo(ByVal nofwell As Integer, ByRef nDuo As Integer, ByRef nSolo As Integer)
-    Dim page, quotient, remainder As Integer
-    
-    quotient = WorksheetFunction.quotient(nofwell, 2)
-    remainder = nofwell Mod 2
-    
-    If remainder = 0 Then
-        nDuo = quotient
-        nSolo = 0
-    Else
-        nDuo = quotient
-        nSolo = 1
-    End If
-
-End Sub
 
 'one button
 'delete all well except for one ...
@@ -271,28 +162,6 @@ Private Sub CommandButton6_Click()
    
 End Sub
 
-Function RemoveSheetIfExists(shname As String) As Boolean
-    Dim ws As Worksheet
-    Dim sheetExists As Boolean
-    
-    sheetExists = False
-
-    On Error Resume Next
-    Set ws = ThisWorkbook.Worksheets(shname)
-    If Not ws Is Nothing Then sheetExists = True
-    On Error GoTo 0
-
-    If sheetExists Then
-        Application.DisplayAlerts = False
-        ws.Delete
-        Application.DisplayAlerts = True
-        RemoveSheetIfExists = True
-        Exit Function
-    Else
-        RemoveSheetIfExists = False
-        Exit Function
-    End If
-End Function
 
 
 

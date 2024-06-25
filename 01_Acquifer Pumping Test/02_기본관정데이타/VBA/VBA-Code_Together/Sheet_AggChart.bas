@@ -13,7 +13,7 @@ End Sub
 Private Sub CommandButton2_Click()
 'Collect Data
 
-    If ActiveSheet.name <> "AggChart" Then Sheets("AggChart").Select
+   
     Call WriteAllCharts(999, False)
 
 End Sub
@@ -44,15 +44,6 @@ Private Sub CommandButton3_Click()
     Call WriteAllCharts(singleWell, True)
 
 End Sub
-
-
-
-Private Sub EraseCellData(str_range As String)
-    With Range(str_range)
-        .value = ""
-    End With
-End Sub
-
 
 
 

@@ -9,6 +9,14 @@ Public Enum cellLowHi
     cellHI = 1
 End Enum
 
+
+Sub EraseCellData(ByVal str_range As String)
+    With Range(str_range)
+        .value = ""
+    End With
+End Sub
+
+
 'Function GetNumberOfWell() As Integer
 '    Dim save_name As String
 '    Dim n As Integer
