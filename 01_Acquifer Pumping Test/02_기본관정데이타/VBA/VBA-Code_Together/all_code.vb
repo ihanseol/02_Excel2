@@ -9659,7 +9659,7 @@ Sub PressAll_Button()
     Sheets("YangSoo").Visible = True
     Sheets("YangSoo").Select
     Call modAggFX.GetBaseDataFromYangSoo(999, False)
-    Delay (1)
+    Delay (2)
     
     Call modAggFX.WriteFormula
     Sheets("YangSoo").Visible = False
