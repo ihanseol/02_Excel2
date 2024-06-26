@@ -11,38 +11,45 @@ Sub PressAll_Button()
 ' AggWhpa
 '
 
-Sheets("YangSoo").Visible = True
-Sheets("YangSoo").Select
-Call modAggFX.GetBaseDataFromYangSoo(999, False)
-Call modAggFX.WriteFormula
-Sheets("YangSoo").Visible = False
-
-Sheets("Aggregate2").Visible = True
-Sheets("Aggregate2").Select
-Call modAgg2.ImportWellSpec(999, False)
-Sheets("Aggregate2").Visible = False
-
-
-Sheets("Aggregate1").Visible = True
-Sheets("Aggregate1").Select
-Call modAgg1.AggregateOne_Import(999, False)
-Sheets("Aggregate1").Visible = False
-
-
-Sheets("AggStep").Visible = True
-Sheets("AggStep").Select
-Call modAggStep.WriteStepTestData(999, False)
-Sheets("AggStep").Visible = False
-
-Sheets("AggChart").Visible = True
-Sheets("AggChart").Select
-Call modAggChart.WriteAllCharts(999, False)
-Sheets("AggChart").Visible = False
+    Sheets("YangSoo").Visible = True
+    Sheets("YangSoo").Select
+    Call modAggFX.GetBaseDataFromYangSoo(999, False)
+    Delay (1)
     
+    Call modAggFX.WriteFormula
+    Sheets("YangSoo").Visible = False
+    
+    Sheets("Aggregate2").Visible = True
+    Sheets("Aggregate2").Select
+    Call modAgg2.ImportWellSpec(999, False)
+    Sheets("Aggregate2").Visible = False
+    
+    
+    Sheets("Aggregate1").Visible = True
+    Sheets("Aggregate1").Select
+    Call modAgg1.AggregateOne_Import(999, False)
+    Sheets("Aggregate1").Visible = False
+    
+    
+    Sheets("AggStep").Visible = True
+    Sheets("AggStep").Select
+    Call modAggStep.WriteStepTestData(999, False)
+    Sheets("AggStep").Visible = False
+    
+    Sheets("AggChart").Visible = True
+    Sheets("AggChart").Select
+    Call modAggChart.WriteAllCharts(999, False)
+    Sheets("AggChart").Visible = False
+        
+    
+    Call modWell.ImportAll_QT
+    Call modWell.ImportAll_EachWellSpec
 
-Call modWell.ImportAll_QT
-Call modWell.ImportAll_EachWellSpec
+End Sub
 
+
+Sub Delay(n As Integer)
+    Application.Wait (Now + TimeValue("0:00:" & n))
 End Sub
 
 Function RemoveSheetIfExists(shname As String) As Boolean

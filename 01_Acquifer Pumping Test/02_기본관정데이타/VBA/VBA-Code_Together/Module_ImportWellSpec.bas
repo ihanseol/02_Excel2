@@ -245,7 +245,7 @@ End Sub
 
 Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
 
-   Dim cpRange As String
+   Dim cpRange, title As String
     
     cpRange = "A4:P" & (nofwell + 4 - 1)
     
@@ -258,6 +258,11 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
     
+    
+    
+    ' 2024/6/26¿œ, Copy Title
+    title = Workbooks(WB_NAME).Worksheets("Well").Range("E1").value
+    Workbooks(this_WBNAME).Worksheets("Well").Range("E1") = title
     
     Application.CutCopyMode = False
     Range("A4").Select

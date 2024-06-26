@@ -8552,7 +8552,7 @@ End Sub
 
 Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
 
-   Dim cpRange As String
+   Dim cpRange, title As String
     
     cpRange = "A4:P" & (nofwell + 4 - 1)
     
@@ -8565,6 +8565,11 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
     
+    
+    
+    ' 2024/6/26일, Copy Title
+    title = Workbooks(WB_NAME).Worksheets("Well").Range("E1").value
+    Workbooks(this_WBNAME).Worksheets("Well").Range("E1") = title
     
     Application.CutCopyMode = False
     Range("A4").Select
@@ -9888,38 +9893,45 @@ Sub PressAll_Button()
 ' AggWhpa
 '
 
-Sheets("YangSoo").Visible = True
-Sheets("YangSoo").Select
-Call modAggFX.GetBaseDataFromYangSoo(999, False)
-Call modAggFX.WriteFormula
-Sheets("YangSoo").Visible = False
-
-Sheets("Aggregate2").Visible = True
-Sheets("Aggregate2").Select
-Call modAgg2.ImportWellSpec(999, False)
-Sheets("Aggregate2").Visible = False
-
-
-Sheets("Aggregate1").Visible = True
-Sheets("Aggregate1").Select
-Call modAgg1.AggregateOne_Import(999, False)
-Sheets("Aggregate1").Visible = False
-
-
-Sheets("AggStep").Visible = True
-Sheets("AggStep").Select
-Call modAggStep.WriteStepTestData(999, False)
-Sheets("AggStep").Visible = False
-
-Sheets("AggChart").Visible = True
-Sheets("AggChart").Select
-Call modAggChart.WriteAllCharts(999, False)
-Sheets("AggChart").Visible = False
+    Sheets("YangSoo").Visible = True
+    Sheets("YangSoo").Select
+    Call modAggFX.GetBaseDataFromYangSoo(999, False)
+    Delay (1)
     
+    Call modAggFX.WriteFormula
+    Sheets("YangSoo").Visible = False
+    
+    Sheets("Aggregate2").Visible = True
+    Sheets("Aggregate2").Select
+    Call modAgg2.ImportWellSpec(999, False)
+    Sheets("Aggregate2").Visible = False
+    
+    
+    Sheets("Aggregate1").Visible = True
+    Sheets("Aggregate1").Select
+    Call modAgg1.AggregateOne_Import(999, False)
+    Sheets("Aggregate1").Visible = False
+    
+    
+    Sheets("AggStep").Visible = True
+    Sheets("AggStep").Select
+    Call modAggStep.WriteStepTestData(999, False)
+    Sheets("AggStep").Visible = False
+    
+    Sheets("AggChart").Visible = True
+    Sheets("AggChart").Select
+    Call modAggChart.WriteAllCharts(999, False)
+    Sheets("AggChart").Visible = False
+        
+    
+    Call modWell.ImportAll_QT
+    Call modWell.ImportAll_EachWellSpec
 
-Call modWell.ImportAll_QT
-Call modWell.ImportAll_EachWellSpec
+End Sub
 
+
+Sub Delay(n As Integer)
+    Application.Wait (Now + TimeValue("0:00:" & n))
 End Sub
 
 Function RemoveSheetIfExists(shname As String) As Boolean
@@ -11880,4 +11892,388 @@ Sub Check_DI()
     Range(ColumnNumberToLetter(ip_Column + 1) & (ip_Row + 1)).value = CheckDrasticIndex(Range(ColumnNumberToLetter(ip_Column) & (ip_Row + 1)))
 
 End Sub
+
+Private Sub CommandButton1_Click()
+' QT - Quality Test
+' Import Quality Test From YangSoo
+  Call ImportAll_QT
+End Sub
+
+
+'Get Water Spec from YanSoo ilbo
+Private Sub CommandButton2_Click()
+
+    Call GetWaterSpecFromYangSoo_Q1
+
+End Sub
+
+
+' Get(Ec, Ph, Temp) Range - 지열공에서 통계내는 함수 ....
+' Ph, EC, Temp statistics, find range
+' data gathering function in EarthThermal test ...
+Private Sub CommandButton3_Click()
+    Dim nofwell, i As Integer
+    
+    Dim lowEC() As Double
+    Dim hiEC() As Double
+    Dim lowPH() As Double
+    Dim hiPH() As Double
+    Dim lowTEMP() As Double
+    Dim hiTEMP() As Double
+
+    nofwell = sheets_count()
+    
+'    If nofwell < 2 Or Not Contains(Sheets, "a1") Then
+'        MsgBox "first Generate Simple YangSoo"
+'        Exit Sub
+'    End If
+    
+    If Not IsSheet("p1") Then
+        MsgBox "First Make Summary Page"
+        Exit Sub
+    End If
+    
+ 
+    ReDim lowPH(1 To nofwell)
+    ReDim hiPH(1 To nofwell)
+    
+    ReDim lowEC(1 To nofwell)
+    ReDim hiEC(1 To nofwell)
+    
+    ReDim lowTEMP(1 To nofwell)
+    ReDim hiTEMP(1 To nofwell)
+    
+    For i = 1 To nofwell
+        lowEC(i) = getEC_Q1(cellLOW, i)
+        hiEC(i) = getEC_Q1(cellHI, i)
+        
+        lowPH(i) = getPH_Q1(cellLOW, i)
+        hiPH(i) = getPH_Q1(cellHI, i)
+        
+        lowTEMP(i) = getTEMP_Q1(cellLOW, i)
+        hiTEMP(i) = getTEMP_Q1(cellHI, i)
+    Next i
+    
+    Debug.Print String(3, vbCrLf)
+    
+    Debug.Print "--Temp----------------------------------------"
+    Debug.Print "low : " & Application.min(lowTEMP), Application.max(lowTEMP)
+    Debug.Print "hi  : " & Application.min(hiTEMP), Application.max(hiTEMP)
+    Debug.Print "----------------------------------------------"
+    
+    Debug.Print "--PH------------------------------------------"
+    Debug.Print "low : " & Application.min(lowPH), Application.max(lowPH)
+    Debug.Print "hi  : " & Application.min(hiPH), Application.max(hiPH)
+    Debug.Print "----------------------------------------------"
+       
+    Debug.Print "--EC------------------------------------------"
+    Debug.Print "low : " & Application.min(lowEC), Application.max(lowEC)
+    Debug.Print "hi  : " & Application.min(hiEC), Application.max(hiEC)
+    Debug.Print "----------------------------------------------"
+End Sub
+
+
+
+' make summary page
+Private Sub CommandButton4_Click()
+    Dim nofwell As Integer
+    Dim i As Integer
+    
+    If IsSheet("p1") Then
+        MsgBox "Sheet P1 Exist .... Delete First ... ", vbOKOnly
+        Exit Sub
+    End If
+       
+    
+    nofwell = GetNumberOfWell()
+    
+    For i = 1 To nofwell
+        DuplicateQ1Page (i)
+    Next i
+End Sub
+
+
+' delete all summary page
+Private Sub CommandButton5_Click()
+
+    Call modWaterQualityTest.DeleteAllSummaryPage("Q1")
+
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Private Sub CommandButton1_Click()
+' QT - Quality Test
+' Import Quality Test From YangSoo
+  Call ImportAll_QT
+End Sub
+
+
+'Get Water Spec from YanSoo ilbo
+Private Sub CommandButton2_Click()
+
+    Call GetWaterSpecFromYangSoo_Q1
+
+End Sub
+
+
+' Get(Ec, Ph, Temp) Range - 지열공에서 통계내는 함수 ....
+' Ph, EC, Temp statistics, find range
+' data gathering function in EarthThermal test ...
+Private Sub CommandButton3_Click()
+    Dim nofwell, i As Integer
+    
+    Dim lowEC() As Double
+    Dim hiEC() As Double
+    Dim lowPH() As Double
+    Dim hiPH() As Double
+    Dim lowTEMP() As Double
+    Dim hiTEMP() As Double
+
+    nofwell = sheets_count()
+    
+'    If nofwell < 2 Or Not Contains(Sheets, "a1") Then
+'        MsgBox "first Generate Simple YangSoo"
+'        Exit Sub
+'    End If
+    
+    If Not IsSheet("p1") Then
+        MsgBox "First Make Summary Page"
+        Exit Sub
+    End If
+    
+ 
+    ReDim lowPH(1 To nofwell)
+    ReDim hiPH(1 To nofwell)
+    
+    ReDim lowEC(1 To nofwell)
+    ReDim hiEC(1 To nofwell)
+    
+    ReDim lowTEMP(1 To nofwell)
+    ReDim hiTEMP(1 To nofwell)
+    
+    For i = 1 To nofwell
+        lowEC(i) = getEC_Q1(cellLOW, i)
+        hiEC(i) = getEC_Q1(cellHI, i)
+        
+        lowPH(i) = getPH_Q1(cellLOW, i)
+        hiPH(i) = getPH_Q1(cellHI, i)
+        
+        lowTEMP(i) = getTEMP_Q1(cellLOW, i)
+        hiTEMP(i) = getTEMP_Q1(cellHI, i)
+    Next i
+    
+    Debug.Print String(3, vbCrLf)
+    
+    Debug.Print "--Temp----------------------------------------"
+    Debug.Print "low : " & Application.min(lowTEMP), Application.max(lowTEMP)
+    Debug.Print "hi  : " & Application.min(hiTEMP), Application.max(hiTEMP)
+    Debug.Print "----------------------------------------------"
+    
+    Debug.Print "--PH------------------------------------------"
+    Debug.Print "low : " & Application.min(lowPH), Application.max(lowPH)
+    Debug.Print "hi  : " & Application.min(hiPH), Application.max(hiPH)
+    Debug.Print "----------------------------------------------"
+       
+    Debug.Print "--EC------------------------------------------"
+    Debug.Print "low : " & Application.min(lowEC), Application.max(lowEC)
+    Debug.Print "hi  : " & Application.min(hiEC), Application.max(hiEC)
+    Debug.Print "----------------------------------------------"
+End Sub
+
+
+
+' make summary page
+Private Sub CommandButton4_Click()
+    Dim nofwell As Integer
+    Dim i As Integer
+    
+    If IsSheet("p1") Then
+        MsgBox "Sheet P1 Exist .... Delete First ... ", vbOKOnly
+        Exit Sub
+    End If
+       
+    
+    nofwell = GetNumberOfWell()
+    
+    For i = 1 To nofwell
+        DuplicateQ1Page (i)
+    Next i
+End Sub
+
+
+' delete all summary page
+Private Sub CommandButton5_Click()
+
+    Call modWaterQualityTest.DeleteAllSummaryPage("Q1")
+
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Private Sub CommandButton1_Click()
+' QT - Quality Test
+' Import Quality Test From YangSoo
+  Call ImportAll_QT
+End Sub
+
+
+'Get Water Spec from YanSoo ilbo
+Private Sub CommandButton2_Click()
+
+    Call GetWaterSpecFromYangSoo_Q1
+
+End Sub
+
+
+' Get(Ec, Ph, Temp) Range - 지열공에서 통계내는 함수 ....
+' Ph, EC, Temp statistics, find range
+' data gathering function in EarthThermal test ...
+Private Sub CommandButton3_Click()
+    Dim nofwell, i As Integer
+    
+    Dim lowEC() As Double
+    Dim hiEC() As Double
+    Dim lowPH() As Double
+    Dim hiPH() As Double
+    Dim lowTEMP() As Double
+    Dim hiTEMP() As Double
+
+    nofwell = sheets_count()
+    
+'    If nofwell < 2 Or Not Contains(Sheets, "a1") Then
+'        MsgBox "first Generate Simple YangSoo"
+'        Exit Sub
+'    End If
+    
+    If Not IsSheet("p1") Then
+        MsgBox "First Make Summary Page"
+        Exit Sub
+    End If
+    
+ 
+    ReDim lowPH(1 To nofwell)
+    ReDim hiPH(1 To nofwell)
+    
+    ReDim lowEC(1 To nofwell)
+    ReDim hiEC(1 To nofwell)
+    
+    ReDim lowTEMP(1 To nofwell)
+    ReDim hiTEMP(1 To nofwell)
+    
+    For i = 1 To nofwell
+        lowEC(i) = getEC_Q1(cellLOW, i)
+        hiEC(i) = getEC_Q1(cellHI, i)
+        
+        lowPH(i) = getPH_Q1(cellLOW, i)
+        hiPH(i) = getPH_Q1(cellHI, i)
+        
+        lowTEMP(i) = getTEMP_Q1(cellLOW, i)
+        hiTEMP(i) = getTEMP_Q1(cellHI, i)
+    Next i
+    
+    Debug.Print String(3, vbCrLf)
+    
+    Debug.Print "--Temp----------------------------------------"
+    Debug.Print "low : " & Application.min(lowTEMP), Application.max(lowTEMP)
+    Debug.Print "hi  : " & Application.min(hiTEMP), Application.max(hiTEMP)
+    Debug.Print "----------------------------------------------"
+    
+    Debug.Print "--PH------------------------------------------"
+    Debug.Print "low : " & Application.min(lowPH), Application.max(lowPH)
+    Debug.Print "hi  : " & Application.min(hiPH), Application.max(hiPH)
+    Debug.Print "----------------------------------------------"
+       
+    Debug.Print "--EC------------------------------------------"
+    Debug.Print "low : " & Application.min(lowEC), Application.max(lowEC)
+    Debug.Print "hi  : " & Application.min(hiEC), Application.max(hiEC)
+    Debug.Print "----------------------------------------------"
+End Sub
+
+
+
+' make summary page
+Private Sub CommandButton4_Click()
+    Dim nofwell As Integer
+    Dim i As Integer
+    
+    If IsSheet("p1") Then
+        MsgBox "Sheet P1 Exist .... Delete First ... ", vbOKOnly
+        Exit Sub
+    End If
+       
+    
+    nofwell = GetNumberOfWell()
+    
+    For i = 1 To nofwell
+        DuplicateQ1Page (i)
+    Next i
+End Sub
+
+
+' delete all summary page
+Private Sub CommandButton5_Click()
+
+    Call modWaterQualityTest.DeleteAllSummaryPage("Q1")
+
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
