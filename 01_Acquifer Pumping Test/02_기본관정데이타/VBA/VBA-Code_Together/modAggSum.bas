@@ -1,4 +1,7 @@
 
+Const WELL_BUFFER = 30
+
+
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
     
@@ -42,6 +45,7 @@ End Sub
 
 '<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
+
 Sub Write26_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
@@ -50,8 +54,11 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
     
     Values = GetRowColumn("AggSum_26_AC")
     ip_Row = Values(2)
+    'ip_row = "12" 로 String
     
-    rngString = "D" & ip_Row & ":J" & (ip_Row + WELL_BUFFER - 1)
+    rngString = "D" & ip_Row & ":J" & (CInt(ip_Row) + WELL_BUFFER - 1)
+    
+    
     Call EraseCellData(rngString)
         
     For i = 1 To nofwell
