@@ -227,6 +227,7 @@ Sub DuplicateBasicWellData()
             If obj.Result Then Exit For
         Next i
         
+        Worksheets("Well").Activate
         
         'WSet Button, CommandButton14
         For i = 1 To nofwell
