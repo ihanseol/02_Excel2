@@ -50,7 +50,7 @@ Private Sub CellBlack(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent1
         .TintAndShade = -0.499984740745262
@@ -66,7 +66,7 @@ Private Sub CellLight(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent6
         .TintAndShade = 0.799981688894314

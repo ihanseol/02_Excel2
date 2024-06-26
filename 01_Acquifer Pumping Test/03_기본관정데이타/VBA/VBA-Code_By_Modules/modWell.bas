@@ -1,4 +1,71 @@
 Attribute VB_Name = "modWell"
+
+Function CheckWorkbookNameWithRegex(ByVal WB_NAME As String) As Boolean
+    Dim regex As Object
+    Dim pattern As String
+    Dim match As Object
+
+    ' Create the regex object
+    Set regex = CreateObject("VBScript.RegExp")
+
+    ' Define the pattern
+    ' \bA(1|[2-9]|1[0-9]|2[0-9]|30)_ge_OriginalSaveFile
+    pattern = "\bA(1|[2-9]|1[0-9]|2[0-9]|30)_ge_OriginalSaveFile.xlsm"
+
+    ' Configure the regex object
+    With regex
+        .pattern = pattern
+        .IgnoreCase = True
+        .Global = False
+    End With
+
+    ' Check for the pattern
+    If regex.test(WB_NAME) Then
+        Set match = regex.Execute(WB_NAME)
+        Debug.Print "The workbook name contains the pattern: " & match(0).value
+        CheckWorkbookNameWithRegex = True
+    Else
+        Debug.Print "The workbook name does not contain the pattern."
+        CheckWorkbookNameWithRegex = False
+    End If
+End Function
+
+Function IsOpenedYangSooFiles() As Boolean
+'
+' 양수일보파일, A1_ge_OriginalSaveFile 이 열려있어서
+' 양수일보의 갯수가, 관정의 갯수와 같으면 True
+' 그렇지 않으면 False
+'
+    Dim fileName, WBNAME As String
+    Dim nof_yangsoo As Integer
+    Dim nofwell As Integer
+    
+    nof_yangsoo = 0
+    nofwell = sheets_count()
+    
+    For Each Workbook In Application.Workbooks
+        WBNAME = Workbook.name
+        If StrComp(ThisWorkbook.name, WBNAME, vbTextCompare) = 0 Then
+        ' 이름이 thisworkbook.name 과 같다면 , 다음분기로
+            GoTo NEXT_ITERATION
+        End If
+        
+        If CheckWorkbookNameWithRegex(WBNAME) Then
+            nof_yangsoo = nof_yangsoo + 1
+        End If
+        
+NEXT_ITERATION:
+    Next
+    
+    If nof_yangsoo = nofwell Then
+        IsOpenedYangSooFiles = True
+    Else
+        IsOpenedYangSooFiles = False
+    End If
+
+End Function
+
+
 Sub PressAll_Button()
 ' Push All Button
 ' Fx - Collect Data
@@ -10,6 +77,10 @@ Sub PressAll_Button()
 ' AggChart
 ' AggWhpa
 '
+    If Not IsOpenedYangSooFiles() Then
+        Popup_MessageBox ("YangSoo File is Does not match with number of well")
+        Exit Sub
+    End If
 
     Call Popup_MessageBox("YangSoo, modAggFX - get Data from YangSoo ilbo ...")
         

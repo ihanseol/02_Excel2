@@ -163,7 +163,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     'Range("A60:N61").Select
     Range("A" & (po + 3) & ":" & mychar & (po + 4)).Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent3
         .TintAndShade = 0.799981688894314
@@ -173,7 +173,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     'Range("B67:N67").Select
     Range("B" & (po + 10) & ":" & mychar & (po + 10)).Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent2
         .TintAndShade = 0.799981688894314

@@ -67,7 +67,7 @@ Sub BackGroundFill(rngLine As Range, FLAG As Boolean)
 If FLAG Then
     rngLine.Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorDark1
         .TintAndShade = -4.99893185216834E-02
@@ -76,7 +76,7 @@ If FLAG Then
 Else
     rngLine.Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorDark1
         .TintAndShade = 0
@@ -212,7 +212,7 @@ Function ExtractNumberFromString(inputString As String) As String
         .Global = True
         .MultiLine = True
         .IgnoreCase = False
-        .Pattern = "\d+"
+        .pattern = "\d+"
     End With
     
     If regex.test(inputString) Then

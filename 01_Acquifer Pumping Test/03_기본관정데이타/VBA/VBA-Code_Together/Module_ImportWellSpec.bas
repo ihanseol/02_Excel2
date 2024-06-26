@@ -1,4 +1,4 @@
-Function GetOtherFileName() As String
+Function GetOtherFileName(Optional ByVal SearchText As String = "데이타") As String
     Dim Workbook As Workbook
     Dim WBNAME As String
     Dim i As Long
@@ -15,7 +15,7 @@ Function GetOtherFileName() As String
             GoTo NEXT_ITERATION
         End If
         
-        If ThisWorkbook.name <> Workbook.name And CheckSubstring(WBNAME, "데이타") Then
+        If ThisWorkbook.name <> Workbook.name And CheckSubstring(WBNAME, SearchText) Then
             Exit For
         End If
         
@@ -23,7 +23,7 @@ NEXT_ITERATION:
     Next
     
     
-    If ThisWorkbook.name <> WBNAME And CheckSubstring(WBNAME, "데이타") Then
+    If ThisWorkbook.name <> WBNAME And CheckSubstring(WBNAME, SearchText) Then
         GetOtherFileName = WBNAME
     Else
         GetOtherFileName = "NOTHING"
@@ -67,24 +67,24 @@ End Sub
 
 '**********************************************************************************************************************
 
-Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
-
-    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
-    
-    If Range("k12").Font.Bold Then
-        Range("K12").Font.Bold = False
-        Range("L12").Font.Bold = True
-        
-        CellBlack (ActiveSheet.Range("L12"))
-        CellLight (ActiveSheet.Range("K12"))
-    Else
-        Range("K12").Font.Bold = True
-        Range("L12").Font.Bold = False
-        
-        CellBlack (ActiveSheet.Range("K12"))
-        CellLight (ActiveSheet.Range("L12"))
-    End If
-End Sub
+'Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
+'
+'    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
+'
+'    If Range("k12").Font.Bold Then
+'        Range("K12").Font.Bold = False
+'        Range("L12").Font.Bold = True
+'
+'        CellBlack (ActiveSheet.Range("L12"))
+'        CellLight (ActiveSheet.Range("K12"))
+'    Else
+'        Range("K12").Font.Bold = True
+'        Range("L12").Font.Bold = False
+'
+'        CellBlack (ActiveSheet.Range("K12"))
+'        CellLight (ActiveSheet.Range("L12"))
+'    End If
+'End Sub
 
 Sub InteriorCopyDirection(this_WBNAME As String, well_no As Integer, IS_OVER180 As Boolean)
 
@@ -110,7 +110,7 @@ Private Sub CellBlack(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent1
         .TintAndShade = -0.499984740745262
@@ -126,7 +126,7 @@ Private Sub CellLight(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent6
         .TintAndShade = 0.799981688894314

@@ -577,7 +577,7 @@ Private Sub CellBlack(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent1
         .TintAndShade = -0.499984740745262
@@ -593,7 +593,7 @@ Private Sub CellLight(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent6
         .TintAndShade = 0.799981688894314
@@ -1414,7 +1414,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     'Range("A60:N61").Select
     Range("A" & (po + 3) & ":" & mychar & (po + 4)).Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent3
         .TintAndShade = 0.799981688894314
@@ -1424,7 +1424,7 @@ Private Sub decorationInerLine(ByVal nof_sheets As Integer, ByVal po As Integer)
     'Range("B67:N67").Select
     Range("B" & (po + 10) & ":" & mychar & (po + 10)).Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent2
         .TintAndShade = 0.799981688894314
@@ -2890,7 +2890,7 @@ Sub BackGroundFill(rngLine As Range, FLAG As Boolean)
 If FLAG Then
     rngLine.Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorDark1
         .TintAndShade = -4.99893185216834E-02
@@ -2899,7 +2899,7 @@ If FLAG Then
 Else
     rngLine.Select
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorDark1
         .TintAndShade = 0
@@ -3035,7 +3035,7 @@ Function ExtractNumberFromString(inputString As String) As String
         .Global = True
         .MultiLine = True
         .IgnoreCase = False
-        .Pattern = "\d+"
+        .pattern = "\d+"
     End With
     
     If regex.test(inputString) Then
@@ -8305,7 +8305,7 @@ CreateLogFile_Error:
 End Sub
 
 'This Module is Empty 
-Function GetOtherFileName() As String
+Function GetOtherFileName(Optional ByVal SearchText As String = "데이타") As String
     Dim Workbook As Workbook
     Dim WBNAME As String
     Dim i As Long
@@ -8322,7 +8322,7 @@ Function GetOtherFileName() As String
             GoTo NEXT_ITERATION
         End If
         
-        If ThisWorkbook.name <> Workbook.name And CheckSubstring(WBNAME, "데이타") Then
+        If ThisWorkbook.name <> Workbook.name And CheckSubstring(WBNAME, SearchText) Then
             Exit For
         End If
         
@@ -8330,7 +8330,7 @@ NEXT_ITERATION:
     Next
     
     
-    If ThisWorkbook.name <> WBNAME And CheckSubstring(WBNAME, "데이타") Then
+    If ThisWorkbook.name <> WBNAME And CheckSubstring(WBNAME, SearchText) Then
         GetOtherFileName = WBNAME
     Else
         GetOtherFileName = "NOTHING"
@@ -8374,24 +8374,24 @@ End Sub
 
 '**********************************************************************************************************************
 
-Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
-
-    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
-    
-    If Range("k12").Font.Bold Then
-        Range("K12").Font.Bold = False
-        Range("L12").Font.Bold = True
-        
-        CellBlack (ActiveSheet.Range("L12"))
-        CellLight (ActiveSheet.Range("K12"))
-    Else
-        Range("K12").Font.Bold = True
-        Range("L12").Font.Bold = False
-        
-        CellBlack (ActiveSheet.Range("K12"))
-        CellLight (ActiveSheet.Range("L12"))
-    End If
-End Sub
+'Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
+'
+'    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
+'
+'    If Range("k12").Font.Bold Then
+'        Range("K12").Font.Bold = False
+'        Range("L12").Font.Bold = True
+'
+'        CellBlack (ActiveSheet.Range("L12"))
+'        CellLight (ActiveSheet.Range("K12"))
+'    Else
+'        Range("K12").Font.Bold = True
+'        Range("L12").Font.Bold = False
+'
+'        CellBlack (ActiveSheet.Range("K12"))
+'        CellLight (ActiveSheet.Range("L12"))
+'    End If
+'End Sub
 
 Sub InteriorCopyDirection(this_WBNAME As String, well_no As Integer, IS_OVER180 As Boolean)
 
@@ -8417,7 +8417,7 @@ Private Sub CellBlack(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent1
         .TintAndShade = -0.499984740745262
@@ -8433,7 +8433,7 @@ Private Sub CellLight(S As Range)
     S.Select
     
     With Selection.Interior
-        .Pattern = xlSolid
+        .pattern = xlSolid
         .PatternColorIndex = xlAutomatic
         .themeColor = xlThemeColorAccent6
         .TintAndShade = 0.799981688894314
@@ -9644,6 +9644,73 @@ End Sub
 '******************************************************************************************************************************
 
 
+
+Function CheckWorkbookNameWithRegex(ByVal WB_NAME As String) As Boolean
+    Dim regex As Object
+    Dim pattern As String
+    Dim match As Object
+
+    ' Create the regex object
+    Set regex = CreateObject("VBScript.RegExp")
+
+    ' Define the pattern
+    ' \bA(1|[2-9]|1[0-9]|2[0-9]|30)_ge_OriginalSaveFile
+    pattern = "\bA(1|[2-9]|1[0-9]|2[0-9]|30)_ge_OriginalSaveFile.xlsm"
+
+    ' Configure the regex object
+    With regex
+        .pattern = pattern
+        .IgnoreCase = True
+        .Global = False
+    End With
+
+    ' Check for the pattern
+    If regex.test(WB_NAME) Then
+        Set match = regex.Execute(WB_NAME)
+        Debug.Print "The workbook name contains the pattern: " & match(0).value
+        CheckWorkbookNameWithRegex = True
+    Else
+        Debug.Print "The workbook name does not contain the pattern."
+        CheckWorkbookNameWithRegex = False
+    End If
+End Function
+
+Function IsOpenedYangSooFiles() As Boolean
+'
+' 양수일보파일, A1_ge_OriginalSaveFile 이 열려있어서
+' 양수일보의 갯수가, 관정의 갯수와 같으면 True
+' 그렇지 않으면 False
+'
+    Dim fileName, WBNAME As String
+    Dim nof_yangsoo As Integer
+    Dim nofwell As Integer
+    
+    nof_yangsoo = 0
+    nofwell = sheets_count()
+    
+    For Each Workbook In Application.Workbooks
+        WBNAME = Workbook.name
+        If StrComp(ThisWorkbook.name, WBNAME, vbTextCompare) = 0 Then
+        ' 이름이 thisworkbook.name 과 같다면 , 다음분기로
+            GoTo NEXT_ITERATION
+        End If
+        
+        If CheckWorkbookNameWithRegex(WBNAME) Then
+            nof_yangsoo = nof_yangsoo + 1
+        End If
+        
+NEXT_ITERATION:
+    Next
+    
+    If nof_yangsoo = nofwell Then
+        IsOpenedYangSooFiles = True
+    Else
+        IsOpenedYangSooFiles = False
+    End If
+
+End Function
+
+
 Sub PressAll_Button()
 ' Push All Button
 ' Fx - Collect Data
@@ -9655,6 +9722,10 @@ Sub PressAll_Button()
 ' AggChart
 ' AggWhpa
 '
+    If Not IsOpenedYangSooFiles() Then
+        Popup_MessageBox ("YangSoo File is Does not match with number of well")
+        Exit Sub
+    End If
 
     Call Popup_MessageBox("YangSoo, modAggFX - get Data from YangSoo ilbo ...")
         
