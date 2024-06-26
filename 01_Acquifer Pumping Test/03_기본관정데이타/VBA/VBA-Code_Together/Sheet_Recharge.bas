@@ -25,8 +25,8 @@ Private Sub FindMaxMin()
     maxVal = Application.WorksheetFunction.max(Range("B46:" & ColumnNumberToLetter(nWell + 1) & "46"))
     minVal = Application.WorksheetFunction.min(Range("B46:" & ColumnNumberToLetter(nWell + 1) & "46"))
     
-    qMax = Application.WorksheetFunction.max(Range("B40:" & ColumnNumberToLetter(nWell + 1) & "40"))
-    qMin = Application.WorksheetFunction.min(Range("B40:" & ColumnNumberToLetter(nWell + 1) & "40"))
+    qMax = Application.WorksheetFunction.max(Range("B41:" & ColumnNumberToLetter(nWell + 1) & "41"))
+    qMin = Application.WorksheetFunction.min(Range("B41:" & ColumnNumberToLetter(nWell + 1) & "41"))
     
     
     Range("k52") = minVal

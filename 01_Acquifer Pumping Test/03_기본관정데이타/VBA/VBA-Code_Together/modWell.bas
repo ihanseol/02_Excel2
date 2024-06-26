@@ -319,6 +319,8 @@ Sub DuplicateBasicWellData()
             Cells(i + 3, "E").formula = "=Recharge!$I$24"
             Cells(i + 3, "F").formula = "=All!$B$2"
             Cells(i + 3, "O").formula = "=ROUND(water!$F$7, 1)"
+            
+            Cells(i + 3, "B").formula = "=Recharge!$B$32"
         Next i
         
         Sheets("Well").Activate

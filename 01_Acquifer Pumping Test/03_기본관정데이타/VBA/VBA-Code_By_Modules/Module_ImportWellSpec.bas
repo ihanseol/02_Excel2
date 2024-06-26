@@ -68,25 +68,6 @@ End Sub
 
 '**********************************************************************************************************************
 
-'Sub ToggleDirection(this_WBNAME As String, well_no As Integer)
-'
-'    Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
-'
-'    If Range("k12").Font.Bold Then
-'        Range("K12").Font.Bold = False
-'        Range("L12").Font.Bold = True
-'
-'        CellBlack (ActiveSheet.Range("L12"))
-'        CellLight (ActiveSheet.Range("K12"))
-'    Else
-'        Range("K12").Font.Bold = True
-'        Range("L12").Font.Bold = False
-'
-'        CellBlack (ActiveSheet.Range("K12"))
-'        CellLight (ActiveSheet.Range("L12"))
-'    End If
-'End Sub
-
 Sub InteriorCopyDirection(this_WBNAME As String, well_no As Integer, IS_OVER180 As Boolean)
 
     Workbooks(this_WBNAME).Worksheets(CStr(well_no)).Activate
