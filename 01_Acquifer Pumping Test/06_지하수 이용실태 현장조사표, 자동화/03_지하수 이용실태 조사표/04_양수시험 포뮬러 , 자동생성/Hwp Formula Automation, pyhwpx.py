@@ -1,5 +1,5 @@
 import time
-from hwpapi.core import App
+from pyhwpx import Hwp
 import pyautogui
 import pyperclip
 import tkinter as tk
@@ -29,10 +29,35 @@ def MyMessageBox(message):
     messagebox.showinfo("Notice", message)
 
 
+"""
+    function OnScriptMacro_줄간격()
+    {
+        HAction.Run("SelectAll");
+        HAction.GetDefault("ParagraphShape", HParameterSet.HParaShape.HSet);
+        with (HParameterSet.HParaShape)
+        {
+            LineSpacing = 300;
+        }
+        HAction.Execute("ParagraphShape", HParameterSet.HParaShape.HSet);
+        HAction.Run("Cancel");
+    }
+
+"""
+
+
+def OnScriptMacro_LineSpacing(hwp, spacing):
+    pset = hwp.HParameterSet.HParaShape
+    hwp.HAction.GetDefault("ParagraphShape", pset.HSet)
+    pset.LineSpacing = spacing
+
+    hwp.HAction.Execute("ParagraphShape", pset.HSet)
+    hwp.HAction.Run("Cancel")
+
+
 def main():
     try:
         with open(FORMULA_SOURCE, 'r', encoding='cp949') as file:
-            app = App(None, True)
+            hwp = Hwp(new=True, visible=True)
             for line in file:
                 if line.startswith('W'):
                     print(line)
@@ -42,9 +67,13 @@ def main():
         print(f"An error occurred, {FORMULA_SOURCE} : ", e)
         MyMessageBox(f" File Not Found .... {FORMULA_SOURCE} ")
 
-    app.api.Run("SelectAll");
-    app.api.Run("ParagraphShapeAlignCenter");
-    app.api.Run("Cancel");
+    hwp.Run("SelectAll")
+    hwp.Run("ParagraphShapeAlignCenter")
+    OnScriptMacro_LineSpacing(hwp, 210)
+    hwp.Run("Cancel")
+
+    hwp.save_as(f"d:/05_Send/formula.hwp")
+    hwp.quit()
 
 
 if __name__ == '__main__':
