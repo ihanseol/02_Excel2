@@ -9656,45 +9656,53 @@ Sub PressAll_Button()
 ' AggWhpa
 '
 
+    Call Popup_MessageBox("YangSoo, modAggFX - get Data from YangSoo ilbo ...")
+        
     Sheets("YangSoo").Visible = True
     Sheets("YangSoo").Select
     Call modAggFX.GetBaseDataFromYangSoo(999, False)
-    Delay (2)
-    
-    Call modAggFX.WriteFormula
     Sheets("YangSoo").Visible = False
     
+    Call Popup_MessageBox("YangSoo, Aggregate2 - ImportWellSpec ...")
+    
+
     Sheets("Aggregate2").Visible = True
     Sheets("Aggregate2").Select
     Call modAgg2.ImportWellSpec(999, False)
     Sheets("Aggregate2").Visible = False
     
+    Call Popup_MessageBox("YangSoo, Aggregate1 - AggregateOne_Import ...")
     
+
     Sheets("Aggregate1").Visible = True
     Sheets("Aggregate1").Select
     Call modAgg1.AggregateOne_Import(999, False)
     Sheets("Aggregate1").Visible = False
     
-    
+    Call Popup_MessageBox("YangSoo, AggStep - Import StepTest Data ...")
+     
     Sheets("AggStep").Visible = True
     Sheets("AggStep").Select
     Call modAggStep.WriteStepTestData(999, False)
     Sheets("AggStep").Visible = False
     
+    Call Popup_MessageBox("YangSoo, AggChart - Chart Import...")
+   
     Sheets("AggChart").Visible = True
     Sheets("AggChart").Select
     Call modAggChart.WriteAllCharts(999, False)
     Sheets("AggChart").Visible = False
         
-    
+
     Call modWell.ImportAll_QT
     Call modWell.ImportAll_EachWellSpec
 
 End Sub
 
 
-Sub Delay(n As Integer)
+Sub Delay(ByVal msg As String, ByVal n As Integer)
     Application.Wait (Now + TimeValue("0:00:" & n))
+    MsgBox msg, vbOKOnly
 End Sub
 
 Function RemoveSheetIfExists(shname As String) As Boolean
@@ -11917,5 +11925,32 @@ End Sub
 
 
 
+
+
+
+Private Sub UserForm_Activate()
+    Application.OnTime Now + TimeValue("00:00:02"), "Popup_CloseUserForm"
+End Sub
+
+
+
+Private Sub UserForm_Initialize()
+ Me.TextBox1.Text = "this is Sample initialize"
+End Sub
+
+
+Sub Popup_MessageBox(ByVal msg As String)
+    UserForm1.TextBox1.Text = msg
+    UserForm1.Show
+End Sub
+
+Sub Popup_CloseUserForm()
+    Unload UserForm1
+End Sub
+
+Sub test()
+    ' Application.OnTime Now + TimeValue("00:00:01"), "Popup_CloseUserForm"
+    Popup_MessageBox ("Automatic Close at One Seconds ...")
+End Sub
 
 
