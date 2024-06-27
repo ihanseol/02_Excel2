@@ -102,7 +102,7 @@ Private Sub CommandButton1_Click()
 ' add well
 
     BaseData_ETC_02.TurnOffStuff
-    Call CopyOneSheet
+    Call AddWell_CopyOneSheet
     BaseData_ETC_02.TurnOnStuff
     
 End Sub
@@ -216,45 +216,16 @@ Private Sub CommandButton8_Click()
     Call DeleteLast
 End Sub
 
-
-
-
 Private Sub Worksheet_Activate()
     Call InitialSetColorValue
 End Sub
 
-
-
-'one button
-'delete all well except for one ...
+'one button / delete all well except for one ...
 
 Private Sub CommandButton6_Click()
-    Dim i, nofwell As Integer
-    Dim response As VbMsgBoxResult
-    
-    nofwell = GetNumberOfWell()
-    
-    If nofwell = 1 Then Exit Sub
-
-    response = MsgBox("Do you deletel all water well?", vbYesNo)
-    If response = vbYes Then
-         For i = 2 To nofwell
-             RemoveSheetIfExists (CStr(i))
-        Next i
-        
-        Sheets("Well").Activate
-        Rows("5:" & CStr(nofwell + 3)).Select
-        Selection.Delete Shift:=xlUp
-        
-        For i = 1 To 12
-            If Not RemoveSheetIfExists("p" & CStr(i)) Then Exit For
-        Next i
-        
-        Call DecorateWellBorder(1)
-        Range("A1").Select
-    End If
-   
+   Call Make_OneButton
 End Sub
+
 
 
 
@@ -2062,7 +2033,7 @@ Public Sub rows_and_column()
 End Sub
 
 Public Sub ShowNumberOfRowsInSheet1Selection()
-    Dim area        As Range
+    Dim Area        As Range
     
     ' Worksheets("Sheet1").Activate
     Dim selectedRange As Excel.Range
@@ -2077,9 +2048,9 @@ Public Sub ShowNumberOfRowsInSheet1Selection()
     Else
         Dim areaIndex As Long
         areaIndex = 1
-        For Each area In Selection.Areas
+        For Each Area In Selection.Areas
             MsgBox "Area " & areaIndex & " of the selection contains " & _
-                   area.Rows.count & " rows." & " Selection 2 " & Selection.Areas(2).Rows.count & " rows."
+                   Area.Rows.count & " rows." & " Selection 2 " & Selection.Areas(2).Rows.count & " rows."
             areaIndex = areaIndex + 1
         Next
     End If
@@ -2273,81 +2244,6 @@ End Sub
 
 
 Option Explicit
-
-
-Private Sub DeleteCommandButton()
-    ActiveSheet.Shapes.Range(Array("CommandButton2")).Delete
-End Sub
-
-
-Public Sub CopyOneSheet()
-    Dim n_sheets    As Integer
-    
-    n_sheets = sheets_count()
-    
-    '2020/5/30 관정리스트의 목록삽입해주는 부분 추가
-    InsertOneRow (n_sheets)
-    
-    If (n_sheets = 1) Then
-        Sheets("1").Select
-        Sheets("1").Copy Before:=Sheets("Q1")
-        Call DeleteCommandButton
-    Else
-        Sheets("2").Select
-        Sheets("2").Copy Before:=Sheets("Q1")
-    End If
-    
-    ActiveSheet.name = CStr(n_sheets + 1)
-    Range("b2").value = "W-" & (n_sheets + 1)
-    Range("e15").value = CStr(n_sheets + 1)
-    
-    '2022/6/9 일
-    Range("i2") = "A" & CStr(n_sheets + 1) & "_ge_OriginalSaveFile.xlsm"
-    
-    If n_sheets = 1 Then
-        Call ChangeCellData(n_sheets + 1, 1)
-    Else
-        Call ChangeCellData(n_sheets + 1, 2)
-    End If
-    
-    Sheets("Well").Select
-End Sub
-
-Private Sub InsertOneRow(ByVal n_sheets As Integer)
-    n_sheets = n_sheets + 4
-    Rows(n_sheets & ":" & n_sheets).Select
-    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
-    
-    Rows(CStr(n_sheets - 1) & ":" & CStr(n_sheets - 1)).Select
-    Selection.Copy
-    Rows(CStr(n_sheets) & ":" & CStr(n_sheets)).Select
-    ActiveSheet.Paste
-    
-    Application.CutCopyMode = False
-End Sub
-
-Private Sub ChangeCellData(ByVal nsheet As Integer, ByVal nselect As Integer)
-    ' change sheet data direct to well sheet data value
-    ' https://stackoverflow.com/questions/18744537/vba-setting-the-formula-for-a-cell
-    
-    Range("C2, C3, C4, C5, C6, C7, C8, C15, C16, C17, C18, C19, E17, F21").Select
-    
-    nsheet = nsheet + 3
-    Selection.Replace What:=CStr(nselect + 3), Replacement:=CStr(nsheet), LookAt:=xlPart, _
-                      SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
-                      ReplaceFormat:=False
-    
-    
-    
-    ' minhwasoo, 2023-10-13
-    ' block, this code ....
-    ' Range("E21").Select
-    ' Range("E21").formula = "=Well!" & Cells(nsheet, "I").Address
-End Sub
-
-
-
-' --------------------------------------------------------------------------------------------------------------
 
 
 Private Sub CommandButton1_Click()
@@ -3066,7 +2962,7 @@ Public Function GetLengthByColor(ByVal tabColor As Variant) As Integer
     GetLengthByColor = nTab
 End Function
 
-Private Sub get_tabsize_by_well(ByRef nof_sheets As Integer, ByRef nof_unique_tab As Variant, ByRef n_tabcolors As Variant)
+Sub get_tabsize_by_well(ByRef nof_sheets As Integer, ByRef nof_unique_tab As Variant, ByRef n_tabcolors As Variant)
     ' n_tabcolors : return value
     ' nof_unique_tab : return value
     
@@ -3122,7 +3018,7 @@ Public Sub InitialSetColorValue()
     ColorValue(20) = RGB(112, 48 + 10, 160 + 10)
 End Sub
 
-Private Sub initialize_wellstyle()
+Sub initialize_wellstyle()
     
     Dim rng, cell As Range
 
@@ -3325,7 +3221,7 @@ Public Sub make_wellstyle()
     
 End Sub
 
-Private Sub JojungData(ByVal nsheet As Integer)
+Sub JojungData(ByVal nsheet As Integer)
     Dim nselect     As String
     
     Range("C2, C3, C4, C5, C6, C7, C8, C15, C16, C17, C18, C19, E17, F21").Select
@@ -3346,7 +3242,7 @@ Private Sub JojungData(ByVal nsheet As Integer)
     ' Range("E21").formula = "=Well!" & Cells(nsheet, "I").Address
 End Sub
 
-Private Sub SetMyTabColor(ByVal index As Integer)
+Sub SetMyTabColor(ByVal index As Integer)
     If Sheets("Well").SingleColor.value Then
         With ActiveWorkbook.Sheets(CStr(index)).Tab
             .color = 192
@@ -9475,6 +9371,87 @@ Function RemoveSheetIfExists(shname As String) As Boolean
 End Function
 
 
+Public Sub AddWell_CopyOneSheet()
+    Dim n_sheets    As Integer
+    
+    n_sheets = sheets_count()
+    
+    '2020/5/30 관정리스트의 목록삽입해주는 부분 추가
+    InsertOneRow (n_sheets)
+    
+    If (n_sheets = 1) Then
+        Sheets("1").Select
+        Sheets("1").Copy Before:=Sheets("Q1")
+        Call DeleteCommandButton
+    Else
+        Sheets("2").Select
+        Sheets("2").Copy Before:=Sheets("Q1")
+    End If
+    
+    ActiveSheet.name = CStr(n_sheets + 1)
+    Range("b2").value = "W-" & (n_sheets + 1)
+    Range("e15").value = CStr(n_sheets + 1)
+    
+    '2022/6/9 일
+    Range("i2") = "A" & CStr(n_sheets + 1) & "_ge_OriginalSaveFile.xlsm"
+    
+    If n_sheets = 1 Then
+        Call ChangeCellData(n_sheets + 1, 1)
+    Else
+        Call ChangeCellData(n_sheets + 1, 2)
+    End If
+    
+    Sheets("Well").Select
+End Sub
+
+
+
+' --------------------------------------------------------------------------------------------------------------
+
+
+Sub DeleteCommandButton()
+    ActiveSheet.Shapes.Range(Array("CommandButton2")).Delete
+End Sub
+
+
+
+Sub InsertOneRow(ByVal n_sheets As Integer)
+    n_sheets = n_sheets + 4
+    Rows(n_sheets & ":" & n_sheets).Select
+    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    
+    Rows(CStr(n_sheets - 1) & ":" & CStr(n_sheets - 1)).Select
+    Selection.Copy
+    Rows(CStr(n_sheets) & ":" & CStr(n_sheets)).Select
+    ActiveSheet.Paste
+    
+    Application.CutCopyMode = False
+End Sub
+
+Sub ChangeCellData(ByVal nsheet As Integer, ByVal nselect As Integer)
+    ' change sheet data direct to well sheet data value
+    ' https://stackoverflow.com/questions/18744537/vba-setting-the-formula-for-a-cell
+    
+    Range("C2, C3, C4, C5, C6, C7, C8, C15, C16, C17, C18, C19, E17, F21").Select
+    
+    nsheet = nsheet + 3
+    Selection.Replace What:=CStr(nselect + 3), Replacement:=CStr(nsheet), LookAt:=xlPart, _
+                      SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+                      ReplaceFormat:=False
+    
+    
+    
+    ' minhwasoo, 2023-10-13
+    ' block, this code ....
+    ' Range("E21").Select
+    ' Range("E21").formula = "=Well!" & Cells(nsheet, "I").Address
+End Sub
+
+
+
+' --------------------------------------------------------------------------------------------------------------
+
+
 Sub JojungButton()
     Dim nofwell As Integer
 
@@ -9488,6 +9465,33 @@ Sub JojungButton()
     Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
     
     TurnOnStuff
+End Sub
+
+Sub Make_OneButton()
+    Dim i, nofwell As Integer
+    Dim response As VbMsgBoxResult
+    
+    nofwell = GetNumberOfWell()
+    
+    If nofwell = 1 Then Exit Sub
+    
+    response = MsgBox("Do you deletel all water well?", vbYesNo)
+    If response = vbYes Then
+         For i = 2 To nofwell
+             RemoveSheetIfExists (CStr(i))
+        Next i
+        
+        Sheets("Well").Activate
+        Rows("5:" & CStr(nofwell + 3)).Select
+        Selection.Delete Shift:=xlUp
+        
+        For i = 1 To 12
+            If Not RemoveSheetIfExists("p" & CStr(i)) Then Exit For
+        Next i
+        
+        Call DecorateWellBorder(1)
+        Range("A1").Select
+    End If
 End Sub
 
 
@@ -11796,14 +11800,23 @@ End Function
 
 
 
-Sub ResetWeatherData(ByVal area As String)
+Sub ResetWeatherData(ByVal Area As String)
+
+    Dim Province As String
     
     Sheets("All").Activate
 '    Range("S5") = "충청도"
 '    Range("T5") = "청주"
+    
+    Province = GetProvince_Case(Area)
 
-    Range("S5") = GetProvince_Case(area)
-    Range("T5") = area
+    If CheckSubstring(Province, "Not in list") Then
+        Popup_MessageBox (" Province is Not in list .... ")
+        Exit Sub
+    End If
+
+    Range("S5") = Province
+    Range("T5") = Area
     
     
     Popup_MessageBox ("Clear Contents")
@@ -11823,477 +11836,3 @@ Sub test()
 End Sub
 
 'This Module is Empty 
-Private Sub CommandButton1_Click()
-    Dim nofwell, i  As Integer
-
-    nofwell = sheets_count()
-    
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Module_ImportWellSpec.ImportWellSpec (i)
-    Next i
-    
-    Sheets("Well").Activate
-    
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call delete_allWhpaData
-End Sub
-
-
-
-Private Sub CommandButton2_Click()
-    Call main_drasticindex
-    Call print_drastic_string
-End Sub
-
-Private Sub CommandButton3_Click()
-    Call getWhpaData_AllWell
-End Sub
-
-Private Sub CommandButton7_Click()
-   Call getWhpaData_EachWell
-End Sub
-
-
-
-Private Sub CommandButton5_Click()
-    Call BaseData_DrasticIndex.ToggleDirection
-End Sub
-
-
-Private Function get_rf_number() As String
-    Dim rf_num As String
-
-    '=(max*rf_1*E17/1000)
-    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
-
-End Function
-
-
-Private Sub Set_RechargeFactor_One()
-
-    Range("F17").formula = "=(max*rf_1*E17/1000)"
-    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio"
-    Range("G19").formula = "=F19*allow_ratio"
-    
-    Range("E13").formula = "=Recharge!I24"
-    Range("F13").formula = "=rf_1"
-    Range("G13").formula = "=allow_ratio"
-    
-    Range("E26").formula = "=Recharge!C30"
-    
-End Sub
-
-Private Sub Set_RechargeFactor_Two()
-
-    Range("F17").formula = "=(max*rf_2*E17/1000)"
-    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio2"
-    Range("G19").formula = "=F19*allow_ratio2"
-    
-    
-    Range("E13").formula = "=Recharge!I25"
-    Range("F13").formula = "=rf_2"
-    Range("G13").formula = "=allow_ratio2"
-    
-    
-    Range("E26").formula = "=Recharge!D30"
-End Sub
-
-
-Private Sub Set_RechargeFactor_Three()
-
-    Range("F17").formula = "=(max*rf_3*E17/1000)"
-    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio3"
-    Range("G19").formula = "=F19*allow_ratio3"
-    
-    Range("E13").formula = "=Recharge!I26"
-    Range("F13").formula = "=rf_3"
-    Range("G13").formula = "=allow_ratio3"
-    
-    Range("E26").formula = "=Recharge!E30"
-    
-End Sub
-
-
-
-Private Sub CommandButton6_Click()
-'Select Recharge Factor
-
-    
-   If Frame1.Controls("optionbutton1").value = True Then
-        Call Set_RechargeFactor_One
-   End If
-    
-   If Frame1.Controls("optionbutton2").value = True Then
-        Call Set_RechargeFactor_Two
-   End If
-    
-   If Frame1.Controls("optionbutton3").value = True Then
-        Call Set_RechargeFactor_Three
-   End If
-    
-
-End Sub
-
-
-
-' 2022/6/9 Import YangSoo Data
-' Radius of Influence - 양수영향반경
-' Effective Radius - 유효우물반경
-' 2024/6/7 - 스킨계수 추가해줌 ...
-
-Private Sub CommandButton8_Click()
-    Dim WkbkName As Object
-    Dim WBNAME, cell1 As String
-    Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    
-    ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
-    Dim casing As Integer
-    
-    BaseData_ETC_02.TurnOffStuff
-    
-    i = 2
-    ' Range("i1") = Workbooks.count
-    ' WBName = Range("i2").value
-    
-    cell1 = Range("b2").value
-    WBNAME = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
-    
-    If Not IsWorkBookOpen(WBNAME) Then
-        MsgBox "Please open the yangsoo data ! " & WBNAME
-        Exit Sub
-    End If
-
-    ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
-    
-    ' WkbkName.Close
-    T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
-    
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
-    
-    ' yangsoo radius of influence
-    RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C23").value
-    
-    ' 유효우물반경 , 설정값에 따른
-    ir = GetEffectiveRadius(WBNAME)
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
-    
-    BaseData_ETC_02.TurnOnStuff
-        
-End Sub
-
-Private Sub Worksheet_Activate()
-
-    Select Case get_rf_number
-    
-        Case "1"
-             Frame1.Controls("optionbutton1").value = True
-             
-        Case "2"
-             Frame1.Controls("optionbutton2").value = True
-             
-        Case "3"
-             Frame1.Controls("optionbutton3").value = True
-             
-        Case Else
-            Frame1.Controls("optionbutton1").value = True
-           
-    End Select
-
-End Sub
-
-
-Private Sub CommandButton1_Click()
-    Dim nofwell, i  As Integer
-
-    nofwell = sheets_count()
-    
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Module_ImportWellSpec.ImportWellSpec (i)
-    Next i
-    
-    Sheets("Well").Activate
-    
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call delete_allWhpaData
-End Sub
-
-
-
-Private Sub CommandButton2_Click()
-    Call main_drasticindex
-    Call print_drastic_string
-End Sub
-
-Private Sub CommandButton3_Click()
-    Call getWhpaData_AllWell
-End Sub
-
-Private Sub CommandButton7_Click()
-   Call getWhpaData_EachWell
-End Sub
-
-
-
-Private Sub CommandButton5_Click()
-    Call BaseData_DrasticIndex.ToggleDirection
-End Sub
-
-
-Private Function get_rf_number() As String
-    Dim rf_num As String
-
-    '=(max*rf_1*E17/1000)
-    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
-
-End Function
-
-
-Private Sub Set_RechargeFactor_One()
-
-    Range("F17").formula = "=(max*rf_1*E17/1000)"
-    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio"
-    Range("G19").formula = "=F19*allow_ratio"
-    
-    Range("E13").formula = "=Recharge!I24"
-    Range("F13").formula = "=rf_1"
-    Range("G13").formula = "=allow_ratio"
-    
-    Range("E26").formula = "=Recharge!C30"
-    
-End Sub
-
-Private Sub Set_RechargeFactor_Two()
-
-    Range("F17").formula = "=(max*rf_2*E17/1000)"
-    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio2"
-    Range("G19").formula = "=F19*allow_ratio2"
-    
-    
-    Range("E13").formula = "=Recharge!I25"
-    Range("F13").formula = "=rf_2"
-    Range("G13").formula = "=allow_ratio2"
-    
-    
-    Range("E26").formula = "=Recharge!D30"
-End Sub
-
-
-Private Sub Set_RechargeFactor_Three()
-
-    Range("F17").formula = "=(max*rf_3*E17/1000)"
-    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio3"
-    Range("G19").formula = "=F19*allow_ratio3"
-    
-    Range("E13").formula = "=Recharge!I26"
-    Range("F13").formula = "=rf_3"
-    Range("G13").formula = "=allow_ratio3"
-    
-    Range("E26").formula = "=Recharge!E30"
-    
-End Sub
-
-
-
-Private Sub CommandButton6_Click()
-'Select Recharge Factor
-
-    
-   If Frame1.Controls("optionbutton1").value = True Then
-        Call Set_RechargeFactor_One
-   End If
-    
-   If Frame1.Controls("optionbutton2").value = True Then
-        Call Set_RechargeFactor_Two
-   End If
-    
-   If Frame1.Controls("optionbutton3").value = True Then
-        Call Set_RechargeFactor_Three
-   End If
-    
-
-End Sub
-
-
-
-' 2022/6/9 Import YangSoo Data
-' Radius of Influence - 양수영향반경
-' Effective Radius - 유효우물반경
-' 2024/6/7 - 스킨계수 추가해줌 ...
-
-Private Sub CommandButton8_Click()
-    Dim WkbkName As Object
-    Dim WBNAME, cell1 As String
-    Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    
-    ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
-    Dim casing As Integer
-    
-    BaseData_ETC_02.TurnOffStuff
-    
-    i = 2
-    ' Range("i1") = Workbooks.count
-    ' WBName = Range("i2").value
-    
-    cell1 = Range("b2").value
-    WBNAME = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
-    
-    If Not IsWorkBookOpen(WBNAME) Then
-        MsgBox "Please open the yangsoo data ! " & WBNAME
-        Exit Sub
-    End If
-
-    ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
-    
-    ' WkbkName.Close
-    T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
-    
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
-    
-    ' yangsoo radius of influence
-    RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C23").value
-    
-    ' 유효우물반경 , 설정값에 따른
-    ir = GetEffectiveRadius(WBNAME)
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
-    
-    BaseData_ETC_02.TurnOnStuff
-        
-End Sub
-
-Private Sub Worksheet_Activate()
-
-    Select Case get_rf_number
-    
-        Case "1"
-             Frame1.Controls("optionbutton1").value = True
-             
-        Case "2"
-             Frame1.Controls("optionbutton2").value = True
-             
-        Case "3"
-             Frame1.Controls("optionbutton3").value = True
-             
-        Case Else
-            Frame1.Controls("optionbutton1").value = True
-           
-    End Select
-
-End Sub
-
-

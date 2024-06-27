@@ -334,14 +334,23 @@ End Function
 
 
 
-Sub ResetWeatherData(ByVal area As String)
+Sub ResetWeatherData(ByVal Area As String)
+
+    Dim Province As String
     
     Sheets("All").Activate
 '    Range("S5") = "面没档"
 '    Range("T5") = "没林"
+    
+    Province = GetProvince_Case(Area)
 
-    Range("S5") = GetProvince_Case(area)
-    Range("T5") = area
+    If CheckSubstring(Province, "Not in list") Then
+        Popup_MessageBox (" Province is Not in list .... ")
+        Exit Sub
+    End If
+
+    Range("S5") = Province
+    Range("T5") = Area
     
     
     Popup_MessageBox ("Clear Contents")

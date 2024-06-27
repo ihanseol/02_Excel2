@@ -27,7 +27,7 @@ Public Sub InitialSetColorValue()
     ColorValue(20) = RGB(112, 48 + 10, 160 + 10)
 End Sub
 
-Private Sub initialize_wellstyle()
+Sub initialize_wellstyle()
     
     Dim rng, cell As Range
 
@@ -230,7 +230,7 @@ Public Sub make_wellstyle()
     
 End Sub
 
-Private Sub JojungData(ByVal nsheet As Integer)
+Sub JojungData(ByVal nsheet As Integer)
     Dim nselect     As String
     
     Range("C2, C3, C4, C5, C6, C7, C8, C15, C16, C17, C18, C19, E17, F21").Select
@@ -251,7 +251,7 @@ Private Sub JojungData(ByVal nsheet As Integer)
     ' Range("E21").formula = "=Well!" & Cells(nsheet, "I").Address
 End Sub
 
-Private Sub SetMyTabColor(ByVal index As Integer)
+Sub SetMyTabColor(ByVal index As Integer)
     If Sheets("Well").SingleColor.value Then
         With ActiveWorkbook.Sheets(CStr(index)).Tab
             .color = 192

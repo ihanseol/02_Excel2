@@ -8,7 +8,7 @@ Private Sub CommandButton1_Click()
 ' add well
 
     BaseData_ETC_02.TurnOffStuff
-    Call CopyOneSheet
+    Call AddWell_CopyOneSheet
     BaseData_ETC_02.TurnOnStuff
     
 End Sub
@@ -122,45 +122,16 @@ Private Sub CommandButton8_Click()
     Call DeleteLast
 End Sub
 
-
-
-
 Private Sub Worksheet_Activate()
     Call InitialSetColorValue
 End Sub
 
-
-
-'one button
-'delete all well except for one ...
+'one button / delete all well except for one ...
 
 Private Sub CommandButton6_Click()
-    Dim i, nofwell As Integer
-    Dim response As VbMsgBoxResult
-    
-    nofwell = GetNumberOfWell()
-    
-    If nofwell = 1 Then Exit Sub
-
-    response = MsgBox("Do you deletel all water well?", vbYesNo)
-    If response = vbYes Then
-         For i = 2 To nofwell
-             RemoveSheetIfExists (CStr(i))
-        Next i
-        
-        Sheets("Well").Activate
-        Rows("5:" & CStr(nofwell + 3)).Select
-        Selection.Delete Shift:=xlUp
-        
-        For i = 1 To 12
-            If Not RemoveSheetIfExists("p" & CStr(i)) Then Exit For
-        Next i
-        
-        Call DecorateWellBorder(1)
-        Range("A1").Select
-    End If
-   
+   Call Make_OneButton
 End Sub
+
 
 
 

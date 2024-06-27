@@ -272,7 +272,7 @@ Public Function GetLengthByColor(ByVal tabColor As Variant) As Integer
     GetLengthByColor = nTab
 End Function
 
-Private Sub get_tabsize_by_well(ByRef nof_sheets As Integer, ByRef nof_unique_tab As Variant, ByRef n_tabcolors As Variant)
+Sub get_tabsize_by_well(ByRef nof_sheets As Integer, ByRef nof_unique_tab As Variant, ByRef n_tabcolors As Variant)
     ' n_tabcolors : return value
     ' nof_unique_tab : return value
     

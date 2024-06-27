@@ -150,6 +150,87 @@ Function RemoveSheetIfExists(shname As String) As Boolean
 End Function
 
 
+Public Sub AddWell_CopyOneSheet()
+    Dim n_sheets    As Integer
+    
+    n_sheets = sheets_count()
+    
+    '2020/5/30 관정리스트의 목록삽입해주는 부분 추가
+    InsertOneRow (n_sheets)
+    
+    If (n_sheets = 1) Then
+        Sheets("1").Select
+        Sheets("1").Copy Before:=Sheets("Q1")
+        Call DeleteCommandButton
+    Else
+        Sheets("2").Select
+        Sheets("2").Copy Before:=Sheets("Q1")
+    End If
+    
+    ActiveSheet.name = CStr(n_sheets + 1)
+    Range("b2").value = "W-" & (n_sheets + 1)
+    Range("e15").value = CStr(n_sheets + 1)
+    
+    '2022/6/9 일
+    Range("i2") = "A" & CStr(n_sheets + 1) & "_ge_OriginalSaveFile.xlsm"
+    
+    If n_sheets = 1 Then
+        Call ChangeCellData(n_sheets + 1, 1)
+    Else
+        Call ChangeCellData(n_sheets + 1, 2)
+    End If
+    
+    Sheets("Well").Select
+End Sub
+
+
+
+' --------------------------------------------------------------------------------------------------------------
+
+
+Sub DeleteCommandButton()
+    ActiveSheet.Shapes.Range(Array("CommandButton2")).Delete
+End Sub
+
+
+
+Sub InsertOneRow(ByVal n_sheets As Integer)
+    n_sheets = n_sheets + 4
+    Rows(n_sheets & ":" & n_sheets).Select
+    Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
+    
+    Rows(CStr(n_sheets - 1) & ":" & CStr(n_sheets - 1)).Select
+    Selection.Copy
+    Rows(CStr(n_sheets) & ":" & CStr(n_sheets)).Select
+    ActiveSheet.Paste
+    
+    Application.CutCopyMode = False
+End Sub
+
+Sub ChangeCellData(ByVal nsheet As Integer, ByVal nselect As Integer)
+    ' change sheet data direct to well sheet data value
+    ' https://stackoverflow.com/questions/18744537/vba-setting-the-formula-for-a-cell
+    
+    Range("C2, C3, C4, C5, C6, C7, C8, C15, C16, C17, C18, C19, E17, F21").Select
+    
+    nsheet = nsheet + 3
+    Selection.Replace What:=CStr(nselect + 3), Replacement:=CStr(nsheet), LookAt:=xlPart, _
+                      SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+                      ReplaceFormat:=False
+    
+    
+    
+    ' minhwasoo, 2023-10-13
+    ' block, this code ....
+    ' Range("E21").Select
+    ' Range("E21").formula = "=Well!" & Cells(nsheet, "I").Address
+End Sub
+
+
+
+' --------------------------------------------------------------------------------------------------------------
+
+
 Sub JojungButton()
     Dim nofwell As Integer
 
@@ -163,6 +244,33 @@ Sub JojungButton()
     Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
     
     TurnOnStuff
+End Sub
+
+Sub Make_OneButton()
+    Dim i, nofwell As Integer
+    Dim response As VbMsgBoxResult
+    
+    nofwell = GetNumberOfWell()
+    
+    If nofwell = 1 Then Exit Sub
+    
+    response = MsgBox("Do you deletel all water well?", vbYesNo)
+    If response = vbYes Then
+         For i = 2 To nofwell
+             RemoveSheetIfExists (CStr(i))
+        Next i
+        
+        Sheets("Well").Activate
+        Rows("5:" & CStr(nofwell + 3)).Select
+        Selection.Delete Shift:=xlUp
+        
+        For i = 1 To 12
+            If Not RemoveSheetIfExists("p" & CStr(i)) Then Exit For
+        Next i
+        
+        Call DecorateWellBorder(1)
+        Range("A1").Select
+    End If
 End Sub
 
 
