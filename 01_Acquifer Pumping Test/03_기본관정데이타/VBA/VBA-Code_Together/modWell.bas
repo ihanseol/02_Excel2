@@ -487,7 +487,7 @@ Function GetNumberOf_P()
     nof_p = 0
     
     For Each sheet In Worksheets
-        If Left(sheet.name, 1) = "p" Then
+        If Left(sheet.name, 1) = "p" And ConvertToLongInteger(Right(sheet.name, 1)) <> 0 Then
             nof_p = nof_p + 1
         End If
     Next
