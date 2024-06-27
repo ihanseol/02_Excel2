@@ -6,10 +6,10 @@ Private Sub Class_Initialize()
     mValue = False
 End Sub
 
-Public Property Let Result(val As Boolean)
+Public Property Let result(val As Boolean)
     mValue = val
 End Property
 
-Public Property Get Result() As Boolean
-    Result = mValue
+Public Property Get result() As Boolean
+    result = mValue
 End Property

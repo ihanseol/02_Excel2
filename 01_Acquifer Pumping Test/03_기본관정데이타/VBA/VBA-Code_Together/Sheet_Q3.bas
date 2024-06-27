@@ -14,7 +14,7 @@ Private Sub CommandButton3_Click()
 ' make summary page
 
     Dim n_sheets As Integer
-    Dim Result() As Integer
+    Dim result() As Integer
     Dim w3page, wselect, restpage As Integer
     'wselect = 1 --> only w1
     'wselect = 2 --> w1, w2
@@ -26,14 +26,14 @@ Private Sub CommandButton3_Click()
     End If
        
     n_sheets = sheets_count()
-    Result = DivideWellsBy3(n_sheets)
+    result = DivideWellsBy3(n_sheets)
     
     
     ' result(0) = quotient
     ' result(1) = remainder
-    w3page = Result(0)
+    w3page = result(0)
     
-    Select Case Result(1)
+    Select Case result(1)
         Case 0
             restpage = 0
             wselect = 0

@@ -16,6 +16,12 @@ Sub EraseCellData(ByVal str_range As String)
 End Sub
 
 
+Sub Delay(ByVal msg As String, ByVal n As Integer)
+    Application.Wait (Now + TimeValue("0:00:" & n))
+    MsgBox msg, vbOKOnly
+End Sub
+
+
 'Function GetNumberOfWell() As Integer
 '    Dim save_name As String
 '    Dim n As Integer
@@ -34,10 +40,10 @@ Function ColumnNumberToLetter(ByVal columnNumber As Integer) As String
     Dim dividend As Integer
     Dim modulo As Integer
     Dim columnName As String
-    Dim Result As String
+    Dim result As String
     
     dividend = columnNumber
-    Result = ""
+    result = ""
     
     Do While dividend > 0
         modulo = (dividend - 1) Mod 26
@@ -51,14 +57,14 @@ End Function
 
 Function ColumnLetterToNumber(ByVal columnLetter As String) As Long
     Dim i As Long
-    Dim Result As Long
+    Dim result As Long
 
-    Result = 0
+    result = 0
     For i = 1 To Len(columnLetter)
-        Result = Result * 26 + (Asc(UCase(Mid(columnLetter, i, 1))) - 64)
+        result = result * 26 + (Asc(UCase(Mid(columnLetter, i, 1))) - 64)
     Next i
 
-    ColumnLetterToNumber = Result
+    ColumnLetterToNumber = result
 End Function
 
 
@@ -88,7 +94,7 @@ End Sub
 
 Function GetRowColumn(name As String) As Variant
     Dim acColumn, acRow As Variant
-    Dim Result(1 To 2) As Variant
+    Dim result(1 To 2) As Variant
 
     acColumn = Split(Range(name).Address, "$")(1)
     acRow = Split(Range(name).Address, "$")(2)
@@ -97,11 +103,11 @@ Function GetRowColumn(name As String) As Variant
     '  col = ActiveCell.Column
     
     
-    Result(1) = acColumn
-    Result(2) = acRow
+    result(1) = acColumn
+    result(2) = acRow
 
     Debug.Print acColumn, acRow
-    GetRowColumn = Result
+    GetRowColumn = result
 End Function
 
 
@@ -119,25 +125,26 @@ Function GetNumberOfWell() As Integer
     GetNumberOfWell = n
 End Function
 
+Public Function sheets_count() As Long
+    Dim i As Integer
+    Dim nSheetsCount As Long
+    Dim nWell As Long
+    Dim strSheetsName() As String
 
-'Public Function sheets_count() As Long
-'    Dim i, nSheetsCount, nWell  As Integer
-'    Dim strSheetsName(50) As String
-'
-'    nSheetsCount = ThisWorkbook.Sheets.count
-'    nWell = 0
-'
-'    For i = 1 To nSheetsCount
-'        strSheetsName(i) = ThisWorkbook.Sheets(i).Name
-'        'MsgBox (strSheetsName(i))
-'        If (ConvertToLongInteger(strSheetsName(i)) <> 0) Then
-'            nWell = nWell + 1
-'        End If
-'    Next
-'
-'    'MsgBox (CStr(nWell))
-'    sheets_count = nWell
-'End Function
+    nSheetsCount = ThisWorkbook.Sheets.count
+    nWell = 0
+
+    ReDim strSheetsName(1 To nSheetsCount)
+
+    For i = 1 To nSheetsCount
+        strSheetsName(i) = ThisWorkbook.Sheets(i).name
+        If ConvertToLongInteger(strSheetsName(i)) <> 0 Then
+            nWell = nWell + 1
+        End If
+    Next i
+
+    sheets_count = nWell
+End Function
 
 
 Function GetOtherFileName() As String
@@ -180,26 +187,6 @@ Function CheckSubstring(str As String, chk As String) As Boolean
 End Function
 
 
-Public Function sheets_count() As Long
-    Dim i As Integer
-    Dim nSheetsCount As Long
-    Dim nWell As Long
-    Dim strSheetsName() As String
-
-    nSheetsCount = ThisWorkbook.Sheets.count
-    nWell = 0
-
-    ReDim strSheetsName(1 To nSheetsCount)
-
-    For i = 1 To nSheetsCount
-        strSheetsName(i) = ThisWorkbook.Sheets(i).name
-        If ConvertToLongInteger(strSheetsName(i)) <> 0 Then
-            nWell = nWell + 1
-        End If
-    Next i
-
-    sheets_count = nWell
-End Function
 
 Function ExtractNumberFromString(inputString As String) As String
     Dim regex As Object
@@ -227,13 +214,13 @@ End Function
 
 Function GetNumeric2(ByVal CellRef As String) As String
     Dim StringLength, i  As Integer
-    Dim Result      As String
+    Dim result      As String
     
     StringLength = Len(CellRef)
     For i = 1 To StringLength
-        If IsNumeric(Mid(CellRef, i, 1)) Then Result = Result & Mid(CellRef, i, 1)
+        If IsNumeric(Mid(CellRef, i, 1)) Then result = result & Mid(CellRef, i, 1)
     Next i
-    GetNumeric2 = Result
+    GetNumeric2 = result
 End Function
 
 '********************************************************************************************************************************************************************************

@@ -376,7 +376,7 @@ Function check_DrasticIndex(ByVal dmMode As Integer) As String
     ' dmCHEMICAL = 1
     
     Dim value As Integer
-    Dim Result As String
+    Dim result As String
     
     If dmMode = dmGENERAL Then
         value = Range("K30").value
@@ -386,20 +386,20 @@ Function check_DrasticIndex(ByVal dmMode As Integer) As String
     
     Select Case value
         Case Is <= 100
-            Result = "매우낮음"
+            result = "매우낮음"
         Case Is <= 120
-            Result = "낮음"
+            result = "낮음"
         Case Is <= 140
-            Result = "비교적낮음"
+            result = "비교적낮음"
         Case Is <= 160
-            Result = "중간정도"
+            result = "중간정도"
         Case Is <= 180
-            Result = "높음"
+            result = "높음"
         Case Else
-            Result = "매우높음"
+            result = "매우높음"
     End Select
     
-    check_DrasticIndex = Result
+    check_DrasticIndex = result
 End Function
 
 

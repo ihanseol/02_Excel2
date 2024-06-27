@@ -490,21 +490,21 @@ End Sub
 Function DivideWellsBy2(ByVal numberOfWells As Integer) As Integer()
     Dim quotient As Integer
     Dim remainder As Integer
-    Dim Result(1) As Integer
+    Dim result(1) As Integer
     
     quotient = (numberOfWells - 1) \ 2
     remainder = numberOfWells Mod 2
     
     
     If remainder = 0 Then
-        Result(0) = quotient + 1
+        result(0) = quotient + 1
     Else
-        Result(0) = quotient
+        result(0) = quotient
     End If
     
-    Result(1) = remainder
+    result(1) = remainder
     
-    DivideWellsBy2 = Result
+    DivideWellsBy2 = result
 End Function
 
 Sub DuplicateRestQ2(ByVal w2page As Integer)
@@ -633,15 +633,15 @@ Function DivideWellsBy3(ByVal numberOfWells As Integer) As Integer()
 
     Dim quotient As Integer
     Dim remainder As Integer
-    Dim Result(1) As Integer
+    Dim result(1) As Integer
     
     quotient = numberOfWells \ 3
     remainder = numberOfWells Mod 3
     
-    Result(0) = quotient
-    Result(1) = remainder
+    result(0) = quotient
+    result(1) = remainder
     
-    DivideWellsBy3 = Result
+    DivideWellsBy3 = result
     
 End Function
 

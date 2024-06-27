@@ -180,7 +180,7 @@ Private Function get_efficiency_A(ByVal Q As Variant) As Variant
     Dim thresholds As Variant
     Dim results As Variant
     
-    Dim i, Result As Integer
+    Dim i, result As Integer
     Dim CHECK As Boolean
     
     CHECK = True
@@ -188,17 +188,17 @@ Private Function get_efficiency_A(ByVal Q As Variant) As Variant
     thresholds = Array(57.6, 72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(40, 42, 45, 48, 50, 52, 54, 57, 59, 61, 62, 64, 65)
     
-    Result = results(0)
+    result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            Result = results(i - 1)
+            result = results(i - 1)
             CHECK = False
             Exit For
         End If
     Next i
         
-    get_efficiency_A = Result
+    get_efficiency_A = result
     
     If Q < 57.6 Then get_efficiency_A = 40
     If Q > 1440 Then get_efficiency_A = 65
@@ -213,7 +213,7 @@ Private Function get_efficiency_B(ByVal Q As Variant) As Variant
     Dim thresholds As Variant
     Dim results As Variant
     
-    Dim i, Result As Integer
+    Dim i, result As Integer
     Dim CHECK As Boolean
     
     CHECK = True
@@ -221,17 +221,17 @@ Private Function get_efficiency_B(ByVal Q As Variant) As Variant
     thresholds = Array(57.6, 72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(34, 36, 38, 41, 42, 44, 46, 48, 50, 52, 53, 54, 55)
     
-    Result = results(0)
+    result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            Result = results(i - 1)
+            result = results(i - 1)
             CHECK = False
             Exit For
         End If
     Next i
         
-    get_efficiency_B = Result
+    get_efficiency_B = result
     
     If Q < 57.6 Then get_efficiency_B = 34
     If Q > 1440 Then get_efficiency_B = 55
@@ -245,23 +245,23 @@ End Function
 Private Function get_efficiency_dongho(ByVal Q As Variant) As Variant
     Dim results As Variant
     Dim thresholds As Variant
-    Dim i, Result As Integer
+    Dim i, result As Integer
     
     
     thresholds = Array(72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(38, 40.25, 43, 45.25, 47, 49, 51.25, 53.5, 55.5, 57, 58.25, 59.5)
         
-    Result = results(0)
+    result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            Result = results(i)
+            result = results(i)
             Exit For
         End If
     Next i
     
     
-    get_efficiency_dongho = Result
+    get_efficiency_dongho = result
     If Q < 57.6 Then get_efficiency_dongho = 37
     If Q > 1440 Then get_efficiency_dongho = 60
     

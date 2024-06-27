@@ -125,10 +125,6 @@ Sub PressAll_Button()
 End Sub
 
 
-Sub Delay(ByVal msg As String, ByVal n As Integer)
-    Application.Wait (Now + TimeValue("0:00:" & n))
-    MsgBox msg, vbOKOnly
-End Sub
 
 Function RemoveSheetIfExists(shname As String) As Boolean
     Dim ws As Worksheet
@@ -262,7 +258,7 @@ Sub ImportAll_EachWellSpec()
         Sheets(CStr(i)).Activate
         Call Module_ImportWellSpec.ImportWellSpec(i, obj)
         
-        If obj.Result Then Exit For
+        If obj.result Then Exit For
     Next i
     
     Sheets("Well").Activate
@@ -289,6 +285,7 @@ Sub DuplicateBasicWellData()
     Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
     Dim WB_NAME As String
+    Dim weather_station, river_section As String
     
 
     nofwell = sheets_count()
@@ -303,13 +300,18 @@ Sub DuplicateBasicWellData()
         
         Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
         Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
+        weather_station = Replace(Sheets("Well").Range("F4").value, "기상청", "")
+        river_section = Sheets("Well").Range("E4").value
+        
+        ' 2024/6/27 일, 새로 추가해준 방법으로 복사해줌 ...
+        ThisWorkbook.Sheets("Recharge").Range("b32") = Range("B4").value
         
         ' 각 관정별 데이터 복사
         For i = 1 To nofwell
             Sheets(CStr(i)).Activate
             Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
             
-            If obj.Result Then Exit For
+            If obj.result Then Exit For
         Next i
         
         Worksheets("Well").Activate
@@ -326,6 +328,9 @@ Sub DuplicateBasicWellData()
         Sheets("Well").Activate
         BaseData_ETC_02.TurnOnStuff
     End If
+    
+     Sheets("Recharge").Range("I24") = river_section
+     Call modProvince.ResetWeatherData(weather_station)
 
 End Sub
 

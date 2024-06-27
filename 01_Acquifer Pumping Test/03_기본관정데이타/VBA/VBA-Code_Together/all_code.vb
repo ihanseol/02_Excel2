@@ -19,35 +19,6 @@ Private Sub CommandButton2_Click()
 End Sub
 
 
-Private Sub importRainfall()
-    Dim myArray As Variant
-    Dim rng As Range
-
-    Select Case UCase(Range("T6").value)
-        Case "SEJONG", "HONGSUNG"
-            Exit Sub
-    End Select
-
-    Dim indexString As String
-    indexString = "data_" & UCase(Range("T6").value)
-
-    On Error Resume Next
-    myArray = Application.Run(indexString)
-    On Error GoTo 0
-
-    If Not IsArray(myArray) Then
-        MsgBox "An error occurred while fetching data.", vbExclamation
-        Exit Sub
-    End If
-
-    Set rng = ThisWorkbook.ActiveSheet.Range("B5:N34")
-    rng.value = myArray
-
-    Range("B2").value = Range("T5").value & "기상청"
-End Sub
-
-
-
 
 
 
@@ -903,7 +874,7 @@ Function check_DrasticIndex(ByVal dmMode As Integer) As String
     ' dmCHEMICAL = 1
     
     Dim value As Integer
-    Dim Result As String
+    Dim result As String
     
     If dmMode = dmGENERAL Then
         value = Range("K30").value
@@ -913,20 +884,20 @@ Function check_DrasticIndex(ByVal dmMode As Integer) As String
     
     Select Case value
         Case Is <= 100
-            Result = "매우낮음"
+            result = "매우낮음"
         Case Is <= 120
-            Result = "낮음"
+            result = "낮음"
         Case Is <= 140
-            Result = "비교적낮음"
+            result = "비교적낮음"
         Case Is <= 160
-            Result = "중간정도"
+            result = "중간정도"
         Case Is <= 180
-            Result = "높음"
+            result = "높음"
         Case Else
-            Result = "매우높음"
+            result = "매우높음"
     End Select
     
-    check_DrasticIndex = Result
+    check_DrasticIndex = result
 End Function
 
 
@@ -1754,7 +1725,7 @@ Private Function get_efficiency_A(ByVal Q As Variant) As Variant
     Dim thresholds As Variant
     Dim results As Variant
     
-    Dim i, Result As Integer
+    Dim i, result As Integer
     Dim CHECK As Boolean
     
     CHECK = True
@@ -1762,17 +1733,17 @@ Private Function get_efficiency_A(ByVal Q As Variant) As Variant
     thresholds = Array(57.6, 72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(40, 42, 45, 48, 50, 52, 54, 57, 59, 61, 62, 64, 65)
     
-    Result = results(0)
+    result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            Result = results(i - 1)
+            result = results(i - 1)
             CHECK = False
             Exit For
         End If
     Next i
         
-    get_efficiency_A = Result
+    get_efficiency_A = result
     
     If Q < 57.6 Then get_efficiency_A = 40
     If Q > 1440 Then get_efficiency_A = 65
@@ -1787,7 +1758,7 @@ Private Function get_efficiency_B(ByVal Q As Variant) As Variant
     Dim thresholds As Variant
     Dim results As Variant
     
-    Dim i, Result As Integer
+    Dim i, result As Integer
     Dim CHECK As Boolean
     
     CHECK = True
@@ -1795,17 +1766,17 @@ Private Function get_efficiency_B(ByVal Q As Variant) As Variant
     thresholds = Array(57.6, 72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(34, 36, 38, 41, 42, 44, 46, 48, 50, 52, 53, 54, 55)
     
-    Result = results(0)
+    result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            Result = results(i - 1)
+            result = results(i - 1)
             CHECK = False
             Exit For
         End If
     Next i
         
-    get_efficiency_B = Result
+    get_efficiency_B = result
     
     If Q < 57.6 Then get_efficiency_B = 34
     If Q > 1440 Then get_efficiency_B = 55
@@ -1819,23 +1790,23 @@ End Function
 Private Function get_efficiency_dongho(ByVal Q As Variant) As Variant
     Dim results As Variant
     Dim thresholds As Variant
-    Dim i, Result As Integer
+    Dim i, result As Integer
     
     
     thresholds = Array(72, 86.4, 115.2, 144, 216, 288, 432, 576, 720, 864, 1152, 1440)
     results = Array(38, 40.25, 43, 45.25, 47, 49, 51.25, 53.5, 55.5, 57, 58.25, 59.5)
         
-    Result = results(0)
+    result = results(0)
 
     For i = 1 To UBound(thresholds)
         If Q >= thresholds(i - 1) And Q < thresholds(i) Then
-            Result = results(i)
+            result = results(i)
             Exit For
         End If
     Next i
     
     
-    get_efficiency_dongho = Result
+    get_efficiency_dongho = result
     If Q < 57.6 Then get_efficiency_dongho = 37
     If Q > 1440 Then get_efficiency_dongho = 60
     
@@ -2166,7 +2137,7 @@ Private Sub CommandButton3_Click()
 ' make summary page
 
     Dim n_sheets As Integer
-    Dim Result() As Integer
+    Dim result() As Integer
     Dim w3page, wselect, restpage As Integer
     'wselect = 1 --> only w1
     'wselect = 2 --> w1, w2
@@ -2178,14 +2149,14 @@ Private Sub CommandButton3_Click()
     End If
        
     n_sheets = sheets_count()
-    Result = DivideWellsBy3(n_sheets)
+    result = DivideWellsBy3(n_sheets)
     
     
     ' result(0) = quotient
     ' result(1) = remainder
-    w3page = Result(0)
+    w3page = result(0)
     
-    Select Case Result(1)
+    Select Case result(1)
         Case 0
             restpage = 0
             wselect = 0
@@ -2456,7 +2427,7 @@ End Sub
 Private Sub CommandButton3_Click()
 ' make summary page
 
-    Dim Result() As Integer
+    Dim result() As Integer
     Dim w2page, wselect, restpage As Integer
     'wselect = 1 --> only w1
        
@@ -2467,13 +2438,13 @@ Private Sub CommandButton3_Click()
        
        
        
-    Result = DivideWellsBy2(sheets_count())
+    result = DivideWellsBy2(sheets_count())
     
     ' result(0) = quotient
     ' result(1) = remainder
     
-    w2page = Result(0)
-    restpage = Result(1)
+    w2page = result(0)
+    restpage = result(1)
     
     Call DuplicateQ2Page(w2page)
     
@@ -2839,6 +2810,12 @@ Sub EraseCellData(ByVal str_range As String)
 End Sub
 
 
+Sub Delay(ByVal msg As String, ByVal n As Integer)
+    Application.Wait (Now + TimeValue("0:00:" & n))
+    MsgBox msg, vbOKOnly
+End Sub
+
+
 'Function GetNumberOfWell() As Integer
 '    Dim save_name As String
 '    Dim n As Integer
@@ -2857,10 +2834,10 @@ Function ColumnNumberToLetter(ByVal columnNumber As Integer) As String
     Dim dividend As Integer
     Dim modulo As Integer
     Dim columnName As String
-    Dim Result As String
+    Dim result As String
     
     dividend = columnNumber
-    Result = ""
+    result = ""
     
     Do While dividend > 0
         modulo = (dividend - 1) Mod 26
@@ -2874,14 +2851,14 @@ End Function
 
 Function ColumnLetterToNumber(ByVal columnLetter As String) As Long
     Dim i As Long
-    Dim Result As Long
+    Dim result As Long
 
-    Result = 0
+    result = 0
     For i = 1 To Len(columnLetter)
-        Result = Result * 26 + (Asc(UCase(Mid(columnLetter, i, 1))) - 64)
+        result = result * 26 + (Asc(UCase(Mid(columnLetter, i, 1))) - 64)
     Next i
 
-    ColumnLetterToNumber = Result
+    ColumnLetterToNumber = result
 End Function
 
 
@@ -2911,7 +2888,7 @@ End Sub
 
 Function GetRowColumn(name As String) As Variant
     Dim acColumn, acRow As Variant
-    Dim Result(1 To 2) As Variant
+    Dim result(1 To 2) As Variant
 
     acColumn = Split(Range(name).Address, "$")(1)
     acRow = Split(Range(name).Address, "$")(2)
@@ -2920,11 +2897,11 @@ Function GetRowColumn(name As String) As Variant
     '  col = ActiveCell.Column
     
     
-    Result(1) = acColumn
-    Result(2) = acRow
+    result(1) = acColumn
+    result(2) = acRow
 
     Debug.Print acColumn, acRow
-    GetRowColumn = Result
+    GetRowColumn = result
 End Function
 
 
@@ -2942,25 +2919,26 @@ Function GetNumberOfWell() As Integer
     GetNumberOfWell = n
 End Function
 
+Public Function sheets_count() As Long
+    Dim i As Integer
+    Dim nSheetsCount As Long
+    Dim nWell As Long
+    Dim strSheetsName() As String
 
-'Public Function sheets_count() As Long
-'    Dim i, nSheetsCount, nWell  As Integer
-'    Dim strSheetsName(50) As String
-'
-'    nSheetsCount = ThisWorkbook.Sheets.count
-'    nWell = 0
-'
-'    For i = 1 To nSheetsCount
-'        strSheetsName(i) = ThisWorkbook.Sheets(i).Name
-'        'MsgBox (strSheetsName(i))
-'        If (ConvertToLongInteger(strSheetsName(i)) <> 0) Then
-'            nWell = nWell + 1
-'        End If
-'    Next
-'
-'    'MsgBox (CStr(nWell))
-'    sheets_count = nWell
-'End Function
+    nSheetsCount = ThisWorkbook.Sheets.count
+    nWell = 0
+
+    ReDim strSheetsName(1 To nSheetsCount)
+
+    For i = 1 To nSheetsCount
+        strSheetsName(i) = ThisWorkbook.Sheets(i).name
+        If ConvertToLongInteger(strSheetsName(i)) <> 0 Then
+            nWell = nWell + 1
+        End If
+    Next i
+
+    sheets_count = nWell
+End Function
 
 
 Function GetOtherFileName() As String
@@ -3003,26 +2981,6 @@ Function CheckSubstring(str As String, chk As String) As Boolean
 End Function
 
 
-Public Function sheets_count() As Long
-    Dim i As Integer
-    Dim nSheetsCount As Long
-    Dim nWell As Long
-    Dim strSheetsName() As String
-
-    nSheetsCount = ThisWorkbook.Sheets.count
-    nWell = 0
-
-    ReDim strSheetsName(1 To nSheetsCount)
-
-    For i = 1 To nSheetsCount
-        strSheetsName(i) = ThisWorkbook.Sheets(i).name
-        If ConvertToLongInteger(strSheetsName(i)) <> 0 Then
-            nWell = nWell + 1
-        End If
-    Next i
-
-    sheets_count = nWell
-End Function
 
 Function ExtractNumberFromString(inputString As String) As String
     Dim regex As Object
@@ -3050,13 +3008,13 @@ End Function
 
 Function GetNumeric2(ByVal CellRef As String) As String
     Dim StringLength, i  As Integer
-    Dim Result      As String
+    Dim result      As String
     
     StringLength = Len(CellRef)
     For i = 1 To StringLength
-        If IsNumeric(Mid(CellRef, i, 1)) Then Result = Result & Mid(CellRef, i, 1)
+        If IsNumeric(Mid(CellRef, i, 1)) Then result = result & Mid(CellRef, i, 1)
     Next i
-    GetNumeric2 = Result
+    GetNumeric2 = result
 End Function
 
 '********************************************************************************************************************************************************************************
@@ -8458,7 +8416,7 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVa
       
     If Workbooks.count <> 2 Then
         MsgBox "Please Open, 기본관정데이타의 복사,  기본관정데이타 파일 하나만 불러올수가 있습니다. ", vbOKOnly
-        obj.Result = True
+        obj.result = True
         Exit Sub
     End If
    
@@ -8498,12 +8456,12 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVa
     
     Call InteriorCopyDirection(this_WBNAME, well_no, IS_OVER180)
 
-    obj.Result = False
+    obj.result = False
     Exit Sub
 
 SheetDoesNotExist:
     MsgBox "Please Open, 기본관정데이타 파일이 아닙니다. ", vbOKOnly
-    obj.Result = True
+    obj.result = True
     
 End Sub
 
@@ -8571,10 +8529,10 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     
     If Not IsWorkBookOpen(WBNAME) Then
         MsgBox "Please open the yangsoo data ! " & WBNAME
-        obj.Result = True
+        obj.result = True
         Exit Sub
     Else
-        obj.Result = False
+        obj.result = False
     End If
 
     ' delta s : 최초1분의 수위강하
@@ -8644,12 +8602,12 @@ Private Sub Class_Initialize()
     mValue = False
 End Sub
 
-Public Property Let Result(val As Boolean)
+Public Property Let result(val As Boolean)
     mValue = val
 End Property
 
-Public Property Get Result() As Boolean
-    Result = mValue
+Public Property Get result() As Boolean
+    result = mValue
 End Property
 
 Sub DeleteAllSummaryPage(ByVal well_str As String)
@@ -9142,21 +9100,21 @@ End Sub
 Function DivideWellsBy2(ByVal numberOfWells As Integer) As Integer()
     Dim quotient As Integer
     Dim remainder As Integer
-    Dim Result(1) As Integer
+    Dim result(1) As Integer
     
     quotient = (numberOfWells - 1) \ 2
     remainder = numberOfWells Mod 2
     
     
     If remainder = 0 Then
-        Result(0) = quotient + 1
+        result(0) = quotient + 1
     Else
-        Result(0) = quotient
+        result(0) = quotient
     End If
     
-    Result(1) = remainder
+    result(1) = remainder
     
-    DivideWellsBy2 = Result
+    DivideWellsBy2 = result
 End Function
 
 Sub DuplicateRestQ2(ByVal w2page As Integer)
@@ -9285,15 +9243,15 @@ Function DivideWellsBy3(ByVal numberOfWells As Integer) As Integer()
 
     Dim quotient As Integer
     Dim remainder As Integer
-    Dim Result(1) As Integer
+    Dim result(1) As Integer
     
     quotient = numberOfWells \ 3
     remainder = numberOfWells Mod 3
     
-    Result(0) = quotient
-    Result(1) = remainder
+    result(0) = quotient
+    result(1) = remainder
     
-    DivideWellsBy3 = Result
+    DivideWellsBy3 = result
     
 End Function
 
@@ -9515,10 +9473,6 @@ Sub PressAll_Button()
 End Sub
 
 
-Sub Delay(ByVal msg As String, ByVal n As Integer)
-    Application.Wait (Now + TimeValue("0:00:" & n))
-    MsgBox msg, vbOKOnly
-End Sub
 
 Function RemoveSheetIfExists(shname As String) As Boolean
     Dim ws As Worksheet
@@ -9652,7 +9606,7 @@ Sub ImportAll_EachWellSpec()
         Sheets(CStr(i)).Activate
         Call Module_ImportWellSpec.ImportWellSpec(i, obj)
         
-        If obj.Result Then Exit For
+        If obj.result Then Exit For
     Next i
     
     Sheets("Well").Activate
@@ -9679,6 +9633,7 @@ Sub DuplicateBasicWellData()
     Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
     Dim WB_NAME As String
+    Dim weather_station, river_section As String
     
 
     nofwell = sheets_count()
@@ -9693,13 +9648,18 @@ Sub DuplicateBasicWellData()
         
         Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
         Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
+        weather_station = Replace(Sheets("Well").Range("F4").value, "기상청", "")
+        river_section = Sheets("Well").Range("E4").value
+        
+        ' 2024/6/27 일, 새로 추가해준 방법으로 복사해줌 ...
+        ThisWorkbook.Sheets("Recharge").Range("b32") = Range("B4").value
         
         ' 각 관정별 데이터 복사
         For i = 1 To nofwell
             Sheets(CStr(i)).Activate
             Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
             
-            If obj.Result Then Exit For
+            If obj.result Then Exit For
         Next i
         
         Worksheets("Well").Activate
@@ -9716,6 +9676,9 @@ Sub DuplicateBasicWellData()
         Sheets("Well").Activate
         BaseData_ETC_02.TurnOnStuff
     End If
+    
+     Sheets("Recharge").Range("I24") = river_section
+     Call modProvince.ResetWeatherData(weather_station)
 
 End Sub
 
@@ -11450,24 +11413,24 @@ End Sub
 Function CheckDrasticIndex(val As Integer) As String
     
     Dim value As Integer
-    Dim Result As String
+    Dim result As String
     
     Select Case val
         Case Is <= 100
-            Result = "매우낮음"
+            result = "매우낮음"
         Case Is <= 120
-            Result = "낮음"
+            result = "낮음"
         Case Is <= 140
-            Result = "비교적낮음"
+            result = "비교적낮음"
         Case Is <= 160
-            Result = "중간정도"
+            result = "중간정도"
         Case Is <= 180
-            Result = "높음"
+            result = "높음"
         Case Else
-            Result = "매우높음"
+            result = "매우높음"
     End Select
     
-    CheckDrasticIndex = Result
+    CheckDrasticIndex = result
 End Function
 
 
@@ -11515,243 +11478,369 @@ Sub test()
 End Sub
 
 
-Private Sub CommandButton1_Click()
-    Dim nofwell, i  As Integer
-
-    nofwell = sheets_count()
+Function GetProvince_Dictionary(city As String) As String
+    Dim cityProvinceMap As Object
+    Set cityProvinceMap = CreateObject("Scripting.Dictionary")
     
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Module_ImportWellSpec.ImportWellSpec (i)
-    Next i
+    ' 충청도
+    cityProvinceMap.Add "보은", "충청도"
+    cityProvinceMap.Add "제천", "충청도"
+    cityProvinceMap.Add "청주", "충청도"
+    cityProvinceMap.Add "추풍령", "충청도"
+    cityProvinceMap.Add "대전", "충청도"
+    cityProvinceMap.Add "세종", "충청도"
+    cityProvinceMap.Add "금산", "충청도"
+    cityProvinceMap.Add "보령", "충청도"
+    cityProvinceMap.Add "부여", "충청도"
+    cityProvinceMap.Add "서산", "충청도"
+    cityProvinceMap.Add "천안", "충청도"
+    cityProvinceMap.Add "홍성", "충청도"
+
+    ' 서울경기
+    cityProvinceMap.Add "관악산", "서울경기"
+    cityProvinceMap.Add "서울", "서울경기"
+    cityProvinceMap.Add "강화", "서울경기"
+    cityProvinceMap.Add "백령도", "서울경기"
+    cityProvinceMap.Add "인천", "서울경기"
+    cityProvinceMap.Add "동두천", "서울경기"
+    cityProvinceMap.Add "수원", "서울경기"
+    cityProvinceMap.Add "양평", "서울경기"
+    cityProvinceMap.Add "이천", "서울경기"
+    cityProvinceMap.Add "파주", "서울경기"
+
+    ' 강원도
+    cityProvinceMap.Add "강릉", "강원도"
+    cityProvinceMap.Add "대관령", "강원도"
+    cityProvinceMap.Add "동해", "강원도"
+    cityProvinceMap.Add "북강릉", "강원도"
+    cityProvinceMap.Add "북춘천", "강원도"
+    cityProvinceMap.Add "삼척", "강원도"
+    cityProvinceMap.Add "속초", "강원도"
+    cityProvinceMap.Add "영월", "강원도"
+    cityProvinceMap.Add "원주", "강원도"
+    cityProvinceMap.Add "인제", "강원도"
+    cityProvinceMap.Add "정선군", "강원도"
+    cityProvinceMap.Add "철원", "강원도"
+    cityProvinceMap.Add "춘천", "강원도"
+    cityProvinceMap.Add "태백", "강원도"
+    cityProvinceMap.Add "홍천", "강원도"
+
+    ' 전라도
+    cityProvinceMap.Add "광주", "전라도"
+    cityProvinceMap.Add "고창", "전라도"
+    cityProvinceMap.Add "고창군", "전라도"
+    cityProvinceMap.Add "군산", "전라도"
+    cityProvinceMap.Add "남원", "전라도"
+    cityProvinceMap.Add "부안", "전라도"
+    cityProvinceMap.Add "순창군", "전라도"
+    cityProvinceMap.Add "임실", "전라도"
+    cityProvinceMap.Add "장수", "전라도"
+    cityProvinceMap.Add "전주", "전라도"
+    cityProvinceMap.Add "정읍", "전라도"
+    cityProvinceMap.Add "강진군", "전라도"
+    cityProvinceMap.Add "고흥", "전라도"
+    cityProvinceMap.Add "광양시", "전라도"
+    cityProvinceMap.Add "목포", "전라도"
+    cityProvinceMap.Add "무안", "전라도"
+    cityProvinceMap.Add "보성군", "전라도"
+    cityProvinceMap.Add "순천", "전라도"
+    cityProvinceMap.Add "여수", "전라도"
+    cityProvinceMap.Add "영광군", "전라도"
+    cityProvinceMap.Add "완도", "전라도"
+    cityProvinceMap.Add "장흥", "전라도"
+    cityProvinceMap.Add "주암", "전라도"
+    cityProvinceMap.Add "진도", "전라도"
+    cityProvinceMap.Add "첨철산", "전라도"
+    cityProvinceMap.Add "진도군", "전라도"
+    cityProvinceMap.Add "해남", "전라도"
+    cityProvinceMap.Add "흑산도", "전라도"
+
+    ' 경상도
+    cityProvinceMap.Add "대구", "경상도"
+    cityProvinceMap.Add "대구(기)", "경상도"
+    cityProvinceMap.Add "울산", "경상도"
+    cityProvinceMap.Add "부산", "경상도"
+    cityProvinceMap.Add "경주시", "경상도"
+    cityProvinceMap.Add "구미", "경상도"
+    cityProvinceMap.Add "문경", "경상도"
+    cityProvinceMap.Add "봉화", "경상도"
+    cityProvinceMap.Add "상주", "경상도"
+    cityProvinceMap.Add "안동", "경상도"
+    cityProvinceMap.Add "영덕", "경상도"
+    cityProvinceMap.Add "영주", "경상도"
+    cityProvinceMap.Add "영천", "경상도"
+    cityProvinceMap.Add "울릉도", "경상도"
+    cityProvinceMap.Add "울진", "경상도"
+    cityProvinceMap.Add "의성", "경상도"
+    cityProvinceMap.Add "청송군", "경상도"
+    cityProvinceMap.Add "포항", "경상도"
+    cityProvinceMap.Add "거제", "경상도"
+    cityProvinceMap.Add "거창", "경상도"
+    cityProvinceMap.Add "김해시", "경상도"
+    cityProvinceMap.Add "남해", "경상도"
+    cityProvinceMap.Add "밀양", "경상도"
+    cityProvinceMap.Add "북창원", "경상도"
+    cityProvinceMap.Add "산청", "경상도"
+    cityProvinceMap.Add "양산시", "경상도"
+    cityProvinceMap.Add "의령군", "경상도"
+    cityProvinceMap.Add "진주", "경상도"
+    cityProvinceMap.Add "창원", "경상도"
+    cityProvinceMap.Add "통영", "경상도"
+    cityProvinceMap.Add "함양군", "경상도"
+    cityProvinceMap.Add "합천", "경상도"
+
+    ' 제주도
+    cityProvinceMap.Add "고산", "제주도"
+    cityProvinceMap.Add "서귀포", "제주도"
+    cityProvinceMap.Add "성산", "제주도"
+    cityProvinceMap.Add "성산2", "제주도"
+    cityProvinceMap.Add "성산포", "제주도"
     
-    Sheets("Well").Activate
+    ' Return the province if found
+    If cityProvinceMap.Exists(city) Then
+        GetProvince_Dictionary = cityProvinceMap(city)
+    Else
+        GetProvince_Dictionary = "Not in list"
+    End If
     
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call delete_allWhpaData
-End Sub
-
-
-
-Private Sub CommandButton2_Click()
-    Call main_drasticindex
-    Call print_drastic_string
-End Sub
-
-Private Sub CommandButton3_Click()
-    Call getWhpaData_AllWell
-End Sub
-
-Private Sub CommandButton7_Click()
-   Call getWhpaData_EachWell
-End Sub
-
-
-
-Private Sub CommandButton5_Click()
-    Call BaseData_DrasticIndex.ToggleDirection
-End Sub
-
-
-Private Function get_rf_number() As String
-    Dim rf_num As String
-
-    '=(max*rf_1*E17/1000)
-    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
-
+    ' Clean up
+    Set cityProvinceMap = Nothing
 End Function
 
 
-Private Sub Set_RechargeFactor_One()
 
-    Range("F17").formula = "=(max*rf_1*E17/1000)"
-    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+Function GetProvince_Vlookup(city As String) As String
+    Dim ws As Worksheet
+    Dim rng As Range
+    Dim result As Variant
     
-    Range("G17").formula = "=F17*allow_ratio"
-    Range("G19").formula = "=F19*allow_ratio"
-    
-    Range("E13").formula = "=Recharge!I24"
-    Range("F13").formula = "=rf_1"
-    Range("G13").formula = "=allow_ratio"
-    
-    Range("E26").formula = "=Recharge!C30"
-    
-End Sub
+    ' Set the worksheet and range
+    Set ws = ThisWorkbook.Sheets("Sheet1") ' Change "Sheet1" to the name of your sheet
+    Set rng = ws.Range("A1:B100") ' Adjust the range to match your data
 
-Private Sub Set_RechargeFactor_Two()
-
-    Range("F17").formula = "=(max*rf_2*E17/1000)"
-    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    ' Use VLOOKUP to find the province
+    result = Application.WorksheetFunction.VLookup(city, rng, 2, False)
     
-    Range("G17").formula = "=F17*allow_ratio2"
-    Range("G19").formula = "=F19*allow_ratio2"
-    
-    
-    Range("E13").formula = "=Recharge!I25"
-    Range("F13").formula = "=rf_2"
-    Range("G13").formula = "=allow_ratio2"
-    
-    
-    Range("E26").formula = "=Recharge!D30"
-End Sub
+    ' Return the result or handle the error
+    If IsError(result) Then
+        GetProvince_Vlookup = "Not in list"
+    Else
+        GetProvince_Vlookup = result
+    End If
+End Function
 
 
-Private Sub Set_RechargeFactor_Three()
-
-    Range("F17").formula = "=(max*rf_3*E17/1000)"
-    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
-    
-    Range("G17").formula = "=F17*allow_ratio3"
-    Range("G19").formula = "=F19*allow_ratio3"
-    
-    Range("E13").formula = "=Recharge!I26"
-    Range("F13").formula = "=rf_3"
-    Range("G13").formula = "=allow_ratio3"
-    
-    Range("E26").formula = "=Recharge!E30"
-    
-End Sub
-
-
-
-Private Sub CommandButton6_Click()
-'Select Recharge Factor
-
-    
-   If Frame1.Controls("optionbutton1").value = True Then
-        Call Set_RechargeFactor_One
-   End If
-    
-   If Frame1.Controls("optionbutton2").value = True Then
-        Call Set_RechargeFactor_Two
-   End If
-    
-   If Frame1.Controls("optionbutton3").value = True Then
-        Call Set_RechargeFactor_Three
-   End If
-    
-
-End Sub
-
-
-
-' 2022/6/9 Import YangSoo Data
-' Radius of Influence - 양수영향반경
-' Effective Radius - 유효우물반경
-' 2024/6/7 - 스킨계수 추가해줌 ...
-
-Private Sub CommandButton8_Click()
-    Dim WkbkName As Object
-    Dim WBNAME, cell1 As String
+Function GetProvince_Collection(city As String) As String
+    Dim cityProvinceArray As Collection
+    Dim cityProvince As Variant
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
     
-    ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
-    Dim casing As Integer
+    ' Initialize the collection with city-province pairs
+    Set cityProvinceArray = New Collection
     
-    BaseData_ETC_02.TurnOffStuff
+    ' Add city-province pairs to the collection
+    cityProvinceArray.Add Array("보은", "충청도")
+    cityProvinceArray.Add Array("제천", "충청도")
+    cityProvinceArray.Add Array("청주", "충청도")
+    cityProvinceArray.Add Array("추풍령", "충청도")
+    cityProvinceArray.Add Array("대전", "충청도")
+    cityProvinceArray.Add Array("세종", "충청도")
+    cityProvinceArray.Add Array("금산", "충청도")
+    cityProvinceArray.Add Array("보령", "충청도")
+    cityProvinceArray.Add Array("부여", "충청도")
+    cityProvinceArray.Add Array("서산", "충청도")
+    cityProvinceArray.Add Array("천안", "충청도")
+    cityProvinceArray.Add Array("홍성", "충청도")
+    cityProvinceArray.Add Array("관악산", "서울경기")
+    cityProvinceArray.Add Array("서울", "서울경기")
+    cityProvinceArray.Add Array("강화", "서울경기")
+    cityProvinceArray.Add Array("백령도", "서울경기")
+    cityProvinceArray.Add Array("인천", "서울경기")
+    cityProvinceArray.Add Array("동두천", "서울경기")
+    cityProvinceArray.Add Array("수원", "서울경기")
+    cityProvinceArray.Add Array("양평", "서울경기")
+    cityProvinceArray.Add Array("이천", "서울경기")
+    cityProvinceArray.Add Array("파주", "서울경기")
+    cityProvinceArray.Add Array("강릉", "강원도")
+    cityProvinceArray.Add Array("대관령", "강원도")
+    cityProvinceArray.Add Array("동해", "강원도")
+    cityProvinceArray.Add Array("북강릉", "강원도")
+    cityProvinceArray.Add Array("북춘천", "강원도")
+    cityProvinceArray.Add Array("삼척", "강원도")
+    cityProvinceArray.Add Array("속초", "강원도")
+    cityProvinceArray.Add Array("영월", "강원도")
+    cityProvinceArray.Add Array("원주", "강원도")
+    cityProvinceArray.Add Array("인제", "강원도")
+    cityProvinceArray.Add Array("정선군", "강원도")
+    cityProvinceArray.Add Array("철원", "강원도")
+    cityProvinceArray.Add Array("춘천", "강원도")
+    cityProvinceArray.Add Array("태백", "강원도")
+    cityProvinceArray.Add Array("홍천", "강원도")
+    cityProvinceArray.Add Array("광주", "전라도")
+    cityProvinceArray.Add Array("고창", "전라도")
+    cityProvinceArray.Add Array("고창군", "전라도")
+    cityProvinceArray.Add Array("군산", "전라도")
+    cityProvinceArray.Add Array("남원", "전라도")
+    cityProvinceArray.Add Array("부안", "전라도")
+    cityProvinceArray.Add Array("순창군", "전라도")
+    cityProvinceArray.Add Array("임실", "전라도")
+    cityProvinceArray.Add Array("장수", "전라도")
+    cityProvinceArray.Add Array("전주", "전라도")
+    cityProvinceArray.Add Array("정읍", "전라도")
+    cityProvinceArray.Add Array("강진군", "전라도")
+    cityProvinceArray.Add Array("고흥", "전라도")
+    cityProvinceArray.Add Array("광양시", "전라도")
+    cityProvinceArray.Add Array("목포", "전라도")
+    cityProvinceArray.Add Array("무안", "전라도")
+    cityProvinceArray.Add Array("보성군", "전라도")
+    cityProvinceArray.Add Array("순천", "전라도")
+    cityProvinceArray.Add Array("여수", "전라도")
+    cityProvinceArray.Add Array("영광군", "전라도")
+    cityProvinceArray.Add Array("완도", "전라도")
+    cityProvinceArray.Add Array("장흥", "전라도")
+    cityProvinceArray.Add Array("주암", "전라도")
+    cityProvinceArray.Add Array("진도", "전라도")
+    cityProvinceArray.Add Array("첨철산", "전라도")
+    cityProvinceArray.Add Array("진도군", "전라도")
+    cityProvinceArray.Add Array("해남", "전라도")
+    cityProvinceArray.Add Array("흑산도", "전라도")
+    cityProvinceArray.Add Array("대구", "경상도")
+    cityProvinceArray.Add Array("대구(기)", "경상도")
+    cityProvinceArray.Add Array("울산", "경상도")
+    cityProvinceArray.Add Array("부산", "경상도")
+    cityProvinceArray.Add Array("경주시", "경상도")
+    cityProvinceArray.Add Array("구미", "경상도")
+    cityProvinceArray.Add Array("문경", "경상도")
+    cityProvinceArray.Add Array("봉화", "경상도")
+    cityProvinceArray.Add Array("상주", "경상도")
+    cityProvinceArray.Add Array("안동", "경상도")
+    cityProvinceArray.Add Array("영덕", "경상도")
+    cityProvinceArray.Add Array("영주", "경상도")
+    cityProvinceArray.Add Array("영천", "경상도")
+    cityProvinceArray.Add Array("울릉도", "경상도")
+    cityProvinceArray.Add Array("울진", "경상도")
+    cityProvinceArray.Add Array("의성", "경상도")
+    cityProvinceArray.Add Array("청송군", "경상도")
+    cityProvinceArray.Add Array("포항", "경상도")
+    cityProvinceArray.Add Array("거제", "경상도")
+    cityProvinceArray.Add Array("거창", "경상도")
+    cityProvinceArray.Add Array("김해시", "경상도")
+    cityProvinceArray.Add Array("남해", "경상도")
+    cityProvinceArray.Add Array("밀양", "경상도")
+    cityProvinceArray.Add Array("북창원", "경상도")
+    cityProvinceArray.Add Array("산청", "경상도")
+    cityProvinceArray.Add Array("양산시", "경상도")
+    cityProvinceArray.Add Array("의령군", "경상도")
+    cityProvinceArray.Add Array("진주", "경상도")
+    cityProvinceArray.Add Array("창원", "경상도")
+    cityProvinceArray.Add Array("통영", "경상도")
+    cityProvinceArray.Add Array("함양군", "경상도")
+    cityProvinceArray.Add Array("합천", "경상도")
+    cityProvinceArray.Add Array("고산", "제주도")
+    cityProvinceArray.Add Array("서귀포", "제주도")
+    cityProvinceArray.Add Array("성산", "제주도")
+    cityProvinceArray.Add Array("성산2", "제주도")
+    cityProvinceArray.Add Array("성산포", "제주도")
     
-    i = 2
-    ' Range("i1") = Workbooks.count
-    ' WBName = Range("i2").value
+    ' Loop through the collection to find the city and return the corresponding province
+    For Each cityProvince In cityProvinceArray
+        If cityProvince(0) = city Then
+            GetProvince_Collection = cityProvince(1)
+            Exit Function
+        End If
+    Next cityProvince
     
-    cell1 = Range("b2").value
-    WBNAME = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
-    
-    If Not IsWorkBookOpen(WBNAME) Then
-        MsgBox "Please open the yangsoo data ! " & WBNAME
+    ' If city is not found in the collection, return "Not in list"
+    GetProvince_Collection = "Not in list"
+End Function
+
+
+
+Sub importRainfall()
+    Dim myArray As Variant
+    Dim rng As Range
+
+    Select Case UCase(Range("T6").value)
+        Case "SEJONG", "HONGSUNG"
+            Exit Sub
+    End Select
+
+    Dim indexString As String
+    indexString = "data_" & UCase(Range("T6").value)
+
+    On Error Resume Next
+    myArray = Application.Run(indexString)
+    On Error GoTo 0
+
+    If Not IsArray(myArray) Then
+        MsgBox "An error occurred while fetching data.", vbExclamation
         Exit Sub
     End If
 
-    ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
-    
-    ' WkbkName.Close
-    T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
-    
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
-    
-    ' yangsoo radius of influence
-    RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C23").value
-    
-    ' 유효우물반경 , 설정값에 따른
-    ir = GetEffectiveRadius(WBNAME)
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
-    
-    BaseData_ETC_02.TurnOnStuff
-        
+    Set rng = ThisWorkbook.ActiveSheet.Range("B5:N34")
+    rng.value = myArray
+
+    Range("B2").value = Range("T5").value & "기상청"
 End Sub
 
-Private Sub Worksheet_Activate()
 
-    Select Case get_rf_number
-    
-        Case "1"
-             Frame1.Controls("optionbutton1").value = True
-             
-        Case "2"
-             Frame1.Controls("optionbutton2").value = True
-             
-        Case "3"
-             Frame1.Controls("optionbutton3").value = True
-             
+
+
+Function GetProvince_Case(city As String) As String
+    Select Case city
+        ' 충청도
+        Case "보은", "제천", "청주", "추풍령", "대전", "세종", "금산", "보령", "부여", "서산", "천안", "홍성"
+            GetProvince_Case = "충청도"
+        ' 서울경기
+        Case "관악산", "서울", "강화", "백령도", "인천", "동두천", "수원", "양평", "이천", "파주"
+            GetProvince_Case = "서울경기"
+        ' 강원도
+        Case "강릉", "대관령", "동해", "북강릉", "북춘천", "삼척", "속초", "영월", "원주", "인제", "정선군", "철원", "춘천", "태백", "홍천"
+            GetProvince_Case = "강원도"
+        ' 전라도
+        Case "광주", "고창", "고창군", "군산", "남원", "부안", "순창군", "임실", "장수", "전주", "정읍", "강진군", "고흥", "광양시", "목포", "무안", "보성군", "순천", "여수", "영광군", "완도", "장흥", "주암", "진도", "첨철산", "진도군", "해남", "흑산도"
+            GetProvince_Case = "전라도"
+        ' 경상도
+        Case "대구", "대구(기)", "울산", "부산", "경주시", "구미", "문경", "봉화", "상주", "안동", "영덕", "영주", "영천", "울릉도", "울진", "의성", "청송군", "포항", "거제", "거창", "김해시", "남해", "밀양", "북창원", "산청", "양산시", "의령군", "진주", "창원", "통영", "함양군", "합천"
+            GetProvince_Case = "경상도"
+        ' 제주도
+        Case "고산", "서귀포", "성산", "성산2", "성산포"
+            GetProvince_Case = "제주도"
+        ' Default case
         Case Else
-            Frame1.Controls("optionbutton1").value = True
-           
+            GetProvince_Case = "Not in list"
     End Select
+End Function
+
+
+
+Sub ResetWeatherData(ByVal area As String)
+    
+    Sheets("All").Activate
+'    Range("S5") = "충청도"
+'    Range("T5") = "청주"
+
+    Range("S5") = GetProvince_Case(area)
+    Range("T5") = area
+    
+    
+    Popup_MessageBox ("Clear Contents")
+    Range("b5:n34").ClearContents
+    
+    Popup_MessageBox (" Load 30 year Weather Data ")
+    Call modProvince.importRainfall
+    
 
 End Sub
 
 
+Sub test()
+
+    Call ResetWeatherData("대전")
+
+End Sub
+
+'This Module is Empty 
 Private Sub CommandButton1_Click()
     Dim nofwell, i  As Integer
 

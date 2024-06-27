@@ -151,7 +151,7 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVa
       
     If Workbooks.count <> 2 Then
         MsgBox "Please Open, 기본관정데이타의 복사,  기본관정데이타 파일 하나만 불러올수가 있습니다. ", vbOKOnly
-        obj.Result = True
+        obj.result = True
         Exit Sub
     End If
    
@@ -191,12 +191,12 @@ Sub DuplicateWellSpec(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVa
     
     Call InteriorCopyDirection(this_WBNAME, well_no, IS_OVER180)
 
-    obj.Result = False
+    obj.result = False
     Exit Sub
 
 SheetDoesNotExist:
     MsgBox "Please Open, 기본관정데이타 파일이 아닙니다. ", vbOKOnly
-    obj.Result = True
+    obj.result = True
     
 End Sub
 
@@ -264,10 +264,10 @@ Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
     
     If Not IsWorkBookOpen(WBNAME) Then
         MsgBox "Please open the yangsoo data ! " & WBNAME
-        obj.Result = True
+        obj.result = True
         Exit Sub
     Else
-        obj.Result = False
+        obj.result = False
     End If
 
     ' delta s : 최초1분의 수위강하

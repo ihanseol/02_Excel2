@@ -75,7 +75,7 @@ End Sub
 Private Sub CommandButton3_Click()
 ' make summary page
 
-    Dim Result() As Integer
+    Dim result() As Integer
     Dim w2page, wselect, restpage As Integer
     'wselect = 1 --> only w1
        
@@ -86,13 +86,13 @@ Private Sub CommandButton3_Click()
        
        
        
-    Result = DivideWellsBy2(sheets_count())
+    result = DivideWellsBy2(sheets_count())
     
     ' result(0) = quotient
     ' result(1) = remainder
     
-    w2page = Result(0)
-    restpage = Result(1)
+    w2page = result(0)
+    restpage = result(1)
     
     Call DuplicateQ2Page(w2page)
     
