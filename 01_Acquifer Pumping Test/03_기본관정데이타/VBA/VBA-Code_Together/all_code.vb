@@ -2969,7 +2969,7 @@ NEXT_ITERATION:
 End Function
 
 
-Function CheckSubstring(str As String, chk As String) As Boolean
+Function CheckSubstring(ByVal str As String, ByVal chk As String) As Boolean
     
     If InStr(str, chk) > 0 Then
         ' The string contains "chk"
@@ -4006,18 +4006,6 @@ NEXT_ITERATION:
     Next
     
     GetOtherFileName = Workbook.name
-End Function
-
-
-Function CheckSubstring(str As String, chk As String) As Boolean
-    
-    If InStr(str, chk) > 0 Then
-        ' The string contains "chk"
-        CheckSubstring = True
-    Else
-        ' The string does not contain "chk"
-        CheckSubstring = False
-    End If
 End Function
 
 
@@ -8296,17 +8284,6 @@ NEXT_ITERATION:
 End Function
 
 
-Function CheckSubstring(str As String, chk As String) As Boolean
-    
-    If InStr(str, chk) > 0 Then
-        ' The string contains "chk"
-        CheckSubstring = True
-    Else
-        ' The string does not contain "chk"
-        CheckSubstring = False
-    End If
-End Function
-
 Sub CheckSheetExists(WB_NAME As String)
     Dim ws As Worksheet
     Dim sheetExists As Boolean
@@ -9678,7 +9655,12 @@ Sub DuplicateBasicWellData()
     End If
     
      Sheets("Recharge").Range("I24") = river_section
-     Call modProvince.ResetWeatherData(weather_station)
+     
+     
+    If Not BaseData_ETC.CheckSubstring(Sheets("All").Range("T5").value, weather_station) Then
+         Call modProvince.ResetWeatherData(weather_station)
+     End If
+        
 
 End Sub
 

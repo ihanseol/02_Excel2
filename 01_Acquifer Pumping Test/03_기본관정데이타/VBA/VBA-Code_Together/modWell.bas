@@ -330,7 +330,12 @@ Sub DuplicateBasicWellData()
     End If
     
      Sheets("Recharge").Range("I24") = river_section
-     Call modProvince.ResetWeatherData(weather_station)
+     
+     
+    If Not BaseData_ETC.CheckSubstring(Sheets("All").Range("T5").value, weather_station) Then
+         Call modProvince.ResetWeatherData(weather_station)
+     End If
+        
 
 End Sub
 

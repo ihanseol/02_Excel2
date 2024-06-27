@@ -57,18 +57,6 @@ NEXT_ITERATION:
 End Function
 
 
-Function CheckSubstring(str As String, chk As String) As Boolean
-    
-    If InStr(str, chk) > 0 Then
-        ' The string contains "chk"
-        CheckSubstring = True
-    Else
-        ' The string does not contain "chk"
-        CheckSubstring = False
-    End If
-End Function
-
-
 '
 'Function lastRowByKey(cell As String) As Long
 '    lastRowByKey = Range(cell).End(xlDown).Row

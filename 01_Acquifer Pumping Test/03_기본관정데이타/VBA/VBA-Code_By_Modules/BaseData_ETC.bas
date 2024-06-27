@@ -176,7 +176,7 @@ NEXT_ITERATION:
 End Function
 
 
-Function CheckSubstring(str As String, chk As String) As Boolean
+Function CheckSubstring(ByVal str As String, ByVal chk As String) As Boolean
     
     If InStr(str, chk) > 0 Then
         ' The string contains "chk"

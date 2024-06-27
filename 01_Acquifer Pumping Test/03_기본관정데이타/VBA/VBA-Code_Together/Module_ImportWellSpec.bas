@@ -31,17 +31,6 @@ NEXT_ITERATION:
 End Function
 
 
-Function CheckSubstring(str As String, chk As String) As Boolean
-    
-    If InStr(str, chk) > 0 Then
-        ' The string contains "chk"
-        CheckSubstring = True
-    Else
-        ' The string does not contain "chk"
-        CheckSubstring = False
-    End If
-End Function
-
 Sub CheckSheetExists(WB_NAME As String)
     Dim ws As Worksheet
     Dim sheetExists As Boolean
