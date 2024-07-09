@@ -446,7 +446,7 @@ Sub ImportWell_MainWellPage()
     Next i
 
     
-    Company = wsWell.Range("AP5").value
+    Company = wsYangSoo.Range("AP5").value
     wsRecharge.Range("B32").value = Company
     
     Application.CutCopyMode = False
