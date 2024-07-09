@@ -121,6 +121,8 @@ Sub PressAll_Button()
 
     Call modWell.ImportAll_QT
     Call modWell.ImportAll_EachWellSpec
+    Call modWell.ImportWell_MainWellPage
+    
 
 End Sub
 
@@ -355,6 +357,9 @@ End Sub
 
 
 Sub ImportAll_EachWellSpec()
+'
+' 각관정을 순회하면서, 관정데이타를 각관정에 써준다.
+'
     Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
 
@@ -374,6 +379,47 @@ Sub ImportAll_EachWellSpec()
     BaseData_ETC_02.TurnOnStuff
 End Sub
 
+
+Sub ImportWell_MainWellPage()
+'
+' import Sheets("Well") Page
+'
+    Dim fName As String
+    Dim nofwell, i As Integer
+    
+    Dim Address, Company As String
+    Dim simdo, diameter, Q, hp As Double
+    
+    nofwell = sheets_count()
+    Sheets("Well").Select
+    
+    Dim wsYangSoo, wsWell, wsRecharge As Worksheet
+    Set wsYangSoo = Worksheets("YangSoo")
+    Set wsWell = Worksheets("Well")
+    Set wsRecharge = Worksheets("Recharge")
+           
+    For i = 1 To nofwell
+        Address = wsYangSoo.Cells(4 + i, "ao").value
+        simdo = wsYangSoo.Cells(4 + i, "i").value
+        diameter = wsYangSoo.Cells(4 + i, "g").value
+        Q = wsYangSoo.Cells(4 + i, "k").value
+        hp = wsYangSoo.Cells(4 + i, "m").value
+        
+        
+        wsWell.Cells(3 + i, "d").value = Address
+        wsWell.Cells(3 + i, "g").value = diameter
+        wsWell.Cells(3 + i, "h").value = simdo
+        wsWell.Cells(3 + i, "i").value = Q
+        wsWell.Cells(3 + i, "j").value = Q
+        wsWell.Cells(3 + i, "l").value = hp
+    Next i
+
+    Company = Workbooks("A1_ge_OriginalSaveFile.xlsm").Worksheets("Input").Range("i47").value
+    wsRecharge.Range("B32").value = Company
+    
+    
+    Application.CutCopyMode = False
+End Sub
 
 
 Sub DuplicateBasicWellData()
@@ -449,6 +495,9 @@ End Sub
 
 
 Sub ImportAll_QT()
+'
+'양수정의 수질변화기록
+'
     Dim i, nof_p As Integer
     Dim qt As String
     

@@ -9342,6 +9342,8 @@ Sub PressAll_Button()
 
     Call modWell.ImportAll_QT
     Call modWell.ImportAll_EachWellSpec
+    Call modWell.ImportWell_MainWellPage
+    
 
 End Sub
 
@@ -9576,6 +9578,9 @@ End Sub
 
 
 Sub ImportAll_EachWellSpec()
+'
+' 각관정을 순회하면서, 관정데이타를 각관정에 써준다.
+'
     Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
 
@@ -9595,6 +9600,47 @@ Sub ImportAll_EachWellSpec()
     BaseData_ETC_02.TurnOnStuff
 End Sub
 
+
+Sub ImportWell_MainWellPage()
+'
+' import Sheets("Well") Page
+'
+    Dim fName As String
+    Dim nofwell, i As Integer
+    
+    Dim Address, Company As String
+    Dim simdo, diameter, Q, hp As Double
+    
+    nofwell = sheets_count()
+    Sheets("Well").Select
+    
+    Dim wsYangSoo, wsWell, wsRecharge As Worksheet
+    Set wsYangSoo = Worksheets("YangSoo")
+    Set wsWell = Worksheets("Well")
+    Set wsRecharge = Worksheets("Recharge")
+           
+    For i = 1 To nofwell
+        Address = wsYangSoo.Cells(4 + i, "ao").value
+        simdo = wsYangSoo.Cells(4 + i, "i").value
+        diameter = wsYangSoo.Cells(4 + i, "g").value
+        Q = wsYangSoo.Cells(4 + i, "k").value
+        hp = wsYangSoo.Cells(4 + i, "m").value
+        
+        
+        wsWell.Cells(3 + i, "d").value = Address
+        wsWell.Cells(3 + i, "g").value = diameter
+        wsWell.Cells(3 + i, "h").value = simdo
+        wsWell.Cells(3 + i, "i").value = Q
+        wsWell.Cells(3 + i, "j").value = Q
+        wsWell.Cells(3 + i, "l").value = hp
+    Next i
+
+    Company = Workbooks("A1_ge_OriginalSaveFile.xlsm").Worksheets("Input").Range("i47").value
+    wsRecharge.Range("B32").value = Company
+    
+    
+    Application.CutCopyMode = False
+End Sub
 
 
 Sub DuplicateBasicWellData()
@@ -9670,6 +9716,9 @@ End Sub
 
 
 Sub ImportAll_QT()
+'
+'양수정의 수질변화기록
+'
     Dim i, nof_p As Integer
     Dim qt As String
     
@@ -9736,14 +9785,14 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
                        "daeSoo", "T1", "T2", "TA", "S1", "S2", "K", "time_", _
                        "shultze", "webber", "jacob", "skin", "er", "ER1", _
                        "ER2", "ER3", "qh", "qg", "sd1", "sd2", "q1", "C", _
-                       "B", "ratio", "T0", "S0", "ER_MODE")
+                       "B", "ratio", "T0", "S0", "ER_MODE", "Address")
 
     ' Check if all well data should be imported
     nofwell = GetNumberOfWell()
     If Not isSingleWellImport And singleWell = 999 Then
-        rngString = "A5:AN37"
+        rngString = "A5:AO37"
     Else
-       rngString = "A" & (nofwell + 5 - 1) & ":AN" & (nofwell + 5 - 1)
+       rngString = "A" & (nofwell + 5 - 1) & ":AO" & (nofwell + 5 - 1)
     End If
         
     Call EraseCellData(rngString)
@@ -9821,7 +9870,7 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         wsSkinFactor.Range("k10"), wsSafeYield.Range("b13"), _
                         wsSafeYield.Range("b7"), wsSafeYield.Range("b3"), _
                         wsSafeYield.Range("b4"), wsSafeYield.Range("b2"), _
-                        wsSafeYield.Range("b11"))
+                        wsSafeYield.Range("b11"), wsInput.Range("i46"))
 
     ' Array of data addresses
     addresses = Array("Q", "hp", "natural", "stable", "radius", "Rw", _
@@ -9829,7 +9878,7 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         "delta_h", "delta_s", "daeSoo", "T0", "S0", "ER_MODE", _
                         "T1", "T2", "TA", "S1", "S2", "K", "time_", "shultze", _
                         "webber", "jacob", "skin", "er", "ER1", "ER2", "ER3", _
-                        "qh", "qg", "sd1", "sd2", "q1", "ratio")
+                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address")
 
     ' Find index of dataArrayName in addresses array
     For i = LBound(addresses) To UBound(addresses)
@@ -9905,7 +9954,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         35, 36, 37, 15, 16, 17, 18, _
         19, 20, 21, 22, 23, 24, 25, _
         26, 38, 39, 40, 27, 28, 30, _
-        31, 29, 34 _
+        31, 29, 34, 41 _
     )
 
     ' Define array to store column names
@@ -9916,7 +9965,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         "T0", "S0", "ER_MODE", "T1", "T2", "TA", "S1", _
         "S2", "K", "time_", "shultze", "webber", "jacob", "skin", _
         "er", "ER1", "ER2", "ER3", "qh", "qg", "sd1", _
-        "sd2", "q1", "ratio" _
+        "sd2", "q1", "ratio", "Address" _
     )
 
     ' Find index of columnName in columnNames array
