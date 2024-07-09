@@ -129,7 +129,7 @@ End Sub
 
 Private Sub CommandButton8_Click()
    
-   Call modWell_Each.ImporEachWell(Range("E15").value)
+   Call modWell_Each.ImportEachWell(Range("E15").value)
         
 End Sub
 

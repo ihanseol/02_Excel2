@@ -361,7 +361,7 @@ End Sub
 
 Private Sub CommandButton8_Click()
    
-   Call modWell_Each.ImporEachWell(Range("E15").value)
+   Call modWell_Each.ImportEachWell(Range("E15").value)
         
 End Sub
 
@@ -402,7 +402,7 @@ Sub ShiftNewYear()
     Selection.Copy
     
     Range("B5").Select
-    ActiveSheet.PasteSpecial Format:=3, Link:=1, DisplayAsIcon:=False, _
+    ActiveSheet.PasteSpecial format:=3, Link:=1, DisplayAsIcon:=False, _
                              IconFileName:=False
     
     Range("B34:N34").Select
@@ -412,7 +412,7 @@ Sub ShiftNewYear()
     Range("B42:N50").Select
     Selection.Copy
     Range("B41").Select
-    ActiveSheet.PasteSpecial Format:=3, Link:=1, DisplayAsIcon:=False, _
+    ActiveSheet.PasteSpecial format:=3, Link:=1, DisplayAsIcon:=False, _
                              IconFileName:=False
     Range("B50:N50").Select
     Selection.ClearContents
@@ -8382,89 +8382,6 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
 End Sub
 
 
-Sub ImportWellSpecFX(ByVal well_no As Integer)
-'
-' well_no -- well number
-'
-    Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    
-    ' nl : natural level, sl : stable level
-    ' s3 - Recover Test 의 S값
-    
-    Dim nl, sl, deltas As Double
-    Dim casing As Integer
-    Dim wsYangSoo As Worksheet
-    
-    i = well_no
-    Set wsYangSoo = Worksheets("YangSoo")
-    BaseData_ETC_02.TurnOffStuff
-    
-    ' delta s : 최초1분의 수위강하
-    deltas = wsYangSoo.Cells(4 + i, "L").value
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = wsYangSoo.Cells(4 + i, "B").value
-    sl = wsYangSoo.Cells(4 + i, "C").value
-    casing = wsYangSoo.Cells(4 + i, "J").value
-    
-    
-    T1 = wsYangSoo.Cells(4 + i, "O").value
-    S1 = wsYangSoo.Cells(4 + i, "R").value
-    T2 = wsYangSoo.Cells(4 + i, "P").value
-    S2 = wsYangSoo.Cells(4 + i, "S").value
-    S3 = wsYangSoo.Cells(4 + i, "AQ").value
-    
-    ' 스킨계수
-    skin = wsYangSoo.Cells(4 + i, "Y").value
-    
-    ' yangsoo radius of influence
-    RI1 = wsYangSoo.Cells(4 + i, "V").value  ' schultze
-    RI2 = wsYangSoo.Cells(4 + i, "W").value  ' webber
-    RI3 = wsYangSoo.Cells(4 + i, "X").value  ' jcob
-    
-    ' 유효우물반경 , 설정값에 따른
-    ' ir = GetEffectiveRadius(WBNAME)
-    ir = GetEffectiveRadiusFromFX(i)
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
-    BaseData_ETC_02.TurnOnStuff
-
-End Sub
-
 
 Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
@@ -9677,7 +9594,7 @@ Sub ImportAll_EachWellSpec()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.ImportWellSpecFX(i)
+        Call modWell_Each.ImportWellSpecFX(i)
     Next i
     
     Sheets("Well").Activate
@@ -10227,23 +10144,23 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
     
     
     For i = 1 To nofwell
-        T = Format(Cells(4 + i, "o").value, "0.0000")
+        T = format(Cells(4 + i, "o").value, "0.0000")
         Q = Cells(4 + i, "k").value
         
-        T0 = Format(Cells(4 + i, "AI").value, "0.0000")
-        S0 = Format(Cells(4 + i, "AJ").value, "0.0000")
+        T0 = format(Cells(4 + i, "AI").value, "0.0000")
+        S0 = format(Cells(4 + i, "AJ").value, "0.0000")
         S1 = Cells(4 + i, "R").value
                 
-        delta_s = Format(Cells(4 + i, "l").value, "0.00")
-        radius = Format(Cells(4 + i, "h").value, "0.000")
-        skin = Format(Cells(4 + i, "y").value, "0.0000")
-        er = Format(Cells(4 + i, "z").value, "0.0000")
+        delta_s = format(Cells(4 + i, "l").value, "0.00")
+        radius = format(Cells(4 + i, "h").value, "0.000")
+        skin = format(Cells(4 + i, "y").value, "0.0000")
+        er = format(Cells(4 + i, "z").value, "0.0000")
         
         
-        B = Format(Cells(4 + i, "AG").value, "0.0000")
-        ER1 = Format(Cells(4 + i, "AL").value, "0.0000")
-        ER2 = Format(Cells(4 + i, "AM").value, "0.0000")
-        ER3 = Format(Cells(4 + i, "AN").value, "0.0000")
+        B = format(Cells(4 + i, "AG").value, "0.0000")
+        ER1 = format(Cells(4 + i, "AL").value, "0.0000")
+        ER2 = format(Cells(4 + i, "AM").value, "0.0000")
+        ER3 = format(Cells(4 + i, "AN").value, "0.0000")
         
         
         Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").value)
@@ -10330,9 +10247,9 @@ Sub FormulaChwiSoo(FileNum As Integer)
     For i = 1 To nofwell
         q1 = Cells(4 + i, "ac").value
  
-        S1 = Format(Cells(4 + i, "ad").value, "0.00")
-        S2 = Format(Cells(4 + i, "ae").value, "0.00")
-        res = Format(Cells(4 + i, "ab").value, "0.00")
+        S1 = format(Cells(4 + i, "ad").value, "0.00")
+        S2 = format(Cells(4 + i, "ae").value, "0.00")
+        res = format(Cells(4 + i, "ab").value, "0.00")
         
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
@@ -10387,16 +10304,16 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     
     For i = 1 To nofwell
-        schultze = CStr(Format(Cells(4 + i, "v").value, "0.0"))
-        webber = CStr(Format(Cells(4 + i, "w").value, "0.0"))
-        jacob = CStr(Format(Cells(4 + i, "x").value, "0.0"))
+        schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
+        webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
+        jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
         
-        T = CStr(Format(Cells(4 + i, "q").value, "0.0000"))
-        S = CStr(Format(Cells(4 + i, "s").value, "0.0000000"))
-        K = CStr(Format(Cells(4 + i, "t").value, "0.0000"))
+        T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
+        S = CStr(format(Cells(4 + i, "s").value, "0.0000000"))
+        K = CStr(format(Cells(4 + i, "t").value, "0.0000"))
     
-        delta_h = CStr(Format(Cells(4 + i, "f").value, "0.00"))
-        time_ = CStr(Format(Cells(4 + i, "u").value, "0.0000"))
+        delta_h = CStr(format(Cells(4 + i, "f").value, "0.00"))
+        time_ = CStr(format(Cells(4 + i, "u").value, "0.0000"))
         
         
         ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")
@@ -11073,7 +10990,7 @@ Sub WriteWellData_Single(Q As Variant, daeSoo As Variant, T1 As Variant, S1 As V
     Cells(3 + i, "f").value = T1
     Cells(3 + i, "i").value = daeSoo
     Cells(3 + i, "k").value = direction
-    Cells(3 + i, "m").value = Format(gradient, "###0.0000")
+    Cells(3 + i, "m").value = format(gradient, "###0.0000")
     Cells(4, "d").value = "5년"
     
 End Sub
@@ -12009,8 +11926,70 @@ Sub test()
 End Sub
 
 'This Module is Empty 
+Sub ImportEachWell(ByVal well_no As Integer)
+    ' well_no -- well number
+    Dim i As Integer
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim nl, sl, deltas As Double
+    Dim casing As Integer
+    Dim wsYangSoo As Worksheet
 
-Sub ImporEachWell(ByVal well_no As Integer)
+    ' Set the well number
+    i = well_no
+    
+    ' Reference the YangSoo worksheet
+    Set wsYangSoo = Worksheets("YangSoo")
+    
+    ' Turn off additional processes or features
+    BaseData_ETC_02.TurnOffStuff
+    
+    ' Read data from the worksheet
+    deltas = wsYangSoo.Cells(4 + i, "L").value
+    nl = wsYangSoo.Cells(4 + i, "B").value
+    sl = wsYangSoo.Cells(4 + i, "C").value
+    casing = wsYangSoo.Cells(4 + i, "J").value
+    T1 = wsYangSoo.Cells(4 + i, "O").value
+    S1 = wsYangSoo.Cells(4 + i, "R").value
+    T2 = wsYangSoo.Cells(4 + i, "P").value
+    S2 = wsYangSoo.Cells(4 + i, "S").value
+    S3 = wsYangSoo.Cells(4 + i, "AQ").value
+    skin = wsYangSoo.Cells(4 + i, "Y").value
+    RI1 = wsYangSoo.Cells(4 + i, "V").value
+    RI2 = wsYangSoo.Cells(4 + i, "W").value
+    RI3 = wsYangSoo.Cells(4 + i, "X").value
+    
+    ' Calculate the effective radius
+    ir = GetEffectiveRadiusFromFX(i)
+    
+    ' Set the values in the target worksheet
+    SetCellValueAndFormat Range("C20"), nl, "0.00"
+    SetCellValueAndFormat Range("C21"), sl, "0.00"
+    SetCellValueAndFormat Range("C10"), 5, "0"
+    SetCellValueAndFormat Range("C11"), casing - 5, "0"
+    SetCellValueAndFormat Range("G6"), S3, "0.00"
+    SetCellValueAndFormat Range("E5"), T1, "0.0000"
+    SetCellValueAndFormat Range("E6"), T2, "0.0000"
+    SetCellValueAndFormat Range("G5"), S2, "0.0000000"
+    SetCellValueAndFormat Range("G4"), S1, "0.00000"
+    SetCellValueAndFormat Range("H5"), skin, "0.0000"
+    SetCellValueAndFormat Range("H6"), ir, "0.0000"
+    SetCellValueAndFormat Range("E10"), RI1, "0.0"
+    SetCellValueAndFormat Range("F10"), RI2, "0.0"
+    SetCellValueAndFormat Range("G10"), RI3, "0.0"
+    SetCellValueAndFormat Range("C23"), Round(deltas, 2), "0.00"
+    
+    ' Turn on additional processes or features
+    BaseData_ETC_02.TurnOnStuff
+End Sub
+
+' Helper function to set cell value and format
+Sub SetCellValueAndFormat(cell As Range, value As Variant, format As String)
+    cell.value = value
+    cell.NumberFormat = format
+End Sub
+
+
+Sub ImportWellSpecFX(ByVal well_no As Integer)
 '
 ' well_no -- well number
 '
@@ -12055,43 +12034,29 @@ Sub ImporEachWell(ByVal well_no As Integer)
     ' ir = GetEffectiveRadius(WBNAME)
     ir = GetEffectiveRadiusFromFX(i)
     
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
+      ' Set the values in the target worksheet
+    SetCellValueAndFormat Range("C20"), nl, "0.00"
+    SetCellValueAndFormat Range("C21"), sl, "0.00"
+    SetCellValueAndFormat Range("C10"), 5, "0"
+    SetCellValueAndFormat Range("C11"), casing - 5, "0"
+    SetCellValueAndFormat Range("G6"), S3, "0.00"
+    SetCellValueAndFormat Range("E5"), T1, "0.0000"
+    SetCellValueAndFormat Range("E6"), T2, "0.0000"
+    SetCellValueAndFormat Range("G5"), S2, "0.0000000"
+    SetCellValueAndFormat Range("G4"), S1, "0.00000"
+    SetCellValueAndFormat Range("H5"), skin, "0.0000"
+    SetCellValueAndFormat Range("H6"), ir, "0.0000"
+    SetCellValueAndFormat Range("E10"), RI1, "0.0"
+    SetCellValueAndFormat Range("F10"), RI2, "0.0"
+    SetCellValueAndFormat Range("G10"), RI3, "0.0"
+    SetCellValueAndFormat Range("C23"), Round(deltas, 2), "0.00"
+
     BaseData_ETC_02.TurnOnStuff
 
 End Sub
+
+
+
 
 
 Private Sub ImportEachWell_OLD()

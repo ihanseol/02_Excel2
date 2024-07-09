@@ -14,7 +14,7 @@ Sub ShiftNewYear()
     Selection.Copy
     
     Range("B5").Select
-    ActiveSheet.PasteSpecial Format:=3, Link:=1, DisplayAsIcon:=False, _
+    ActiveSheet.PasteSpecial format:=3, Link:=1, DisplayAsIcon:=False, _
                              IconFileName:=False
     
     Range("B34:N34").Select
@@ -24,7 +24,7 @@ Sub ShiftNewYear()
     Range("B42:N50").Select
     Selection.Copy
     Range("B41").Select
-    ActiveSheet.PasteSpecial Format:=3, Link:=1, DisplayAsIcon:=False, _
+    ActiveSheet.PasteSpecial format:=3, Link:=1, DisplayAsIcon:=False, _
                              IconFileName:=False
     Range("B50:N50").Select
     Selection.ClearContents

@@ -18,7 +18,7 @@ Sub WriteWellData_Single(Q As Variant, daeSoo As Variant, T1 As Variant, S1 As V
     Cells(3 + i, "f").value = T1
     Cells(3 + i, "i").value = daeSoo
     Cells(3 + i, "k").value = direction
-    Cells(3 + i, "m").value = Format(gradient, "###0.0000")
+    Cells(3 + i, "m").value = format(gradient, "###0.0000")
     Cells(4, "d").value = "5³â"
     
 End Sub

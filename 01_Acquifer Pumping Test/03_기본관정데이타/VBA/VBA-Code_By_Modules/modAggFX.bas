@@ -339,23 +339,23 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
     
     
     For i = 1 To nofwell
-        T = Format(Cells(4 + i, "o").value, "0.0000")
+        T = format(Cells(4 + i, "o").value, "0.0000")
         Q = Cells(4 + i, "k").value
         
-        T0 = Format(Cells(4 + i, "AI").value, "0.0000")
-        S0 = Format(Cells(4 + i, "AJ").value, "0.0000")
+        T0 = format(Cells(4 + i, "AI").value, "0.0000")
+        S0 = format(Cells(4 + i, "AJ").value, "0.0000")
         S1 = Cells(4 + i, "R").value
                 
-        delta_s = Format(Cells(4 + i, "l").value, "0.00")
-        radius = Format(Cells(4 + i, "h").value, "0.000")
-        skin = Format(Cells(4 + i, "y").value, "0.0000")
-        er = Format(Cells(4 + i, "z").value, "0.0000")
+        delta_s = format(Cells(4 + i, "l").value, "0.00")
+        radius = format(Cells(4 + i, "h").value, "0.000")
+        skin = format(Cells(4 + i, "y").value, "0.0000")
+        er = format(Cells(4 + i, "z").value, "0.0000")
         
         
-        B = Format(Cells(4 + i, "AG").value, "0.0000")
-        ER1 = Format(Cells(4 + i, "AL").value, "0.0000")
-        ER2 = Format(Cells(4 + i, "AM").value, "0.0000")
-        ER3 = Format(Cells(4 + i, "AN").value, "0.0000")
+        B = format(Cells(4 + i, "AG").value, "0.0000")
+        ER1 = format(Cells(4 + i, "AL").value, "0.0000")
+        ER2 = format(Cells(4 + i, "AM").value, "0.0000")
+        ER3 = format(Cells(4 + i, "AN").value, "0.0000")
         
         
         Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").value)
@@ -442,9 +442,9 @@ Sub FormulaChwiSoo(FileNum As Integer)
     For i = 1 To nofwell
         q1 = Cells(4 + i, "ac").value
  
-        S1 = Format(Cells(4 + i, "ad").value, "0.00")
-        S2 = Format(Cells(4 + i, "ae").value, "0.00")
-        res = Format(Cells(4 + i, "ab").value, "0.00")
+        S1 = format(Cells(4 + i, "ad").value, "0.00")
+        S2 = format(Cells(4 + i, "ae").value, "0.00")
+        res = format(Cells(4 + i, "ab").value, "0.00")
         
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
@@ -499,16 +499,16 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     
     For i = 1 To nofwell
-        schultze = CStr(Format(Cells(4 + i, "v").value, "0.0"))
-        webber = CStr(Format(Cells(4 + i, "w").value, "0.0"))
-        jacob = CStr(Format(Cells(4 + i, "x").value, "0.0"))
+        schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
+        webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
+        jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
         
-        T = CStr(Format(Cells(4 + i, "q").value, "0.0000"))
-        S = CStr(Format(Cells(4 + i, "s").value, "0.0000000"))
-        K = CStr(Format(Cells(4 + i, "t").value, "0.0000"))
+        T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
+        S = CStr(format(Cells(4 + i, "s").value, "0.0000000"))
+        K = CStr(format(Cells(4 + i, "t").value, "0.0000"))
     
-        delta_h = CStr(Format(Cells(4 + i, "f").value, "0.00"))
-        time_ = CStr(Format(Cells(4 + i, "u").value, "0.0000"))
+        delta_h = CStr(format(Cells(4 + i, "f").value, "0.00"))
+        time_ = CStr(format(Cells(4 + i, "u").value, "0.0000"))
         
         
         ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")

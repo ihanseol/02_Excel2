@@ -378,7 +378,7 @@ Sub ImportAll_EachWellSpec()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.ImportWellSpecFX(i)
+        Call modWell_Each.ImportWellSpecFX(i)
     Next i
     
     Sheets("Well").Activate
