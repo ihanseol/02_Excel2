@@ -36,7 +36,7 @@ Sheet4
 modDataJIYEOL
 vbGit
 Module_Refactor
-modImportWellSpec
+mod_DuplicatetWellSpec
 Class_Boolean
 modWaterQualityTest
 modWell

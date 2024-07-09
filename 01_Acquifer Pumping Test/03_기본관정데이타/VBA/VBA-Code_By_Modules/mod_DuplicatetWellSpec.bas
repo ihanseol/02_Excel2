@@ -1,4 +1,4 @@
-Attribute VB_Name = "modImportWellSpec"
+Attribute VB_Name = "mod_DuplicatetWellSpec"
 Function GetOtherFileName(Optional ByVal SearchText As String = "µ•¿Ã≈∏") As String
     Dim Workbook As Workbook
     Dim WBNAME As String

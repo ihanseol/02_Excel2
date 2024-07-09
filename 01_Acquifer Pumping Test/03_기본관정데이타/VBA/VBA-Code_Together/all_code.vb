@@ -230,20 +230,6 @@ End Sub
 
 
 
-Private Sub CommandButton1_Click()
-    Dim nofwell, i  As Integer
-
-    nofwell = sheets_count()
-    
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Module_ImportWellSpec.ImportWellSpec (i)
-    Next i
-    
-    Sheets("Well").Activate
-    
-End Sub
-
 
 Private Sub CommandButton4_Click()
     Call delete_allWhpaData
@@ -12149,19 +12135,6 @@ Private Sub ImportEachWell_OLD()
     BaseData_ETC_02.TurnOnStuff
         
 End Sub
-Private Sub CommandButton1_Click()
-    Dim nofwell, i  As Integer
-
-    nofwell = sheets_count()
-    
-    For i = 1 To nofwell
-        Sheets(CStr(i)).Activate
-        Module_ImportWellSpec.ImportWellSpec (i)
-    Next i
-    
-    Sheets("Well").Activate
-    
-End Sub
 
 
 Private Sub CommandButton4_Click()
@@ -12280,7 +12253,7 @@ End Sub
 
 Private Sub CommandButton8_Click()
    
-   Call modWell_Each.ImporEachWell(Range("E15").value)
+   Call modWell_Each.ImportEachWell(Range("E15").value)
         
 End Sub
 
