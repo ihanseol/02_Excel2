@@ -414,9 +414,9 @@ Sub ImportWell_MainWellPage()
         wsWell.Cells(3 + i, "l").value = hp
     Next i
 
-    Company = Workbooks("A1_ge_OriginalSaveFile.xlsm").Worksheets("Input").Range("i47").value
-    wsRecharge.Range("B32").value = Company
     
+    Company = wsWell.Range("AP5").value
+    wsRecharge.Range("B32").value = Company
     
     Application.CutCopyMode = False
 End Sub

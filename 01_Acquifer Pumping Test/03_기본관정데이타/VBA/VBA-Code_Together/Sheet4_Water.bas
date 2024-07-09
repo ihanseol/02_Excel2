@@ -67,7 +67,7 @@ Function GetCopyPoint(ByVal fName As String) As String
 
   Dim ip1, ip2 As Integer
 
-  ip1 = Workbooks(fName).Worksheets("ss").Range("b1").End(xlDown).Row + 4
+  ip1 = Workbooks(fName).Worksheets("ss").Range("b1").End(xlDown).row + 4
   ip2 = ip1 + 2
   
   GetCopyPoint = "B" & ip1 & ":J" & ip2

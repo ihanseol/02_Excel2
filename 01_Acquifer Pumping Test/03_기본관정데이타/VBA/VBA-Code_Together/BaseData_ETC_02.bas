@@ -24,7 +24,7 @@ Public Sub Range_End_Method()
     Dim lCol        As Long
     
     'Find the last non-blank cell in column A(1)
-    lRow = Cells(Rows.count, 1).End(xlUp).Row
+    lRow = Cells(Rows.count, 1).End(xlUp).row
     
     'Find the last non-blank cell in row 1
     lCol = Cells(1, Columns.count).End(xlToLeft).Column
@@ -35,7 +35,7 @@ End Sub
 
 Public Function lastRow() As Long
     Dim lRow        As Long
-    lRow = Cells(Rows.count, 1).End(xlUp).Row
+    lRow = Cells(Rows.count, 1).End(xlUp).row
     
     lastRow = lRow
 End Function

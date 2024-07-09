@@ -357,92 +357,11 @@ End Sub
 ' Radius of Influence - 양수영향반경
 ' Effective Radius - 유효우물반경
 ' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
 
 Private Sub CommandButton8_Click()
-    Dim WkbkName As Object
-    Dim WBNAME, cell1 As String
-    Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    
-    ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
-    Dim casing As Integer
-    
-    BaseData_ETC_02.TurnOffStuff
-    
-    i = 2
-    ' Range("i1") = Workbooks.count
-    ' WBName = Range("i2").value
-    
-    cell1 = Range("b2").value
-    WBNAME = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
-    
-    If Not IsWorkBookOpen(WBNAME) Then
-        MsgBox "Please open the yangsoo data ! " & WBNAME
-        Exit Sub
-    End If
-
-    ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
-    
-    ' WkbkName.Close
-    T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
-    
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
-    
-    ' yangsoo radius of influence
-    RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C23").value
-    
-    ' 유효우물반경 , 설정값에 따른
-    ir = GetEffectiveRadius(WBNAME)
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
-    
-    BaseData_ETC_02.TurnOnStuff
+   
+   Call modWell_Each.ImporEachWell(Range("E15").value)
         
 End Sub
 
@@ -2027,7 +1946,7 @@ Option Explicit
 
 Public Sub rows_and_column()
     Debug.Print Cells(20, 1).Address(RowAbsolute:=False, ColumnAbsolute:=False)
-    Debug.Print Range("a20").Row & " , " & Range("a20").Column
+    Debug.Print Range("a20").row & " , " & Range("a20").Column
     
     Range("B2:Z44").Rows(3).Select
 End Sub
@@ -2590,7 +2509,7 @@ Public Sub Range_End_Method()
     Dim lCol        As Long
     
     'Find the last non-blank cell in column A(1)
-    lRow = Cells(Rows.count, 1).End(xlUp).Row
+    lRow = Cells(Rows.count, 1).End(xlUp).row
     
     'Find the last non-blank cell in row 1
     lCol = Cells(1, Columns.count).End(xlToLeft).Column
@@ -2601,7 +2520,7 @@ End Sub
 
 Public Function lastRow() As Long
     Dim lRow        As Long
-    lRow = Cells(Rows.count, 1).End(xlUp).Row
+    lRow = Cells(Rows.count, 1).End(xlUp).row
     
     lastRow = lRow
 End Function
@@ -2808,7 +2727,7 @@ Function GetNumberOfWell() As Integer
     
     save_name = ActiveSheet.name
     With Sheets("Well")
-        n = .Cells(.Rows.count, "A").End(xlUp).Row
+        n = .Cells(.Rows.count, "A").End(xlUp).row
         n = CInt(GetNumeric2(.Cells(n, "A").value))
     End With
     
@@ -3411,6 +3330,8 @@ Function GetER_Mode(ByVal WB_NAME As String) As Integer
     End If
 End Function
 
+
+
 Function GetEffectiveRadius(ByVal WB_NAME As String) As Double
     Dim i, er As Integer
     
@@ -3420,6 +3341,10 @@ Function GetEffectiveRadius(ByVal WB_NAME As String) As Double
     End If
     
     er = GetER_Mode(WB_NAME)
+    'Worksheets("SkinFactor").Range("k8").value  - 경험식 1번 (RE1)
+    'Worksheets("SkinFactor").Range("k9").value  - 경험식 2번 (RE2)
+    'Worksheets("SkinFactor").Range("k10").value  - 경험식 3번 (RE3)
+    
     
     Select Case er
         Case erRE1
@@ -3435,6 +3360,52 @@ Function GetEffectiveRadius(ByVal WB_NAME As String) As Double
 End Function
 
 
+Function GetER_ModeFX(ByVal well_no As Integer) As Integer
+    Dim er, R  As String
+    Dim wsYangSoo As Worksheet
+    
+    Set wsYangSoo = Worksheets("YangSoo")
+    
+    ' ak : ER Mode
+    er = wsYangSoo.Cells(4 + well_no, "ak").value
+    
+    'MsgBox er
+    R = Mid(er, 5, 1)
+    
+    If R = "F" Then
+        GetER_ModeFX = 0
+    Else
+        GetER_ModeFX = val(R)
+    End If
+End Function
+
+
+
+Function GetEffectiveRadiusFromFX(ByVal well_no As Integer) As Double
+    Dim i, er As Integer
+    Dim wsYangSoo As Worksheet
+    
+    Set wsYangSoo = Worksheets("YangSoo")
+    
+    er = GetER_ModeFX(well_no)
+    i = well_no
+    
+    'Worksheets("SkinFactor").Range("k8").value  - 경험식 1번 (RE1)
+    'Worksheets("SkinFactor").Range("k9").value  - 경험식 2번 (RE2)
+    'Worksheets("SkinFactor").Range("k10").value  - 경험식 3번 (RE3)
+    
+    Select Case er
+        Case erRE1
+            GetEffectiveRadiusFromFX = wsYangSoo.Cells(4 + i, "AL").value
+        Case erRE2
+            GetEffectiveRadiusFromFX = wsYangSoo.Cells(4 + i, "AM").value
+        Case erRE3
+            GetEffectiveRadiusFromFX = wsYangSoo.Cells(4 + i, "AN").value
+        Case Else
+            GetEffectiveRadiusFromFX = wsYangSoo.Cells(4 + i, "Z").value
+    End Select
+
+End Function
 
 Option Explicit
 
@@ -3915,7 +3886,7 @@ Function GetCopyPoint(ByVal fName As String) As String
 
   Dim ip1, ip2 As Integer
 
-  ip1 = Workbooks(fName).Worksheets("ss").Range("b1").End(xlDown).Row + 4
+  ip1 = Workbooks(fName).Worksheets("ss").Range("b1").End(xlDown).row + 4
   ip2 = ip1 + 2
   
   GetCopyPoint = "B" & ip1 & ":J" & ip2
@@ -9635,9 +9606,9 @@ Sub ImportWell_MainWellPage()
         wsWell.Cells(3 + i, "l").value = hp
     Next i
 
-    Company = Workbooks("A1_ge_OriginalSaveFile.xlsm").Worksheets("Input").Range("i47").value
-    wsRecharge.Range("B32").value = Company
     
+    Company = wsWell.Range("AP5").value
+    wsRecharge.Range("B32").value = Company
     
     Application.CutCopyMode = False
 End Sub
@@ -9785,7 +9756,7 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
                        "daeSoo", "T1", "T2", "TA", "S1", "S2", "K", "time_", _
                        "shultze", "webber", "jacob", "skin", "er", "ER1", _
                        "ER2", "ER3", "qh", "qg", "sd1", "sd2", "q1", "C", _
-                       "B", "ratio", "T0", "S0", "ER_MODE", "Address")
+                       "B", "ratio", "T0", "S0", "ER_MODE", "Address", "Company", "S3")
 
     ' Check if all well data should be imported
     nofwell = GetNumberOfWell()
@@ -9870,7 +9841,8 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         wsSkinFactor.Range("k10"), wsSafeYield.Range("b13"), _
                         wsSafeYield.Range("b7"), wsSafeYield.Range("b3"), _
                         wsSafeYield.Range("b4"), wsSafeYield.Range("b2"), _
-                        wsSafeYield.Range("b11"), wsInput.Range("i46"))
+                        wsSafeYield.Range("b11"), wsInput.Range("i46"), _
+                        wsInput.Range("i47"), wsSkinFactor.Range("i13"))
 
     ' Array of data addresses
     addresses = Array("Q", "hp", "natural", "stable", "radius", "Rw", _
@@ -9878,7 +9850,8 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         "delta_h", "delta_s", "daeSoo", "T0", "S0", "ER_MODE", _
                         "T1", "T2", "TA", "S1", "S2", "K", "time_", "shultze", _
                         "webber", "jacob", "skin", "er", "ER1", "ER2", "ER3", _
-                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address")
+                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address", _
+                        "Company", "S3")
 
     ' Find index of dataArrayName in addresses array
     For i = LBound(addresses) To UBound(addresses)
@@ -9908,6 +9881,7 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
         .Add "recover", "0.00"
         .Add "Sw", "0.00"
         .Add "S2", "0.0000000"
+        .Add "S3", "0.00"
         .Add "T1", "0.0000"
         .Add "T2", "0.0000"
         .Add "TA", "0.0000"
@@ -9954,7 +9928,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         35, 36, 37, 15, 16, 17, 18, _
         19, 20, 21, 22, 23, 24, 25, _
         26, 38, 39, 40, 27, 28, 30, _
-        31, 29, 34, 41 _
+        31, 29, 34, 41, 42, 43 _
     )
 
     ' Define array to store column names
@@ -9965,7 +9939,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         "T0", "S0", "ER_MODE", "T1", "T2", "TA", "S1", _
         "S2", "K", "time_", "shultze", "webber", "jacob", "skin", _
         "er", "ER1", "ER2", "ER3", "qh", "qg", "sd1", _
-        "sd2", "q1", "ratio", "Address" _
+        "sd2", "q1", "ratio", "Address", "Company", "S3" _
     )
 
     ' Find index of columnName in columnNames array
@@ -11885,6 +11859,90 @@ Sub test()
 End Sub
 
 'This Module is Empty 
+
+Sub ImporEachWell(ByVal well_no As Integer)
+'
+' well_no -- well number
+'
+    Dim i As Integer
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    
+    ' nl : natural level, sl : stable level
+    ' s3 - Recover Test 의 S값
+    
+    Dim nl, sl, deltas As Double
+    Dim casing As Integer
+    Dim wsYangSoo As Worksheet
+    
+    i = well_no
+    Set wsYangSoo = Worksheets("YangSoo")
+    BaseData_ETC_02.TurnOffStuff
+    
+    ' delta s : 최초1분의 수위강하
+    deltas = wsYangSoo.Cells(4 + i, "L").value
+    
+    ' 자연수위, 안정수위, 케이싱 심도 결정
+    nl = wsYangSoo.Cells(4 + i, "B").value
+    sl = wsYangSoo.Cells(4 + i, "C").value
+    casing = wsYangSoo.Cells(4 + i, "J").value
+    
+    
+    T1 = wsYangSoo.Cells(4 + i, "O").value
+    S1 = wsYangSoo.Cells(4 + i, "R").value
+    T2 = wsYangSoo.Cells(4 + i, "P").value
+    S2 = wsYangSoo.Cells(4 + i, "S").value
+    S3 = wsYangSoo.Cells(4 + i, "AQ").value
+    
+    ' 스킨계수
+    skin = wsYangSoo.Cells(4 + i, "Y").value
+    
+    ' yangsoo radius of influence
+    RI1 = wsYangSoo.Cells(4 + i, "V").value  ' schultze
+    RI2 = wsYangSoo.Cells(4 + i, "W").value  ' webber
+    RI3 = wsYangSoo.Cells(4 + i, "X").value  ' jcob
+    
+    ' 유효우물반경 , 설정값에 따른
+    ' ir = GetEffectiveRadius(WBNAME)
+    ir = GetEffectiveRadiusFromFX(i)
+    
+    ' 자연수위, 안정수위, 케이싱 심도 결정
+    Range("c20") = nl
+    Range("c20").NumberFormat = "0.00"
+    
+    Range("c21") = sl
+    Range("c21").NumberFormat = "0.00"
+    
+    Range("c10") = 5
+    Range("c11") = casing - 5
+    
+    'in recover test, s' value
+    Range("G6") = S3
+        
+    Range("E5") = T1
+    Range("E5").NumberFormat = "0.0000"
+     
+    Range("E6") = T2
+    Range("E6").NumberFormat = "0.0000"
+    
+    Range("g5") = S2
+    Range("g5").NumberFormat = "0.0000000"
+    
+    '2024/6/10 move to s1 this G4 cell
+    Range("G4") = S1
+    
+    
+    Range("h5") = skin 'skin coefficient
+    Range("h6") = ir    'find influence radius
+    
+    Range("e10") = RI1
+    Range("f10") = RI2
+    Range("g10") = RI3
+    
+    Range("c23") = Round(deltas, 2) 'deltas
+    BaseData_ETC_02.TurnOnStuff
+
+End Sub
+
 Private Sub CommandButton1_Click()
     Dim nofwell, i  As Integer
 
@@ -12012,92 +12070,11 @@ End Sub
 ' Radius of Influence - 양수영향반경
 ' Effective Radius - 유효우물반경
 ' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
 
 Private Sub CommandButton8_Click()
-    Dim WkbkName As Object
-    Dim WBNAME, cell1 As String
-    Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    
-    ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
-    Dim casing As Integer
-    
-    BaseData_ETC_02.TurnOffStuff
-    
-    i = 2
-    ' Range("i1") = Workbooks.count
-    ' WBName = Range("i2").value
-    
-    cell1 = Range("b2").value
-    WBNAME = "A" & GetNumeric2(cell1) & "_ge_OriginalSaveFile.xlsm"
-    
-    If Not IsWorkBookOpen(WBNAME) Then
-        MsgBox "Please open the yangsoo data ! " & WBNAME
-        Exit Sub
-    End If
-
-    ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
-    sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
-    
-    ' WkbkName.Close
-    T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
-    S1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("E10").value
-    T2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("H13").value
-    S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
-    S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
-    
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
-    
-    ' yangsoo radius of influence
-    RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
-    RI2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C18").value
-    RI3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C23").value
-    
-    ' 유효우물반경 , 설정값에 따른
-    ir = GetEffectiveRadius(WBNAME)
-    
-    ' 자연수위, 안정수위, 케이싱 심도 결정
-    Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
-    
-    Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
-    
-    Range("c10") = 5
-    Range("c11") = casing - 5
-    
-    'in recover test, s' value
-    Range("G6") = S3
-        
-    Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
-     
-    Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
-    
-    Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
-    
-    '2024/6/10 move to s1 this G4 cell
-    Range("G4") = S1
-    
-    
-    Range("h5") = skin 'skin coefficient
-    Range("h6") = ir    'find influence radius
-    
-    Range("e10") = RI1
-    Range("f10") = RI2
-    Range("g10") = RI3
-    
-    Range("c23") = Round(deltas, 2) 'deltas
-    
-    BaseData_ETC_02.TurnOnStuff
+   
+   Call modWell_Each.ImporEachWell(Range("E15").value)
         
 End Sub
 
@@ -12120,261 +12097,5 @@ Private Sub Worksheet_Activate()
     End Select
 
 End Sub
-
-
-Private Sub CommandButton1_Click()
-' QT - Quality Test
-' Import Quality Test From YangSoo
-  Call ImportAll_QT
-End Sub
-
-
-'Get Water Spec from YanSoo ilbo
-Private Sub CommandButton2_Click()
-
-    Call GetWaterSpecFromYangSoo_Q1
-
-End Sub
-
-
-' Get(Ec, Ph, Temp) Range - 지열공에서 통계내는 함수 ....
-' Ph, EC, Temp statistics, find range
-' data gathering function in EarthThermal test ...
-Private Sub CommandButton3_Click()
-    Dim nofwell, i As Integer
-    
-    Dim lowEC() As Double
-    Dim hiEC() As Double
-    Dim lowPH() As Double
-    Dim hiPH() As Double
-    Dim lowTEMP() As Double
-    Dim hiTEMP() As Double
-
-    nofwell = sheets_count()
-    
-'    If nofwell < 2 Or Not Contains(Sheets, "a1") Then
-'        MsgBox "first Generate Simple YangSoo"
-'        Exit Sub
-'    End If
-    
-    If Not IsSheet("p1") Then
-        MsgBox "First Make Summary Page"
-        Exit Sub
-    End If
-    
- 
-    ReDim lowPH(1 To nofwell)
-    ReDim hiPH(1 To nofwell)
-    
-    ReDim lowEC(1 To nofwell)
-    ReDim hiEC(1 To nofwell)
-    
-    ReDim lowTEMP(1 To nofwell)
-    ReDim hiTEMP(1 To nofwell)
-    
-    For i = 1 To nofwell
-        lowEC(i) = getEC_Q1(cellLOW, i)
-        hiEC(i) = getEC_Q1(cellHI, i)
-        
-        lowPH(i) = getPH_Q1(cellLOW, i)
-        hiPH(i) = getPH_Q1(cellHI, i)
-        
-        lowTEMP(i) = getTEMP_Q1(cellLOW, i)
-        hiTEMP(i) = getTEMP_Q1(cellHI, i)
-    Next i
-    
-    Debug.Print String(3, vbCrLf)
-    
-    Debug.Print "--Temp----------------------------------------"
-    Debug.Print "low : " & Application.min(lowTEMP), Application.max(lowTEMP)
-    Debug.Print "hi  : " & Application.min(hiTEMP), Application.max(hiTEMP)
-    Debug.Print "----------------------------------------------"
-    
-    Debug.Print "--PH------------------------------------------"
-    Debug.Print "low : " & Application.min(lowPH), Application.max(lowPH)
-    Debug.Print "hi  : " & Application.min(hiPH), Application.max(hiPH)
-    Debug.Print "----------------------------------------------"
-       
-    Debug.Print "--EC------------------------------------------"
-    Debug.Print "low : " & Application.min(lowEC), Application.max(lowEC)
-    Debug.Print "hi  : " & Application.min(hiEC), Application.max(hiEC)
-    Debug.Print "----------------------------------------------"
-End Sub
-
-
-
-' make summary page
-Private Sub CommandButton4_Click()
-    Dim nofwell As Integer
-    Dim i As Integer
-    
-    If IsSheet("p1") Then
-        MsgBox "Sheet P1 Exist .... Delete First ... ", vbOKOnly
-        Exit Sub
-    End If
-       
-    
-    nofwell = GetNumberOfWell()
-    
-    For i = 1 To nofwell
-        DuplicateQ1Page (i)
-    Next i
-End Sub
-
-
-' delete all summary page
-Private Sub CommandButton5_Click()
-
-    Call modWaterQualityTest.DeleteAllSummaryPage("Q1")
-
-End Sub
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Private Sub CommandButton1_Click()
-' QT - Quality Test
-' Import Quality Test From YangSoo
-  Call ImportAll_QT
-End Sub
-
-
-'Get Water Spec from YanSoo ilbo
-Private Sub CommandButton2_Click()
-
-    Call GetWaterSpecFromYangSoo_Q1
-
-End Sub
-
-
-' Get(Ec, Ph, Temp) Range - 지열공에서 통계내는 함수 ....
-' Ph, EC, Temp statistics, find range
-' data gathering function in EarthThermal test ...
-Private Sub CommandButton3_Click()
-    Dim nofwell, i As Integer
-    
-    Dim lowEC() As Double
-    Dim hiEC() As Double
-    Dim lowPH() As Double
-    Dim hiPH() As Double
-    Dim lowTEMP() As Double
-    Dim hiTEMP() As Double
-
-    nofwell = sheets_count()
-    
-'    If nofwell < 2 Or Not Contains(Sheets, "a1") Then
-'        MsgBox "first Generate Simple YangSoo"
-'        Exit Sub
-'    End If
-    
-    If Not IsSheet("p1") Then
-        MsgBox "First Make Summary Page"
-        Exit Sub
-    End If
-    
- 
-    ReDim lowPH(1 To nofwell)
-    ReDim hiPH(1 To nofwell)
-    
-    ReDim lowEC(1 To nofwell)
-    ReDim hiEC(1 To nofwell)
-    
-    ReDim lowTEMP(1 To nofwell)
-    ReDim hiTEMP(1 To nofwell)
-    
-    For i = 1 To nofwell
-        lowEC(i) = getEC_Q1(cellLOW, i)
-        hiEC(i) = getEC_Q1(cellHI, i)
-        
-        lowPH(i) = getPH_Q1(cellLOW, i)
-        hiPH(i) = getPH_Q1(cellHI, i)
-        
-        lowTEMP(i) = getTEMP_Q1(cellLOW, i)
-        hiTEMP(i) = getTEMP_Q1(cellHI, i)
-    Next i
-    
-    Debug.Print String(3, vbCrLf)
-    
-    Debug.Print "--Temp----------------------------------------"
-    Debug.Print "low : " & Application.min(lowTEMP), Application.max(lowTEMP)
-    Debug.Print "hi  : " & Application.min(hiTEMP), Application.max(hiTEMP)
-    Debug.Print "----------------------------------------------"
-    
-    Debug.Print "--PH------------------------------------------"
-    Debug.Print "low : " & Application.min(lowPH), Application.max(lowPH)
-    Debug.Print "hi  : " & Application.min(hiPH), Application.max(hiPH)
-    Debug.Print "----------------------------------------------"
-       
-    Debug.Print "--EC------------------------------------------"
-    Debug.Print "low : " & Application.min(lowEC), Application.max(lowEC)
-    Debug.Print "hi  : " & Application.min(hiEC), Application.max(hiEC)
-    Debug.Print "----------------------------------------------"
-End Sub
-
-
-
-' make summary page
-Private Sub CommandButton4_Click()
-    Dim nofwell As Integer
-    Dim i As Integer
-    
-    If IsSheet("p1") Then
-        MsgBox "Sheet P1 Exist .... Delete First ... ", vbOKOnly
-        Exit Sub
-    End If
-       
-    
-    nofwell = GetNumberOfWell()
-    
-    For i = 1 To nofwell
-        DuplicateQ1Page (i)
-    Next i
-End Sub
-
-
-' delete all summary page
-Private Sub CommandButton5_Click()
-
-    Call modWaterQualityTest.DeleteAllSummaryPage("Q1")
-
-End Sub
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

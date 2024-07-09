@@ -17,7 +17,7 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
                        "daeSoo", "T1", "T2", "TA", "S1", "S2", "K", "time_", _
                        "shultze", "webber", "jacob", "skin", "er", "ER1", _
                        "ER2", "ER3", "qh", "qg", "sd1", "sd2", "q1", "C", _
-                       "B", "ratio", "T0", "S0", "ER_MODE", "Address")
+                       "B", "ratio", "T0", "S0", "ER_MODE", "Address", "Company", "S3")
 
     ' Check if all well data should be imported
     nofwell = GetNumberOfWell()
@@ -102,7 +102,8 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         wsSkinFactor.Range("k10"), wsSafeYield.Range("b13"), _
                         wsSafeYield.Range("b7"), wsSafeYield.Range("b3"), _
                         wsSafeYield.Range("b4"), wsSafeYield.Range("b2"), _
-                        wsSafeYield.Range("b11"), wsInput.Range("i46"))
+                        wsSafeYield.Range("b11"), wsInput.Range("i46"), _
+                        wsInput.Range("i47"), wsSkinFactor.Range("i13"))
 
     ' Array of data addresses
     addresses = Array("Q", "hp", "natural", "stable", "radius", "Rw", _
@@ -110,7 +111,8 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         "delta_h", "delta_s", "daeSoo", "T0", "S0", "ER_MODE", _
                         "T1", "T2", "TA", "S1", "S2", "K", "time_", "shultze", _
                         "webber", "jacob", "skin", "er", "ER1", "ER2", "ER3", _
-                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address")
+                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address", _
+                        "Company", "S3")
 
     ' Find index of dataArrayName in addresses array
     For i = LBound(addresses) To UBound(addresses)
@@ -140,6 +142,7 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
         .Add "recover", "0.00"
         .Add "Sw", "0.00"
         .Add "S2", "0.0000000"
+        .Add "S3", "0.00"
         .Add "T1", "0.0000"
         .Add "T2", "0.0000"
         .Add "TA", "0.0000"
@@ -186,7 +189,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         35, 36, 37, 15, 16, 17, 18, _
         19, 20, 21, 22, 23, 24, 25, _
         26, 38, 39, 40, 27, 28, 30, _
-        31, 29, 34, 41 _
+        31, 29, 34, 41, 42, 43 _
     )
 
     ' Define array to store column names
@@ -197,7 +200,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         "T0", "S0", "ER_MODE", "T1", "T2", "TA", "S1", _
         "S2", "K", "time_", "shultze", "webber", "jacob", "skin", _
         "er", "ER1", "ER2", "ER3", "qh", "qg", "sd1", _
-        "sd2", "q1", "ratio", "Address" _
+        "sd2", "q1", "ratio", "Address", "Company", "S3" _
     )
 
     ' Find index of columnName in columnNames array

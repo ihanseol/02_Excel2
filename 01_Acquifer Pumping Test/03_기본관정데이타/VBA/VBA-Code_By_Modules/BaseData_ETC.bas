@@ -119,7 +119,7 @@ Function GetNumberOfWell() As Integer
     
     save_name = ActiveSheet.name
     With Sheets("Well")
-        n = .Cells(.Rows.count, "A").End(xlUp).Row
+        n = .Cells(.Rows.count, "A").End(xlUp).row
         n = CInt(GetNumeric2(.Cells(n, "A").value))
     End With
     
