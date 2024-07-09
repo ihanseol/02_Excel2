@@ -35,6 +35,22 @@ End Sub
 '    GetNumberOfWell = n
 'End Function
 
+Function GetRangeStringFromSelection()
+    Dim selectedRange As Range
+    Dim rangeAddress As String
+
+    ' Set the selected range to a variable
+    Set selectedRange = Selection
+
+    ' Get the address of the selected range
+    rangeAddress = selectedRange.Address
+    GetRangeStringFromSelection = rangeAddress
+    
+    ' Display the range address
+    ' MsgBox "The address of the selected range is: " & rangeAddress
+End Function
+
+
 
 Function ColumnNumberToLetter(ByVal columnNumber As Integer) As String
     Dim dividend As Integer
