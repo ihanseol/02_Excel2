@@ -56,6 +56,29 @@ Function Contains(objCollection As Object, strName As String) As Boolean
     Err.Clear
 End Function
 
+Function IsSheetExists(ByVal sheet_name As String) As Boolean
+    Dim ws As Worksheet
+    Dim sheetExists As Boolean
+    sheetExists = False
+    
+    ' Loop through each worksheet in the workbook
+    For Each ws In ThisWorkbook.Worksheets
+        If ws.name = sheet_name Then
+            sheetExists = True
+            Exit For
+        End If
+    Next ws
+   
+    
+    If sheetExists Then
+        CheckSheetExists = True
+    Else
+        CheckSheetExists = False
+    End If
+End Function
+
+
+
 Function RemoveDupesDict(myArray As Variant) As Variant
     'DESCRIPTION: Removes duplicates from your array using the dictionary method.
     'NOTES: (1.a) You must add a reference to the Microsoft Scripting Runtime library via

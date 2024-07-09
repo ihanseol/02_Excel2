@@ -120,9 +120,18 @@ Sub PressAll_Button()
     Sheets("AggChart").Visible = False
         
 
+    Call Popup_MessageBox("Import All QT ...")
     Call modWell.ImportAll_QT
+    
+    Call Popup_MessageBox("ImportAll Each Well Spec ...")
     Call modWell.ImportAll_EachWellSpec
+    
+    Call Popup_MessageBox("ImportWell MainWellPage ...")
     Call modWell.ImportWell_MainWellPage
+    
+    Call Popup_MessageBox("Push Drastic Index ...")
+    Call modWell.PushDrasticIndex
+    
     
 
 End Sub
@@ -370,7 +379,8 @@ Sub ImportAll_EachWellSpec()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.ImportWellSpec(i, obj)
+        ' Call Module_ImportWellSpec.ImportWellSpec(i, obj)
+        Call Module_ImportWellSpec.ImportWellSpecFX(i)
         
         If obj.result Then Exit For
     Next i
@@ -489,15 +499,15 @@ Sub DuplicateBasicWellData()
      
     If Not BaseData_ETC.CheckSubstring(Sheets("All").Range("T5").value, weather_station) Then
          Call modProvince.ResetWeatherData(weather_station)
-     End If
-        
+    End If
+    
 
 End Sub
 
 
 Sub ImportAll_QT()
 '
-'양수정의 수질변화기록
+' 양수정의 수질변화기록
 '
     Dim i, nof_p As Integer
     Dim qt As String
@@ -546,3 +556,9 @@ Function GetNumberOf_P()
 End Function
 
 
+Sub PushDrasticIndex()
+
+    Call BaseData_DrasticIndex.main_drasticindex
+    Call BaseData_DrasticIndex.print_drastic_string
+    
+End Sub
