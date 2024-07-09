@@ -515,13 +515,19 @@ Sub DuplicateBasicWellData()
         BaseData_ETC_02.TurnOnStuff
     End If
     
+     ' 대권역, 중권역 세팅
      Sheets("Recharge").Range("I24") = river_section
      
+     ' 2024/7/9 Add, Company Name Setting
+     Sheets("Recharge").Range("B32") = Sheets("YangSoo").Range("AP5")
      
+     
+    ' 기상청 데이타, 다시 불러오기
     If Not BaseData_ETC.CheckSubstring(Sheets("All").Range("T5").value, weather_station) Then
          Call modProvince.ResetWeatherData(weather_station)
     End If
     
+    Call modWell.PushDrasticIndex
 
 End Sub
 
