@@ -23,9 +23,9 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
     ' Check if all well data should be imported
     nofwell = GetNumberOfWell()
     If Not isSingleWellImport And singleWell = 999 Then
-        rngString = "A5:AO37"
+        rngString = "A5:AQ37"
     Else
-       rngString = "A" & (nofwell + 5 - 1) & ":AO" & (nofwell + 5 - 1)
+       rngString = "A" & (nofwell + 5 - 1) & ":AQ" & (nofwell + 5 - 1)
     End If
         
     Call EraseCellData(rngString)
