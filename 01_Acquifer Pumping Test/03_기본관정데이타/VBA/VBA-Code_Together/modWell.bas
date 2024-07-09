@@ -400,7 +400,7 @@ Sub ImportAll_EachWellSpec_OLD()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.ImportWellSpec(i, obj)
+        Call Module_ImportWellSpec.ImportWellSpec_OLD(i, obj)
         If obj.result Then Exit For
     Next i
     

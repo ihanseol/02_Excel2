@@ -8466,7 +8466,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
 End Sub
 
 
-Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
+Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBNAME As String
     Dim i As Integer
@@ -9699,7 +9699,7 @@ Sub ImportAll_EachWellSpec_OLD()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        Call Module_ImportWellSpec.ImportWellSpec(i, obj)
+        Call Module_ImportWellSpec.ImportWellSpec_OLD(i, obj)
         If obj.result Then Exit For
     Next i
     

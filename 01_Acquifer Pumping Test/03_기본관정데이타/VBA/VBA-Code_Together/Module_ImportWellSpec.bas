@@ -323,7 +323,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
 End Sub
 
 
-Sub ImportWellSpec(ByVal well_no As Integer, obj As Class_Boolean)
+Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBNAME As String
     Dim i As Integer
