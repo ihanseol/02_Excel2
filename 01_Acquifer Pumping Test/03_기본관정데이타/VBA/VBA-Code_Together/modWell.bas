@@ -370,6 +370,28 @@ Sub ImportAll_EachWellSpec()
 ' 각관정을 순회하면서, 관정데이타를 각관정에 써준다.
 '
     Dim nofwell, i  As Integer
+    ' Dim obj As New Class_Boolean
+
+    nofwell = sheets_count()
+    
+    BaseData_ETC_02.TurnOffStuff
+    
+    For i = 1 To nofwell
+        Sheets(CStr(i)).Activate
+        Call Module_ImportWellSpec.ImportWellSpecFX(i)
+    Next i
+    
+    Sheets("Well").Activate
+    
+    BaseData_ETC_02.TurnOnStuff
+End Sub
+
+
+Sub ImportAll_EachWellSpec_OLD()
+'
+' 각관정을 순회하면서, 관정데이타를 각관정에 써준다.
+'
+    Dim nofwell, i  As Integer
     Dim obj As New Class_Boolean
 
     nofwell = sheets_count()
@@ -378,9 +400,7 @@ Sub ImportAll_EachWellSpec()
     
     For i = 1 To nofwell
         Sheets(CStr(i)).Activate
-        ' Call Module_ImportWellSpec.ImportWellSpec(i, obj)
-        Call Module_ImportWellSpec.ImportWellSpecFX(i)
-        
+        Call Module_ImportWellSpec.ImportWellSpec(i, obj)
         If obj.result Then Exit For
     Next i
     
@@ -388,6 +408,7 @@ Sub ImportAll_EachWellSpec()
     
     BaseData_ETC_02.TurnOnStuff
 End Sub
+
 
 
 Sub ImportWell_MainWellPage()
