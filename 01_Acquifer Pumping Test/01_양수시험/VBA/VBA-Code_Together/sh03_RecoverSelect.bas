@@ -6,6 +6,30 @@ Private Sub CommandButton2_Click()
     Call save_original
 End Sub
 
+Private Sub CommandButton3_Click()
+
+Sheets("장회").Visible = True
+Sheets("장회14").Visible = True
+Sheets("단계").Visible = True
+Sheets("장기28").Visible = True
+Sheets("장기14").Visible = True
+Sheets("회복").Visible = True
+Sheets("회복12").Visible = True
+
+End Sub
+
+Private Sub CommandButton4_Click()
+
+Sheets("장회").Visible = False
+Sheets("장회14").Visible = False
+Sheets("단계").Visible = False
+Sheets("장기28").Visible = False
+Sheets("장기14").Visible = False
+Sheets("회복").Visible = False
+Sheets("회복12").Visible = False
+
+End Sub
+
 Private Sub Worksheet_Activate()
     Dim gong1, gong2 As String
     Dim gong As Long

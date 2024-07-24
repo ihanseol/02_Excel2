@@ -29,7 +29,7 @@ Sub Make_Step_Document()
     Application.ScreenUpdating = False
     ws.Copy After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
     
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -48,7 +48,7 @@ Sub Make_Step_Document()
     ActiveSheet.Shapes.Range(Array("ComboBox1")).Select
     Selection.Delete
     
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     With Selection.Font
         .name = "¸¼Àº °íµñ"
     End With
@@ -102,7 +102,7 @@ Sub Make2880_Document()
     
     
     '---------------------------------------------------------------------------------
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -135,7 +135,7 @@ Sub Make2880_Document()
     Range("F109").Select
     ActiveWindow.SmallScroll Down:=-105
     
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     With Selection.Interior
         .Pattern = xlNone
         .TintAndShade = 0

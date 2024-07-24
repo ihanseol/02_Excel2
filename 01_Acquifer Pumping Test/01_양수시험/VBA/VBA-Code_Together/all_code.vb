@@ -89,6 +89,32 @@ Private Sub CommandButton8_Click()
     Call set_CB_ALL
 End Sub
 
+Private Sub CommandButton1_Click()
+
+    Sheets("장회").Visible = True
+    Sheets("장회14").Visible = True
+    Sheets("단계").Visible = True
+    Sheets("장기28").Visible = True
+    Sheets("장기14").Visible = True
+    Sheets("회복").Visible = True
+    Sheets("회복12").Visible = True
+
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+
+    Sheets("장회").Visible = False
+    Sheets("장회14").Visible = False
+    Sheets("단계").Visible = False
+    Sheets("장기28").Visible = False
+    Sheets("장기14").Visible = False
+    Sheets("회복").Visible = False
+    Sheets("회복12").Visible = False
+
+End Sub
+
 Private Sub Worksheet_Activate()
     '  Dim gong     As Integer
     '  Dim KeyCell  As Range
@@ -282,6 +308,30 @@ End Sub
 
 Private Sub CommandButton2_Click()
     Call save_original
+End Sub
+
+Private Sub CommandButton3_Click()
+
+Sheets("장회").Visible = True
+Sheets("장회14").Visible = True
+Sheets("단계").Visible = True
+Sheets("장기28").Visible = True
+Sheets("장기14").Visible = True
+Sheets("회복").Visible = True
+Sheets("회복12").Visible = True
+
+End Sub
+
+Private Sub CommandButton4_Click()
+
+Sheets("장회").Visible = False
+Sheets("장회14").Visible = False
+Sheets("단계").Visible = False
+Sheets("장기28").Visible = False
+Sheets("장기14").Visible = False
+Sheets("회복").Visible = False
+Sheets("회복12").Visible = False
+
 End Sub
 
 Private Sub Worksheet_Activate()
@@ -764,7 +814,7 @@ Sub Make_Step_Document()
     Application.ScreenUpdating = False
     ws.Copy After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count)
     
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -783,7 +833,7 @@ Sub Make_Step_Document()
     ActiveSheet.Shapes.Range(Array("ComboBox1")).Select
     Selection.Delete
     
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     With Selection.Font
         .name = "맑은 고딕"
     End With
@@ -837,7 +887,7 @@ Sub Make2880_Document()
     
     
     '---------------------------------------------------------------------------------
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     Selection.Copy
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
                            :=False, Transpose:=False
@@ -870,7 +920,7 @@ Sub Make2880_Document()
     Range("F109").Select
     ActiveWindow.SmallScroll Down:=-105
     
-    Application.Goto Reference:="Print_Area"
+    Application.GoTo Reference:="Print_Area"
     With Selection.Interior
         .Pattern = xlNone
         .TintAndShade = 0
@@ -2995,3 +3045,50 @@ End Sub
 
 
 
+Sub MergeNextColumn()
+
+
+    Range(ActiveCell, ActiveCell.Offset(0, 1)).Select
+    
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+End Sub
+
+Sub MergeNextColumn2()
+
+' 바로 가기 키: Ctrl+d
+'
+
+    Range(ActiveCell, ActiveCell.Offset(0, 2)).Select
+    
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.Merge
+End Sub
+
+'This Module is Empty 
+'This Module is Empty 
+'This Module is Empty 
+'This Module is Empty 
+'This Module is Empty 
+'This Module is Empty 
+'This Module is Empty 
