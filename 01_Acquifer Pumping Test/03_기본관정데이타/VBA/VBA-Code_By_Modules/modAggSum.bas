@@ -47,6 +47,8 @@ End Sub
 '<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 
+'2024-7-31 , change left and right
+
 Sub Write26_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
@@ -57,7 +59,7 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
     ip_Row = Values(2)
     'ip_row = "12" 로 String
     
-    rngString = "D" & ip_Row & ":J" & (CInt(ip_Row) + WELL_BUFFER - 1)
+    rngString = "D" & ip_Row & ":K" & (CInt(ip_Row) + WELL_BUFFER - 1)
     
     
     Call EraseCellData(rngString)
@@ -86,17 +88,22 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
         Cells(11 + i, "H").value = Worksheets(CStr(i)).Range("c21").value
         Cells(11 + i, "H").NumberFormat = "0.00"
         
+         '수위강하량
+        Cells(11 + i, "I").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
+        Cells(11 + i, "I").NumberFormat = "0.00"
+        
         ' 투수량계수
-        Cells(11 + i, "I").value = Worksheets(CStr(i)).Range("E7").value
-        Cells(11 + i, "I").NumberFormat = "0.0000"
+        Cells(11 + i, "J").value = Worksheets(CStr(i)).Range("E7").value
+        Cells(11 + i, "J").NumberFormat = "0.0000"
         
         ' 저류계수
-        Cells(11 + i, "J").value = Worksheets(CStr(i)).Range("G7").value
-        Cells(11 + i, "J").NumberFormat = "0.0000000"
+        Cells(11 + i, "K").value = Worksheets(CStr(i)).Range("G7").value
+        Cells(11 + i, "K").NumberFormat = "0.0000000"
     Next i
 End Sub
 
 
+'2024-7-31 , change left and right
 Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
@@ -120,23 +127,23 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
         End If
     
         ' WellNum --(J==10) / ='1'!$F$21
-        Cells(11 + i, "L").value = "W-" & CStr(i)
+        Cells(11 + i, "M").value = "W-" & CStr(i)
         ' 심도
-        Cells(11 + i, "M").value = Worksheets("Well").Cells(i + 3, 8).value
+        Cells(11 + i, "N").value = Worksheets("Well").Cells(i + 3, 8).value
         ' 양수량
-        Cells(11 + i, "N").value = Worksheets("Well").Cells(i + 3, 10).value
+        Cells(11 + i, "O").value = Worksheets("Well").Cells(i + 3, 10).value
         
         ' 자연수위
-        Cells(11 + i, "O").value = Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "O").NumberFormat = "0.00"
-        
-        ' 안정수위
-        Cells(11 + i, "P").value = Worksheets(CStr(i)).Range("c21").value
+        Cells(11 + i, "P").value = Worksheets(CStr(i)).Range("c20").value
         Cells(11 + i, "P").NumberFormat = "0.00"
         
-        '수위강하량
-        Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
+        ' 안정수위
+        Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value
         Cells(11 + i, "Q").NumberFormat = "0.00"
+        
+        '수위강하량
+'        Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
+'        Cells(11 + i, "Q").NumberFormat = "0.00"
         
         ' 투수량계수
         Cells(11 + i, "R").value = Worksheets(CStr(i)).Range("E7").value

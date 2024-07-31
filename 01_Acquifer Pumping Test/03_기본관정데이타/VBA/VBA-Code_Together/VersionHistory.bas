@@ -1,4 +1,8 @@
 '
+' 2024-07-10 05:35:16
+'
+' Autohotkey HotKey String is based run ,,,,
+'
 ' 2024/7/9 ÀÏ
 ' Refactoring, ImportWellSpec, ImportWellSpecFX, ImportEachWell
 ' change module name :  Module_ImportWellSpec --> mod_DuplicateWellSpec
