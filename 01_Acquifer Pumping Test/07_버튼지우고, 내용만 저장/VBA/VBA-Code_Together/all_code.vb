@@ -343,6 +343,10 @@ Sub SaveJustXLSX(ByVal fName As String)
     Workbooks(fName).Activate
     fname0 = fso.GetBaseName(fName)
     
+    ' Disable alerts to overwrite without prompt
+    Application.DisplayAlerts = False
+    
+    
     ActiveWorkbook.SaveAs fileName:= _
         mypath & "\" & fname0 & ".xlsx", FileFormat:= _
         xlOpenXMLWorkbook, CreateBackup:=False
@@ -353,6 +357,8 @@ Sub SaveJustXLSX(ByVal fName As String)
     Workbooks("'" & fname0 & "'").Close SaveChanges:=False
     On Error GoTo 0
     
+    ' Enable alerts back
+    Application.DisplayAlerts = True
     
     
     ThisWorkbook.Activate
