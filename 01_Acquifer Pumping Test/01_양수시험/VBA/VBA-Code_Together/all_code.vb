@@ -1141,36 +1141,68 @@ Public Function WB_HEAD() As String
 End Function
 
 Sub janggi_01()
+    
+    Application.DisplayAlerts = False
+    
     ActiveWorkbook.SaveAs fileName:= _
                           WB_HEAD + "_janggi_01.dat", FileFormat _
                           :=xlTextPrinter, CreateBackup:=False
+  
+    Application.DisplayAlerts = True
+  
 End Sub
 
 Sub janggi_02()
+    
+    Application.DisplayAlerts = False
+
     ActiveWorkbook.SaveAs fileName:= _
                           WB_HEAD + "_janggi_02.dat", FileFormat _
                           :=xlTextPrinter, CreateBackup:=False
+                          
+   Application.DisplayAlerts = True
+   
 End Sub
 
 Sub recover_01()
     Debug.Print WB_HEAD
+    
+    Application.DisplayAlerts = False
+    
     ActiveWorkbook.SaveAs fileName:= _
                           WB_HEAD + "_recover_01.dat", FileFormat:= _
                           xlTextPrinter, CreateBackup:=False
+    
+    Application.DisplayAlerts = True
 End Sub
 
 Sub step_01()
     Range("a1").Select
     
+    Application.DisplayAlerts = False
+    
     ActiveWorkbook.SaveAs fileName:= _
                           WB_HEAD + "_step_01.dat", FileFormat:= _
                           xlTextPrinter, CreateBackup:=False
+    
+    Application.DisplayAlerts = True
+    
 End Sub
 
 Sub save_original()
+
+    Application.DisplayAlerts = False
+    
     ActiveWorkbook.SaveAs fileName:=WB_HEAD + "_OriginalSaveFile", FileFormat:= _
                           xlOpenXMLWorkbookMacroEnabled, CreateBackup:=False
+    
+    Application.DisplayAlerts = True
+    
 End Sub
+
+
+
+
 
 
 
