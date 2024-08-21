@@ -1204,8 +1204,6 @@ End Sub
 
 
 
-
-
 Public MY_TIME      As Integer
 
 Public gDicStableTime As Scripting.Dictionary
