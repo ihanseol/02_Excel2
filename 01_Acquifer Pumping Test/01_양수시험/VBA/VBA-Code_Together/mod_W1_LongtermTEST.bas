@@ -112,6 +112,58 @@ Sub set_daydifference()
     Application.ScreenUpdating = True
 End Sub
 
+
+Function GetMyTimeFromTable(stabletime As Double) As Variant
+    Dim myDict As Object
+    Dim myTime As Variant
+    
+    ' Create a dictionary using Scripting.Dictionary
+    Set myDict = CreateObject("Scripting.Dictionary")
+    
+    ' Add key-value pairs for STABLETIME and MY_TIME
+    myDict.Add 60, 17
+    myDict.Add 75, 18
+    myDict.Add 90, 19
+    myDict.Add 105, 20
+    myDict.Add 120, 21
+    myDict.Add 140, 22
+    myDict.Add 160, 23
+    myDict.Add 180, 24
+    myDict.Add 240, 25
+    myDict.Add 300, 26
+    myDict.Add 360, 27
+    myDict.Add 420, 28
+    myDict.Add 480, 29
+    myDict.Add 540, 30
+    myDict.Add 600, 31
+    myDict.Add 660, 32
+    myDict.Add 720, 33
+    myDict.Add 780, 34
+    myDict.Add 840, 35
+    myDict.Add 900, 36
+    myDict.Add 960, 37
+    myDict.Add 1020, 38
+    myDict.Add 1080, 39
+    myDict.Add 1140, 40
+    myDict.Add 1200, 41
+    myDict.Add 1260, 42
+    myDict.Add 1320, 43
+    myDict.Add 1380, 44
+    myDict.Add 1440, 45
+    myDict.Add 1500, 46
+    
+    ' Check if the STABLETIME exists in the dictionary
+    If myDict.Exists(stabletime) Then
+        myTime = myDict(stabletime)
+    Else
+        myTime = "STABLETIME not found"
+    End If
+    
+    ' Return the result
+    GetMyTimeFromTable = myTime
+End Function
+
+
 Function find_stable_time() As Integer
     Dim i           As Integer
     
@@ -128,11 +180,25 @@ Function initialize_myTime() As Integer
     initialize_myTime = gDicStableTime(shW_aSkinFactor.Range("g16").Value)
 End Function
 
+
+'안정수위 도달시간 세팅에 문제가 생겨서
+'그냥, 콤보박스에 있는 데이터 가지고 MY_TIME 을 결정하는 부분을 만들어야 한다.
+
+
+Sub SetMY_TIME()
+
+    MY_TIME = GetMyTimeFromTable(shW_LongTEST.ComboBox1.Value)
+
+End Sub
+    
+
+
 Sub TimeSetting()
     Dim stable_time, h1, h2, my_random_time As Integer
     Dim myRange     As String
     
     stable_time = find_stable_time()
+    
     
     If MY_TIME = 0 Then
         MY_TIME = initialize_myTime
@@ -341,3 +407,4 @@ Sub check_StepTest()
         cellBLACK ("J11")
     End If
 End Sub
+
