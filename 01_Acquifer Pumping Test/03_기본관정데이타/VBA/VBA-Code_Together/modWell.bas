@@ -475,7 +475,7 @@ Sub DuplicateBasicWellData()
 
     nofwell = sheets_count()
      
-    WB_NAME = Module_ImportWellSpec.GetOtherFileName
+    WB_NAME = mod_DuplicatetWellSpec.GetOtherFileName
     
     If WB_NAME = "NOTHING" Then
         MsgBox "기본관정데이타를 복사해야 하므로, 기본관정데이터를 열어두시기 바랍니다. ", vbOK

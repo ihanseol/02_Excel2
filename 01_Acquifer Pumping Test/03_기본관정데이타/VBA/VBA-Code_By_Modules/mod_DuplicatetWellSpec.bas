@@ -1,4 +1,7 @@
 Attribute VB_Name = "mod_DuplicatetWellSpec"
+
+
+' 기본관정데이터를 , 가져오기 위한 GetOtherFileName
 Function GetOtherFileName(Optional ByVal SearchText As String = "데이타") As String
     Dim Workbook As Workbook
     Dim WBNAME As String

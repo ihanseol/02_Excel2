@@ -27,7 +27,7 @@ Dim singleWell  As Integer
 Dim WB_NAME As String
 
 
-WB_NAME = GetOtherFileName
+WB_NAME = BaseData_ETC.GetOtherFileName
 'MsgBox WB_NAME
 
 'If Workbook Is Nothing Then

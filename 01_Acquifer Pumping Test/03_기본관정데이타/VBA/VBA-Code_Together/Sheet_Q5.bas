@@ -1,22 +1,14 @@
 Private Sub CommandButton1_Click()
-' QT - Quality Test
-' Import Quality Test From YangSoo
-  Call ImportAll_QT
+UserFormTS.Show
 End Sub
 
 
-'Get Water Spec from YanSoo ilbo
-Private Sub CommandButton2_Click()
 
-    Call GetWaterSpecFromYangSoo_Q1
-
-End Sub
-
-
+Private Sub CommandButton5_Click()
 ' Get(Ec, Ph, Temp) Range - 지열공에서 통계내는 함수 ....
 ' Ph, EC, Temp statistics, find range
 ' data gathering function in EarthThermal test ...
-Private Sub CommandButton3_Click()
+
     Dim nofwell, i As Integer
     
     Dim lowEC() As Double
@@ -49,14 +41,14 @@ Private Sub CommandButton3_Click()
     ReDim hiTEMP(1 To nofwell)
     
     For i = 1 To nofwell
-        lowEC(i) = getEC_Q1(cellLOW, i)
-        hiEC(i) = getEC_Q1(cellHI, i)
+        lowEC(i) = getEC_Q2(cellLOW, i)
+        hiEC(i) = getEC_Q2(cellHI, i)
         
-        lowPH(i) = getPH_Q1(cellLOW, i)
-        hiPH(i) = getPH_Q1(cellHI, i)
+        lowPH(i) = getPH_Q2(cellLOW, i)
+        hiPH(i) = getPH_Q2(cellHI, i)
         
-        lowTEMP(i) = getTEMP_Q1(cellLOW, i)
-        hiTEMP(i) = getTEMP_Q1(cellHI, i)
+        lowTEMP(i) = getTEMP_Q2(cellLOW, i)
+        hiTEMP(i) = getTEMP_Q2(cellHI, i)
     Next i
     
     Debug.Print String(3, vbCrLf)
@@ -75,54 +67,57 @@ Private Sub CommandButton3_Click()
     Debug.Print "low : " & Application.min(lowEC), Application.max(lowEC)
     Debug.Print "hi  : " & Application.min(hiEC), Application.max(hiEC)
     Debug.Print "----------------------------------------------"
+
 End Sub
 
 
 
+Private Sub CommandButton3_Click()
 ' make summary page
-Private Sub CommandButton4_Click()
-    Dim nofwell As Integer
-    Dim i As Integer
-    
+
+    Dim result() As Integer
+    Dim w2page, wselect, restpage As Integer
+    'wselect = 1 --> only w1
+       
     If IsSheet("p1") Then
         MsgBox "Sheet P1 Exist .... Delete First ... ", vbOKOnly
         Exit Sub
     End If
        
+       
+       
+    result = DivideWellsBy2(sheets_count())
     
-    nofwell = GetNumberOfWell()
+    ' result(0) = quotient
+    ' result(1) = remainder
     
-    For i = 1 To nofwell
-        DuplicateQ1Page (i)
-    Next i
+    w2page = result(0)
+    restpage = result(1)
+    
+    Call DuplicateQ2Page(w2page)
+    
+    If restpage = 0 Then
+        Exit Sub
+    Else
+        Call modWaterQualityTest.DuplicateRestQ2(w2page)
+    End If
+
 End Sub
 
 
-' delete all summary page
-Private Sub CommandButton5_Click()
+Private Sub CommandButton2_Click()
+' get waterspec from yangsoo
+  
+  Call GetWaterSpecFromYangSoo_Q2
 
-    Call modWaterQualityTest.DeleteAllSummaryPage("Q1")
-
+  
 End Sub
 
 
 
+Private Sub CommandButton4_Click()
 
+ Call modWaterQualityTest.DeleteAllSummaryPage("Q2")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+End Sub
 

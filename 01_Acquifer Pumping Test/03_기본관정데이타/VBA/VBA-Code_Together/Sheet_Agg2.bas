@@ -19,7 +19,7 @@ Private Sub CommandButton3_Click()
     Dim WB_NAME As String
     
     
-    WB_NAME = GetOtherFileName
+    WB_NAME = BaseData_ETC.GetOtherFileName
     'MsgBox WB_NAME
     
     If WB_NAME = "Empty" Then

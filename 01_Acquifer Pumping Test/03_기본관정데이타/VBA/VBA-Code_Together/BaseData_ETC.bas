@@ -163,6 +163,7 @@ Public Function sheets_count() As Long
 End Function
 
 
+'BaseData_ETC : 양수시험데이터, An_OriginalSaveFile
 Function GetOtherFileName() As String
     Dim Workbook As Workbook
     Dim workbookNames As String

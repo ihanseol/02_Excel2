@@ -31,7 +31,7 @@ Private Sub CommandButton3_Click()
     '    GetOtherFileName = Workbook.name
     'End If
         
-    WB_NAME = GetOtherFileName
+    WB_NAME = BaseData_ETC.GetOtherFileName
     
     If WB_NAME = "Empty" Then
         MsgBox "WorkBook is Empty"

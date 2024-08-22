@@ -34,6 +34,8 @@ Private Sub FormulaInjection()
 End Sub
 
 
+
+'기본관정데이터를 가지고 온다.
 Function GetOtherFileName() As String
     Dim Workbook As Workbook
     Dim workbookNames As String
