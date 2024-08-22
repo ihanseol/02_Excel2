@@ -24,7 +24,7 @@ Call AggregateOne_Import(999, False)
 End Sub
 
 
-
+' 영수시험 데이터 파일이름, 불러오기
 Private Sub CommandButton3_Click()
     ' SingleWell Import
         

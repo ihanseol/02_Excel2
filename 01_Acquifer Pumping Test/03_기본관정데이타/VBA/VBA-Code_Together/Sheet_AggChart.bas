@@ -30,7 +30,9 @@ Private Sub CommandButton3_Click()
     'Else
     '    GetOtherFileName = Workbook.name
     'End If
-        
+            
+    
+    ' 영수시험 데이터 파일이름, 불러오기
     WB_NAME = BaseData_ETC.GetOtherFileName
     
     If WB_NAME = "Empty" Then

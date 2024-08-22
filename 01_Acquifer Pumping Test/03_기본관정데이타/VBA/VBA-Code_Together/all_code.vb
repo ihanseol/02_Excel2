@@ -3250,7 +3250,7 @@ Call AggregateOne_Import(999, False)
 End Sub
 
 
-
+' 영수시험 데이터 파일이름, 불러오기
 Private Sub CommandButton3_Click()
     ' SingleWell Import
         
@@ -3294,6 +3294,9 @@ Private Sub CommandButton2_Click()
 End Sub
 
 
+
+
+' 영수시험 데이터 파일이름, 불러오기
 Private Sub CommandButton3_Click()
     ' SingleWell Import
     ' 지열공 같은경우, 단일공만 임포트 해야 할경우에 ....
@@ -3574,6 +3577,8 @@ Dim singleWell  As Integer
 Dim WB_NAME As String
 
 
+
+' 영수시험 데이터 파일이름, 불러오기
 WB_NAME = BaseData_ETC.GetOtherFileName
 'MsgBox WB_NAME
 
@@ -3628,7 +3633,9 @@ Private Sub CommandButton3_Click()
     'Else
     '    GetOtherFileName = Workbook.name
     'End If
-        
+            
+    
+    ' 영수시험 데이터 파일이름, 불러오기
     WB_NAME = BaseData_ETC.GetOtherFileName
     
     If WB_NAME = "Empty" Then
@@ -3813,7 +3820,9 @@ Private Sub CommandButton4_Click()
     Dim WB_NAME As String
     
     
+    ' 영수시험 데이터 파일이름, 불러오기
     WB_NAME = BaseData_ETC.GetOtherFileName
+    
     'MsgBox WB_NAME
         
     'If Workbook Is Nothing Then
@@ -3852,8 +3861,8 @@ Private Sub CommandButton2_Click()
         Exit Sub
     End If
    
-    
-    WB_NAME = GetOtherFileName
+    ' 기사용관정 데이터 불러오기 위한 파일
+    WB_NAME = Sheet4_Water.GetOtherFileName
     
     cpRange = GetCopyPoint(WB_NAME)
     Call CopyFromGWAN_JUNG(WB_NAME, cpRange)
@@ -9940,6 +9949,7 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
 End Sub
 
 
+' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
 
 Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
     Dim wellData As Variant
@@ -9966,7 +9976,7 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
         .Add "T0", "0.0000"
         .Add "S0", "0.0000"
         .Add "delta_s", "0.00"
-        .Add "time_", "0.00"
+        .Add "time_", "0.0000"
         .Add "shultze", "0.00"
         .Add "webber", "0.00"
         .Add "jacob", "0.00"

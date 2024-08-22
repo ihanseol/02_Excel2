@@ -11,8 +11,8 @@ Private Sub CommandButton2_Click()
         Exit Sub
     End If
    
-    
-    WB_NAME = GetOtherFileName
+    ' 기사용관정 데이터 불러오기 위한 파일
+    WB_NAME = Sheet4_Water.GetOtherFileName
     
     cpRange = GetCopyPoint(WB_NAME)
     Call CopyFromGWAN_JUNG(WB_NAME, cpRange)

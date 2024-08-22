@@ -132,6 +132,7 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
 End Sub
 
 
+' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
 
 Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
     Dim wellData As Variant
@@ -158,7 +159,7 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
         .Add "T0", "0.0000"
         .Add "S0", "0.0000"
         .Add "delta_s", "0.00"
-        .Add "time_", "0.00"
+        .Add "time_", "0.0000"
         .Add "shultze", "0.00"
         .Add "webber", "0.00"
         .Add "jacob", "0.00"

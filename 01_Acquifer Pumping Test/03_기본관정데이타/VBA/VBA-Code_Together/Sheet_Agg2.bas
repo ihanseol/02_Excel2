@@ -11,6 +11,9 @@ Private Sub CommandButton2_Click()
 End Sub
 
 
+
+
+' 영수시험 데이터 파일이름, 불러오기
 Private Sub CommandButton3_Click()
     ' SingleWell Import
     ' 지열공 같은경우, 단일공만 임포트 해야 할경우에 ....

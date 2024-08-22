@@ -28,7 +28,9 @@ Private Sub CommandButton4_Click()
     Dim WB_NAME As String
     
     
+    ' 영수시험 데이터 파일이름, 불러오기
     WB_NAME = BaseData_ETC.GetOtherFileName
+    
     'MsgBox WB_NAME
         
     'If Workbook Is Nothing Then
