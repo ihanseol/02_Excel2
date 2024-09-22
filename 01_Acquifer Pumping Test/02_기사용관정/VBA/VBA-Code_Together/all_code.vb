@@ -719,19 +719,22 @@ Sub ToggleOX()
     End If
     
     
-    If activeCellColumn = "M" Then
-        cp = Replace(ActiveCell.address, "$", "")
-        lastrow = lastRowByKey(ActiveCell.address)
-        
-        fillRange = "M" & Range(cp).row & ":M" & lastrow
-        
-        Range(cp).Select
-        Selection.AutoFill Destination:=Range(fillRange)
-        
-        Range(cp).Select
-        Application.CutCopyMode = False
-    End If
+'    If activeCellColumn = "M" Then
+'        cp = Replace(ActiveCell.address, "$", "")
+'        lastrow = lastRowByKey(ActiveCell.address)
+'
+'        fillRange = "M" & Range(cp).row & ":M" & lastrow
+'
+'        Range(cp).Select
+'        Selection.AutoFill Destination:=Range(fillRange)
+'
+'        Range(cp).Select
+'        Application.CutCopyMode = False
+'    End If
        
+    If activeCellColumn = "M" Then
+      Call AddressReset(ActiveSheet.Name)
+    End If
     
     
     If ActiveSheet.Name = "ss" And activeCellColumn = "K" Then

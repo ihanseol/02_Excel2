@@ -1,4 +1,10 @@
 Attribute VB_Name = "water_GenerateCopy"
+
+' ***************************************************************
+' water_GenerationCopy
+'
+' ***************************************************************
+
 Option Explicit
 
 Private Function lastRowByKey(cell As String) As Long
@@ -12,42 +18,33 @@ End Function
 
 Public Sub clearRowA()
     
-'
-'    Columns("A:A").Select
-'    Selection.Replace What:=" ", Replacement:="", LookAt:=xlPart, _
-'        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
-'        ReplaceFormat:=False
-'    Range("M2").Select
-'
-'    Sheets("AA").Activate
-'    Columns("A:A").Select
-'    Selection.Replace What:=" ", Replacement:="", LookAt:=xlPart, _
-'        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
-'        ReplaceFormat:=False
-'    Range("M2").Select
-'
-'    Sheets("II").Activate
-'    Columns("A:A").Select
-'    Selection.Replace What:=" ", Replacement:="", LookAt:=xlPart, _
-'        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
-'        ReplaceFormat:=False
-'    Range("M2").Select
-'
-'
-'    Sheets("SS").Activate
-    
 End Sub
 
-Private Function lastRowByFind() As Long
-    Dim lastRow As Long
+Private Function lastRowByFindAll() As Long
+    Dim lastrow As Long
     
-    lastRow = Cells.Find("*", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
+    lastrow = Cells.Find("*", SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
     
-    lastRowByFind = lastRow
+    lastRowByFind = lastrow
 End Function
 
-Private Sub DoCopy(lastRow As Long)
-    Range("F2:H" & lastRow).Select
+
+' 여기서 검색시, "AA" 같은 경우에는, 셀의 텍스트 데이타 뿐만 아니라 ...
+' =SUMIF(SS_INSIDE_AREA,"O",$L$2:$L$2) 의 경우에서 처럼, 이런것도 검색이 되기에,
+' 일단은 Ctrl+F 로 검색을 해보는것을 추천한다.
+' 이것은, 엑셀의 검색을 이용해서, 서치하는 함수이기 때문이다.
+
+Private Function lastRowByFind(ByVal str As String) As Long
+    Dim lastrow As Long
+    
+    lastrow = Cells.Find(str, SearchOrder:=xlByRows, SearchDirection:=xlPrevious).row
+    
+    lastRowByFind = lastrow
+End Function
+
+
+Private Sub DoCopy(lastrow As Long)
+    Range("F2:H" & lastrow).Select
     Selection.Copy
     
     Range("n2").Select
@@ -55,14 +52,14 @@ Private Sub DoCopy(lastRow As Long)
     
     
     ' 물량
-    Range("L2:L" & lastRow).Select
+    Range("L2:L" & lastrow).Select
     Selection.Copy
     
     Range("q2").Select
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
         :=False, Transpose:=False
         
-    Range("k2:k" & lastRow).Select
+    Range("k2:k" & lastrow).Select
     Selection.Copy
     
     Range("r2").Select
@@ -71,6 +68,7 @@ Private Sub DoCopy(lastRow As Long)
     Range("N14").Select
     Application.CutCopyMode = False
 End Sub
+
 
 
 ' return letter of range ...
@@ -102,6 +100,9 @@ Attribute ToggleOX.VB_ProcData.VB_Invoke_Func = "d\n14"
     Dim activeCellColumn, activeCellRow As String
     Dim row As Long
     Dim col As Long
+    Dim lastrow As Long
+    Dim cp, fillRange As String
+    
 
     activeCellColumn = Split(ActiveCell.address, "$")(1)
     activeCellRow = Split(ActiveCell.address, "$")(2)
@@ -138,40 +139,181 @@ Attribute ToggleOX.VB_ProcData.VB_Invoke_Func = "d\n14"
         End If
     End If
     
-    
-    If ActiveSheet.Name = "ss" Then
-        UserForm_SS.Show
-    
-'        If activeCellColumn = "K" Then
-'            ActiveCell.Value = IIf(ActiveCell.Value = "가정용", "일반용", "가정용")
-'        End If
-    End If
-    
-    If ActiveSheet.Name = "aa" Then
-        UserForm_AA.Show
+    If activeCellColumn = "D" Then
+        cp = Replace(ActiveCell.address, "$", "")
+        lastrow = lastRowByKey(ActiveCell.address)
         
-'        If activeCellColumn = "K" Then
-'            ActiveCell.Value = IIf(ActiveCell.Value = "답작용", "전작용", "답작용")
-'        End If
+        fillRange = "D" & Range(cp).row & ":D" & lastrow
+        
+        Range(cp).Select
+        Selection.Copy
+        Range(fillRange).Select
+        
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
+    End If
+    
+    If activeCellColumn = "C" Then
+        cp = Replace(ActiveCell.address, "$", "")
+        lastrow = lastRowByKey(ActiveCell.address)
+        
+        fillRange = "C" & Range(cp).row & ":C" & lastrow
+        
+        Range(cp).Select
+        Selection.Copy
+        Range(fillRange).Select
+        
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
     End If
     
     
+'    If activeCellColumn = "M" Then
+'        cp = Replace(ActiveCell.address, "$", "")
+'        lastrow = lastRowByKey(ActiveCell.address)
+'
+'        fillRange = "M" & Range(cp).row & ":M" & lastrow
+'
+'        Range(cp).Select
+'        Selection.AutoFill Destination:=Range(fillRange)
+'
+'        Range(cp).Select
+'        Application.CutCopyMode = False
+'    End If
+       
+    If activeCellColumn = "M" Then
+      Call AddressReset(ActiveSheet.Name)
+    End If
+    
+    
+    If ActiveSheet.Name = "ss" And activeCellColumn = "K" Then
+        UserForm_SS.Show
+    End If
+    
+    If ActiveSheet.Name = "aa" And activeCellColumn = "K" Then
+        UserForm_AA.Show
+    End If
+    
+    If ActiveSheet.Name = "ii" And activeCellColumn = "K" Then
+        UserForm_II.Show
+    End If
+End Sub
+
+
+' Ctrl+R , Transfer Well Data
+' =D2&" "&E2&" 번지"
+Sub TransferWellData()
+Attribute TransferWellData.VB_ProcData.VB_Invoke_Func = "r\n14"
+
+    Dim activeCellColumn, activeCellRow As String
+    Dim row As Long
+    Dim col As Long
+    Dim lastrow As Long
+    Dim cp, fillRange As String
+    Dim MainSheet, TargetSheet As String
+    
+    activeCellColumn = Split(ActiveCell.address, "$")(1)
+    activeCellRow = Split(ActiveCell.address, "$")(2)
+  
+    row = ActiveCell.row
+    col = ActiveCell.Column
+    
+    MainSheet = ActiveSheet.Name
+    
+    If MainSheet = "aa" Then
+        TargetSheet = "ss"
+    ElseIf MainSheet = "ss" Then
+        TargetSheet = "aa"
+    Else
+        Exit Sub
+    End If
+    
+    fillRange = "E" & row & ":J" & row
+    Range(fillRange).Select
+    Selection.Cut
+    
+    Sheets(TargetSheet).Activate
+    lastrow = lastRowByKey("E1") + 1
+    
+    If lastrow = 1048577 Or Range("E" & (lastrow - 1)).Value = "생활용" Then
+        lastrow = 2
+    End If
+    
+    
+    Range("E" & lastrow).Select
+    ActiveSheet.Paste
+    
+       
+    AddressReset (MainSheet)
+    AddressReset (TargetSheet)
+    Range("G7").Select
+
+
+End Sub
+
+
+Sub AddressReset(Optional ByVal shName As String = "option")
+    Dim lastrow As Long
+    Dim ws As Worksheet
+    Dim sheetExists As Boolean
+    sheetExists = False
+    
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name = shName Then
+            sheetExists = True
+            Exit For
+        End If
+    Next ws
+    
+    
+    If Not sheetExists Then
+        shName = ActiveSheet.Name
+    End If
+    
+    
+    Sheets(shName).Activate
+    
+    lastrow = lastRowByKey("M2")
+    
+    Range("M2").Formula = "=D2&"" ""&E2&"" 번지"" "
+    Range("M2").Select
+    Selection.AutoFill Destination:=Range("M2:M" & lastrow)
+    Range("M2").Select
+  
+End Sub
+
+Sub Test()
+    Dim lastrow As Long
+    
+    
+    lastrow = lastRowByKey("E1") + 1
+        
+   If lastrow = 1048577 Or ActiveCell.Value = "생활용" Then
+        lastrow = 2
+    End If
+    
+    Range("o2").Value = "ll"
 End Sub
 
 
 Sub MainMoudleGenerateCopy()
-    Dim lastRow As Long
+    Dim lastrow As Long
         
-    lastRow = lastRowByKey("A1")
-    Call DoCopy(lastRow)
+    lastrow = lastRowByKey("A1")
+    Call DoCopy(lastrow)
 End Sub
 
 
 Sub SubModuleInitialClear()
-    Dim lastRow As Long
+    Dim lastrow As Long
     Dim userChoice As VbMsgBoxResult
     
-    lastRow = lastRowByKey("A1")
+    lastrow = lastRowByKey("A1")
   
     userChoice = MsgBox("Do you want to continue?", vbOKCancel, "Confirmation")
 
@@ -179,28 +321,81 @@ Sub SubModuleInitialClear()
         Exit Sub
     End If
     
-    Range("e2:j" & lastRow).Select
+    Range("e2:j" & lastrow).Select
     Selection.ClearContents
-    Range("n2:r" & lastRow).Select
+    Range("n2:r" & lastrow).Select
     Selection.ClearContents
-    Range("P14").Select
     
-    
-    If lastRow >= 23 Then
-        Rows("23:" & lastRow).Select
+    If lastrow >= 23 Then
+        Rows("23:" & lastrow).Select
         Selection.Delete Shift:=xlUp
     End If
     
     
+    If (ActiveSheet.Name = "ii") Then
+        Range("l2").Value = 0
+    End If
+    
     Range("m2").Select
+End Sub
 
+
+Sub Finallize()
+    Dim lastrow As Long
+    Dim delStartRow, delEndRow, delAddressStart As Long
+    Dim userChoice As VbMsgBoxResult
+    
+    lastrow = lastRowByKey("A1")
+    delStartRow = lastRowByKey("D1") + 1
+    
+    delAddressStart = lastRowByKey("E1") + 1
+    
+    
+    Select Case ActiveSheet.Name
+    
+        Case "ss"
+            delEndRow = lastRowByFind("구분") - 4
+            
+        Case "aa"
+            delEndRow = lastRowByFind("유역내") - 4
+        
+        Case "ii"
+            delEndRow = lastRowByFind("유역내") - 6
+    
+    End Select
+    
+    '
+    'if q is 0 then this section is not have water resource so clear next well
+    '
+    If Range("L2").Value = 0 Then
+        delStartRow = 3
+        delEndRow = lastRowByKey("L1")
+    Else
+        delStartRow = delAddressStart
+    End If
+    
+    
+    userChoice = MsgBox("Do you want to continue?", vbOKCancel, "Confirmation")
+
+    If userChoice <> vbOK Then
+        Exit Sub
+    End If
+    
+    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 2) Then
+        Exit Sub
+    Else
+        Rows(delStartRow & ":" & delEndRow).Select
+        Selection.Delete Shift:=xlUp
+        Range("A2").Select
+    End If
+      
 End Sub
 
 Sub SubModuleCleanCopySection()
-    Dim lastRow As Long
+    Dim lastrow As Long
         
-    lastRow = lastRowByKey("A1")
-    Range("n2:r" & lastRow).Select
+    lastrow = lastRowByKey("A1")
+    Range("n2:r" & lastrow).Select
     Selection.ClearContents
     Range("P14").Select
 End Sub
@@ -209,7 +404,7 @@ End Sub
 ' 2023/4/19 - copy modify
 
 Sub insertRow()
-    Dim lastRow As Long, i As Long, j As Long
+    Dim lastrow As Long, i As Long, j As Long
     Dim selection_origin, selection_target As String
     Dim AddingRowCount As Long
     
@@ -217,9 +412,9 @@ Sub insertRow()
 
     AddingRowCount = 10
 
-    lastRow = lastRowByRowsCount("A")
+    lastrow = lastRowByRowsCount("A")
     
-    Rows(CStr(lastRow + 1) & ":" & CStr(lastRow + AddingRowCount)).Select
+    Rows(CStr(lastrow + 1) & ":" & CStr(lastrow + AddingRowCount)).Select
     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
     
     
