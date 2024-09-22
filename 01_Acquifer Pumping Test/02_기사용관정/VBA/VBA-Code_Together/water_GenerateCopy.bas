@@ -170,6 +170,21 @@ Sub ToggleOX()
     End If
     
     
+    If activeCellColumn = "M" Then
+        cp = Replace(ActiveCell.address, "$", "")
+        lastrow = lastRowByKey(ActiveCell.address)
+        
+        fillRange = "M" & Range(cp).row & ":M" & lastrow
+        
+        Range(cp).Select
+        Selection.AutoFill Destination:=Range(fillRange)
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
+    End If
+       
+    
+    
     If ActiveSheet.Name = "ss" And activeCellColumn = "K" Then
         UserForm_SS.Show
     End If
@@ -182,6 +197,85 @@ Sub ToggleOX()
         UserForm_II.Show
     End If
 End Sub
+
+
+' Ctrl+R , Transfer Well Data
+' =D2&" "&E2&" 번지"
+Sub TransferWellData()
+
+    Dim activeCellColumn, activeCellRow As String
+    Dim row As Long
+    Dim col As Long
+    Dim lastrow As Long
+    Dim cp, fillRange As String
+    Dim MainSheet, TargetSheet As String
+    
+    activeCellColumn = Split(ActiveCell.address, "$")(1)
+    activeCellRow = Split(ActiveCell.address, "$")(2)
+  
+    row = ActiveCell.row
+    col = ActiveCell.Column
+    
+    MainSheet = ActiveSheet.Name
+    
+    If MainSheet = "aa" Then
+        TargetSheet = "ss"
+    ElseIf MainSheet = "ss" Then
+        TargetSheet = "aa"
+    Else
+        Exit Sub
+    End If
+    
+    fillRange = "E" & row & ":J" & row
+    Range(fillRange).Select
+    Selection.Cut
+    
+    Sheets(TargetSheet).Select
+    lastrow = lastRowByKey("E1") + 1
+    
+    Range("E" & lastrow).Select
+    ActiveSheet.Paste
+    
+    AddressReset ("ss")
+    AddressReset ("aa")
+    Range("G7").Select
+
+
+End Sub
+
+
+Sub AddressReset(Optional ByVal shName As String = "option")
+    Dim lastrow As Long
+    Dim ws As Worksheet
+    Dim sheetExists As Boolean
+    sheetExists = False
+    
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name = shName Then
+            sheetExists = True
+            Exit For
+        End If
+    Next ws
+    
+    
+    If Not sheetExists Then
+        shName = ActiveSheet.Name
+    End If
+    
+    
+    Sheets(shName).Activate
+    
+    lastrow = lastRowByKey("M2")
+    
+    Range("M2").Formula = "=D2&"" ""&E2&"" 번지"" "
+    Range("M2").Select
+    Selection.AutoFill Destination:=Range("M2:M" & lastrow)
+    Range("M2").Select
+  
+End Sub
+
+
 
 Sub MainMoudleGenerateCopy()
     Dim lastrow As Long
@@ -263,7 +357,7 @@ Sub Finallize()
         Exit Sub
     End If
     
-    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 3) Then
+    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 2) Then
         Exit Sub
     Else
         Rows(delStartRow & ":" & delEndRow).Select

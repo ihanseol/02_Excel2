@@ -457,10 +457,13 @@ Public Sub make_datamid()
         Next j
         
         purpose = Cells(i + 1, "k").Value
-        Q = Cells(i + 1, "l").Value
+        Q = Cells(i + 1, "L").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        
+        If Q <> 0 Then
+            Call putdata(i, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
     
@@ -487,7 +490,9 @@ Public Sub make_datamid()
         Q = Cells(i + 1, "l").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i + row_ss, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        If Q <> 0 Then
+            Call putdata(i + row_ss, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
     Sheets("ii").Activate
@@ -514,7 +519,9 @@ Public Sub make_datamid()
         Q = Cells(i + 1, "l").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i + row_ss + row_aa, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        If Q <> 0 Then
+            Call putdata(i + row_ss + row_aa, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
 End Sub

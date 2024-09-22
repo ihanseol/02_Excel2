@@ -89,7 +89,7 @@ Private Sub CommandButton2_Click()
     ' 지하수 이용실태 현장조사표
     ' Groundwater Availability Field Survey Sheet
     
-    Call MakeFieldList
+    Call mod_MakeFieldList.MakeFieldList
     Sheets("ss").Activate
     
 End Sub

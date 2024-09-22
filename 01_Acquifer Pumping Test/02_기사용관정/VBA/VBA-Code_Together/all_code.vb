@@ -104,7 +104,7 @@ Private Sub CommandButton2_Click()
     ' 지하수 이용실태 현장조사표
     ' Groundwater Availability Field Survey Sheet
     
-    Call MakeFieldList
+    Call mod_MakeFieldList.MakeFieldList
     Sheets("ss").Activate
     
 End Sub
@@ -170,7 +170,7 @@ Private Sub CommandButton5_Click()
     ' 지하수 이용실태 현장조사표
     ' Groundwater Availability Field Survey Sheet
     
-    Call MakeFieldList
+    Call mod_MakeFieldList.MakeFieldList
     Sheets("aa").Activate
 End Sub
 
@@ -719,6 +719,21 @@ Sub ToggleOX()
     End If
     
     
+    If activeCellColumn = "M" Then
+        cp = Replace(ActiveCell.address, "$", "")
+        lastrow = lastRowByKey(ActiveCell.address)
+        
+        fillRange = "M" & Range(cp).row & ":M" & lastrow
+        
+        Range(cp).Select
+        Selection.AutoFill Destination:=Range(fillRange)
+        
+        Range(cp).Select
+        Application.CutCopyMode = False
+    End If
+       
+    
+    
     If ActiveSheet.Name = "ss" And activeCellColumn = "K" Then
         UserForm_SS.Show
     End If
@@ -731,6 +746,85 @@ Sub ToggleOX()
         UserForm_II.Show
     End If
 End Sub
+
+
+' Ctrl+R , Transfer Well Data
+' =D2&" "&E2&" 번지"
+Sub TransferWellData()
+
+    Dim activeCellColumn, activeCellRow As String
+    Dim row As Long
+    Dim col As Long
+    Dim lastrow As Long
+    Dim cp, fillRange As String
+    Dim MainSheet, TargetSheet As String
+    
+    activeCellColumn = Split(ActiveCell.address, "$")(1)
+    activeCellRow = Split(ActiveCell.address, "$")(2)
+  
+    row = ActiveCell.row
+    col = ActiveCell.Column
+    
+    MainSheet = ActiveSheet.Name
+    
+    If MainSheet = "aa" Then
+        TargetSheet = "ss"
+    ElseIf MainSheet = "ss" Then
+        TargetSheet = "aa"
+    Else
+        Exit Sub
+    End If
+    
+    fillRange = "E" & row & ":J" & row
+    Range(fillRange).Select
+    Selection.Cut
+    
+    Sheets(TargetSheet).Select
+    lastrow = lastRowByKey("E1") + 1
+    
+    Range("E" & lastrow).Select
+    ActiveSheet.Paste
+    
+    AddressReset ("ss")
+    AddressReset ("aa")
+    Range("G7").Select
+
+
+End Sub
+
+
+Sub AddressReset(Optional ByVal shName As String = "option")
+    Dim lastrow As Long
+    Dim ws As Worksheet
+    Dim sheetExists As Boolean
+    sheetExists = False
+    
+    
+    For Each ws In ThisWorkbook.Sheets
+        If ws.Name = shName Then
+            sheetExists = True
+            Exit For
+        End If
+    Next ws
+    
+    
+    If Not sheetExists Then
+        shName = ActiveSheet.Name
+    End If
+    
+    
+    Sheets(shName).Activate
+    
+    lastrow = lastRowByKey("M2")
+    
+    Range("M2").Formula = "=D2&"" ""&E2&"" 번지"" "
+    Range("M2").Select
+    Selection.AutoFill Destination:=Range("M2:M" & lastrow)
+    Range("M2").Select
+  
+End Sub
+
+
 
 Sub MainMoudleGenerateCopy()
     Dim lastrow As Long
@@ -812,7 +906,7 @@ Sub Finallize()
         Exit Sub
     End If
     
-    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 3) Then
+    If delStartRow = 1048577 Or lastrow = 2 Or (delEndRow - delStartRow <= 2) Then
         Exit Sub
     Else
         Rows(delStartRow & ":" & delEndRow).Select
@@ -1353,20 +1447,20 @@ End Sub
 
 Sub LoadComboBox()
     Dim tbl As ListObject
-    Dim tableNAME, shNAME As String
+    Dim tableNAME, shName As String
     Dim headerRowArray() As Variant
     
     ComboBox_AREA.Clear
     
     If OptionButton_JIYEOL.Value Then
         tableNAME = "tableJIYEOL"
-        shNAME = "ref1"
+        shName = "ref1"
     Else
         tableNAME = "tableCNU"
-        shNAME = "ref"
+        shName = "ref"
     End If
     
-    Set tbl = Sheets(shNAME).ListObjects(tableNAME)
+    Set tbl = Sheets(shName).ListObjects(tableNAME)
 
     headerRowArray = tbl.HeaderRowRange.Value
     
@@ -1896,10 +1990,13 @@ Public Sub make_datamid()
         Next j
         
         purpose = Cells(i + 1, "k").Value
-        Q = Cells(i + 1, "l").Value
+        Q = Cells(i + 1, "L").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        
+        If Q <> 0 Then
+            Call putdata(i, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
     
@@ -1926,7 +2023,9 @@ Public Sub make_datamid()
         Q = Cells(i + 1, "l").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i + row_ss, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        If Q <> 0 Then
+            Call putdata(i + row_ss, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
     Sheets("ii").Activate
@@ -1953,7 +2052,9 @@ Public Sub make_datamid()
         Q = Cells(i + 1, "l").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i + row_ss + row_aa, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        If Q <> 0 Then
+            Call putdata(i + row_ss + row_aa, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
 End Sub
@@ -2896,6 +2997,8 @@ End Sub
 ' Optionbutton2 - 기타
 ' Optionbutton3 - 지방공단
 ' Optionbutton4 - 농공단지
+' Optionbutton5 - 국가산업단지
+' Optionbutton6 - 지방산업단지
 
 
 Private Sub CommandButton1_Click()
@@ -2904,10 +3007,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("자유입지업체", "기타", "지방공단", "농공단지")
+    options = Array("자유입지업체", "기타", "지방공단", "농공단지", "국가산업단지", "지방산업단지")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 3
+    For i = 0 To 5
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For
@@ -2944,3 +3047,13 @@ End Sub
 '    End If
 'End Sub
 
+Sub 매크로3()
+'
+' 매크로3 매크로
+'
+
+'
+    Range("M2").Select
+    Selection.AutoFill Destination:=Range("M2:M17")
+    Range("M2:M17").Select
+End Sub

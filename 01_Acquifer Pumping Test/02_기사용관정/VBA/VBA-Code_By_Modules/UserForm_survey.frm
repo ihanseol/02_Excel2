@@ -187,20 +187,20 @@ End Sub
 
 Sub LoadComboBox()
     Dim tbl As ListObject
-    Dim tableNAME, shNAME As String
+    Dim tableNAME, shName As String
     Dim headerRowArray() As Variant
     
     ComboBox_AREA.Clear
     
     If OptionButton_JIYEOL.Value Then
         tableNAME = "tableJIYEOL"
-        shNAME = "ref1"
+        shName = "ref1"
     Else
         tableNAME = "tableCNU"
-        shNAME = "ref"
+        shName = "ref"
     End If
     
-    Set tbl = Sheets(shNAME).ListObjects(tableNAME)
+    Set tbl = Sheets(shName).ListObjects(tableNAME)
 
     headerRowArray = tbl.HeaderRowRange.Value
     

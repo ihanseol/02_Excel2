@@ -7,6 +7,8 @@
 ' Optionbutton2 - 기타
 ' Optionbutton3 - 지방공단
 ' Optionbutton4 - 농공단지
+' Optionbutton5 - 국가산업단지
+' Optionbutton6 - 지방산업단지
 
 
 Private Sub CommandButton1_Click()
@@ -15,10 +17,10 @@ Private Sub CommandButton1_Click()
     Dim selectedOption As String
     
     ' Assign captions to an array
-    options = Array("자유입지업체", "기타", "지방공단", "농공단지")
+    options = Array("자유입지업체", "기타", "지방공단", "농공단지", "국가산업단지", "지방산업단지")
     
     ' Loop through OptionButtons to find the selected one
-    For i = 0 To 3
+    For i = 0 To 5
         If Controls("OptionButton" & i + 1).Value Then
             selectedOption = options(i)
             Exit For
