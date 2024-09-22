@@ -233,14 +233,20 @@ Attribute TransferWellData.VB_ProcData.VB_Invoke_Func = "r\n14"
     Range(fillRange).Select
     Selection.Cut
     
-    Sheets(TargetSheet).Select
+    Sheets(TargetSheet).Activate
     lastrow = lastRowByKey("E1") + 1
+    
+    If lastrow = 1048577 Or Range("E" & (lastrow - 1)).Value = "생활용" Then
+        lastrow = 2
+    End If
+    
     
     Range("E" & lastrow).Select
     ActiveSheet.Paste
     
-    AddressReset ("ss")
-    AddressReset ("aa")
+       
+    AddressReset (MainSheet)
+    AddressReset (TargetSheet)
     Range("G7").Select
 
 
@@ -278,6 +284,18 @@ Sub AddressReset(Optional ByVal shName As String = "option")
   
 End Sub
 
+Sub Test()
+    Dim lastrow As Long
+    
+    
+    lastrow = lastRowByKey("E1") + 1
+        
+   If lastrow = 1048577 Or ActiveCell.Value = "생활용" Then
+        lastrow = 2
+    End If
+    
+    Range("o2").Value = "ll"
+End Sub
 
 
 Sub MainMoudleGenerateCopy()
