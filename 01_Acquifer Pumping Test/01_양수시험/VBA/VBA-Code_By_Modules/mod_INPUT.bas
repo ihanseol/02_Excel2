@@ -1,6 +1,5 @@
 Attribute VB_Name = "mod_INPUT"
 Sub 매크로1()
-Attribute 매크로1.VB_ProcData.VB_Invoke_Func = " \n14"
 '
 ' 매크로1 매크로
 '
@@ -8,6 +7,44 @@ Attribute 매크로1.VB_ProcData.VB_Invoke_Func = " \n14"
 '
     ActiveSheet.VPageBreaks(1).DragOff Direction:=xlToRight, RegionIndex:=1
 End Sub
+
+
+Sub CommandButton_CB1_ClickRun()
+Top:
+    On Error GoTo ErrorCheck
+    Call set_CB1
+    Exit Sub
+    
+ErrorCheck:
+    GoTo Top
+End Sub
+
+Sub CommandButton_CB2_ClickRun()
+Top:
+    On Error GoTo ErrorCheck
+    Call set_CB2
+    Exit Sub
+    
+ErrorCheck:
+    GoTo Top
+End Sub
+
+' Chart Button
+Sub CommandButton_Chart_ClickRun()
+    Dim gong        As Integer
+    Dim KeyCell     As Range
+    
+    Call adjustChartGraph
+    
+    Set KeyCell = Range("J48")
+    
+    gong = Val(CleanString(KeyCell.Value))
+    Call mod_Chart.SetChartTitleText(gong)
+    
+    Call mod_INPUT.Step_Pumping_Test
+    Call mod_INPUT.Vertical_Copy
+End Sub
+
 
 
 Sub Step_Pumping_Test()
@@ -115,6 +152,8 @@ Sub Vertical_Copy()
     Range("q63").Select
     Call WriteStringEtc
 End Sub
+
+
 
 
 
