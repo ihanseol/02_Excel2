@@ -718,20 +718,8 @@ Sub ToggleOX()
         Application.CutCopyMode = False
     End If
     
-    
-'    If activeCellColumn = "M" Then
-'        cp = Replace(ActiveCell.address, "$", "")
-'        lastrow = lastRowByKey(ActiveCell.address)
-'
-'        fillRange = "M" & Range(cp).row & ":M" & lastrow
-'
-'        Range(cp).Select
-'        Selection.AutoFill Destination:=Range(fillRange)
-'
-'        Range(cp).Select
-'        Application.CutCopyMode = False
-'    End If
        
+    ' 2024,12,22 - toggle address format
     If activeCellColumn = "M" Then
       Call AddressReset(ActiveSheet.Name)
     End If
@@ -750,6 +738,36 @@ Sub ToggleOX()
     End If
 End Sub
 
+
+' Ctrl+R , Transfer Well Data
+' =D2&" "&E2&" 번지"
+Sub ToggleAddressFormatString()
+
+    Dim activeCellColumn, activeCellRow As String
+    Dim row As Long
+    Dim col As Long
+    Dim lastrow As Long
+    Dim cp, fillRange As String
+    Dim MainSheet, TargetSheet As String
+    
+    activeCellColumn = Split(ActiveCell.address, "$")(1)
+    activeCellRow = Split(ActiveCell.address, "$")(2)
+  
+ 
+    If lastrow = 1048577 Or Range("E" & (lastrow - 1)).Value = "생활용" Then
+        lastrow = 2
+    End If
+    
+    
+    Range("E" & lastrow).Select
+    ActiveSheet.Paste
+    
+       
+    AddressReset (MainSheet)
+    AddressReset (TargetSheet)
+    Range("G7").Select
+
+End Sub
 
 ' Ctrl+R , Transfer Well Data
 ' =D2&" "&E2&" 번지"
@@ -801,7 +819,7 @@ Sub TransferWellData()
 
 End Sub
 
-
+' =D2&" "&E2&" 번지"
 Sub AddressReset(Optional ByVal shName As String = "option")
     Dim lastrow As Long
     Dim ws As Worksheet
@@ -826,7 +844,13 @@ Sub AddressReset(Optional ByVal shName As String = "option")
     
     lastrow = lastRowByKey("M2")
     
-    Range("M2").Formula = "=D2&"" ""&E2&"" 번지"" "
+    If CheckSubstring(Range("M2"), "번지") Then
+        Range("M2").Formula = "=D2&"" ""&E2"
+    Else
+        Range("M2").Formula = "=D2&"" ""&E2&"" 번지"" "
+    End If
+    
+    
     Range("M2").Select
     Selection.AutoFill Destination:=Range("M2:M" & lastrow)
     Range("M2").Select
@@ -3068,3 +3092,4 @@ End Sub
 '    End If
 'End Sub
 
+'This Module is Empty 
