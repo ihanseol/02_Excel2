@@ -7,14 +7,18 @@ Sub BackupData()
     ActiveWindow.SmallScroll Down:=-15
     
     
-    ActiveSheet.Shapes.Range(Array("CommandButton1")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_AnnualReset")).Select
     Selection.Delete
-    ActiveSheet.Shapes.Range(Array("CommandButton2")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_BackUP")).Select
     Selection.Delete
-    ActiveSheet.Shapes.Range(Array("CommandButton3")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_Clear30Year")).Select
     Selection.Delete
-    ActiveSheet.Shapes.Range(Array("CommandButton4")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_GetWeatherData")).Select
     Selection.Delete
+    ActiveSheet.Shapes.Range(Array("CommandButton_LoadDataFromArray")).Select
+    Selection.Delete
+    
+       
         
     Columns("R:X").Select
     Selection.Delete Shift:=xlToLeft

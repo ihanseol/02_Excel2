@@ -1,26 +1,48 @@
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
+Private Sub CommandButton_AnnualReset_Click()
+    Dim ws As Worksheet
+    Dim sheetNames As String
+        
+    DeleteSheets
+
 End Sub
 
-Private Sub CommandButton2_Click()
+Sub DeleteSheets()
+    Dim ws As Worksheet
+    Dim sheetNamesToKeep As Variant
+    
+    ' Define the sheet names to keep
+    sheetNamesToKeep = Array("main", "AREA", "AREAREF")
+    
+    ' Loop through all sheets
+    For Each ws In ThisWorkbook.Worksheets
+        ' Check if the sheet is not in the list of sheet names to keep
+        If IsError(Application.Match(ws.name, sheetNamesToKeep, 0)) Then
+            ' Delete the sheet
+            Application.DisplayAlerts = False
+            ws.Delete
+            Application.DisplayAlerts = True
+        End If
+    Next ws
+End Sub
+
+
+Private Sub CommandButton_BackUP_Click()
     Call BackupData
 End Sub
 
-Private Sub CommandButton3_Click()
+Private Sub CommandButton_Clear30Year_Click()
+    Call clear_30year_data
+End Sub
+
+
+Private Sub CommandButton_GetWeatherData_Click()
 ' get 30 year data by Selenium
 
    Call get_weather_data
    Call import30RecentData
    Range("A1").Select
-   
 End Sub
 
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
+Private Sub CommandButton_LoadDataFromArray_Click()
+   Call modDumpArrayMyData.importFromArray
 End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-

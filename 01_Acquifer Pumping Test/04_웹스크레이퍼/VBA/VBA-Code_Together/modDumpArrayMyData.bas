@@ -4,6 +4,8 @@
 '이것으로 강수량 데이타를 세이브 할수있다.
 
 Sub DumpRangeToArrayAndSaveTest()
+' Ctrl+D 로 세이브 해주는 함수
+
     Dim myArray() As Variant
     Dim rng As Range
     Dim i As Integer, j As Integer
@@ -94,7 +96,7 @@ Private Sub SaveArrayToFileByExcelForm(myArray As Variant, filePath As String)
 End Sub
 
 
-Private Sub importFromArray()
+Sub importFromArray()
     Dim myArray As Variant
     Dim rng As Range
     

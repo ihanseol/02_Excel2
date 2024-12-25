@@ -216,32 +216,54 @@ End Sub
 
 
 
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
+Private Sub CommandButton_AnnualReset_Click()
+    Dim ws As Worksheet
+    Dim sheetNames As String
+        
+    DeleteSheets
+
 End Sub
 
-Private Sub CommandButton2_Click()
+Sub DeleteSheets()
+    Dim ws As Worksheet
+    Dim sheetNamesToKeep As Variant
+    
+    ' Define the sheet names to keep
+    sheetNamesToKeep = Array("main", "AREA", "AREAREF")
+    
+    ' Loop through all sheets
+    For Each ws In ThisWorkbook.Worksheets
+        ' Check if the sheet is not in the list of sheet names to keep
+        If IsError(Application.Match(ws.name, sheetNamesToKeep, 0)) Then
+            ' Delete the sheet
+            Application.DisplayAlerts = False
+            ws.Delete
+            Application.DisplayAlerts = True
+        End If
+    Next ws
+End Sub
+
+
+Private Sub CommandButton_BackUP_Click()
     Call BackupData
 End Sub
 
-Private Sub CommandButton3_Click()
+Private Sub CommandButton_Clear30Year_Click()
+    Call clear_30year_data
+End Sub
+
+
+Private Sub CommandButton_GetWeatherData_Click()
 ' get 30 year data by Selenium
 
    Call get_weather_data
    Call import30RecentData
    Range("A1").Select
-   
 End Sub
 
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
+Private Sub CommandButton_LoadDataFromArray_Click()
+   Call modDumpArrayMyData.importFromArray
 End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
 Option Explicit
 
 Sub BackupData()
@@ -251,14 +273,18 @@ Sub BackupData()
     ActiveWindow.SmallScroll Down:=-15
     
     
-    ActiveSheet.Shapes.Range(Array("CommandButton1")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_AnnualReset")).Select
     Selection.Delete
-    ActiveSheet.Shapes.Range(Array("CommandButton2")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_BackUP")).Select
     Selection.Delete
-    ActiveSheet.Shapes.Range(Array("CommandButton3")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_Clear30Year")).Select
     Selection.Delete
-    ActiveSheet.Shapes.Range(Array("CommandButton4")).Select
+    ActiveSheet.Shapes.Range(Array("CommandButton_GetWeatherData")).Select
     Selection.Delete
+    ActiveSheet.Shapes.Range(Array("CommandButton_LoadDataFromArray")).Select
+    Selection.Delete
+    
+       
         
     Columns("R:X").Select
     Selection.Delete Shift:=xlToLeft
@@ -3850,6 +3876,8 @@ End Sub
 '이것으로 강수량 데이타를 세이브 할수있다.
 
 Sub DumpRangeToArrayAndSaveTest()
+' Ctrl+D 로 세이브 해주는 함수
+
     Dim myArray() As Variant
     Dim rng As Range
     Dim i As Integer, j As Integer
@@ -3940,7 +3968,7 @@ Private Sub SaveArrayToFileByExcelForm(myArray As Variant, filePath As String)
 End Sub
 
 
-Private Sub importFromArray()
+Sub importFromArray()
     Dim myArray As Variant
     Dim rng As Range
     
@@ -3966,188 +3994,6 @@ End Sub
 
 
 Option Explicit
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
-
-Private Sub CommandButton1_Click()
-    Call clear_30year_data
-End Sub
-
-Private Sub CommandButton2_Click()
-    Call BackupData
-End Sub
-
-Private Sub CommandButton3_Click()
-' get 30 year data by Selenium
-
-   Call get_weather_data
-   Call import30RecentData
-   Range("A1").Select
-   
-End Sub
-
-
-Private Sub CommandButton4_Click()
-    Call importFromArray
-End Sub
-
-Private Sub CommandButton5_Click()
-    Call ShiftNewYear
-End Sub
 
 '
 ' Sheet1(AREAREF)
@@ -4197,7 +4043,14 @@ Sub PrintAllCode()
     If Dir(pathToExport) <> "" Then Kill pathToExport & "*.*"
     
     For Each item In ThisWorkbook.VBProject.VBComponents
-        lineToPrint = item.CodeModule.Lines(1, item.CodeModule.CountOfLines)
+        
+        
+        If item.CodeModule.CountOfLines <> 0 Then
+            lineToPrint = item.CodeModule.Lines(1, item.CodeModule.CountOfLines)
+        Else
+            lineToPrint = "'This Module is Empty "
+        End If
+        
         
         fName = item.CodeModule.name
         Debug.Print lineToPrint
@@ -4292,4 +4145,5 @@ CreateLogFile_Error:
     MsgBox "Error " & Err.Number & " (" & Err.Description & ") in procedure CreateLogFile of Sub mod_TDD_Export"
 
 End Sub
+
 

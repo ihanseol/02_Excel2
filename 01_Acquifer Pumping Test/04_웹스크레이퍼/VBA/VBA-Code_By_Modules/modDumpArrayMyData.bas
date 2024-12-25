@@ -6,6 +6,8 @@ Attribute VB_Name = "modDumpArrayMyData"
 
 Sub DumpRangeToArrayAndSaveTest()
 Attribute DumpRangeToArrayAndSaveTest.VB_ProcData.VB_Invoke_Func = "d\n14"
+' Ctrl+D 로 세이브 해주는 함수
+
     Dim myArray() As Variant
     Dim rng As Range
     Dim i As Integer, j As Integer
@@ -96,7 +98,7 @@ Private Sub SaveArrayToFileByExcelForm(myArray As Variant, filePath As String)
 End Sub
 
 
-Private Sub importFromArray()
+Sub importFromArray()
     Dim myArray As Variant
     Dim rng As Range
     
