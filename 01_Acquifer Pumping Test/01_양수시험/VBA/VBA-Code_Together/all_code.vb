@@ -71,6 +71,10 @@ End Sub
 
 
 
+Private Sub CommandButton_ResetScreenSize_Click()
+    Call ResetScreenSize
+End Sub
+
 Private Sub CommandButton_STEP_Click()
     Call Make_Step_Document
 End Sub
@@ -124,6 +128,13 @@ Private Sub Worksheet_Activate()
     '  gong = Val(CleanString(KeyCell.Value))
     '  Call SetChartTitleText(gong)
 End Sub
+Private Sub CommandButton_Experimential_Click()
+
+    Range("EffectiveRadius").Value = "경험식 1번"
+    Range("D4").Value = Range("D5").Value
+
+End Sub
+
 Private Sub CommandButton1_Click()
     Call show_gachae
 End Sub
@@ -1627,6 +1638,18 @@ Sub hide_gachae()
 End Sub
 
 Option Explicit
+
+
+Sub ResetScreenSize()
+    Dim ws As Worksheet
+    
+    ' Loop through all sheets
+    For Each ws In ThisWorkbook.Worksheets
+        ws.Activate
+        ActiveWindow.Zoom = 100
+    Next ws
+
+End Sub
 
 Function Contains(objCollection As Object, strName As String) As Boolean
     Dim o           As Object
@@ -3232,3 +3255,12 @@ End Sub
 'This Module is Empty 
 'This Module is Empty 
 'This Module is Empty 
+Sub 매크로2()
+'
+' 매크로2 매크로
+'
+
+'
+    ActiveWindow.Zoom = 110
+    ActiveWindow.Zoom = 120
+End Sub

@@ -1,5 +1,17 @@
 Option Explicit
 
+
+Sub ResetScreenSize()
+    Dim ws As Worksheet
+    
+    ' Loop through all sheets
+    For Each ws In ThisWorkbook.Worksheets
+        ws.Activate
+        ActiveWindow.Zoom = 100
+    Next ws
+
+End Sub
+
 Function Contains(objCollection As Object, strName As String) As Boolean
     Dim o           As Object
     

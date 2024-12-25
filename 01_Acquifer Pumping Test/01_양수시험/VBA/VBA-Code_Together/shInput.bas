@@ -70,6 +70,10 @@ End Sub
 
 
 
+Private Sub CommandButton_ResetScreenSize_Click()
+    Call ResetScreenSize
+End Sub
+
 Private Sub CommandButton_STEP_Click()
     Call Make_Step_Document
 End Sub
