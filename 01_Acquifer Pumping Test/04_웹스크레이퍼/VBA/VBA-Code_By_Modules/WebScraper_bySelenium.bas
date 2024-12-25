@@ -146,7 +146,13 @@ Sub get_weather_data()
     
     one_string = "ztree_" & CStr(Range("S10").Value) & "_switch"
        
-    two_string = Range("S8").Value & " (" & CStr(Range("S9").Value) & ")"
+    
+    If Range("R9").Value = "Table7" Then
+        two_string = Range("S8").Value
+    Else
+        two_string = Range("S8").Value & " (" & CStr(Range("S9").Value) & ")"
+    End If
+    
     '±Ý»ê (238)
         
     Set ddl = driver.FindElementByCss("#dataFormCd").AsSelect

@@ -35,12 +35,18 @@ Private Sub CommandButton_Clear30Year_Click()
 End Sub
 
 
+Private Sub CommandButton_DeleteIgnoreError_Click()
+    Call deleteall_igonre_error
+End Sub
+
 Private Sub CommandButton_GetWeatherData_Click()
 ' get 30 year data by Selenium
 
    Call get_weather_data
    Call import30RecentData
    Range("A1").Select
+   Call deleteall_igonre_error
+   
 End Sub
 
 Private Sub CommandButton_LoadDataFromArray_Click()

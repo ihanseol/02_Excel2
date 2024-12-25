@@ -150,7 +150,13 @@ Sub get_weather_data()
     
     one_string = "ztree_" & CStr(Range("S10").Value) & "_switch"
        
-    two_string = Range("S8").Value & " (" & CStr(Range("S9").Value) & ")"
+    
+    If Range("R9").Value = "Table7" Then
+        two_string = Range("S8").Value
+    Else
+        two_string = Range("S8").Value & " (" & CStr(Range("S9").Value) & ")"
+    End If
+    
     '±Ý»ê (238)
         
     Set ddl = driver.FindElementByCss("#dataFormCd").AsSelect
@@ -253,12 +259,18 @@ Private Sub CommandButton_Clear30Year_Click()
 End Sub
 
 
+Private Sub CommandButton_DeleteIgnoreError_Click()
+    Call deleteall_igonre_error
+End Sub
+
 Private Sub CommandButton_GetWeatherData_Click()
 ' get 30 year data by Selenium
 
    Call get_weather_data
    Call import30RecentData
    Range("A1").Select
+   Call deleteall_igonre_error
+   
 End Sub
 
 Private Sub CommandButton_LoadDataFromArray_Click()
@@ -283,9 +295,10 @@ Sub BackupData()
     Selection.Delete
     ActiveSheet.Shapes.Range(Array("CommandButton_LoadDataFromArray")).Select
     Selection.Delete
+    ActiveSheet.Shapes.Range(Array("CommandButton_DeleteIgnoreError")).Select
+    Selection.Delete
     
        
-        
     Columns("R:X").Select
     Selection.Delete Shift:=xlToLeft
     Range("Q10").Select

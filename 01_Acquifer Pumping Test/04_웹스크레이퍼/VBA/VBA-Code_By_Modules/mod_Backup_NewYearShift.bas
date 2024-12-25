@@ -18,9 +18,10 @@ Sub BackupData()
     Selection.Delete
     ActiveSheet.Shapes.Range(Array("CommandButton_LoadDataFromArray")).Select
     Selection.Delete
+    ActiveSheet.Shapes.Range(Array("CommandButton_DeleteIgnoreError")).Select
+    Selection.Delete
     
        
-        
     Columns("R:X").Select
     Selection.Delete Shift:=xlToLeft
     Range("Q10").Select
