@@ -9678,6 +9678,9 @@ Sub ImportWell_MainWellPage()
     Set wsYangSoo = Worksheets("YangSoo")
     Set wsWell = Worksheets("Well")
     Set wsRecharge = Worksheets("Recharge")
+    
+    '2024,12,25 - Add Title
+    wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
            
     For i = 1 To nofwell
         Address = wsYangSoo.Cells(4 + i, "ao").value
@@ -9733,8 +9736,8 @@ Sub DuplicateBasicWellData()
     Else
         BaseData_ETC_02.TurnOffStuff
         
-        Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
-        Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
+        Call mod_DuplicatetWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
+        Call mod_DuplicatetWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
         weather_station = Replace(Sheets("Well").Range("F4").value, "기상청", "")
         river_section = Sheets("Well").Range("E4").value
         
@@ -9744,7 +9747,7 @@ Sub DuplicateBasicWellData()
         ' 각 관정별 데이터 복사
         For i = 1 To nofwell
             Sheets(CStr(i)).Activate
-            Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
+            Call mod_DuplicatetWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
             
             If obj.result Then Exit For
         Next i
@@ -9857,14 +9860,14 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
                        "daeSoo", "T1", "T2", "TA", "S1", "S2", "K", "time_", _
                        "shultze", "webber", "jacob", "skin", "er", "ER1", _
                        "ER2", "ER3", "qh", "qg", "sd1", "sd2", "q1", "C", _
-                       "B", "ratio", "T0", "S0", "ER_MODE", "Address", "Company", "S3")
+                       "B", "ratio", "T0", "S0", "ER_MODE", "Address", "Company", "S3", "Title")
 
     ' Check if all well data should be imported
     nofwell = GetNumberOfWell()
     If Not isSingleWellImport And singleWell = 999 Then
-        rngString = "A5:AQ37"
+        rngString = "A5:AR37"
     Else
-       rngString = "A" & (nofwell + 5 - 1) & ":AQ" & (nofwell + 5 - 1)
+       rngString = "A" & (nofwell + 5 - 1) & ":AR" & (nofwell + 5 - 1)
     End If
         
     Call EraseCellData(rngString)
@@ -9943,7 +9946,8 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         wsSafeYield.Range("b7"), wsSafeYield.Range("b3"), _
                         wsSafeYield.Range("b4"), wsSafeYield.Range("b2"), _
                         wsSafeYield.Range("b11"), wsInput.Range("i46"), _
-                        wsInput.Range("i47"), wsSkinFactor.Range("i13"))
+                        wsInput.Range("i47"), wsSkinFactor.Range("i13"), _
+                        wsInput.Range("i44"))
 
     ' Array of data addresses
     addresses = Array("Q", "hp", "natural", "stable", "radius", "Rw", _
@@ -9952,7 +9956,7 @@ Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal d
                         "T1", "T2", "TA", "S1", "S2", "K", "time_", "shultze", _
                         "webber", "jacob", "skin", "er", "ER1", "ER2", "ER3", _
                         "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address", _
-                        "Company", "S3")
+                        "Company", "S3", "Title")
 
     ' Find index of dataArrayName in addresses array
     For i = LBound(addresses) To UBound(addresses)
@@ -10030,7 +10034,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         35, 36, 37, 15, 16, 17, 18, _
         19, 20, 21, 22, 23, 24, 25, _
         26, 38, 39, 40, 27, 28, 30, _
-        31, 29, 34, 41, 42, 43 _
+        31, 29, 34, 41, 42, 43, 44 _
     )
 
     ' Define array to store column names
@@ -10041,7 +10045,7 @@ Function GetColumnIndex(ByVal columnName As String) As Integer
         "T0", "S0", "ER_MODE", "T1", "T2", "TA", "S1", _
         "S2", "K", "time_", "shultze", "webber", "jacob", "skin", _
         "er", "ER1", "ER2", "ER3", "qh", "qg", "sd1", _
-        "sd2", "q1", "ratio", "Address", "Company", "S3" _
+        "sd2", "q1", "ratio", "Address", "Company", "S3", "Title" _
     )
 
     ' Find index of columnName in columnNames array
@@ -11575,9 +11579,15 @@ Private Sub UserForm_Activate()
 End Sub
 
 
-
 Private Sub UserForm_Initialize()
- Me.TextBox1.Text = "this is Sample initialize"
+    Dim i As Integer
+    
+    Me.StartUpPosition = 0
+    
+    Me.Left = Application.Left + (0.5 * Application.Width) - (0.5 * Me.Width)
+    Me.Top = Application.Top + (0.5 * Application.height) - (0.5 * Me.height)
+   
+    Me.TextBox1.Text = "this is Sample initialize"
 End Sub
 
 

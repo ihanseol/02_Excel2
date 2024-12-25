@@ -110,6 +110,7 @@ Private Sub CommandButton2_Click()
 End Sub
 
 Private Sub CommandButton3_Click()
+    Popup_MessageBox ("Calculation Compute Q .... ")
     Call water_q.ComputeQ
     Sheets("ss").Activate
 End Sub
@@ -659,6 +660,16 @@ Sub ToggleOX()
     
     Debug.Print Alpha_Column(ActiveCell)
     
+    
+    '2024-12-25, Add Compute Q
+    If activeCellColumn = "L" Then
+        Popup_MessageBox ("Calculation Compute Q .... ")
+        Call water_q.ComputeQ
+        Sheets("ss").Activate
+    End If
+    
+    
+    
     If activeCellColumn = "S" Then
         If ActiveCell.Value = "O" Then
             ActiveCell.Value = "X"
@@ -857,7 +868,7 @@ Sub AddressReset(Optional ByVal shName As String = "option")
   
 End Sub
 
-Sub Test()
+Sub test()
     Dim lastrow As Long
     
     
@@ -3093,3 +3104,36 @@ End Sub
 'End Sub
 
 'This Module is Empty 
+
+
+Private Sub UserForm_Activate()
+    Application.OnTime Now + TimeValue("00:00:02"), "Popup_CloseUserForm"
+End Sub
+
+
+Private Sub UserForm_Initialize()
+    Dim i As Integer
+    
+    Me.StartUpPosition = 0
+    
+    Me.Left = Application.Left + (0.5 * Application.Width) - (0.5 * Me.Width)
+    Me.Top = Application.Top + (0.5 * Application.Height) - (0.5 * Me.Height)
+   
+    Me.TextBox1.Text = "this is Sample initialize"
+End Sub
+
+Sub Popup_MessageBox(ByVal msg As String)
+    UserForm1.TextBox1.Text = msg
+    UserForm1.Show
+End Sub
+
+Sub Popup_CloseUserForm()
+    Unload UserForm1
+End Sub
+
+Sub test()
+    ' Application.OnTime Now + TimeValue("00:00:01"), "Popup_CloseUserForm"
+    Popup_MessageBox ("Automatic Close at One Seconds ...")
+End Sub
+
+

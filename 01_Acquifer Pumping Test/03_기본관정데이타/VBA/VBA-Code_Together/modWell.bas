@@ -428,6 +428,9 @@ Sub ImportWell_MainWellPage()
     Set wsYangSoo = Worksheets("YangSoo")
     Set wsWell = Worksheets("Well")
     Set wsRecharge = Worksheets("Recharge")
+    
+    '2024,12,25 - Add Title
+    wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
            
     For i = 1 To nofwell
         Address = wsYangSoo.Cells(4 + i, "ao").value
@@ -483,8 +486,8 @@ Sub DuplicateBasicWellData()
     Else
         BaseData_ETC_02.TurnOffStuff
         
-        Call Module_ImportWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
-        Call Module_ImportWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
+        Call mod_DuplicatetWellSpec.Duplicate_WATER(ThisWorkbook.name, WB_NAME)
+        Call mod_DuplicatetWellSpec.Duplicate_WELL_MAIN(ThisWorkbook.name, WB_NAME, nofwell)
         weather_station = Replace(Sheets("Well").Range("F4").value, "기상청", "")
         river_section = Sheets("Well").Range("E4").value
         
@@ -494,7 +497,7 @@ Sub DuplicateBasicWellData()
         ' 각 관정별 데이터 복사
         For i = 1 To nofwell
             Sheets(CStr(i)).Activate
-            Call Module_ImportWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
+            Call mod_DuplicatetWellSpec.DuplicateWellSpec(ThisWorkbook.name, WB_NAME, i, obj)
             
             If obj.result Then Exit For
         Next i

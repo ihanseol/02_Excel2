@@ -95,6 +95,7 @@ Private Sub CommandButton2_Click()
 End Sub
 
 Private Sub CommandButton3_Click()
+    Popup_MessageBox ("Calculation Compute Q .... ")
     Call water_q.ComputeQ
     Sheets("ss").Activate
 End Sub

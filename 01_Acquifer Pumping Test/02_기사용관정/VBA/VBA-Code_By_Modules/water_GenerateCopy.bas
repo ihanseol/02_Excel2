@@ -112,6 +112,16 @@ Attribute ToggleOX.VB_ProcData.VB_Invoke_Func = "d\n14"
     
     Debug.Print Alpha_Column(ActiveCell)
     
+    
+    '2024-12-25, Add Compute Q
+    If activeCellColumn = "L" Then
+        Popup_MessageBox ("Calculation Compute Q .... ")
+        Call water_q.ComputeQ
+        Sheets("ss").Activate
+    End If
+    
+    
+    
     If activeCellColumn = "S" Then
         If ActiveCell.Value = "O" Then
             ActiveCell.Value = "X"
@@ -311,7 +321,7 @@ Sub AddressReset(Optional ByVal shName As String = "option")
   
 End Sub
 
-Sub Test()
+Sub test()
     Dim lastrow As Long
     
     
