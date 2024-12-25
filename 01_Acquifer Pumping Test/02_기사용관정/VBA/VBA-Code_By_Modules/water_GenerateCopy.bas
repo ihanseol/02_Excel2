@@ -436,8 +436,10 @@ End Sub
 
 
 ' 2023/4/19 - copy modify
+'2024/12/25 -- add short cut (Ctrl+i)
 
 Sub insertRow()
+Attribute insertRow.VB_ProcData.VB_Invoke_Func = "i\n14"
     Dim lastrow As Long, i As Long, j As Long
     Dim selection_origin, selection_target As String
     Dim AddingRowCount As Long

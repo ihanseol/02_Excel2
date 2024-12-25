@@ -983,6 +983,7 @@ End Sub
 
 
 ' 2023/4/19 - copy modify
+'2024/12/25 -- add short cut (Ctrl+i)
 
 Sub insertRow()
     Dim lastrow As Long, i As Long, j As Long
@@ -1445,7 +1446,7 @@ End Sub
 
 
 Private Sub ComboBox_AREA_Change()
-
+ Call LoadSurveyData(ComboBox_AREA.Value)
 End Sub
 
 Sub Initialize_Setting()
@@ -3103,7 +3104,6 @@ End Sub
 '    End If
 'End Sub
 
-'This Module is Empty 
 
 
 Private Sub UserForm_Activate()

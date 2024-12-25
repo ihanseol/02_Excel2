@@ -129,7 +129,7 @@ End Sub
 
 
 Private Sub ComboBox_AREA_Change()
-
+ Call LoadSurveyData(ComboBox_AREA.Value)
 End Sub
 
 Sub Initialize_Setting()
