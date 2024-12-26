@@ -44,7 +44,7 @@ Function GetRangeStringFromSelection()
     Set selectedRange = Selection
 
     ' Get the address of the selected range
-    rangeAddress = selectedRange.Address
+    rangeAddress = selectedRange.address
     GetRangeStringFromSelection = rangeAddress
     
     ' Display the range address
@@ -113,8 +113,8 @@ Function GetRowColumn(name As String) As Variant
     Dim acColumn, acRow As Variant
     Dim result(1 To 2) As Variant
 
-    acColumn = Split(Range(name).Address, "$")(1)
-    acRow = Split(Range(name).Address, "$")(2)
+    acColumn = Split(Range(name).address, "$")(1)
+    acRow = Split(Range(name).address, "$")(2)
 
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column

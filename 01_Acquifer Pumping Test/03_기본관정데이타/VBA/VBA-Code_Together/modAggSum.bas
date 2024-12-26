@@ -5,8 +5,8 @@ Const WELL_BUFFER = 30
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
     
-    acColumn = Split(Range("ip_motor_simdo").Address, "$")(1)
-    acRow = Split(Range("ip_motor_simdo").Address, "$")(2)
+    acColumn = Split(Range("ip_motor_simdo").address, "$")(1)
+    acRow = Split(Range("ip_motor_simdo").address, "$")(2)
     
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column

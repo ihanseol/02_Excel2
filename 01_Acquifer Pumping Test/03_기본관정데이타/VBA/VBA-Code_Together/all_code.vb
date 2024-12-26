@@ -1953,7 +1953,7 @@ End Sub
 Option Explicit
 
 Public Sub rows_and_column()
-    Debug.Print Cells(20, 1).Address(RowAbsolute:=False, ColumnAbsolute:=False)
+    Debug.Print Cells(20, 1).address(RowAbsolute:=False, ColumnAbsolute:=False)
     Debug.Print Range("a20").row & " , " & Range("a20").Column
     
     Range("B2:Z44").Rows(3).Select
@@ -2679,7 +2679,7 @@ Function GetRangeStringFromSelection()
     Set selectedRange = Selection
 
     ' Get the address of the selected range
-    rangeAddress = selectedRange.Address
+    rangeAddress = selectedRange.address
     GetRangeStringFromSelection = rangeAddress
     
     ' Display the range address
@@ -2748,8 +2748,8 @@ Function GetRowColumn(name As String) As Variant
     Dim acColumn, acRow As Variant
     Dim result(1 To 2) As Variant
 
-    acColumn = Split(Range(name).Address, "$")(1)
-    acRow = Split(Range(name).Address, "$")(2)
+    acColumn = Split(Range(name).address, "$")(1)
+    acRow = Split(Range(name).address, "$")(2)
 
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column
@@ -8390,6 +8390,36 @@ Sub Duplicate_WATER(ByVal this_WBNAME As String, ByVal WB_NAME As String)
 
 End Sub
 
+
+
+
+
+Function aCellContains(searchRange As Range, searchValue As String) As Boolean
+    aCellContains = InStr(1, LCase(searchRange.value), LCase(searchValue)) > 0
+End Function
+
+
+Function aFindCellByLoopingPartialMatch(wb As Workbook) As String
+
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim address As String
+     
+     For Each cell In wb.Worksheets("Well").Range("A1:AZ1").Cells
+        Debug.Print cell.address, cell.value
+    
+        If aCellContains(cell, "") Then
+            address = cell.address
+            Exit For
+        End If
+    Next
+    
+    aFindCellByLoopingPartialMatch = address
+    
+End Function
+
+
+
 Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
 
    Dim cpRange, title As String
@@ -8408,8 +8438,15 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
     
     
     ' 2024/6/26일, Copy Title
-    title = Workbooks(WB_NAME).Worksheets("Well").Range("E1").value
-    Workbooks(this_WBNAME).Worksheets("Well").Range("E1") = title
+    ' 2024/12/26 Search Title location
+    
+    titleCell = aFindCellByLoopingPartialMatch(Workbooks(WB_NAME))
+    title = Workbooks(WB_NAME).Worksheets("Well").Range(titleCell).value
+    EraseCellData ("A1:G1")
+    Workbooks(this_WBNAME).Worksheets("Well").Range("D1") = title
+    
+    ' End of Copy Title
+    
     
     Application.CutCopyMode = False
     Range("A4").Select
@@ -9502,7 +9539,7 @@ Sub JojungButton()
     Call make_wellstyle
     Call DecorateWellBorder(nofwell)
     
-    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
+    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").address
     
     TurnOnStuff
 End Sub
@@ -9661,6 +9698,7 @@ End Sub
 
 
 
+
 Sub ImportWell_MainWellPage()
 '
 ' import Sheets("Well") Page
@@ -9668,7 +9706,7 @@ Sub ImportWell_MainWellPage()
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Address, Company As String
+    Dim address, Company As String
     Dim simdo, diameter, Q, hp As Double
     
     nofwell = sheets_count()
@@ -9683,14 +9721,14 @@ Sub ImportWell_MainWellPage()
     wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
            
     For i = 1 To nofwell
-        Address = wsYangSoo.Cells(4 + i, "ao").value
+        address = wsYangSoo.Cells(4 + i, "ao").value
         simdo = wsYangSoo.Cells(4 + i, "i").value
         diameter = wsYangSoo.Cells(4 + i, "g").value
         Q = wsYangSoo.Cells(4 + i, "k").value
         hp = wsYangSoo.Cells(4 + i, "m").value
         
         
-        wsWell.Cells(3 + i, "d").value = Address
+        wsWell.Cells(3 + i, "d").value = address
         wsWell.Cells(3 + i, "g").value = diameter
         wsWell.Cells(3 + i, "h").value = simdo
         wsWell.Cells(3 + i, "i").value = Q
@@ -11094,7 +11132,7 @@ End Sub
 Sub FindMergedCellsRange()
     Dim mergedRange As Range
     Set mergedRange = ActiveSheet.Range("A1").MergeArea
-    MsgBox "The range of merged cells is " & mergedRange.Address
+    MsgBox "The range of merged cells is " & mergedRange.address
 End Sub
 
 
@@ -11216,8 +11254,8 @@ Const WELL_BUFFER = 30
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
     
-    acColumn = Split(Range("ip_motor_simdo").Address, "$")(1)
-    acRow = Split(Range("ip_motor_simdo").Address, "$")(2)
+    acColumn = Split(Range("ip_motor_simdo").address, "$")(1)
+    acRow = Split(Range("ip_motor_simdo").address, "$")(2)
     
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column
@@ -12378,32 +12416,34 @@ End Sub
 ' FX Sheet : add field, Address, Company, S3 field
 ' FX Sheet : detail tuning
 
-Sub 매크로1()
-'
-' 매크로1 매크로
-'
 
-'
-    Range("C14:P14").Select
-    With Selection.Interior
-        .pattern = xlSolid
-        .PatternColorIndex = xlAutomatic
-        .themeColor = xlThemeColorAccent6
-        .TintAndShade = 0.799981688894314
-        .PatternTintAndShade = 0
-    End With
-    Range("H17").Select
-End Sub
-Sub 매크로2()
-'
-' 매크로2 매크로
-'
 
-'
-    Range("C5:P17").Select
-    With Selection.Interior
-        .pattern = xlNone
-        .TintAndShade = 0
-        .PatternTintAndShade = 0
-    End With
+Function CellContains(searchRange As Range, searchValue As String) As Boolean
+    CellContains = InStr(1, LCase(searchRange.value), LCase(searchValue)) > 0
+End Function
+
+
+Function FindCellByLoopingPartialMatch() As String
+
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim address As String
+     
+     For Each cell In Range("A1:AZ1").Cells
+        Debug.Print cell.address, cell.value
+    
+        If CellContains(cell, "") Then
+            address = cell.address
+            Exit For
+        End If
+    Next
+    FindCellByLoopingPartialMatch = address
+    
+End Function
+
+Sub test()
+    Dim rg As String
+    rg = FindCellByLoopingPartialMatch
+    Debug.Print "the result: ", rg, Range(rg).value
 End Sub
+

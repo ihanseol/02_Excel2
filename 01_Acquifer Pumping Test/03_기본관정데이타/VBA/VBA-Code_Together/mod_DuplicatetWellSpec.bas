@@ -216,6 +216,36 @@ Sub Duplicate_WATER(ByVal this_WBNAME As String, ByVal WB_NAME As String)
 
 End Sub
 
+
+
+
+
+Function aCellContains(searchRange As Range, searchValue As String) As Boolean
+    aCellContains = InStr(1, LCase(searchRange.value), LCase(searchValue)) > 0
+End Function
+
+
+Function aFindCellByLoopingPartialMatch(wb As Workbook) As String
+
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim address As String
+     
+     For Each cell In wb.Worksheets("Well").Range("A1:AZ1").Cells
+        Debug.Print cell.address, cell.value
+    
+        If aCellContains(cell, "") Then
+            address = cell.address
+            Exit For
+        End If
+    Next
+    
+    aFindCellByLoopingPartialMatch = address
+    
+End Function
+
+
+
 Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
 
    Dim cpRange, title As String
@@ -234,8 +264,15 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
     
     
     ' 2024/6/26¿œ, Copy Title
-    title = Workbooks(WB_NAME).Worksheets("Well").Range("E1").value
-    Workbooks(this_WBNAME).Worksheets("Well").Range("E1") = title
+    ' 2024/12/26 Search Title location
+    
+    titleCell = aFindCellByLoopingPartialMatch(Workbooks(WB_NAME))
+    title = Workbooks(WB_NAME).Worksheets("Well").Range(titleCell).value
+    EraseCellData ("A1:G1")
+    Workbooks(this_WBNAME).Worksheets("Well").Range("D1") = title
+    
+    ' End of Copy Title
+    
     
     Application.CutCopyMode = False
     Range("A4").Select

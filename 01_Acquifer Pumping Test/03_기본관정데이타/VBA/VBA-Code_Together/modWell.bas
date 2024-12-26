@@ -252,7 +252,7 @@ Sub JojungButton()
     Call make_wellstyle
     Call DecorateWellBorder(nofwell)
     
-    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
+    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").address
     
     TurnOnStuff
 End Sub
@@ -411,6 +411,7 @@ End Sub
 
 
 
+
 Sub ImportWell_MainWellPage()
 '
 ' import Sheets("Well") Page
@@ -418,7 +419,7 @@ Sub ImportWell_MainWellPage()
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Address, Company As String
+    Dim address, Company As String
     Dim simdo, diameter, Q, hp As Double
     
     nofwell = sheets_count()
@@ -433,14 +434,14 @@ Sub ImportWell_MainWellPage()
     wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
            
     For i = 1 To nofwell
-        Address = wsYangSoo.Cells(4 + i, "ao").value
+        address = wsYangSoo.Cells(4 + i, "ao").value
         simdo = wsYangSoo.Cells(4 + i, "i").value
         diameter = wsYangSoo.Cells(4 + i, "g").value
         Q = wsYangSoo.Cells(4 + i, "k").value
         hp = wsYangSoo.Cells(4 + i, "m").value
         
         
-        wsWell.Cells(3 + i, "d").value = Address
+        wsWell.Cells(3 + i, "d").value = address
         wsWell.Cells(3 + i, "g").value = diameter
         wsWell.Cells(3 + i, "h").value = simdo
         wsWell.Cells(3 + i, "i").value = Q

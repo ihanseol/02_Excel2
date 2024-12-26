@@ -83,7 +83,7 @@ End Sub
 Sub FindMergedCellsRange()
     Dim mergedRange As Range
     Set mergedRange = ActiveSheet.Range("A1").MergeArea
-    MsgBox "The range of merged cells is " & mergedRange.Address
+    MsgBox "The range of merged cells is " & mergedRange.address
 End Sub
 
 
