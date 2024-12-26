@@ -2,7 +2,7 @@ Attribute VB_Name = "WebScraper_bySelenium"
 Option Explicit
 
 Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr) 'For 64 Bit Systems
-Private driver As Selenium.ChromeDriver
+Private driver As Selenium.chromeDriver
 
 
 Public Function StringToIntArray(str As String) As Variant
@@ -117,9 +117,8 @@ End Function
 
 
 
-
 Sub get_weather_data()
-    Dim driver As New ChromeDriver
+    Dim driver As New chromeDriver
     Dim ddl As Selenium.SelectElement
     
     Dim url As String
@@ -130,7 +129,9 @@ Sub get_weather_data()
     Range("B2").Value = "30년 " & Range("S8").Value & "데이터, " & Now()
     
     url = "https://data.kma.go.kr/stcs/grnd/grndRnList.do?pgmNo=69"
-    Set driver = New Selenium.ChromeDriver
+    Set driver = New Selenium.chromeDriver
+    
+    driver.SetBinary "c:\ProgramData\00_chrome\chrome.exe" ' Update this path
     
     driver.Start
     driver.AddArgument "--headless"
