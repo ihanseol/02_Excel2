@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserFormTS2 
    Caption         =   "Time Setting Panel "
-   ClientHeight    =   3210
+   ClientHeight    =   3870
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   9075.001
+   ClientWidth     =   8715.001
    OleObjectBlob   =   "UserFormTS2.frx":0000
    StartUpPosition =   1  '소유자 가운데
 End
@@ -13,8 +13,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
 
 
 Option Explicit
@@ -62,9 +60,111 @@ Private Function whichSection(n As Integer) As Integer
 
 End Function
 
+Sub ComboboxDay_ChangeItem(nYear As Integer, nMonth As Integer)
+    Dim lasday, i As Integer
+    
+    lasday = Day(GetNowLast(DateSerial(nYear, nMonth, 1)))
+    ComboBoxDay.Clear
+    
+    For i = 1 To lasday
+        ComboBoxDay.AddItem (i)
+    Next i
+    
+    ' ComboBoxDay.Value = 1
+End Sub
+
+
+
+Private Sub ComboBox_Minute2_Change()
+PrintTime
+End Sub
+
+Private Sub ComboBoxHour_Change()
+PrintTime
+End Sub
+
+Private Sub ComboBoxMinute_Change()
+PrintTime
+End Sub
+
+Private Sub ComboBoxMonth_Change()
+    '2019-11-26 change
+    On Error GoTo Errcheck
+    Call ComboboxDay_ChangeItem(ComboBoxYear.Value, ComboBoxMonth.Value)
+Errcheck:
+
+End Sub
+
+Private Sub EnterButton_Click()
+    Dim nYear, nMonth, nDay As Integer
+    Dim nHour, nMinute As Integer
+    Dim nDate, ntime As Date
+    
+On Error GoTo Errcheck
+    nYear = CInt(ComboBoxYear.Value)
+    nMonth = CInt(ComboBoxMonth.Value)
+    nDay = CInt(ComboBoxDay.Value)
+        
+    nHour = CInt(ComboBoxHour.Value)
+    nHour = nHour + IIf(OptionButtonPM.Value, 12, 0)
+    
+    
+    nMinute = CInt(ComboBoxMinute.Value) + CInt(ComboBox_Minute2.Value)
+            
+    nDate = DateSerial(nYear, nMonth, nDay)
+    ntime = TimeSerial(nHour, nMinute, 0)
+            
+    nDate = nDate + ntime
+    
+Errcheck:
+    shW_LongTEST.Range("c12").Value = nDate
+    Unload Me
+     
+End Sub
+
+
+Private Sub PrintTime()
+    Dim nYear, nMonth, nDay As Integer
+    Dim nHour, nMinute As Integer
+    Dim nDate, ntime As Date
+    
+On Error GoTo Errcheck
+    nYear = CInt(ComboBoxYear.Value)
+    nMonth = CInt(ComboBoxMonth.Value)
+    nDay = CInt(ComboBoxDay.Value)
+        
+    nHour = CInt(ComboBoxHour.Value)
+    nHour = nHour + IIf(OptionButtonPM.Value, 12, 0)
+    
+    
+    nMinute = CInt(ComboBoxMinute.Value) + CInt(ComboBox_Minute2.Value)
+            
+    nDate = DateSerial(nYear, nMonth, nDay)
+    ntime = TimeSerial(nHour, nMinute, 0)
+            
+    nDate = nDate + ntime
+    
+Errcheck:
+    
+    Label_Time.Caption = Format(nDate, "yyyy-mm-dd : hh:nn:ss")
+     
+End Sub
+
+
+
+Private Sub UserForm_Initialize()
+    Call ComboBoxYear_Initialize
+    Me.StartUpPosition = 0
+    Me.Left = Application.Left + (0.5 * Application.Width) - (0.5 * Me.Width)
+    Me.Top = Application.Top + (0.5 * Application.Height) - (0.5 * Me.Height)
+End Sub
+
+
+
 Private Sub ComboBoxYear_Initialize()
     Dim nYear, nMonth, nDay As Integer
     Dim nHour, nMin As Integer
+    Dim quotient, remainder As Integer
     
     Dim i, j As Integer
     Dim lastDay As Integer
@@ -73,7 +173,6 @@ Private Sub ComboBoxYear_Initialize()
     Dim isThisYear As Boolean
     
     sheetDate = Range("c12").Value
-    'MsgBox (sheetDate)
     currDate = Now()
     
     If ((Year(currDate) - Year(sheetDate)) = 0) Then
@@ -86,6 +185,7 @@ Private Sub ComboBoxYear_Initialize()
         
         nHour = Hour(sheetDate)
         nMin = Minute(sheetDate)
+        ' MsgBox (nMin)
         
     Else
         
@@ -102,7 +202,7 @@ Private Sub ComboBoxYear_Initialize()
     
     
     lastDay = Day(GetNowLast(IIf(isThisYear, sheetDate, currDate)))
-    ' Debug.Print lastDay
+    Debug.Print lastDay
     
     For i = nYear - 10 To nYear
         ComboBoxYear.AddItem (i)
@@ -122,11 +222,13 @@ Private Sub ComboBoxYear_Initialize()
     Next i
     
     
-    
     For i = 0 To 60 Step 10
         ComboBoxMinute.AddItem (i)
     Next i
-    
+
+    For i = 0 To 9
+        ComboBox_Minute2.AddItem (i)
+    Next i
     
     
     ComboBoxYear.Value = nYear
@@ -134,8 +236,12 @@ Private Sub ComboBoxYear_Initialize()
     ComboBoxDay.Value = nDay
     
     ComboBoxHour.Value = IIf(nHour > 12, nHour - 12, nHour)
-    ComboBoxMinute.Value = whichSection(IIf(isThisYear, Minute(sheetDate), Minute(currDate)))
+
+    quotient = nMin \ 10
+    remainder = nMin Mod 10
     
+    ComboBoxMinute.Value = quotient * 10
+    ComboBox_Minute2.Value = remainder
    
     If nHour > 12 Then
         OptionButtonPM.Value = True
@@ -143,71 +249,6 @@ Private Sub ComboBoxYear_Initialize()
         OptionButtonAM.Value = True
     End If
     
-    ' Debug.Print nYear
-
-End Sub
-
-Sub ComboboxDay_ChangeItem(nYear As Integer, nMonth As Integer)
-    Dim lasday, i As Integer
-    
-    lasday = Day(GetNowLast(DateSerial(nYear, nMonth, 1)))
-    ComboBoxDay.Clear
-    
-    For i = 1 To lasday
-        ComboBoxDay.AddItem (i)
-    Next i
-    
-    ComboBoxDay.Value = 1
-
-End Sub
-
-Private Sub ComboBoxHour_Change()
-    ComboBoxMinute.Value = 0
-End Sub
-
-Private Sub ComboBoxMonth_Change()
-    '2019-11-26 change
-    On Error GoTo Errcheck
-    Call ComboboxDay_ChangeItem(ComboBoxYear.Value, ComboBoxMonth.Value)
-Errcheck:
-        
-End Sub
-
-Private Sub EnterButton_Click()
-    Dim nYear, nMonth, nDay As Integer
-    Dim nHour, nMinute As Integer
-    
-    Dim nDate, ntime As Date
-    
-    
-    On Error GoTo Errcheck
-    nYear = ComboBoxYear.Value
-    nMonth = ComboBoxMonth.Value
-    nDay = ComboBoxDay.Value
-        
-    nHour = ComboBoxHour.Value
-    nMinute = ComboBoxMinute.Value
-            
-            
-    nHour = nHour + IIf(OptionButtonPM.Value, 12, 0)
-            
-    nDate = DateSerial(nYear, nMonth, nDay)
-    ntime = TimeSerial(nHour, nMinute, 0)
-            
-    nDate = nDate + ntime
-         
-    Range("c12").Value = nDate
-         
-Errcheck:
-     
-    Unload Me
-     
-End Sub
-
-Private Sub UserForm_Initialize()
-    Call ComboBoxYear_Initialize
-    Me.StartUpPosition = 0
-    Me.Left = Application.Left + (0.5 * Application.Width) - (0.5 * Me.Width)
-    Me.Top = Application.Top + (0.5 * Application.Height) - (0.5 * Me.Height)
+    Debug.Print nYear
 End Sub
 
