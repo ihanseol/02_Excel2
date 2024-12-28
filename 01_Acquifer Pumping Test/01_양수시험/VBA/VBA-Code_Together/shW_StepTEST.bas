@@ -30,7 +30,7 @@ Private Sub CommandButton4_Click()
 '
 '    Range("c12").Value = nDate
     
-    UserFormTS2.Show
+    UserFormTS1.Show
 End Sub
 
 Private Sub Worksheet_Activate()

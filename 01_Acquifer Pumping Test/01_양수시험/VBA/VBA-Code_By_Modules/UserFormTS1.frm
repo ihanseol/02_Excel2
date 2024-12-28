@@ -115,9 +115,9 @@ On Error GoTo Errcheck
     ntime = TimeSerial(nHour, nMinute, 0)
             
     nDate = nDate + ntime
+    shW_StepTEST.Range("c12").Value = nDate
     
 Errcheck:
-    shW_LongTEST.Range("c6").Value = nDate
     Unload Me
      
 End Sub
@@ -172,7 +172,7 @@ Private Sub ComboBoxYear_Initialize()
     Dim sheetDate, currDate As Date
     Dim isThisYear As Boolean
     
-    sheetDate = Range("c6").Value
+    sheetDate = Range("c12").Value
     currDate = Now()
     
     If ((Year(currDate) - Year(sheetDate)) = 0) Then
