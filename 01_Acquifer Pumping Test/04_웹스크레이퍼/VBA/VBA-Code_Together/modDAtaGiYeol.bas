@@ -1,5 +1,3 @@
-Option Explicit
-
 Function data_SEOUL() As Variant
 
     Dim myArray() As Variant

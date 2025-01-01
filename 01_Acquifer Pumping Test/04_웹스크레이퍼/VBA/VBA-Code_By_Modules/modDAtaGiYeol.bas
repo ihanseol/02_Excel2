@@ -1,5 +1,4 @@
-Option Explicit
-
+Attribute VB_Name = "modDAtaGiYeol"
 Function data_SEOUL() As Variant
 
     Dim myArray() As Variant

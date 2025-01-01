@@ -28,7 +28,6 @@ End Sub
 
 Private Sub CommandButton_BackUP_Click()
     Call BackupData
-    Sheets("main").Activate
 End Sub
 
 Private Sub CommandButton_Clear30Year_Click()
