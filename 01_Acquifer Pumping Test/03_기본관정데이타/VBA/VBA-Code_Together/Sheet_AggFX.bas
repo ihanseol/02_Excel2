@@ -7,7 +7,14 @@ Private Sub CommandButton1_Click()
 End Sub
 
 Private Sub CommandButton2_Click()
-'Collect Data
+  'Collect Data
+    Dim fName As String
+    
+    fName = "A1_ge_OriginalSaveFile.xlsm"
+    If Not IsWorkBookOpen(fName) Then
+        MsgBox "YangSoo File Does not OPEN ... ! " & fName
+        Exit Sub
+    End If
     
     Call GetBaseDataFromYangSoo(999, False)
 End Sub

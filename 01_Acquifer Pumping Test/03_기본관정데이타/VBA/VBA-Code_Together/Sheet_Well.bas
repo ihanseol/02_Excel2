@@ -33,7 +33,11 @@ Private Sub CommandButton12_Click()
 End Sub
 
 Private Sub CommandButton13_Click()
+' 이것은, FX에서 양수일보 데이터를 가지고 오면,
+' 각각의 관정, 1, 2, 3 번 식으로
+' FX 에서 가지고 온다.
 ' Import All Well Spec
+
     Call ImportAll_EachWellSpec
 End Sub
 
@@ -89,8 +93,11 @@ End Sub
 
 
 
-'Aggregate2 Button
+
 Private Sub CommandButton5_Click()
+' Aggregate2 Button
+' 집계함수 2번
+
     Sheets("Aggregate2").Visible = True
     Sheets("Aggregate2").Select
 End Sub

@@ -18,24 +18,32 @@ Option Explicit
 
 Const WELL_BUFFER = 30
 
-
 Private Sub CommandButton1_Click()
     Sheets("AggSum").Visible = False
     Sheets("Well").Select
 End Sub
 
 
-
 ' Summary Button
 Private Sub CommandButton2_Click()
+   Call Summary_Button
+End Sub
+
+
+' 2025-2-12, CheckBoxClick √ﬂ∞°«ÿ¡‹ ...
+Private Sub CheckBox1_Click()
+  Application.Run "Sheet_AggSum.Summary_Button"
+End Sub
+
+
+' 2025-2-12, CheckBoxClick √ﬂ∞°«ÿ¡‹ ...
+Sub Summary_Button()
     Dim nofwell As Integer
     
     nofwell = GetNumberOfWell()
     If ActiveSheet.name <> "AggSum" Then Sheets("AggSum").Select
 
-
     ' Summary, Aquifer Characterization  Appropriated Water Analysis
-    
     BaseData_ETC_02.TurnOffStuff
     
     Call Write23_SummaryDevelopmentPotential
@@ -63,6 +71,5 @@ Private Sub CommandButton2_Click()
 
     Range("D5").Select
     BaseData_ETC_02.TurnOnStuff
-    
 End Sub
 

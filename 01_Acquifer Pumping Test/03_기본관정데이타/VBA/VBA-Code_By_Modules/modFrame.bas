@@ -2,7 +2,7 @@ Attribute VB_Name = "modFrame"
 
 
 Public Sub MakeFrameFromSelection()
-Attribute MakeFrameFromSelection.VB_ProcData.VB_Invoke_Func = "d\n14"
+Attribute MakeFrameFromSelection.VB_ProcData.VB_Invoke_Func = " \n14"
 ' e30:i43
 
     Dim result As Variant
