@@ -282,6 +282,7 @@ Public Sub getMotorPower()
     Dim motor_depth() As Variant
     Dim efficiency() As Variant
     Dim hp()        As Variant
+    Dim stable_height()        As Variant
     
     Set rc = getkey_tabcolors()
     r_ans = getans_tabcolors()
@@ -293,6 +294,7 @@ Public Sub getMotorPower()
     ReDim motor_depth(1 To nof_sheets)
     ReDim efficiency(1 To nof_sheets)
     ReDim hp(1 To nof_sheets)
+    ReDim stable_height(1 To nof_sheets)
     
     ip = lastRow() + 4
     ip2 = ip + 15
@@ -324,6 +326,7 @@ Public Sub getMotorPower()
         End If
         
         hp(i) = Range("c17").value
+        stable_height(i) = Range("c21").value
     Next i
     
     Sheet_Recharge.Activate
@@ -341,7 +344,7 @@ Public Sub getMotorPower()
     ' -----------------------------------
     
     For i = 1 To nof_sheets
-        Call insert_downform(pump_q(i), motor_depth(i), efficiency(i), title(i), ip2 + i - 1)
+        Call insert_downform(pump_q(i), motor_depth(i), efficiency(i), title(i), ip2 + i - 1, stable_height(i))
     Next i
     
     Call DecoLine(i, ip2)
@@ -350,11 +353,11 @@ Public Sub getMotorPower()
 End Sub
 
 
-Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, title As Variant, ByVal po As Integer)
+Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, title As Variant, ByVal po As Integer, ByVal stable_height As Variant)
     Dim tenper As Double
     Dim sum_simdo As Double
     
-    
+
     tenper = Round(motor_simdo / 10, 1)
     sum_simdo = motor_simdo + tenper
     
@@ -367,6 +370,12 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     Cells(po, "G").value = "-"
     Cells(po, "H").value = Round((pump_q * (motor_simdo + tenper)) / (6572.5 * (e / 100)), 4)
     Cells(po, "I").value = find_P2(Cells(po, "H").value)
+    
+    ' -----------------------------------
+    ' 2025-02-27
+    ' -----------------------------------
+    Cells(po, "J").value = stable_height
+    Cells(po, "J").NumberFormat = "0.00"
     
     
     Debug.Print "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
