@@ -18,6 +18,7 @@ Option Explicit
 
 Const WELL_BUFFER = 30
 
+
 Private Sub CommandButton1_Click()
     Sheets("AggSum").Visible = False
     Sheets("Well").Select
@@ -73,3 +74,7 @@ Sub Summary_Button()
     BaseData_ETC_02.TurnOnStuff
 End Sub
 
+
+Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+
+End Sub

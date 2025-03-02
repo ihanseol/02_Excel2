@@ -9,13 +9,11 @@ Const WELL_BUFFER = 30
 ' so always show the max, min value
 '********************************************************
 
-
 Public ROI_Max As Double
 Public ROI_Min As Double
-
 Public LONGAXIS_Max As Double
 Public LONGAXIS_Min As Double
-
+Public gbIsFirstTime  As Boolean
 
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
@@ -185,6 +183,7 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
     Set ws = ThisWorkbook.Sheets("AggSum")
     Set rng_ROI = ws.Range("E45:E74")
     Set rng_JANGCHOOK = ws.Range("F45:F74")
+    
         
     Values = GetRowColumn("AggSum_ROI")
     ip_Row = Values(2)
@@ -196,12 +195,22 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
     Call EraseCellData(rngString01)
     Call EraseCellData(rngString02)
         
+        
+    If gbIsFirstTime = False And Sheets("AggSum").CheckBox1.value = True Then
+        ROI_Max = Range("R48").value
+        ROI_Min = Range("R49").value
+        LONGAXIS_Max = Range("R51").value
+        LONGAXIS_Min = Range("R52").value
+        
+        gbIsFirstTime = True
+    End If
+        
+        
     If Sheets("AggSum").CheckBox1.value = True Then
             unit = " m"
         Else
             unit = ""
     End If
-
 
     For i = 1 To nofwell
         ' WellNum
