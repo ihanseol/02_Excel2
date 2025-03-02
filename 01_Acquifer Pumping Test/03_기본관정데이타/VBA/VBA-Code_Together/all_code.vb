@@ -10,6 +10,33 @@ Private Sub Workbook_SheetActivate(ByVal sh As Object)
 End Sub
 
 
+
+
+Private Sub CommandButton_boryung_Click()
+    Call importRainfall_button("BORYUNG")
+End Sub
+
+Private Sub CommandButton_buyeo_Click()
+    Call importRainfall_button("BUYEO")
+End Sub
+
+Private Sub CommandButton_cheonan_Click()
+    Call importRainfall_button("CHEONAN")
+End Sub
+
+Private Sub CommandButton_daejeon_Click()
+    Call importRainfall_button("DAEJEON")
+End Sub
+
+Private Sub CommandButton_seosan_Click()
+    Call importRainfall_button("SEOSAN")
+End Sub
+
+
+Private Sub CommandButton_Seoul_Click()
+     Call importRainfall_button("SEOUL")
+End Sub
+
 Private Sub CommandButton1_Click()
     Call importRainfall
 End Sub
@@ -17,9 +44,6 @@ End Sub
 Private Sub CommandButton2_Click()
     Range("b5:n34").ClearContents
 End Sub
-
-
-
 
 
 
@@ -1980,7 +2004,7 @@ Public Sub rows_and_column()
 End Sub
 
 Public Sub ShowNumberOfRowsInSheet1Selection()
-    Dim Area        As Range
+    Dim AREA        As Range
     
     ' Worksheets("Sheet1").Activate
     Dim selectedRange As Excel.Range
@@ -1995,9 +2019,9 @@ Public Sub ShowNumberOfRowsInSheet1Selection()
     Else
         Dim areaIndex As Long
         areaIndex = 1
-        For Each Area In Selection.Areas
+        For Each AREA In Selection.Areas
             MsgBox "Area " & areaIndex & " of the selection contains " & _
-                   Area.Rows.count & " rows." & " Selection 2 " & Selection.Areas(2).Rows.count & " rows."
+                   AREA.Rows.count & " rows." & " Selection 2 " & Selection.Areas(2).Rows.count & " rows."
             areaIndex = areaIndex + 1
         Next
     End If
@@ -13273,6 +13297,66 @@ Sub importRainfall()
     Range("B2").value = Range("T5").value & "기상청"
 End Sub
 
+'
+' 2025/03/02 충남지역 버튼 추가
+'
+'
+
+Sub importRainfall_button(ByVal AREA As String)
+    Dim myArray As Variant
+    Dim rng As Range
+
+    Dim indexString As String
+    indexString = "data_" & UCase(AREA)
+
+
+    Select Case UCase(AREA)
+        Case "SEJONG", "HONGSUNG"
+            Exit Sub
+            
+        Case "BORYUNG"
+            Range("S5").value = "충청도"
+            Range("T5").value = "보령"
+        
+        Case "DAEJEON"
+            Range("S5").value = "충청도"
+            Range("T5").value = "대전"
+        
+        Case "SEOSAN"
+            Range("S5").value = "충청도"
+            Range("T5").value = "서산"
+        
+        Case "BUYEO"
+            Range("S5").value = "충청도"
+            Range("T5").value = "부여"
+        
+        Case "CHEONAN"
+            Range("S5").value = "충청도"
+            Range("T5").value = "천안"
+        
+        Case "SEOUL"
+            Range("S5").value = "서울경기"
+            Range("T5").value = "서울"
+            
+    End Select
+
+
+
+    On Error Resume Next
+    myArray = Application.Run(indexString)
+    On Error GoTo 0
+
+    If Not IsArray(myArray) Then
+        MsgBox "An error occurred while fetching data.", vbExclamation
+        Exit Sub
+    End If
+
+    Set rng = ThisWorkbook.ActiveSheet.Range("B5:N34")
+    rng.value = myArray
+
+    Range("B2").value = Range("T5").value & "기상청"
+End Sub
+
 
 
 
@@ -13304,7 +13388,7 @@ End Function
 
 
 
-Sub ResetWeatherData(ByVal Area As String)
+Sub ResetWeatherData(ByVal AREA As String)
 
     Dim Province As String
     
@@ -13312,7 +13396,7 @@ Sub ResetWeatherData(ByVal Area As String)
 '    Range("S5") = "충청도"
 '    Range("T5") = "청주"
     
-    Province = GetProvince_Case(Area)
+    Province = GetProvince_Case(AREA)
 
     If CheckSubstring(Province, "Not in list") Then
         Popup_MessageBox (" Province is Not in list .... ")
@@ -13320,7 +13404,7 @@ Sub ResetWeatherData(ByVal Area As String)
     End If
 
     Range("S5") = Province
-    Range("T5") = Area
+    Range("T5") = AREA
     
     
     Popup_MessageBox ("Clear Contents")

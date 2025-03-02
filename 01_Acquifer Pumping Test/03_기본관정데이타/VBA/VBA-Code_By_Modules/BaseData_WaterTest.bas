@@ -9,7 +9,7 @@ Public Sub rows_and_column()
 End Sub
 
 Public Sub ShowNumberOfRowsInSheet1Selection()
-    Dim Area        As Range
+    Dim AREA        As Range
     
     ' Worksheets("Sheet1").Activate
     Dim selectedRange As Excel.Range
@@ -24,9 +24,9 @@ Public Sub ShowNumberOfRowsInSheet1Selection()
     Else
         Dim areaIndex As Long
         areaIndex = 1
-        For Each Area In Selection.Areas
+        For Each AREA In Selection.Areas
             MsgBox "Area " & areaIndex & " of the selection contains " & _
-                   Area.Rows.count & " rows." & " Selection 2 " & Selection.Areas(2).Rows.count & " rows."
+                   AREA.Rows.count & " rows." & " Selection 2 " & Selection.Areas(2).Rows.count & " rows."
             areaIndex = areaIndex + 1
         Next
     End If
