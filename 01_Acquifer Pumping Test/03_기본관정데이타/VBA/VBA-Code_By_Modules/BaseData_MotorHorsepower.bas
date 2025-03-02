@@ -377,7 +377,11 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     Cells(po, "J").value = stable_height
     Cells(po, "J").NumberFormat = "0.00"
     
-    
+    ' -----------------------------------
+    ' 2025-03-2
+    ' inject formula in a cell
+    ' -----------------------------------
+    Cells(po, "G").value = "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
     Debug.Print "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
 
 End Sub
