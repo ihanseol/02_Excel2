@@ -12599,6 +12599,20 @@ End Sub
 Const WELL_BUFFER = 30
 
 
+'********************************************************
+' 2025/3/2
+' in case of add unit, then max min value disappear
+' so always show the max, min value
+'********************************************************
+
+
+Public ROI_Max As Double
+Public ROI_Min As Double
+
+Public LONGAXIS_Max As Double
+Public LONGAXIS_Min As Double
+
+
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
     
@@ -12760,6 +12774,13 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString01, rngString02 As String
     Dim Values As Variant
+    
+    Dim ws As Worksheet
+    Dim rng As Range
+        
+    Set ws = ThisWorkbook.Sheets("AggSum")
+    Set rng_ROI = ws.Range("E45:E74")
+    Set rng_JANGCHOOK = ws.Range("F45:F74")
         
     Values = GetRowColumn("AggSum_ROI")
     ip_Row = Values(2)
@@ -12802,9 +12823,26 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
                 Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "d"), Cells(ip_Row - 1 + i, "j")), False)
                 Call BackGroundFill(Range(Cells(ip_Row - 1 + i, "m"), Cells(ip_Row - 1 + i, "o")), False)
         End If
-        
-        
     Next i
+    
+    If Sheets("AggSum").CheckBox1.value = True Then
+        Range("R48").value = ROI_Max
+        Range("R49").value = ROI_Min
+        Range("R51").value = LONGAXIS_Max
+        Range("R52").value = LONGAXIS_Min
+    Else
+        ROI_Max = Application.WorksheetFunction.max(rng_ROI)
+        ROI_Min = Application.WorksheetFunction.min(rng_ROI)
+        LONGAXIS_Max = Application.WorksheetFunction.max(rng_JANGCHOOK)
+        LONGAXIS_Min = Application.WorksheetFunction.min(rng_JANGCHOOK)
+                
+        Range("R48").value = ROI_Max
+        Range("R49").value = ROI_Min
+        Range("R51").value = LONGAXIS_Max
+        Range("R52").value = LONGAXIS_Min
+    End If
+    
+    
 End Sub
 
 
