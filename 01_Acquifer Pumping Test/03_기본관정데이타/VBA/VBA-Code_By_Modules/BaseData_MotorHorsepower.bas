@@ -348,10 +348,32 @@ Public Sub getMotorPower()
     Next i
     
     Call DecoLine(i, ip2)
+    Call Range_AlignLeft(Range("G54:G94"))
+    
     
     Application.ScreenUpdating = True
 End Sub
 
+
+' -----------------------------------
+' 2025-03-03
+' -----------------------------------
+Sub Range_AlignLeft(ByVal rng As Range)
+ rng.Select
+ With Selection
+        .HorizontalAlignment = xlLeft
+        .VerticalAlignment = xlCenter
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    
+    Range("G38").Select
+End Sub
 
 Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, title As Variant, ByVal po As Integer, ByVal stable_height As Variant)
     Dim tenper As Double
@@ -382,9 +404,12 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     ' inject formula in a cell
     ' -----------------------------------
     Cells(po, "G").value = "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
+
     Debug.Print "{ " & pump_q & " TIMES " & sum_simdo & " } over { " & "6,572.5" & " TIMES " & (e / 100) & " }"
 
 End Sub
+
+
 
 
 Function find_P2(ByVal num As Double) As Double
