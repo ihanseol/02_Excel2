@@ -24,8 +24,16 @@ Private Sub CommandButton_cheonan_Click()
     Call importRainfall_button("CHEONAN")
 End Sub
 
+Private Sub CommandButton_cheongju_Click()
+    Call importRainfall_button("CHEONGJU")
+End Sub
+
 Private Sub CommandButton_daejeon_Click()
     Call importRainfall_button("DAEJEON")
+End Sub
+
+Private Sub CommandButton_geumsan_Click()
+   Call importRainfall_button("GEUMSAN")
 End Sub
 
 Private Sub CommandButton_seosan_Click()
@@ -13382,6 +13390,15 @@ Sub importRainfall_button(ByVal AREA As String)
         Case "CHEONAN"
             Range("S5").value = "충청도"
             Range("T5").value = "천안"
+        
+        Case "CHEONGJU"
+            Range("S5").value = "충청도"
+            Range("T5").value = "청주"
+        
+        Case "GEUMSAN"
+            Range("S5").value = "충청도"
+            Range("T5").value = "금산"
+             
         
         Case "SEOUL"
             Range("S5").value = "서울경기"

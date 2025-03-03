@@ -341,6 +341,15 @@ Sub importRainfall_button(ByVal AREA As String)
             Range("S5").value = "충청도"
             Range("T5").value = "천안"
         
+        Case "CHEONGJU"
+            Range("S5").value = "충청도"
+            Range("T5").value = "청주"
+        
+        Case "GEUMSAN"
+            Range("S5").value = "충청도"
+            Range("T5").value = "금산"
+             
+        
         Case "SEOUL"
             Range("S5").value = "서울경기"
             Range("T5").value = "서울"
