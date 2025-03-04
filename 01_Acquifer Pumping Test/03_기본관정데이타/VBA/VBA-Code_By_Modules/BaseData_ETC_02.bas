@@ -125,6 +125,16 @@ Public Function getUnique(ByRef array_tabcolor As Variant) As Variant
     getUnique = new_array
 End Function
 
+
+'
+' 2024,3,4 Convert to Double
+' for Summary Tab
+
+Function ConvertToDouble(inputString As String) As Double
+    ConvertToDouble = CDbl(Replace(inputString, " m", ""))
+End Function
+
+
 Function ConvertToLongInteger(ByVal stValue As String) As Long
     On Error GoTo ConversionFailureHandler
     ConvertToLongInteger = CLng(stValue)        'TRY to convert to an Integer value

@@ -2687,6 +2687,16 @@ Public Function getUnique(ByRef array_tabcolor As Variant) As Variant
     getUnique = new_array
 End Function
 
+
+'
+' 2024,3,4 Convert to Double
+' for Summary Tab
+
+Function ConvertToDouble(inputString As String) As Double
+    ConvertToDouble = CDbl(Replace(inputString, " m", ""))
+End Function
+
+
 Function ConvertToLongInteger(ByVal stValue As String) As Long
     On Error GoTo ConversionFailureHandler
     ConvertToLongInteger = CLng(stValue)        'TRY to convert to an Integer value
@@ -12975,13 +12985,46 @@ Sub Write_MotorPower(nofwell As Integer)
     Write_Data nofwell, "AggSum_MotorHP", "drastic", "C17", " Hp"
 End Sub
 
+
+
+' 2024,3,4 자연수위
+' 자연수위, 안정수위 최대값 최소값은 FX 에서 가지고 온다.
+
 Sub Write_NaturalLevel(nofwell As Integer)
+
+    Dim ip_Row As Integer
+    Dim Values As Variant
+    
+
+    Values = GetRowColumn("AggSum_NaturalLevel")
+    ip_Row = Values(2)
+
+
     Write_Data nofwell, "AggSum_NaturalLevel", "drastic", "C20", " m"
+    
+    
+    Cells(ip_Row - 1, "E").value = Application.WorksheetFunction.max(Sheets("YangSoo").Range("B5:B37"))
+    Cells(ip_Row - 1, "F").value = Application.WorksheetFunction.min(Sheets("YangSoo").Range("B5:B37"))
+    
+    ' Debug.Print "Range(""D99"").value :", "", ConvertToDouble(Range("D99").value), ""
 End Sub
 
+' 2024,3,4 안정수위
+' 자연수위, 안정수위 최대값 최소값은 FX 에서 가지고 온다.
+
 Sub Write_StableLevel(nofwell As Integer)
+    Dim ip_Row As Integer
+    Dim Values As Variant
+    
+    Values = GetRowColumn("AggSum_StableLevel")
+    ip_Row = Values(2)
+
     Write_Data nofwell, "AggSum_StableLevel", "drastic", "C21", " m"
+    
+    Cells(ip_Row - 1, "E").value = Application.WorksheetFunction.max(Sheets("YangSoo").Range("C5:C37"))
+    Cells(ip_Row - 1, "F").value = Application.WorksheetFunction.min(Sheets("YangSoo").Range("C5:C37"))
 End Sub
+
 
 Sub Write_MotorTochool(nofwell As Integer)
     Write_Data nofwell, "AggSum_ToChool", "drastic", "C19", " mm"
