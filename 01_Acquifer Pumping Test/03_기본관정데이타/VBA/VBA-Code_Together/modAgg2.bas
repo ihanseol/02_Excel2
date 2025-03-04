@@ -167,8 +167,8 @@ End Sub
 ' WriteData34_skinfactor
 Private Sub GROK_WriteSkinFactor(wellIndex As Integer, params As WellParameters, _
                            isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_34_skinfactor")
-    Dim baseRow As Long: baseRow = Values(2)
+    Dim values As Variant: values = GetRowColumn("agg2_34_skinfactor")
+    Dim baseRow As Long: baseRow = values(2)
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
     If isSingleImport Then
@@ -194,8 +194,8 @@ End Sub
 ' WriteData38_ROI result
 Private Sub GROK_WriteRoiResult(wellIndex As Integer, params As WellParameters, _
                            isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_38_roi_result")
-    Dim baseRow As Long: baseRow = Values(2)
+    Dim values As Variant: values = GetRowColumn("agg2_38_roi_result")
+    Dim baseRow As Long: baseRow = values(2)
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
     If isSingleImport Then
@@ -241,8 +241,8 @@ End Sub
 ' Write radius of influence (Section 3-7)
 Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellParameters, _
                                   isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_37_roi")
-    Dim startRow As Long: startRow = Values(2)
+    Dim values As Variant: values = GetRowColumn("agg2_37_roi")
+    Dim startRow As Long: startRow = values(2)
     Dim col As Long: col = 3 + wellIndex
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
@@ -277,8 +277,8 @@ End Sub
 ' Write TS analysis (Section 3-6)
 Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters, _
                            isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_36_surisangsoo")
-    Dim baseRow As Long: baseRow = Values(2) + (wellIndex - 1) * 3
+    Dim values As Variant: values = GetRowColumn("agg2_36_surisangsoo")
+    Dim baseRow As Long: baseRow = values(2) + (wellIndex - 1) * 3
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
     If isSingleImport Then

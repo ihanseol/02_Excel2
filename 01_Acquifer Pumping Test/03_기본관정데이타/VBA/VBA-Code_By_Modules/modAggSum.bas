@@ -65,10 +65,10 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_26_AC")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_26_AC")
+    ip_Row = values(2)
     'ip_row = "12" 로 String
     
     rngString = "D" & ip_Row & ":K" & (CInt(ip_Row) + WELL_BUFFER - 1)
@@ -120,10 +120,10 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_26_RightAC")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_26_RightAC")
+    ip_Row = values(2)
     
     rngString = "L" & ip_Row & ":S" & (ip_Row + WELL_BUFFER - 1)
     
@@ -175,7 +175,7 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
 ' 양수영향반경
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString01, rngString02 As String
-    Dim Values As Variant
+    Dim values As Variant
     
     Dim ws As Worksheet
     Dim rng As Range
@@ -185,8 +185,8 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
     Set rng_JANGCHOOK = ws.Range("F45:F74")
     
         
-    Values = GetRowColumn("AggSum_ROI")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_ROI")
+    ip_Row = values(2)
     
     rngString01 = "D" & ip_Row & ":G" & (ip_Row + WELL_BUFFER - 1)
     rngString02 = "M" & ip_Row & ":O" & (ip_Row + WELL_BUFFER - 1)
@@ -263,12 +263,12 @@ Sub Write_DrasticIndex(nofwell As Integer)
 ' 드라스틱 인덱스
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_DI")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_DI")
+    ip_Row = values(2)
     
-    rngString = "I" & Values(2) & ":K" & (Values(2) + WELL_BUFFER - 1)
+    rngString = "I" & values(2) & ":K" & (values(2) + WELL_BUFFER - 1)
     Call EraseCellData(rngString)
     
     For i = 1 To nofwell
@@ -308,16 +308,16 @@ Sub Write_Data(nofwell As Integer, category As String, sheetName As String, rang
     ' Generalized subroutine to write data based on the category
     Dim i, ip_Row As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
+    Dim values As Variant
+    Dim startCol, endCol As String
 
-    Values = GetRowColumn(category)
-    ip_Row = Values(2)
+    values = GetRowColumn(category)
+    ip_Row = values(2)
 
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
+    startCol = values(1)
+    endCol = ColumnNumberToLetter(ColumnLetterToNumber(startCol) + WELL_BUFFER - 1)
 
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
+    rngString = startCol & ip_Row & ":" & endCol & (ip_Row + 1)
     Call EraseCellData(rngString)
 
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -352,11 +352,11 @@ End Sub
 Sub Write_NaturalLevel(nofwell As Integer)
 
     Dim ip_Row As Integer
-    Dim Values As Variant
+    Dim values As Variant
     
 
-    Values = GetRowColumn("AggSum_NaturalLevel")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_NaturalLevel")
+    ip_Row = values(2)
 
 
     Write_Data nofwell, "AggSum_NaturalLevel", "drastic", "C20", " m"
@@ -373,10 +373,10 @@ End Sub
 
 Sub Write_StableLevel(nofwell As Integer)
     Dim ip_Row As Integer
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_StableLevel")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_StableLevel")
+    ip_Row = values(2)
 
     Write_Data nofwell, "AggSum_StableLevel", "drastic", "C21", " m"
     
@@ -431,12 +431,12 @@ Sub Check_DI()
 
     Dim i, ip_Row, ip_Column As Integer
     Dim unit, rngString01 As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_Statistic_DrasticIndex")
+    values = GetRowColumn("AggSum_Statistic_DrasticIndex")
     
-    ip_Column = ColumnLetterToNumber(Values(1))
-    ip_Row = Values(2)
+    ip_Column = ColumnLetterToNumber(values(1))
+    ip_Row = values(2)
     
     Range(ColumnNumberToLetter(ip_Column + 1) & ip_Row).value = CheckDrasticIndex(Range(ColumnNumberToLetter(ip_Column) & ip_Row))
     Range(ColumnNumberToLetter(ip_Column + 1) & (ip_Row + 1)).value = CheckDrasticIndex(Range(ColumnNumberToLetter(ip_Column) & (ip_Row + 1)))

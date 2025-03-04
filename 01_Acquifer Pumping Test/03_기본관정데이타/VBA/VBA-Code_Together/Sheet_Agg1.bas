@@ -13,14 +13,11 @@ End Sub
 
 
 ' Agg1_Tentative_Water_Intake : 적정취수량의 계산
-
-
-
+'
 Private Sub CommandButton2_Click()
 ' Collect Data
 
-Call AggregateOne_Import(999, False)
-
+  Call modAgg1.ImportAggregateData(999, False)
 End Sub
 
 

@@ -427,7 +427,7 @@ Sub FormulaChwiSoo(FileNum As Integer)
     Dim formula As String
     Dim nofwell As String
     Dim i As Integer
-    Dim q1, S1, S2, res As Double
+    Dim Q1, S1, S2, res As Double
     
     nofwell = GetNumberOfWell()
     Sheets("YangSoo").Select
@@ -442,7 +442,7 @@ Sub FormulaChwiSoo(FileNum As Integer)
     Print #FileNum, "************************************************************************************************************************************************************************************************"
     
     For i = 1 To nofwell
-        q1 = Cells(4 + i, "ac").value
+        Q1 = Cells(4 + i, "ac").value
  
         S1 = format(Cells(4 + i, "ad").value, "0.00")
         S2 = format(Cells(4 + i, "ae").value, "0.00")
@@ -451,7 +451,7 @@ Sub FormulaChwiSoo(FileNum As Integer)
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
         
-        formula = "W-" & i & "호공~~Q_{& 2} = " & q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
+        formula = "W-" & i & "호공~~Q_{& 2} = " & Q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
         
         Debug.Print formula
         Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"

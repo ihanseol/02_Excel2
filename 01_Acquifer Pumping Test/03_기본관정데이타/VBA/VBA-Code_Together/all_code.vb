@@ -3345,14 +3345,11 @@ End Sub
 
 
 ' Agg1_Tentative_Water_Intake : 적정취수량의 계산
-
-
-
+'
 Private Sub CommandButton2_Click()
 ' Collect Data
 
-Call AggregateOne_Import(999, False)
-
+  Call modAgg1.ImportAggregateData(999, False)
 End Sub
 
 
@@ -11699,7 +11696,7 @@ Sub FormulaChwiSoo(FileNum As Integer)
     Dim formula As String
     Dim nofwell As String
     Dim i As Integer
-    Dim q1, S1, S2, res As Double
+    Dim Q1, S1, S2, res As Double
     
     nofwell = GetNumberOfWell()
     Sheets("YangSoo").Select
@@ -11714,7 +11711,7 @@ Sub FormulaChwiSoo(FileNum As Integer)
     Print #FileNum, "************************************************************************************************************************************************************************************************"
     
     For i = 1 To nofwell
-        q1 = Cells(4 + i, "ac").value
+        Q1 = Cells(4 + i, "ac").value
  
         S1 = format(Cells(4 + i, "ad").value, "0.00")
         S2 = format(Cells(4 + i, "ae").value, "0.00")
@@ -11723,7 +11720,7 @@ Sub FormulaChwiSoo(FileNum As Integer)
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
         'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
         
-        formula = "W-" & i & "호공~~Q_{& 2} = " & q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
+        formula = "W-" & i & "호공~~Q_{& 2} = " & Q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
         
         Debug.Print formula
         Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -11817,142 +11814,6 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
 End Sub
 
 
-
-
-Sub AggregateOne_Import(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
-' isSingleWellImport = True ---> SingleWell Import
-' isSingleWellImport = False ---> AllWell Import
-        
-    Dim fName As String
-    Dim nofwell, i As Integer
-    Dim q1, qq1, q2, q3, ratio, C, B, S1, S2 As Double
-    Dim wsYangSoo As Worksheet
-    
-    nofwell = GetNumberOfWell()
-    Sheets("Aggregate1").Select
-    
-    Set wsYangSoo = Worksheets("YangSoo")
-    
-    
-    If Not isSingleWellImport Then
-        Call EraseCellData("G3:K35")
-        Call EraseCellData("Q3:S35")
-        Call EraseCellData("F43:I102")
-    End If
-    
-    
-    For i = 1 To nofwell
-
-        If Not isSingleWellImport Or (isSingleWellImport And i = singleWell) Then
-            GoTo SINGLE_ITERATION
-        Else
-            GoTo NEXT_ITERATION
-        End If
-        
-SINGLE_ITERATION:
-
-        q1 = wsYangSoo.Cells(4 + i, "aa").value
-        qq1 = wsYangSoo.Cells(4 + i, "ac").value
-        
-        q2 = wsYangSoo.Cells(4 + i, "ab").value
-        q3 = wsYangSoo.Cells(4 + i, "k").value
-        
-        ratio = wsYangSoo.Cells(4 + i, "ah").value
-        
-        S1 = wsYangSoo.Cells(4 + i, "ad").value
-        S2 = wsYangSoo.Cells(4 + i, "ae").value
-        
-        C = wsYangSoo.Cells(4 + i, "af").value
-        B = wsYangSoo.Cells(4 + i, "ag").value
-        
-        
-        TurnOffStuff
-        
-        Call WriteWellData36_Single(q1, q2, q3, ratio, C, B, i, isSingleWellImport)
-        Call Write_Tentative_water_intake_Single(qq1, S2, S1, q2, i, isSingleWellImport)
-        
-        TurnOnStuff
-        
-NEXT_ITERATION:
-        
-    Next i
-
-    Application.CutCopyMode = False
-    Range("L1").Select
-    
-End Sub
-
-
-
-'3-6, 조사공의 적정취수량및 취수계획량
-Sub WriteWellData36_Single(q1 As Variant, q2 As Variant, q3 As Variant, ratio As Variant, C As Variant, B As Variant, ByVal i As Integer, isSingleWellImport)
-    
-    Dim remainder As Integer
-        
-    If isSingleWellImport Then
-        Call EraseCellData("G" & (i + 2) & ":K" & (i + 2))
-        Call EraseCellData("Q" & (i + 2) & ":S" & (i + 2))
-    End If
-        
-    Range("G" & (i + 2)).value = "W-" & i
-    Range("H" & (i + 2)).value = q1
-    Range("I" & (i + 2)).value = q2
-    Range("J" & (i + 2)).value = q3
-    Range("K" & (i + 2)).value = ratio
-    
-    Range("Q" & (i + 2)).value = "W-" & i
-    Range("R" & (i + 2)).value = C
-    Range("S" & (i + 2)).value = B
-    
-    remainder = i Mod 2
-    If remainder = 0 Then
-            Call BackGroundFill(Range(Cells(i + 2, "G"), Cells(i + 2, "K")), True)
-            Call BackGroundFill(Range(Cells(i + 2, "Q"), Cells(i + 2, "S")), True)
-    Else
-            Call BackGroundFill(Range(Cells(i + 2, "G"), Cells(i + 2, "K")), False)
-            Call BackGroundFill(Range(Cells(i + 2, "Q"), Cells(i + 2, "S")), False)
-    End If
-
-End Sub
-
-
-
-
-'적정취수량의 계산
-Sub Write_Tentative_water_intake_Single(q1 As Variant, S2 As Variant, S1 As Variant, q2 As Variant, i As Variant, isSingleWellImport)
-    
-'****************************************
-' ip = 43
-'****************************************
-' Call EraseCellData("F43:I102")
-
-    
-    Dim ip, remainder As Variant
-    Dim Values As Variant
-    
-    Values = GetRowColumn("Agg1_Tentative_Water_Intake")
-    ip = Values(2)
-    
-    'Call EraseCellData("F" & ip & ":I" & (ip + nofwell - 1))
-    If isSingleWellImport Then
-        Call EraseCellData("F" & (ip + i - 1) & ":I" & (ip + (i - 1) * 2 + 1))
-    End If
-    
-    Cells((ip + 0) + (i - 1) * 2, "F").value = "W-" & CStr(i)
-    Cells((ip + 0) + (i - 1) * 2, "G").value = q1
-    Cells((ip + 0) + (i - 1) * 2, "H").value = S2
-    Cells((ip + 1) + (i - 1) * 2, "H").value = S1
-    Cells((ip + 0) + (i - 1) * 2, "I").value = q2
-    
-    
-    remainder = i Mod 2
-    If remainder = 0 Then
-            Call BackGroundFill(Range(Cells((ip + 0) + (i - 1) * 2, "F"), Cells((ip + 0) + (i - 1) * 2 + 1, "I")), True)
-    Else
-            Call BackGroundFill(Range(Cells((ip + 0) + (i - 1) * 2, "F"), Cells((ip + 0) + (i - 1) * 2 + 1, "I")), False)
-    End If
-    
-End Sub
 
 
 Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
@@ -12315,10 +12176,10 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_26_AC")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_26_AC")
+    ip_Row = values(2)
     'ip_row = "12" 로 String
     
     rngString = "D" & ip_Row & ":K" & (CInt(ip_Row) + WELL_BUFFER - 1)
@@ -12370,10 +12231,10 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
 ' 대수층 분석및 적정채수량 분석
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_26_RightAC")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_26_RightAC")
+    ip_Row = values(2)
     
     rngString = "L" & ip_Row & ":S" & (ip_Row + WELL_BUFFER - 1)
     
@@ -12425,7 +12286,7 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
 ' 양수영향반경
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString01, rngString02 As String
-    Dim Values As Variant
+    Dim values As Variant
     
     Dim ws As Worksheet
     Dim rng As Range
@@ -12435,8 +12296,8 @@ Sub Write_RadiusOfInfluence(nofwell As Integer)
     Set rng_JANGCHOOK = ws.Range("F45:F74")
     
         
-    Values = GetRowColumn("AggSum_ROI")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_ROI")
+    ip_Row = values(2)
     
     rngString01 = "D" & ip_Row & ":G" & (ip_Row + WELL_BUFFER - 1)
     rngString02 = "M" & ip_Row & ":O" & (ip_Row + WELL_BUFFER - 1)
@@ -12513,12 +12374,12 @@ Sub Write_DrasticIndex(nofwell As Integer)
 ' 드라스틱 인덱스
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_DI")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_DI")
+    ip_Row = values(2)
     
-    rngString = "I" & Values(2) & ":K" & (Values(2) + WELL_BUFFER - 1)
+    rngString = "I" & values(2) & ":K" & (values(2) + WELL_BUFFER - 1)
     Call EraseCellData(rngString)
     
     For i = 1 To nofwell
@@ -12558,16 +12419,16 @@ Sub Write_Data(nofwell As Integer, category As String, sheetName As String, rang
     ' Generalized subroutine to write data based on the category
     Dim i, ip_Row As Integer
     Dim unit, rngString As String
-    Dim Values As Variant
-    Dim StartCol, EndCol As String
+    Dim values As Variant
+    Dim startCol, endCol As String
 
-    Values = GetRowColumn(category)
-    ip_Row = Values(2)
+    values = GetRowColumn(category)
+    ip_Row = values(2)
 
-    StartCol = Values(1)
-    EndCol = ColumnNumberToLetter(ColumnLetterToNumber(StartCol) + WELL_BUFFER - 1)
+    startCol = values(1)
+    endCol = ColumnNumberToLetter(ColumnLetterToNumber(startCol) + WELL_BUFFER - 1)
 
-    rngString = StartCol & ip_Row & ":" & EndCol & (ip_Row + 1)
+    rngString = startCol & ip_Row & ":" & endCol & (ip_Row + 1)
     Call EraseCellData(rngString)
 
     If Sheets("AggSum").CheckBox1.value = True Then
@@ -12602,11 +12463,11 @@ End Sub
 Sub Write_NaturalLevel(nofwell As Integer)
 
     Dim ip_Row As Integer
-    Dim Values As Variant
+    Dim values As Variant
     
 
-    Values = GetRowColumn("AggSum_NaturalLevel")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_NaturalLevel")
+    ip_Row = values(2)
 
 
     Write_Data nofwell, "AggSum_NaturalLevel", "drastic", "C20", " m"
@@ -12623,10 +12484,10 @@ End Sub
 
 Sub Write_StableLevel(nofwell As Integer)
     Dim ip_Row As Integer
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_StableLevel")
-    ip_Row = Values(2)
+    values = GetRowColumn("AggSum_StableLevel")
+    ip_Row = values(2)
 
     Write_Data nofwell, "AggSum_StableLevel", "drastic", "C21", " m"
     
@@ -12681,12 +12542,12 @@ Sub Check_DI()
 
     Dim i, ip_Row, ip_Column As Integer
     Dim unit, rngString01 As String
-    Dim Values As Variant
+    Dim values As Variant
     
-    Values = GetRowColumn("AggSum_Statistic_DrasticIndex")
+    values = GetRowColumn("AggSum_Statistic_DrasticIndex")
     
-    ip_Column = ColumnLetterToNumber(Values(1))
-    ip_Row = Values(2)
+    ip_Column = ColumnLetterToNumber(values(1))
+    ip_Row = values(2)
     
     Range(ColumnNumberToLetter(ip_Column + 1) & ip_Row).value = CheckDrasticIndex(Range(ColumnNumberToLetter(ip_Column) & ip_Row))
     Range(ColumnNumberToLetter(ip_Column + 1) & (ip_Row + 1)).value = CheckDrasticIndex(Range(ColumnNumberToLetter(ip_Column) & (ip_Row + 1)))
@@ -14435,8 +14296,8 @@ End Sub
 ' WriteData34_skinfactor
 Private Sub GROK_WriteSkinFactor(wellIndex As Integer, params As WellParameters, _
                            isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_34_skinfactor")
-    Dim baseRow As Long: baseRow = Values(2)
+    Dim values As Variant: values = GetRowColumn("agg2_34_skinfactor")
+    Dim baseRow As Long: baseRow = values(2)
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
     If isSingleImport Then
@@ -14462,8 +14323,8 @@ End Sub
 ' WriteData38_ROI result
 Private Sub GROK_WriteRoiResult(wellIndex As Integer, params As WellParameters, _
                            isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_38_roi_result")
-    Dim baseRow As Long: baseRow = Values(2)
+    Dim values As Variant: values = GetRowColumn("agg2_38_roi_result")
+    Dim baseRow As Long: baseRow = values(2)
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
     If isSingleImport Then
@@ -14509,8 +14370,8 @@ End Sub
 ' Write radius of influence (Section 3-7)
 Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellParameters, _
                                   isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_37_roi")
-    Dim startRow As Long: startRow = Values(2)
+    Dim values As Variant: values = GetRowColumn("agg2_37_roi")
+    Dim startRow As Long: startRow = values(2)
     Dim col As Long: col = 3 + wellIndex
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
@@ -14545,8 +14406,8 @@ End Sub
 ' Write TS analysis (Section 3-6)
 Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters, _
                            isSingleImport As Boolean)
-    Dim Values As Variant: Values = GetRowColumn("agg2_36_surisangsoo")
-    Dim baseRow As Long: baseRow = Values(2) + (wellIndex - 1) * 3
+    Dim values As Variant: values = GetRowColumn("agg2_36_surisangsoo")
+    Dim baseRow As Long: baseRow = values(2) + (wellIndex - 1) * 3
     Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
 
     If isSingleImport Then
@@ -14595,5 +14456,181 @@ End Sub
 ' Helper sub to apply background fill
 Private Sub ApplyBackgroundFill(rng As Range, isEven As Boolean)
     BackGroundFill rng, isEven
+End Sub
+
+'
+' 2025/3/4, Aggregate1 Refactoring
+'
+
+' Type definition for WellDataForAggregate1
+'
+Private Type WellDataForAggOne
+    Q1 As Double
+    QQ1 As Double
+    Q2 As Double
+    Q3 As Double
+    Ratio As Double
+    
+    S1 As Double
+    S2 As Double
+    
+    C As Double
+    B As Double
+End Type
+
+' Get well parameters from YangSoo sheet
+Private Function GetWellData(wellIndex As Integer) As WellDataForAggOne
+    Dim params As WellDataForAggOne
+    Dim ws As Worksheet
+    Dim row As Long: row = 4 + wellIndex
+    
+    
+    Set ws = Worksheets("YangSoo")
+
+    With params
+        .Q1 = ws.Cells(row, "aa").value
+        .QQ1 = ws.Cells(row, "ac").value
+        
+        .Q2 = ws.Cells(row, "ab").value
+        .Q3 = ws.Cells(row, "k").value
+        
+        .Ratio = ws.Cells(row, "ah").value
+        
+        .S1 = ws.Cells(row, "ad").value
+        .S2 = ws.Cells(row, "ae").value
+        
+        .C = ws.Cells(row, "af").value
+        .B = ws.Cells(row, "ag").value
+    End With
+
+    GetWellData = params
+End Function
+
+
+Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As Boolean)
+    ' Handles both single well and all wells import operations
+    ' isSingleWellMode = True: Imports data for specified well only
+    ' isSingleWellMode = False: Imports data for all wells
+
+    Dim wellCount As Integer
+    Dim wellIndex As Integer
+    Dim wd As WellDataForAggOne
+    
+
+    ' Initialize core variables
+    wellCount = GetNumberOfWell()
+    
+    Sheets("Aggregate1").Activate
+
+    ' Clear data ranges if importing all wells
+    If Not isSingleWellMode Then
+        ClearRange "G3:K35"
+        ClearRange "Q3:S35"
+        ClearRange "F43:I102"
+    End If
+
+    ' Process each well
+    For wellIndex = 1 To wellCount
+        If ShouldProcessWell(wellIndex, targetWell, isSingleWellMode) Then
+            ' Fetch well data from YangSoo worksheet
+           
+            wd = GetWellData(wellIndex)
+            
+            ' Process data with optimizations disabled
+            TurnOffStuff
+            
+            Call WriteWellSummary(wd, wellIndex, isSingleWellMode)
+            Call WriteWaterIntake(wd, wellIndex, isSingleWellMode)
+            
+            TurnOnStuff
+        End If
+    Next wellIndex
+
+    ' Clean up
+    Application.CutCopyMode = False
+    Range("L1").Select
+End Sub
+
+Private Sub WriteWellSummary(wd As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+    ' Writes well summary data to G:K and Q:S ranges
+
+    Dim rowNumber As Integer
+    Dim i As Integer
+    Dim wellLabel As String
+
+    rowNumber = wellIndex + 2
+    wellLabel = "W-" & wellIndex
+
+    ' Clear specific row if in single well mode
+    If isSingleWellMode Then
+        ClearRange "G" & rowNumber & ":K" & rowNumber
+        ClearRange "Q" & rowNumber & ":S" & rowNumber
+    End If
+    
+    i = wellIndex
+
+    ' Write data to summary columns (G:K)
+    Range("G" & (i + 2)).value = "W-" & i
+    Range("H" & (i + 2)).value = wd.Q1
+    Range("I" & (i + 2)).value = wd.Q2
+    Range("J" & (i + 2)).value = wd.Q3
+    Range("K" & (i + 2)).value = wd.Ratio
+
+    Range("Q" & (i + 2)).value = "W-" & i
+    Range("R" & (i + 2)).value = wd.C
+    Range("S" & (i + 2)).value = wd.B
+    
+    
+    ' Apply background formatting
+    ApplyBackgroundFormatting rowNumber, "G", "K", wellIndex
+    ApplyBackgroundFormatting rowNumber, "Q", "S", wellIndex
+End Sub
+
+Private Sub WriteWaterIntake(wd As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+    ' Calculates and writes tentative water intake data starting at row 43
+
+    Dim startRow As Integer
+    Dim baseRow As Integer
+    Dim values As Variant
+
+    ' Get starting row from configuration
+    values = GetRowColumn("Agg1_Tentative_Water_Intake")
+    startRow = values(2)
+    baseRow = startRow + (wellIndex - 1) * 2
+
+    ' Clear specific rows if in single well mode
+    If isSingleWellMode Then
+        ClearRange "F" & baseRow & ":I" & (baseRow + 1)
+    End If
+
+    ' Write water intake data
+    Cells(baseRow, "F").value = "W-" & CStr(wellIndex)
+    Cells(baseRow, "G").value = wd.Q1
+    Cells(baseRow, "H").value = wd.S2
+    Cells(baseRow + 1, "H").value = wd.S1
+    Cells(baseRow, "I").value = wd.Q2
+
+    ' Apply background formatting
+    ApplyBackgroundFormatting baseRow, "F", "I", wellIndex, 2
+End Sub
+
+Private Function ShouldProcessWell(ByVal currentIndex As Integer, ByVal targetWell As Integer, _
+                                 ByVal isSingleWellMode As Boolean) As Boolean
+    ' Determines if a well should be processed based on import mode
+    ShouldProcessWell = Not isSingleWellMode Or (isSingleWellMode And currentIndex = targetWell)
+End Function
+
+Private Sub ApplyBackgroundFormatting(ByVal startRow As Integer, ByVal startCol As String, _
+                                    ByVal endCol As String, ByVal wellIndex As Integer, _
+                                    Optional ByVal rowSpan As Integer = 1)
+    ' Applies alternating background colors to specified range
+    Dim targetRange As Range
+    Set targetRange = Range(Cells(startRow, startCol), Cells(startRow + rowSpan - 1, endCol))
+    BackGroundFill targetRange, (wellIndex Mod 2 = 0)
+End Sub
+
+Private Sub ClearRange(ByVal rangeAddress As String)
+    ' Clears content in specified range
+    Range(rangeAddress).ClearContents
 End Sub
 
