@@ -1,8 +1,8 @@
 Sub ImportEachWell(ByVal well_no As Integer)
     ' well_no -- well number
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    Dim nl, sl, deltas As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
     Dim wsYangSoo As Worksheet
 
@@ -16,7 +16,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     BaseData_ETC_02.TurnOffStuff
     
     ' Read data from the worksheet
-    deltas = wsYangSoo.Cells(4 + i, "L").value
+    DeltaS = wsYangSoo.Cells(4 + i, "L").value
     nl = wsYangSoo.Cells(4 + i, "B").value
     sl = wsYangSoo.Cells(4 + i, "C").value
     casing = wsYangSoo.Cells(4 + i, "J").value
@@ -25,7 +25,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     T2 = wsYangSoo.Cells(4 + i, "P").value
     S2 = wsYangSoo.Cells(4 + i, "S").value
     S3 = wsYangSoo.Cells(4 + i, "AQ").value
-    skin = wsYangSoo.Cells(4 + i, "Y").value
+    Skin = wsYangSoo.Cells(4 + i, "Y").value
     RI1 = wsYangSoo.Cells(4 + i, "V").value
     RI2 = wsYangSoo.Cells(4 + i, "W").value
     RI3 = wsYangSoo.Cells(4 + i, "X").value
@@ -43,12 +43,12 @@ Sub ImportEachWell(ByVal well_no As Integer)
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
     SetCellValueAndFormat Range("G5"), S2, "0.0000000"
     SetCellValueAndFormat Range("G4"), S1, "0.00000"
-    SetCellValueAndFormat Range("H5"), skin, "0.0000"
+    SetCellValueAndFormat Range("H5"), Skin, "0.0000"
     SetCellValueAndFormat Range("H6"), ir, "0.0000"
     SetCellValueAndFormat Range("E10"), RI1, "0.0"
     SetCellValueAndFormat Range("F10"), RI2, "0.0"
     SetCellValueAndFormat Range("G10"), RI3, "0.0"
-    SetCellValueAndFormat Range("C23"), Round(deltas, 2), "0.00"
+    SetCellValueAndFormat Range("C23"), Round(DeltaS, 2), "0.00"
     
     ' Turn on additional processes or features
     BaseData_ETC_02.TurnOnStuff
@@ -66,12 +66,12 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
 ' well_no -- well number
 '
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     
     ' nl : natural level, sl : stable level
     ' s3 - Recover Test 의 S값
     
-    Dim nl, sl, deltas As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
     Dim wsYangSoo As Worksheet
     
@@ -80,7 +80,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     BaseData_ETC_02.TurnOffStuff
     
     ' delta s : 최초1분의 수위강하
-    deltas = wsYangSoo.Cells(4 + i, "L").value
+    DeltaS = wsYangSoo.Cells(4 + i, "L").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = wsYangSoo.Cells(4 + i, "B").value
@@ -95,7 +95,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     S3 = wsYangSoo.Cells(4 + i, "AQ").value
     
     ' 스킨계수
-    skin = wsYangSoo.Cells(4 + i, "Y").value
+    Skin = wsYangSoo.Cells(4 + i, "Y").value
     
     ' yangsoo radius of influence
     RI1 = wsYangSoo.Cells(4 + i, "V").value  ' schultze
@@ -116,12 +116,12 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
     SetCellValueAndFormat Range("G5"), S2, "0.0000000"
     SetCellValueAndFormat Range("G4"), S1, "0.00000"
-    SetCellValueAndFormat Range("H5"), skin, "0.0000"
+    SetCellValueAndFormat Range("H5"), Skin, "0.0000"
     SetCellValueAndFormat Range("H6"), ir, "0.0000"
     SetCellValueAndFormat Range("E10"), RI1, "0.0"
     SetCellValueAndFormat Range("F10"), RI2, "0.0"
     SetCellValueAndFormat Range("G10"), RI3, "0.0"
-    SetCellValueAndFormat Range("C23"), Round(deltas, 2), "0.00"
+    SetCellValueAndFormat Range("C23"), Round(DeltaS, 2), "0.00"
 
     BaseData_ETC_02.TurnOnStuff
 
@@ -135,10 +135,10 @@ Private Sub ImportEachWell_OLD()
     Dim WkbkName As Object
     Dim WBNAME, cell1 As String
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     
     ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
     
     BaseData_ETC_02.TurnOffStuff
@@ -156,7 +156,7 @@ Private Sub ImportEachWell_OLD()
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
+    DeltaS = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
@@ -170,7 +170,7 @@ Private Sub ImportEachWell_OLD()
     S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
     S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
     
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
+    Skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
     ' 슐츠, 영향반경
@@ -209,14 +209,14 @@ Private Sub ImportEachWell_OLD()
     Range("G4") = S1
     
     
-    Range("h5") = skin 'skin coefficient
+    Range("h5") = Skin 'skin coefficient
     Range("h6") = ir    'find influence radius
     
     Range("e10") = RI1
     Range("f10") = RI2
     Range("g10") = RI3
     
-    Range("c23") = Round(deltas, 2) 'deltas
+    Range("c23") = Round(DeltaS, 2) 'deltas
     
     BaseData_ETC_02.TurnOnStuff
         

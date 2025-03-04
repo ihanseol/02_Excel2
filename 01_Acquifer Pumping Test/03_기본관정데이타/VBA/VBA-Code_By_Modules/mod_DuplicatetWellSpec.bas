@@ -285,10 +285,10 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBNAME As String
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     
     ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
 
     WBNAME = "A" & GetNumeric2(well_no) & "_ge_OriginalSaveFile.xlsm"
@@ -302,7 +302,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
+    DeltaS = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
@@ -317,7 +317,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
     
     ' Skin Coefficient
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
+    Skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
     RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
@@ -351,12 +351,12 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     
     Range("G4") = S1
     
-    Range("h5") = skin 'skin coefficient
+    Range("h5") = Skin 'skin coefficient
     Range("h6") = ir 'find influence radius
     
     Range("e10") = RI1
     Range("f10") = RI2
     Range("g10") = RI3
     
-    Range("c23") = Round(deltas, 2) 'deltas
+    Range("c23") = Round(DeltaS, 2) 'deltas
 End Sub

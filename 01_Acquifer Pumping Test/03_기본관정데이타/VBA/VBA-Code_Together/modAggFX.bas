@@ -135,7 +135,7 @@ End Sub
 ' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
 
 Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
-    Dim wellData As Variant
+    Dim WellData As Variant
     Dim numberFormats As Object
     Set numberFormats = CreateObject("Scripting.Dictionary")
 
@@ -167,13 +167,13 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
     End With
 
     ' Get value from dataCell
-    wellData = dataCell.value
+    WellData = dataCell.value
     
     Cells(4 + wellIndex, 1).value = "W-" & wellIndex
     
     ' Set value and number format based on dataArrayName
     With Cells(4 + wellIndex, GetColumnIndex(dataArrayName))
-        .value = wellData
+        .value = WellData
         If numberFormats.Exists(dataArrayName) Then
             .NumberFormat = numberFormats(dataArrayName)
         End If
@@ -244,11 +244,11 @@ End Sub
 '3 : Re3,         cell, G10
 
 Function DetermineEffectiveRadius(ERMode As String) As Integer
-    Dim er, R As String
+    Dim Er, R As String
     
-    er = ERMode
+    Er = ERMode
     'MsgBox er
-    R = Mid(er, 5, 1)
+    R = Mid(Er, 5, 1)
     
     If R = "F" Then
         DetermineEffectiveRadius = erRE0
@@ -274,7 +274,7 @@ Sub WriteFormula()
     Dim formula1, formula2 As String
     Dim nofwell As Integer
     Dim i As Integer
-    Dim T, Q, radius, skin, er As Double
+    Dim T, Q, Radius, Skin, Er As Double
     Dim T0, S0 As Double
     Dim ERMode As String
     Dim ER1, ER2, ER3, B, S1 As Double
@@ -325,7 +325,7 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
     Dim formula1, formula2 As String
     Dim nofwell As Integer
     Dim i As Integer
-    Dim T, Q, radius, skin, er As Double
+    Dim T, Q, Radius, Skin, Er As Double
     Dim T0, S0 As Double
     Dim ERMode As String
     Dim ER1, ER2, ER3, B, S1 As Double
@@ -348,9 +348,9 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
         S1 = Cells(4 + i, "R").value
                 
         delta_s = format(Cells(4 + i, "l").value, "0.00")
-        radius = format(Cells(4 + i, "h").value, "0.000")
-        skin = format(Cells(4 + i, "y").value, "0.0000")
-        er = format(Cells(4 + i, "z").value, "0.0000")
+        Radius = format(Cells(4 + i, "h").value, "0.000")
+        Skin = format(Cells(4 + i, "y").value, "0.0000")
+        Er = format(Cells(4 + i, "z").value, "0.0000")
         
         
         B = format(Cells(4 + i, "AG").value, "0.0000")
@@ -372,14 +372,14 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
             formula2 = "erRE2, 경험식 2번"
         ' 경험식 3번
         Case erRE3
-            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
+            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & Radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
             formula2 = "erRE3, 경험식 3번"
             
         Case Else
             ' 스킨계수
-            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & radius & " TIMES  " & radius & ")} =`" & skin
+            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & Radius & " TIMES  " & Radius & ")} =`" & Skin
             ' 유효우물반경
-            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & radius & " TIMES e ^{-(" & skin & ")} =" & er & "m"
+            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & Radius & " TIMES e ^{-(" & Skin & ")} =" & Er & "m"
         End Select
         
         
@@ -484,7 +484,7 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     Dim nofwell As String
     Dim i As Integer
-    Dim shultze, webber, jacob, T, K, S, time_, delta_h As String
+    Dim shultze, Webber, jacob, T, K, S, time_, delta_h As String
     
     nofwell = GetNumberOfWell()
     Sheets("YangSoo").Select
@@ -501,7 +501,7 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     For i = 1 To nofwell
         schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
-        webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
+        Webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
         jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
         
         T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
@@ -515,7 +515,7 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
         ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")
         
         formula1 = "W-" & i & "호공~~R _{W-" & i & "} ``=`` sqrt {6 TIMES  " & delta_h & " TIMES  " & K & " TIMES  " & time_ & "/" & S & "} ``=~" & schultze & "m"
-        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & webber & "`m"
+        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & Webber & "`m"
         formula3 = "W-" & i & "호공~~r _{0(W-" & i & ")} `=~ sqrt {{2.25 TIMES  " & T & " TIMES  " & time_ & "} over {" & S & "}} `=~" & jacob & "m"
         
         

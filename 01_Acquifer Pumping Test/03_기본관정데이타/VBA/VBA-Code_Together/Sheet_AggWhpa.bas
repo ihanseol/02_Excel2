@@ -13,7 +13,7 @@ Private Sub CommandButton2_Click()
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Q, daeSoo, T1, S1, direction, gradient As Double
+    Dim Q, DaeSoo, T1, S1, direction, gradient As Double
     
     nofwell = sheets_count()
     If ActiveSheet.name <> "aggWhpa" Then Sheets("aggWhpa").Select
@@ -23,7 +23,7 @@ Private Sub CommandButton2_Click()
     
     For i = 1 To nofwell
         Q = Sheets(CStr(i)).Range("c16").value
-        daeSoo = Sheets(CStr(i)).Range("c14").value
+        DaeSoo = Sheets(CStr(i)).Range("c14").value
         
         T1 = Sheets(CStr(i)).Range("e7").value
         S1 = Sheets(CStr(i)).Range("g7").value
@@ -31,7 +31,7 @@ Private Sub CommandButton2_Click()
         direction = getDirectionFromWell(i)
         gradient = Sheets(CStr(i)).Range("k18").value
         
-        Call modAggWhpa.WriteWellData_Single(Q, daeSoo, T1, S1, direction, gradient, i)
+        Call modAggWhpa.WriteWellData_Single(Q, DaeSoo, T1, S1, direction, gradient, i)
     Next i
     
     Sheets("aggWhpa").Select

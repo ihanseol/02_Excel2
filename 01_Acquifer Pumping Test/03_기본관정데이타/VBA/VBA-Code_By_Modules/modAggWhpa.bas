@@ -10,14 +10,14 @@ Function getDirectionFromWell(i) As Integer
 
 End Function
 
-Sub WriteWellData_Single(Q As Variant, daeSoo As Variant, T1 As Variant, S1 As Variant, direction As Variant, gradient As Variant, ByVal i As Integer)
+Sub WriteWellData_Single(Q As Variant, DaeSoo As Variant, T1 As Variant, S1 As Variant, direction As Variant, gradient As Variant, ByVal i As Integer)
     
     Call UnmergeAllCells
         
     Cells(3 + i, "c").value = "W-" & CStr(i)
     Cells(3 + i, "e").value = Q
     Cells(3 + i, "f").value = T1
-    Cells(3 + i, "i").value = daeSoo
+    Cells(3 + i, "i").value = DaeSoo
     Cells(3 + i, "k").value = direction
     Cells(3 + i, "m").value = format(gradient, "###0.0000")
     Cells(4, "d").value = "5³â"

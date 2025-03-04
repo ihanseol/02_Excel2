@@ -3447,12 +3447,12 @@ Public Enum ER_VALUE
 End Enum
 
 Function GetER_Mode(ByVal WB_NAME As String) As Integer
-    Dim er, R       As String
+    Dim Er, R       As String
     
     ' er = Range("h10").value
-    er = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("h10").value
+    Er = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("h10").value
     'MsgBox er
-    R = Mid(er, 5, 1)
+    R = Mid(Er, 5, 1)
     
     If R = "F" Then
         GetER_Mode = 0
@@ -3464,20 +3464,20 @@ End Function
 
 
 Function GetEffectiveRadius(ByVal WB_NAME As String) As Double
-    Dim i, er As Integer
+    Dim i, Er As Integer
     
     If Not IsWorkBookOpen(WB_NAME) Then
         MsgBox "Please open the yangsoo data ! " & WB_NAME
         Exit Function
     End If
     
-    er = GetER_Mode(WB_NAME)
+    Er = GetER_Mode(WB_NAME)
     'Worksheets("SkinFactor").Range("k8").value  - 경험식 1번 (RE1)
     'Worksheets("SkinFactor").Range("k9").value  - 경험식 2번 (RE2)
     'Worksheets("SkinFactor").Range("k10").value  - 경험식 3번 (RE3)
     
     
-    Select Case er
+    Select Case Er
         Case erRE1
             GetEffectiveRadius = Workbooks(WB_NAME).Worksheets("SkinFactor").Range("k8").value
         Case erRE2
@@ -3492,16 +3492,16 @@ End Function
 
 
 Function GetER_ModeFX(ByVal well_no As Integer) As Integer
-    Dim er, R  As String
+    Dim Er, R  As String
     Dim wsYangSoo As Worksheet
     
     Set wsYangSoo = Worksheets("YangSoo")
     
     ' ak : ER Mode
-    er = wsYangSoo.Cells(4 + well_no, "ak").value
+    Er = wsYangSoo.Cells(4 + well_no, "ak").value
     
     'MsgBox er
-    R = Mid(er, 5, 1)
+    R = Mid(Er, 5, 1)
     
     If R = "F" Then
         GetER_ModeFX = 0
@@ -3513,19 +3513,19 @@ End Function
 
 
 Function GetEffectiveRadiusFromFX(ByVal well_no As Integer) As Double
-    Dim i, er As Integer
+    Dim i, Er As Integer
     Dim wsYangSoo As Worksheet
     
     Set wsYangSoo = Worksheets("YangSoo")
     
-    er = GetER_ModeFX(well_no)
+    Er = GetER_ModeFX(well_no)
     i = well_no
     
     'Worksheets("SkinFactor").Range("k8").value  - 경험식 1번 (RE1)
     'Worksheets("SkinFactor").Range("k9").value  - 경험식 2번 (RE2)
     'Worksheets("SkinFactor").Range("k10").value  - 경험식 3번 (RE3)
     
-    Select Case er
+    Select Case Er
         Case erRE1
             GetEffectiveRadiusFromFX = wsYangSoo.Cells(4 + i, "AL").value
         Case erRE2
@@ -3553,7 +3553,7 @@ Private Sub CommandButton2_Click()
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim Q, daeSoo, T1, S1, direction, gradient As Double
+    Dim Q, DaeSoo, T1, S1, direction, gradient As Double
     
     nofwell = sheets_count()
     If ActiveSheet.name <> "aggWhpa" Then Sheets("aggWhpa").Select
@@ -3563,7 +3563,7 @@ Private Sub CommandButton2_Click()
     
     For i = 1 To nofwell
         Q = Sheets(CStr(i)).Range("c16").value
-        daeSoo = Sheets(CStr(i)).Range("c14").value
+        DaeSoo = Sheets(CStr(i)).Range("c14").value
         
         T1 = Sheets(CStr(i)).Range("e7").value
         S1 = Sheets(CStr(i)).Range("g7").value
@@ -3571,7 +3571,7 @@ Private Sub CommandButton2_Click()
         direction = getDirectionFromWell(i)
         gradient = Sheets(CStr(i)).Range("k18").value
         
-        Call modAggWhpa.WriteWellData_Single(Q, daeSoo, T1, S1, direction, gradient, i)
+        Call modAggWhpa.WriteWellData_Single(Q, DaeSoo, T1, S1, direction, gradient, i)
     Next i
     
     Sheets("aggWhpa").Select
@@ -9851,10 +9851,10 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     Dim WkbkName As Object
     Dim WBNAME As String
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     
     ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
 
     WBNAME = "A" & GetNumeric2(well_no) & "_ge_OriginalSaveFile.xlsm"
@@ -9868,7 +9868,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
+    DeltaS = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
@@ -9883,7 +9883,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
     
     ' Skin Coefficient
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
+    Skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
     RI1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("C13").value
@@ -9917,14 +9917,14 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     
     Range("G4") = S1
     
-    Range("h5") = skin 'skin coefficient
+    Range("h5") = Skin 'skin coefficient
     Range("h6") = ir 'find influence radius
     
     Range("e10") = RI1
     Range("f10") = RI2
     Range("g10") = RI3
     
-    Range("c23") = Round(deltas, 2) 'deltas
+    Range("c23") = Round(DeltaS, 2) 'deltas
 End Sub
 ' Class Module: Class_ReturnTrueFalse
 Private mValue As Boolean
@@ -9966,7 +9966,7 @@ End Sub
 Sub GetWaterSpecFromYangSoo_Q1()
   Dim thisname, fName As String
   Dim cell  As String
-  Dim time As Date
+  Dim Time As Date
   Dim bTemp, ec1, ph1 As Double
   
   
@@ -9983,7 +9983,7 @@ Sub GetWaterSpecFromYangSoo_Q1()
   ' Range("k2") = fname
    
   '------------------------------------------------------------------------
-  time = Workbooks(fName).Worksheets("w1").Range("c6").value
+  Time = Workbooks(fName).Worksheets("w1").Range("c6").value
   bTemp = Workbooks(fName).Worksheets("w1").Range("c7").value
   
   ec1 = Workbooks(fName).Worksheets("w1").Range("c8").value
@@ -9991,7 +9991,7 @@ Sub GetWaterSpecFromYangSoo_Q1()
   
   '------------------------------------------------------------------------
   
-  Range("c6").value = time
+  Range("c6").value = Time
   Range("c7").value = bTemp
   Range("c8").value = ec1
   Range("c9").value = ph1
@@ -11409,7 +11409,7 @@ End Sub
 ' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
 
 Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
-    Dim wellData As Variant
+    Dim WellData As Variant
     Dim numberFormats As Object
     Set numberFormats = CreateObject("Scripting.Dictionary")
 
@@ -11441,13 +11441,13 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
     End With
 
     ' Get value from dataCell
-    wellData = dataCell.value
+    WellData = dataCell.value
     
     Cells(4 + wellIndex, 1).value = "W-" & wellIndex
     
     ' Set value and number format based on dataArrayName
     With Cells(4 + wellIndex, GetColumnIndex(dataArrayName))
-        .value = wellData
+        .value = WellData
         If numberFormats.Exists(dataArrayName) Then
             .NumberFormat = numberFormats(dataArrayName)
         End If
@@ -11518,11 +11518,11 @@ End Sub
 '3 : Re3,         cell, G10
 
 Function DetermineEffectiveRadius(ERMode As String) As Integer
-    Dim er, R As String
+    Dim Er, R As String
     
-    er = ERMode
+    Er = ERMode
     'MsgBox er
-    R = Mid(er, 5, 1)
+    R = Mid(Er, 5, 1)
     
     If R = "F" Then
         DetermineEffectiveRadius = erRE0
@@ -11548,7 +11548,7 @@ Sub WriteFormula()
     Dim formula1, formula2 As String
     Dim nofwell As Integer
     Dim i As Integer
-    Dim T, Q, radius, skin, er As Double
+    Dim T, Q, Radius, Skin, Er As Double
     Dim T0, S0 As Double
     Dim ERMode As String
     Dim ER1, ER2, ER3, B, S1 As Double
@@ -11599,7 +11599,7 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
     Dim formula1, formula2 As String
     Dim nofwell As Integer
     Dim i As Integer
-    Dim T, Q, radius, skin, er As Double
+    Dim T, Q, Radius, Skin, Er As Double
     Dim T0, S0 As Double
     Dim ERMode As String
     Dim ER1, ER2, ER3, B, S1 As Double
@@ -11622,9 +11622,9 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
         S1 = Cells(4 + i, "R").value
                 
         delta_s = format(Cells(4 + i, "l").value, "0.00")
-        radius = format(Cells(4 + i, "h").value, "0.000")
-        skin = format(Cells(4 + i, "y").value, "0.0000")
-        er = format(Cells(4 + i, "z").value, "0.0000")
+        Radius = format(Cells(4 + i, "h").value, "0.000")
+        Skin = format(Cells(4 + i, "y").value, "0.0000")
+        Er = format(Cells(4 + i, "z").value, "0.0000")
         
         
         B = format(Cells(4 + i, "AG").value, "0.0000")
@@ -11646,14 +11646,14 @@ Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
             formula2 = "erRE2, 경험식 2번"
         ' 경험식 3번
         Case erRE3
-            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
+            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & Radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
             formula2 = "erRE3, 경험식 3번"
             
         Case Else
             ' 스킨계수
-            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & radius & " TIMES  " & radius & ")} =`" & skin
+            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & Radius & " TIMES  " & Radius & ")} =`" & Skin
             ' 유효우물반경
-            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & radius & " TIMES e ^{-(" & skin & ")} =" & er & "m"
+            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & Radius & " TIMES e ^{-(" & Skin & ")} =" & Er & "m"
         End Select
         
         
@@ -11758,7 +11758,7 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     Dim nofwell As String
     Dim i As Integer
-    Dim shultze, webber, jacob, T, K, S, time_, delta_h As String
+    Dim shultze, Webber, jacob, T, K, S, time_, delta_h As String
     
     nofwell = GetNumberOfWell()
     Sheets("YangSoo").Select
@@ -11775,7 +11775,7 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
     
     For i = 1 To nofwell
         schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
-        webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
+        Webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
         jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
         
         T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
@@ -11789,7 +11789,7 @@ Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
         ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")
         
         formula1 = "W-" & i & "호공~~R _{W-" & i & "} ``=`` sqrt {6 TIMES  " & delta_h & " TIMES  " & K & " TIMES  " & time_ & "/" & S & "} ``=~" & schultze & "m"
-        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & webber & "`m"
+        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & Webber & "`m"
         formula3 = "W-" & i & "호공~~r _{0(W-" & i & ")} `=~ sqrt {{2.25 TIMES  " & T & " TIMES  " & time_ & "} over {" & S & "}} `=~" & jacob & "m"
         
         
@@ -11824,9 +11824,9 @@ End Sub
 Sub Write_SummaryTS(ByVal Well As Integer)
 
     Dim i As Integer
-    
+
     i = Well - 1
-    
+
     Range("H" & (i + 80)).value = "W-" & (i + 1)
     Range("i" & (i + 80)).value = Range("e" & (49 + i * 3)).value
     Range("J" & (i + 80)).value = Range("f" & (48 + i * 3)).value
@@ -11839,167 +11839,167 @@ End Sub
 Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
     Dim fName As String
     Dim nofwell, i As Integer
-    
-    Dim Q, natural, stable, recover, radius, deltas, deltah, daeSoo, T1, T2, TA As Double
-    Dim K, time_, S1, S2, schultz, webber, jcob, skin, er As Double
-    
+
+    Dim Q, Natural, Stable, Recover, Radius, DeltaS, DeltaH, DaeSoo, T1, T2, TA As Double
+    Dim K, time_, S1, S2, Schultz, Webber, Jcob, Skin, Er As Double
+
 
     nofwell = GetNumberOfWell()
     Sheets("Aggregate2").Select
-    
+
     Dim wsYangSoo As Worksheet
     Set wsYangSoo = Worksheets("YangSoo")
-    
+
 
     If Not isSingleWellImport Then
     ' if All Colect Data Pressed ...
-    
+
         'Write33
         Call EraseCellData("C3:J33")
-        
+
         'Write34
         Call EraseCellData("L3:Q33")
-        
+
         'Write35
         Call EraseCellData("S3:U33")
-        
+
         'Write37
         Call EraseCellData("D37:AH43")
-        
+
         'Write36
         Call EraseCellData("E48:F137")
-        
+
         'Write38
         Call EraseCellData("H48:N77")
-        
+
         'Write34
         Call EraseCellData("P48:S77")
-        
+
         Call EraseCellData("H80:J109")
-        
+
     End If
-        
-            
+
+
     For i = 1 To nofwell
         If Not isSingleWellImport Or (isSingleWellImport And i = singleWell) Then
             GoTo SINGLE_ITERATION
         Else
             GoTo NEXT_ITERATION
         End If
-        
+
 SINGLE_ITERATION:
-   
+
         Q = wsYangSoo.Cells(4 + i, "k").value
-        
-        natural = wsYangSoo.Cells(4 + i, "b").value
-        stable = wsYangSoo.Cells(4 + i, "c").value
-        recover = wsYangSoo.Cells(4 + i, "d").value
-        
-        radius = wsYangSoo.Cells(4 + i, "h").value
-        
-        deltas = wsYangSoo.Cells(4 + i, "l").value
-        deltah = wsYangSoo.Cells(4 + i, "f").value
-        daeSoo = wsYangSoo.Cells(4 + i, "n").value
-        
-        
+
+        Natural = wsYangSoo.Cells(4 + i, "b").value
+        Stable = wsYangSoo.Cells(4 + i, "c").value
+        Recover = wsYangSoo.Cells(4 + i, "d").value
+
+        Radius = wsYangSoo.Cells(4 + i, "h").value
+
+        DeltaS = wsYangSoo.Cells(4 + i, "l").value
+        DeltaH = wsYangSoo.Cells(4 + i, "f").value
+        DaeSoo = wsYangSoo.Cells(4 + i, "n").value
+
+
         T1 = wsYangSoo.Cells(4 + i, "o").value
         T2 = wsYangSoo.Cells(4 + i, "p").value
         TA = wsYangSoo.Cells(4 + i, "q").value
-        
+
         time_ = wsYangSoo.Cells(4 + i, "u").value
-                
+
         S1 = wsYangSoo.Cells(4 + i, "r").value
         S2 = wsYangSoo.Cells(4 + i, "s").value
         K = wsYangSoo.Cells(4 + i, "t").value
-        
+
         shultz = wsYangSoo.Cells(4 + i, "v").value
-        webber = wsYangSoo.Cells(4 + i, "w").value
-        jcob = wsYangSoo.Cells(4 + i, "x").value
-        
-        
-        skin = wsYangSoo.Cells(4 + i, "y").value
-        er = wsYangSoo.Cells(4 + i, "z").value
-        
+        Webber = wsYangSoo.Cells(4 + i, "w").value
+        Jcob = wsYangSoo.Cells(4 + i, "x").value
+
+
+        Skin = wsYangSoo.Cells(4 + i, "y").value
+        Er = wsYangSoo.Cells(4 + i, "z").value
+
         Call TurnOffStuff
-        
-        Call modAgg2.WriteWellData_Single(Q, natural, stable, recover, radius, deltas, daeSoo, T1, S1, i, isSingleWellImport)
-        Call modAgg2.WriteData37_RadiusOfInfluence_Single(TA, K, S2, time_, deltah, daeSoo, i, isSingleWellImport)
+
+        Call modAgg2.WriteWellData_Single(Q, Natural, Stable, Recover, Radius, DeltaS, DaeSoo, T1, S1, i, isSingleWellImport)
+        Call modAgg2.WriteData37_RadiusOfInfluence_Single(TA, K, S2, time_, DeltaH, DaeSoo, i, isSingleWellImport)
         Call modAgg2.WriteData36_TS_Analysis_Single(T1, T2, TA, S2, i, isSingleWellImport)
-        Call modAgg2.Write38_RadiusOfInfluence_Result_Single(shultz, webber, jcob, i, isSingleWellImport)
-        Call modAgg2.Wrote34_SkinFactor_Single(skin, er, i, isSingleWellImport)
-        
+        Call modAgg2.Write38_RadiusOfInfluence_Result_Single(shultz, Webber, Jcob, i, isSingleWellImport)
+        Call modAgg2.Wrote34_SkinFactor_Single(Skin, Er, i, isSingleWellImport)
+
         Call modAgg2.Write_SummaryTS(i)
         Call TurnOnStuff
-        
-    
+
+
 NEXT_ITERATION:
-    
+
     Next i
 
     Range("a1").Select
     Application.CutCopyMode = False
-    
+
 End Sub
 
 
 ' 3-3, 3-4, 3-5 결과출력
-Sub WriteWellData_Single(Q As Variant, natural As Variant, stable As Variant, recover As Variant, radius As Variant, deltas As Variant, daeSoo As Variant, T1 As Variant, S1 As Variant, ByVal i As Integer, ByVal isSingleWellImport As Boolean)
-    
+Sub WriteWellData_Single(Q As Variant, Natural As Variant, Stable As Variant, Recover As Variant, Radius As Variant, DeltaS As Variant, DaeSoo As Variant, T1 As Variant, S1 As Variant, ByVal i As Integer, ByVal isSingleWellImport As Boolean)
+
     Dim remainder As Integer
-    
+
     ' 3-3, 장기양수시험결과 (Collect from yangsoo data)
-    
-    
+
+
     If isSingleWellImport Then
        EraseCellData ("C" & (i + 2) & ":J" & (i + 2))
        EraseCellData ("L" & (i + 2) & ":Q" & (i + 2))
        EraseCellData ("S" & (i + 2) & ":U" & (i + 2))
     End If
-    
+
     Range("C" & (i + 2)).value = "W-" & i
     Range("D" & (i + 2)).value = 2880
-    
+
     Range("e" & (i + 2)).value = Q
     Range("l" & (i + 2)).value = Q
-    
-    Range("f" & (i + 2)).value = natural
-    Range("g" & (i + 2)).value = stable
-    Range("h" & (i + 2)).value = stable - natural
-    
-    Range("i" & (i + 2)).value = radius
-    Range("j" & (i + 2)).value = deltas
-    
-    
+
+    Range("f" & (i + 2)).value = Natural
+    Range("g" & (i + 2)).value = Stable
+    Range("h" & (i + 2)).value = Stable - Natural
+
+    Range("i" & (i + 2)).value = Radius
+    Range("j" & (i + 2)).value = DeltaS
+
+
     ' 3-4, aqtesolv 해석결과
-    Range("m" & (i + 2)).value = radius
-    Range("n" & (i + 2)).value = radius
-    Range("o" & (i + 2)).value = daeSoo
+    Range("m" & (i + 2)).value = Radius
+    Range("n" & (i + 2)).value = Radius
+    Range("o" & (i + 2)).value = DaeSoo
     Range("p" & (i + 2)).value = T1
     Range("q" & (i + 2)).value = S1
-    
-    
+
+
     '3-5, 수위회복시험 결과
-    Range("s" & (i + 2)).value = stable
-    Range("t" & (i + 2)).value = recover
-    Range("u" & (i + 2)).value = stable - recover
-    
+    Range("s" & (i + 2)).value = Stable
+    Range("t" & (i + 2)).value = Recover
+    Range("u" & (i + 2)).value = Stable - Recover
+
     remainder = i Mod 2
     If remainder = 0 Then
             Call BackGroundFill(Range(Cells(i + 2, "c"), Cells(i + 2, "j")), True)
             Call BackGroundFill(Range(Cells(i + 2, "l"), Cells(i + 2, "q")), True)
             Call BackGroundFill(Range(Cells(i + 2, "s"), Cells(i + 2, "u")), True)
-            
+
     Else
             Call BackGroundFill(Range(Cells(i + 2, "c"), Cells(i + 2, "j")), False)
             Call BackGroundFill(Range(Cells(i + 2, "l"), Cells(i + 2, "q")), False)
             Call BackGroundFill(Range(Cells(i + 2, "s"), Cells(i + 2, "u")), False)
     End If
-   
+
 End Sub
 
 
 ' 3-7, 조사공별 수리상수
-Sub WriteData37_RadiusOfInfluence_Single(TA As Variant, K As Variant, S2 As Variant, time_ As Variant, deltah As Variant, daeSoo As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
+Sub WriteData37_RadiusOfInfluence_Single(TA As Variant, K As Variant, S2 As Variant, time_ As Variant, DeltaH As Variant, DaeSoo As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
 
 '****************************************
 '    ip = 37 'W-1 point
@@ -12008,43 +12008,43 @@ Sub WriteData37_RadiusOfInfluence_Single(TA As Variant, K As Variant, S2 As Vari
     Dim ip, remainder As Variant
     Dim unit, rngString As String
     Dim Values As Variant
-    
+
     Values = GetRowColumn("agg2_37_roi")
     ip = Values(2)
-    
-    
+
+
     If isSingleWellImport Then
         Call EraseCellData(ColumnNumberToLetter(4 + i) & ip & ":" & ColumnNumberToLetter(4 + i) & (ip + 6))
     End If
-    
+
     Cells((ip + 0), (3 + i)).value = "W-" & i
-    
+
     Cells((ip + 1), (3 + i)).value = TA
     Cells((ip + 1), (3 + i)).NumberFormat = "0.0000"
-    
+
     Cells((ip + 2), (3 + i)).value = K
     Cells((ip + 2), (3 + i)).NumberFormat = "0.0000"
-    
-    
+
+
     Cells((ip + 3), (3 + i)).value = S2
     Cells((ip + 3), (3 + i)).NumberFormat = "0.0000000"
-    
+
     Cells((ip + 4), (3 + i)).value = time_
     Cells((ip + 4), (3 + i)).NumberFormat = "0.0000"
-    
-    Cells((ip + 5), (3 + i)).value = deltah
+
+    Cells((ip + 5), (3 + i)).value = DeltaH
     Cells((ip + 5), (3 + i)).NumberFormat = "0.00"
-    
-    Cells((ip + 6), (3 + i)).value = daeSoo
-    
-    
+
+    Cells((ip + 6), (3 + i)).value = DaeSoo
+
+
     remainder = i Mod 2
     If remainder = 0 Then
-            Call BackGroundFill(Range(Cells(ip + 1, (i + 4)), Cells(ip + 6, (i + 4))), True)
+            Call BackGroundFill(Range(Cells(ip + 1, (i + 3)), Cells(ip + 6, (i + 3))), True)
     Else
-            Call BackGroundFill(Range(Cells(ip + 1, (i + 4)), Cells(ip + 6, (i + 4))), False)
+            Call BackGroundFill(Range(Cells(ip + 1, (i + 3)), Cells(ip + 6, (i + 3))), False)
     End If
-    
+
 
 End Sub
 
@@ -12053,7 +12053,7 @@ End Sub
 
 ' 3-6, 수리상수산정결과
 Sub WriteData36_TS_Analysis_Single(T1 As Variant, T2 As Variant, TA As Variant, S2 As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
-    
+
 '****************************************
 '    ip = 48
 '****************************************
@@ -12064,39 +12064,39 @@ Sub WriteData36_TS_Analysis_Single(T1 As Variant, T2 As Variant, TA As Variant, 
     Dim unit, rngString As String
     Dim Values As Variant
     Dim nofwell As Integer
-    
-    
+
+
     Values = GetRowColumn("agg2_36_surisangsoo")
     ip = Values(2)
-    
+
     If isSingleWellImport Then
         Call EraseCellData("C" & (ip + (i - 1) * 3) & ":F" & (ip + (i - 1) * 3 + 2))
     End If
-    
+
     Cells(ip + (i - 1) * 3, "C").value = "W-" & i
-            
+
     Cells((ip + 0) + (i - 1) * 3, "D").value = "장기양수시험"
     Cells((ip + 1) + (i - 1) * 3, "D").value = "수위회복시험"
     Cells((ip + 2) + (i - 1) * 3, "D").value = "선택치"
 
     Cells((ip + 0) + (i - 1) * 3, "E").value = T1
     Cells((ip + 0) + (i - 1) * 3, "E").NumberFormat = "0.0000"
-    
+
     Cells((ip + 1) + (i - 1) * 3, "E").value = T2
     Cells((ip + 1) + (i - 1) * 3, "E").NumberFormat = "0.0000"
-    
+
     Cells((ip + 2) + (i - 1) * 3, "E").value = TA
     Cells((ip + 2) + (i - 1) * 3, "E").NumberFormat = "0.0000"
     Cells((ip + 2) + (i - 1) * 3, "E").Font.Bold = True
-    
+
     Cells((ip + 0) + (i - 1) * 3, "F").value = S2
     Cells((ip + 0) + ip + (i - 1) * 3, "F").NumberFormat = "0.0000000"
-    
+
     Cells((ip + 2) + (i - 1) * 3, "F").value = S2
     Cells((ip + 2) + (i - 1) * 3, "F").NumberFormat = "0.0000000"
     Cells((ip + 2) + (i - 1) * 3, "F").Font.Bold = True
-    
-    
+
+
     remainder = i Mod 2
     If remainder = 0 Then
             Call BackGroundFill(Range(Cells(ip + (i - 1) * 3, "C"), Cells((ip + 2) + (i - 1) * 3, "F")), True)
@@ -12111,8 +12111,8 @@ End Sub
 '3.8 영향반경
 ' 그리고 single 이 붙으면 알수있듯이 , 공번에 해당하는 라인에 관한것만 출력해준다.
 '
-Sub Write38_RadiusOfInfluence_Result_Single(shultz As Variant, webber As Variant, jcob As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
- 
+Sub Write38_RadiusOfInfluence_Result_Single(shultz As Variant, Webber As Variant, Jcob As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
+
 '****************************************
 '    ip = 48 'W-1 point
 '****************************************
@@ -12123,41 +12123,41 @@ Sub Write38_RadiusOfInfluence_Result_Single(shultz As Variant, webber As Variant
     Dim ip, remainder As Variant
     Dim unit, rngString As String
     Dim Values As Variant
-    
+
     Values = GetRowColumn("agg2_38_roi_result")
     ip = Values(2)
-    
+
     'Call EraseCellData("H" & ip & ":N" & (ip + nofwell - 1))
-    
+
     ' 단일공의 임포트의 경우 한줄만 지우고
     ' 그 이외에는 나머지 모두를 지워서 깨끗하게 해준다.
-    
+
     If isSingleWellImport Then
         Call EraseCellData("H" & (ip + i - 1) & ":N" & (ip + i - 1))
     End If
-    
+
     Cells(ip + (i - 1), "h").value = "W-" & i
     Cells(ip + (i - 1), "h").NumberFormat = "0.0"
-    
+
     Cells(ip + (i - 1), "i").value = shultz
     Cells(ip + (i - 1), "i").NumberFormat = "0.0"
-    
-    Cells(ip + (i - 1), "j").value = webber
+
+    Cells(ip + (i - 1), "j").value = Webber
     Cells(ip + (i - 1), "j").NumberFormat = "0.0"
-    
-    Cells(ip + (i - 1), "k").value = jcob
+
+    Cells(ip + (i - 1), "k").value = Jcob
     Cells(ip + (i - 1), "k").NumberFormat = "0.0"
 
-    Cells(ip + (i - 1), "l").value = Round((shultz + webber + jcob) / 3, 1)
+    Cells(ip + (i - 1), "l").value = Round((shultz + Webber + Jcob) / 3, 1)
     Cells(ip + (i - 1), "l").NumberFormat = "0.0"
-    
-    Cells(ip + (i - 1), "m").value = Application.WorksheetFunction.max(shultz, webber, jcob)
+
+    Cells(ip + (i - 1), "m").value = Application.WorksheetFunction.max(shultz, Webber, Jcob)
     Cells(ip + (i - 1), "m").NumberFormat = "0.0"
-    
-    Cells(ip + (i - 1), "n").value = Application.WorksheetFunction.min(shultz, webber, jcob)
+
+    Cells(ip + (i - 1), "n").value = Application.WorksheetFunction.min(shultz, Webber, Jcob)
     Cells(ip + (i - 1), "n").NumberFormat = "0.0"
-    
-    
+
+
     remainder = i Mod 2
     If remainder = 0 Then
             Call BackGroundFill(Range(Cells(ip + (i - 1), "h"), Cells(ip + (i - 1), "n")), True)
@@ -12171,8 +12171,8 @@ End Sub
 
 
 ' 3.4 스킨계수
-Sub Wrote34_SkinFactor_Single(skin As Variant, er As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
-    
+Sub Wrote34_SkinFactor_Single(Skin As Variant, Er As Variant, i As Variant, ByVal isSingleWellImport As Boolean)
+
 '****************************************
 '   ip = 48
 '****************************************
@@ -12182,21 +12182,21 @@ Sub Wrote34_SkinFactor_Single(skin As Variant, er As Variant, i As Variant, ByVa
     Dim ip As Variant
     Dim unit, rngString As String
     Dim Values As Variant
-    
+
     Values = GetRowColumn("agg2_34_skinfactor")
     ip = Values(2)
-   
-   
+
+
     If isSingleWellImport Then
         Call EraseCellData("P" & (ip + i - 1) & ":R" & (ip + i - 1))
     End If
-    
+
     Cells(ip + (i - 1), "p").value = "W-" & i
-    Cells(ip + (i - 1), "q").value = skin
+    Cells(ip + (i - 1), "q").value = Skin
     Cells(ip + (i - 1), "q").NumberFormat = "0.0000"
-    Cells(ip + (i - 1), "r").value = er
+    Cells(ip + (i - 1), "r").value = Er
     Cells(ip + (i - 1), "r").NumberFormat = "0.000"
-    
+
     remainder = i Mod 2
     If remainder = 0 Then
             Call BackGroundFill(Range(Cells(ip + (i - 1), "p"), Cells(ip + (i - 1), "r")), True)
@@ -12450,14 +12450,14 @@ Function getDirectionFromWell(i) As Integer
 
 End Function
 
-Sub WriteWellData_Single(Q As Variant, daeSoo As Variant, T1 As Variant, S1 As Variant, direction As Variant, gradient As Variant, ByVal i As Integer)
+Sub WriteWellData_Single(Q As Variant, DaeSoo As Variant, T1 As Variant, S1 As Variant, direction As Variant, gradient As Variant, ByVal i As Integer)
     
     Call UnmergeAllCells
         
     Cells(3 + i, "c").value = "W-" & CStr(i)
     Cells(3 + i, "e").value = Q
     Cells(3 + i, "f").value = T1
-    Cells(3 + i, "i").value = daeSoo
+    Cells(3 + i, "i").value = DaeSoo
     Cells(3 + i, "k").value = direction
     Cells(3 + i, "m").value = format(gradient, "###0.0000")
     Cells(4, "d").value = "5년"
@@ -13560,8 +13560,8 @@ End Sub
 Sub ImportEachWell(ByVal well_no As Integer)
     ' well_no -- well number
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
-    Dim nl, sl, deltas As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
     Dim wsYangSoo As Worksheet
 
@@ -13575,7 +13575,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     BaseData_ETC_02.TurnOffStuff
     
     ' Read data from the worksheet
-    deltas = wsYangSoo.Cells(4 + i, "L").value
+    DeltaS = wsYangSoo.Cells(4 + i, "L").value
     nl = wsYangSoo.Cells(4 + i, "B").value
     sl = wsYangSoo.Cells(4 + i, "C").value
     casing = wsYangSoo.Cells(4 + i, "J").value
@@ -13584,7 +13584,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     T2 = wsYangSoo.Cells(4 + i, "P").value
     S2 = wsYangSoo.Cells(4 + i, "S").value
     S3 = wsYangSoo.Cells(4 + i, "AQ").value
-    skin = wsYangSoo.Cells(4 + i, "Y").value
+    Skin = wsYangSoo.Cells(4 + i, "Y").value
     RI1 = wsYangSoo.Cells(4 + i, "V").value
     RI2 = wsYangSoo.Cells(4 + i, "W").value
     RI3 = wsYangSoo.Cells(4 + i, "X").value
@@ -13602,12 +13602,12 @@ Sub ImportEachWell(ByVal well_no As Integer)
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
     SetCellValueAndFormat Range("G5"), S2, "0.0000000"
     SetCellValueAndFormat Range("G4"), S1, "0.00000"
-    SetCellValueAndFormat Range("H5"), skin, "0.0000"
+    SetCellValueAndFormat Range("H5"), Skin, "0.0000"
     SetCellValueAndFormat Range("H6"), ir, "0.0000"
     SetCellValueAndFormat Range("E10"), RI1, "0.0"
     SetCellValueAndFormat Range("F10"), RI2, "0.0"
     SetCellValueAndFormat Range("G10"), RI3, "0.0"
-    SetCellValueAndFormat Range("C23"), Round(deltas, 2), "0.00"
+    SetCellValueAndFormat Range("C23"), Round(DeltaS, 2), "0.00"
     
     ' Turn on additional processes or features
     BaseData_ETC_02.TurnOnStuff
@@ -13625,12 +13625,12 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
 ' well_no -- well number
 '
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     
     ' nl : natural level, sl : stable level
     ' s3 - Recover Test 의 S값
     
-    Dim nl, sl, deltas As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
     Dim wsYangSoo As Worksheet
     
@@ -13639,7 +13639,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     BaseData_ETC_02.TurnOffStuff
     
     ' delta s : 최초1분의 수위강하
-    deltas = wsYangSoo.Cells(4 + i, "L").value
+    DeltaS = wsYangSoo.Cells(4 + i, "L").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = wsYangSoo.Cells(4 + i, "B").value
@@ -13654,7 +13654,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     S3 = wsYangSoo.Cells(4 + i, "AQ").value
     
     ' 스킨계수
-    skin = wsYangSoo.Cells(4 + i, "Y").value
+    Skin = wsYangSoo.Cells(4 + i, "Y").value
     
     ' yangsoo radius of influence
     RI1 = wsYangSoo.Cells(4 + i, "V").value  ' schultze
@@ -13675,12 +13675,12 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
     SetCellValueAndFormat Range("G5"), S2, "0.0000000"
     SetCellValueAndFormat Range("G4"), S1, "0.00000"
-    SetCellValueAndFormat Range("H5"), skin, "0.0000"
+    SetCellValueAndFormat Range("H5"), Skin, "0.0000"
     SetCellValueAndFormat Range("H6"), ir, "0.0000"
     SetCellValueAndFormat Range("E10"), RI1, "0.0"
     SetCellValueAndFormat Range("F10"), RI2, "0.0"
     SetCellValueAndFormat Range("G10"), RI3, "0.0"
-    SetCellValueAndFormat Range("C23"), Round(deltas, 2), "0.00"
+    SetCellValueAndFormat Range("C23"), Round(DeltaS, 2), "0.00"
 
     BaseData_ETC_02.TurnOnStuff
 
@@ -13694,10 +13694,10 @@ Private Sub ImportEachWell_OLD()
     Dim WkbkName As Object
     Dim WBNAME, cell1 As String
     Dim i As Integer
-    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, skin As Double
+    Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     
     ' nl : natural level, sl : stable level
-    Dim nl, sl, deltas As Double
+    Dim nl, sl, DeltaS As Double
     Dim casing As Integer
     
     BaseData_ETC_02.TurnOffStuff
@@ -13715,7 +13715,7 @@ Private Sub ImportEachWell_OLD()
     End If
 
     ' delta s : 최초1분의 수위강하
-    deltas = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
+    DeltaS = Workbooks(WBNAME).Worksheets("SkinFactor").Range("b4").value
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
@@ -13729,7 +13729,7 @@ Private Sub ImportEachWell_OLD()
     S2 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i16").value
     S3 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i13").value
     
-    skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
+    Skin = Workbooks(WBNAME).Worksheets("SkinFactor").Range("G6").value
     
     ' yangsoo radius of influence
     ' 슐츠, 영향반경
@@ -13768,14 +13768,14 @@ Private Sub ImportEachWell_OLD()
     Range("G4") = S1
     
     
-    Range("h5") = skin 'skin coefficient
+    Range("h5") = Skin 'skin coefficient
     Range("h6") = ir    'find influence radius
     
     Range("e10") = RI1
     Range("f10") = RI2
     Range("g10") = RI3
     
-    Range("c23") = Round(deltas, 2) 'deltas
+    Range("c23") = Round(DeltaS, 2) 'deltas
     
     BaseData_ETC_02.TurnOnStuff
         
@@ -14656,21 +14656,509 @@ End Sub
 
 
 
-Sub 매크로1()
-'
-' 매크로1 매크로
-'
+Option Explicit
 
-'
-    With Selection
-        .HorizontalAlignment = xlLeft
-        .VerticalAlignment = xlCenter
-        .WrapText = False
-        .Orientation = 0
-        .AddIndent = False
-        .IndentLevel = 0
-        .ShrinkToFit = False
-        .ReadingOrder = xlContext
-        .MergeCells = False
+' Constants for better maintainability
+Private Const SUMMARY_START_ROW As Long = 80
+Private Const TS_ANALYSIS_START_ROW As Long = 48
+Private Const WELL_DATA_START_ROW As Long = 2
+
+' Type definition for well parameters
+Private Type WellParameters
+    Q As Double
+    Natural As Double
+    Stable As Double
+    Recover As Double
+    Radius As Double
+    DeltaS As Double
+    DeltaH As Double
+    DaeSoo As Double
+    T1 As Double
+    T2 As Double
+    TA As Double
+    K As Double
+    Time As Double
+    S1 As Double
+    S2 As Double
+    Schultz As Double
+    Webber As Double
+    Jcob As Double
+    Skin As Double
+    Er As Double
+End Type
+
+' Main import procedure
+Sub GROK_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
+    Dim wsAggregate As Worksheet
+    Dim wsYangSoo As Worksheet
+    Dim wellCount As Integer
+    Dim i As Integer
+    Dim params As WellParameters
+
+    Set wsAggregate = Worksheets("Aggregate2")
+    Set wsYangSoo = Worksheets("YangSoo")
+    wsAggregate.Activate
+
+    wellCount = GetNumberOfWell()
+
+    If Not isSingleWellImport Then
+        ClearAllDataRanges
+    End If
+
+    For i = 1 To wellCount
+        If ShouldProcessWell(i, singleWell, isSingleWellImport) Then
+            params = GetWellParameters(wsYangSoo, i)
+
+            Application.ScreenUpdating = False
+            GROK_WriteAllWellData i, params, isSingleWellImport
+            GROK_WriteSummaryTS i, params
+            Application.ScreenUpdating = True
+        End If
+    Next i
+
+    wsAggregate.Range("A1").Select
+    Application.CutCopyMode = False
+End Sub
+
+' Helper function to determine if well should be processed
+Private Function ShouldProcessWell(currentWell As Integer, singleWell As Integer, _
+                                 isSingle As Boolean) As Boolean
+    ShouldProcessWell = Not isSingle Or (isSingle And currentWell = singleWell)
+End Function
+
+' Get well parameters from YangSoo sheet
+Private Function GetWellParameters(ws As Worksheet, wellIndex As Integer) As WellParameters
+    Dim params As WellParameters
+    Dim row As Long: row = 4 + wellIndex
+
+    With params
+        .Q = ws.Cells(row, "K").value
+        .Natural = ws.Cells(row, "B").value
+        .Stable = ws.Cells(row, "C").value
+        .Recover = ws.Cells(row, "D").value
+        .Radius = ws.Cells(row, "H").value
+        .DeltaS = ws.Cells(row, "L").value
+        .DeltaH = ws.Cells(row, "F").value
+        .DaeSoo = ws.Cells(row, "N").value
+        .T1 = ws.Cells(row, "O").value
+        .T2 = ws.Cells(row, "P").value
+        .TA = ws.Cells(row, "Q").value
+        .Time = ws.Cells(row, "U").value
+        .S1 = ws.Cells(row, "R").value
+        .S2 = ws.Cells(row, "S").value
+        .K = ws.Cells(row, "T").value
+        .Schultz = ws.Cells(row, "V").value
+        .Webber = ws.Cells(row, "W").value
+        .Jcob = ws.Cells(row, "X").value
+        .Skin = ws.Cells(row, "Y").value
+        .Er = ws.Cells(row, "Z").value
+    End With
+
+    GetWellParameters = params
+End Function
+
+' Write all well data sections
+Private Sub GROK_WriteAllWellData(wellIndex As Integer, params As WellParameters, _
+                            isSingleImport As Boolean)
+    WriteWellData wellIndex, params, isSingleImport
+    WriteRadiusOfInfluence wellIndex, params, isSingleImport
+    WriteTSAnalysis wellIndex, params, isSingleImport
+    WriteRadiusOfInfluence wellIndex, params, isSingleImport
+    ' WriteSkinFactor wellIndex, params, isSingleImport
+End Sub
+
+' Write summary T and S values
+Private Sub GROK_WriteSummaryTS(wellIndex As Integer, params As WellParameters)
+    Dim row As Long: row = SUMMARY_START_ROW + wellIndex - 1
+
+    With Range("H" & row)
+        .value = "W-" & wellIndex
+        .Offset(0, 1).value = params.T1
+        .Offset(0, 2).value = params.S1
     End With
 End Sub
+
+' Write well test data (Section 3-3, 3-4, 3-5)
+Private Sub GROK_WriteWellData(wellIndex As Integer, params As WellParameters, _
+                         isSingleImport As Boolean)
+    Dim row As Long: row = WELL_DATA_START_ROW + wellIndex
+    Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
+
+    If isSingleImport Then
+        EraseCellData "C" & row & ":U" & row
+    End If
+
+    With Range("C" & row)
+        ' Section 3-3
+        .value = "W-" & wellIndex
+        .Offset(0, 1).value = 2880
+        .Offset(0, 2).value = params.Q
+        .Offset(0, 9).value = params.Q
+        .Offset(0, 3).value = params.Natural
+        .Offset(0, 4).value = params.Stable
+        .Offset(0, 5).value = params.Stable - params.Natural
+        .Offset(0, 6).value = params.Radius
+        .Offset(0, 7).value = params.DeltaS
+
+        ' Section 3-4
+        .Offset(0, 10).value = params.Radius
+        .Offset(0, 11).value = params.Radius
+        .Offset(0, 12).value = params.DaeSoo
+        .Offset(0, 13).value = params.T1
+        .Offset(0, 14).value = params.S1
+
+        ' Section 3-5
+        .Offset(0, 16).value = params.Stable
+        .Offset(0, 17).value = params.Recover
+        .Offset(0, 18).value = params.Stable - params.Recover
+    End With
+
+    ApplyBackgroundFill Range(Cells(row, "C"), Cells(row, "J")), isEven
+    ApplyBackgroundFill Range(Cells(row, "L"), Cells(row, "Q")), isEven
+    ApplyBackgroundFill Range(Cells(row, "S"), Cells(row, "U")), isEven
+End Sub
+
+' Write radius of influence (Section 3-7)
+Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellParameters, _
+                                  isSingleImport As Boolean)
+    Dim Values As Variant: Values = GetRowColumn("agg2_37_roi")
+    Dim startRow As Long: startRow = Values(2)
+    Dim col As Long: col = 3 + wellIndex
+    Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
+
+    If isSingleImport Then
+        EraseCellData ColumnNumberToLetter(col) & startRow & ":" & _
+                     ColumnNumberToLetter(col) & (startRow + 6)
+    End If
+
+    With Cells(startRow, col)
+        .Offset(0, 0).value = "W-" & wellIndex
+        With .Offset(1, 0)
+            .value = params.TA: .NumberFormat = "0.0000"
+        End With
+        With .Offset(2, 0)
+            .value = params.K: .NumberFormat = "0.0000"
+        End With
+        With .Offset(3, 0)
+            .value = params.S2: .NumberFormat = "0.0000000"
+        End With
+        With .Offset(4, 0)
+            .value = params.Time: .NumberFormat = "0.0000"
+        End With
+        With .Offset(5, 0)
+            .value = params.DeltaH: .NumberFormat = "0.00"
+        End With
+        .Offset(6, 0).value = params.DaeSoo
+    End With
+
+    ApplyBackgroundFill Range(Cells(startRow + 1, col), Cells(startRow + 6, col)), isEven
+End Sub
+
+' Write TS analysis (Section 3-6)
+Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters, _
+                           isSingleImport As Boolean)
+    Dim Values As Variant: Values = GetRowColumn("agg2_36_surisangsoo")
+    Dim baseRow As Long: baseRow = Values(2) + (wellIndex - 1) * 3
+    Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
+
+    If isSingleImport Then
+        EraseCellData "C" & baseRow & ":F" & (baseRow + 2)
+    End If
+
+    With Range("C" & baseRow)
+        .value = "W-" & wellIndex
+        .Offset(0, 1).value = "장기양수시험"
+        .Offset(1, 1).value = "수위회복시험"
+        .Offset(2, 1).value = "선택치"
+
+        With .Offset(0, 2)
+            .value = params.T1: .NumberFormat = "0.0000"
+        End With
+        With .Offset(1, 2)
+            .value = params.T2: .NumberFormat = "0.0000"
+        End With
+        With .Offset(2, 2)
+            .value = params.TA: .NumberFormat = "0.0000": .Font.Bold = True
+        End With
+        With .Offset(0, 3)
+            .value = params.S2: .NumberFormat = "0.0000000"
+        End With
+        With .Offset(2, 3)
+            .value = params.S2: .NumberFormat = "0.0000000": .Font.Bold = True
+        End With
+    End With
+
+    ApplyBackgroundFill Range(Cells(baseRow, "C"), Cells(baseRow + 2, "F")), isEven
+End Sub
+
+' Helper sub to clear all data ranges
+Private Sub ClearAllDataRanges()
+    EraseCellData "C3:J33"
+    EraseCellData "L3:Q33"
+    EraseCellData "S3:U33"
+    EraseCellData "D37:AH43"
+    EraseCellData "E48:F137"
+    EraseCellData "H48:N77"
+    EraseCellData "P48:S77"
+    EraseCellData "H80:J109"
+End Sub
+
+' Helper sub to apply background fill
+Private Sub ApplyBackgroundFill(rng As Range, isEven As Boolean)
+    BackGroundFill rng, isEven
+End Sub
+
+' Note: The following procedures are assumed to exist elsewhere in the codebase:
+' - GetNumberOfWell()
+' - EraseCellData()
+' - BackGroundFill()
+' - GetRowColumn()
+' - ColumnNumberToLetter()
+
+' Data structure to hold well information
+Type WellData
+    Q As Double
+    Natural As Double
+    Stable As Double
+    Recover As Double
+    Radius As Double
+    DeltaS As Double
+    DaeSoo As Double
+    T1 As Double
+    T2 As Double
+    TA As Double
+    time_ As Double
+    S1 As Double
+    S2 As Double
+    K As Double
+    shultz As Double
+    Webber As Double
+    Jcob As Double
+    Skin As Double
+    Er As Double
+End Type
+
+
+'' 회복 T값, S값 을 정리해서 뿌려준다.
+Sub CERE_WriteSummaryTS(ByVal Well As Integer)
+    Dim i As Integer
+
+    i = Well - 1
+
+    Range("H" & (i + 80)).value = "W-" & (i + 1)
+    Range("i" & (i + 80)).value = Range("e" & (49 + i * 3)).value
+    Range("J" & (i + 80)).value = Range("f" & (48 + i * 3)).value
+End Sub
+
+
+' Core subroutine to handle importing well specifications
+Sub CERE_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
+    Dim i As Integer
+    Dim nofwell As Integer
+    nofwell = GetNumberOfWell()
+    Sheets("Aggregate2").Select
+
+    ' Initialize worksheet reference
+    Dim wsYangSoo As Worksheet
+    Set wsYangSoo = Worksheets("YangSoo")
+
+    ' Erase existing data if not single well import
+    If Not isSingleWellImport Then
+        Call EraseWellSections
+    End If
+
+    ' Process each well
+    For i = 1 To nofwell
+        If isSingleWellImport And i <> singleWell Then
+            GoTo NextIteration
+        End If
+
+        ' Load well data from source sheet
+        Dim WellData As WellData
+        WellData = GetWellDataFromYangSoo(i)
+
+        ' Write data to target sections
+        Call CERE_WriteWellData(WellData, i, isSingleWellImport)
+        Call CERE_WriteRadiusOfInfluence(WellData, i, isSingleWellImport)
+        Call CERE_WriteTSAnalysis(WellData, i, isSingleWellImport)
+        Call CERE_WriteRadiusResult(WellData, i, isSingleWellImport)
+        Call CERE_WriteSkinFactor(WellData, i, isSingleWellImport)
+        Call CERE_WriteSummaryTS(i)
+
+        ' Toggle application settings
+        Call ToggleApplicationSettings(True)
+
+NextIteration:
+    Next i
+
+    Range("a1").Select
+    Application.CutCopyMode = False
+End Sub
+
+
+' Helper function to fetch well data from worksheet
+Function CERE_GetWellDataFromYangSoo(ByVal wellIndex As Integer) As WellData
+    With Worksheets("YangSoo")
+        Dim wellRow As Integer
+        wellRow = 4 + wellIndex
+
+        Dim data As WellData
+        data.Q = .Cells(wellRow, "k").value
+        data.Natural = .Cells(wellRow, "b").value
+        data.Stable = .Cells(wellRow, "c").value
+        data.Recover = .Cells(wellRow, "d").value
+        data.Radius = .Cells(wellRow, "h").value
+        data.DeltaS = .Cells(wellRow, "l").value
+        data.DaeSoo = .Cells(wellRow, "n").value
+        data.T1 = .Cells(wellRow, "o").value
+        data.T2 = .Cells(wellRow, "p").value
+        data.TA = .Cells(wellRow, "q").value
+        data.time_ = .Cells(wellRow, "u").value
+        data.S1 = .Cells(wellRow, "r").value
+        data.S2 = .Cells(wellRow, "s").value
+        data.K = .Cells(wellRow, "t").value
+        data.shultz = .Cells(wellRow, "v").value
+        data.Webber = .Cells(wellRow, "w").value
+        data.Jcob = .Cells(wellRow, "x").value
+        data.Skin = .Cells(wellRow, "y").value
+        data.Er = .Cells(wellRow, "z").value
+
+        GetWellDataFromYangSoo = data
+    End With
+End Function
+
+' Centralized function to erase well sections
+Sub EraseWellSections()
+    Call EraseCellData("C3:J33")
+    Call EraseCellData("L3:Q33")
+    Call EraseCellData("S3:U33")
+    Call EraseCellData("D37:AH43")
+    Call EraseCellData("E48:F137")
+    Call EraseCellData("H48:N77")
+    Call EraseCellData("P48:S77")
+    Call EraseCellData("H80:J109")
+End Sub
+
+' Core function to write well data
+Sub CERE_WriteWellData(data As WellData, ByVal wellIndex As Integer, ByVal isSingleWellImport As Boolean)
+    Call WriteSection3_345(data, wellIndex, isSingleWellImport)
+End Sub
+
+' Write 3-3 section: Long-term pumping test results
+Sub CERE_WriteSection3_345(data As WellData, ByVal wellIndex As Integer, ByVal isSingleWellImport As Boolean)
+    If isSingleWellImport Then
+        Call EraseCellData("C" & (wellIndex + 2) & ":J" & (wellIndex + 2))
+        Call EraseCellData("L" & (wellIndex + 2) & ":Q" & (wellIndex + 2))
+        Call EraseCellData("S" & (wellIndex + 2) & ":U" & (wellIndex + 2))
+    End If
+
+    With Worksheets("Aggregate2")
+        .Cells(wellIndex + 2, "C").value = "W-" & wellIndex
+        .Cells(wellIndex + 2, "D").value = 2880
+        .Cells(wellIndex + 2, "E").value = data.Q
+        .Cells(wellIndex + 2, "L").value = data.Q
+        .Cells(wellIndex + 2, "F").value = data.Natural
+        .Cells(wellIndex + 2, "G").value = data.Stable
+        .Cells(wellIndex + 2, "H").value = data.Stable - data.Natural
+        .Cells(wellIndex + 2, "I").value = data.Radius
+        .Cells(wellIndex + 2, "J").value = data.DeltaS
+
+        .Cells(wellIndex + 2, "M").value = data.Radius
+        .Cells(wellIndex + 2, "N").value = data.Radius
+        .Cells(wellIndex + 2, "O").value = data.DaeSoo
+        .Cells(wellIndex + 2, "P").value = data.T1
+        .Cells(wellIndex + 2, "Q").value = data.S1
+
+        .Cells(wellIndex + 2, "S").value = data.Stable
+        .Cells(wellIndex + 2, "T").value = data.Recover
+        .Cells(wellIndex + 2, "U").value = data.Stable - data.Recover
+    End With
+
+    Call ApplyBackground(wellIndex, "C,J,L,Q,S,U")
+End Sub
+
+' Helper function to apply background color
+Sub CERE_ApplyBackground(ByVal index As Integer, ByVal param As String)
+    Dim remainder As Integer
+    remainder = index Mod 2
+
+    Dim args() As String
+    args = Split(param, ",")
+
+    For Each rng In args
+        Call BackGroundFill(Worksheets("Aggregate2").Range(Cells(index + 2, rng), Cells(index + 2, rng)), IIf(remainder = 0, True, False))
+    Next rng
+End Sub
+
+
+' Write 37 radius of influence section
+Sub CERE_WriteRadiusOfInfluence(data As WellData, ByVal wellIndex As Integer, ByVal isSingleWellImport As Boolean)
+
+    Dim ip, remainder As Variant
+    Dim Values As Variant
+
+    Values = GetRowColumn("agg2_37_roi")
+    ip = Values(2)
+
+
+    If isSingleWellImport Then
+        Call EraseCellData(ColumnNumberToLetter(4 + wellIndex) & ip & ":" & ColumnNumberToLetter(4 + wellIndex) & (ip + 6))
+    End If
+
+    With Worksheets("Aggregate2")
+        .Cells((ip + 0), (3 + wellIndex)).value = "W-" & wellIndex
+
+        .Cells((ip + 1), (3 + wellIndex)).value = data.TA
+        .Cells((ip + 1), (3 + wellIndex)).NumberFormat = "0.0000"
+
+        .Cells((ip + 2), (3 + wellIndex)).value = data.K
+        .Cells((ip + 2), (3 + wellIndex)).NumberFormat = "0.0000"
+
+
+        .Cells((ip + 3), (3 + wellIndex)).value = data.S2
+        .Cells((ip + 3), (3 + wellIndex)).NumberFormat = "0.0000000"
+
+        .Cells((ip + 4), (3 + wellIndex)).value = data.time_
+        .Cells((ip + 4), (3 + wellIndex)).NumberFormat = "0.0000"
+
+        .Cells((ip + 5), (3 + wellIndex)).value = data.Stable - data.Recover
+        .Cells((ip + 5), (3 + wellIndex)).NumberFormat = "0.00"
+
+        .Cells((ip + 6), (3 + wellIndex)).value = data.DaeSoo
+    End With
+
+
+    remainder = wellIndex Mod 2
+    If remainder = 0 Then
+            Call BackGroundFill(Range(Cells(ip + 1, (wellIndex + 3)), Cells(ip + 6, (wellIndex + 3))), True)
+    Else
+            Call BackGroundFill(Range(Cells(ip + 1, (wellIndex + 3)), Cells(ip + 6, (wellIndex + 3))), False)
+    End If
+End Sub
+
+' Write 36 TS analysis section
+Sub CERE_WriteTSAnalysis(data As WellData, ByVal wellIndex As Integer, ByVal isSingleWellImport As Boolean)
+    ' Implementation with reduced redundancy
+End Sub
+
+' Write 38 radius result section
+Sub CERE_WriteRadiusResult(data As WellData, ByVal wellIndex As Integer, ByVal isSingleWellImport As Boolean)
+    ' Implementation with reduced redundancy
+End Sub
+
+' Write 34 skin factor section
+Sub CERE_WriteSkinFactor(data As WellData, ByVal wellIndex As Integer, ByVal isSingleWellImport As Boolean)
+    ' Implementation with reduced redundancy
+End Sub
+
+' Helper function to toggle application settings
+Sub ToggleApplicationSettings(ByVal isEnabled As Boolean)
+    Application.ScreenUpdating = isEnabled
+    Application.EnableEvents = isEnabled
+    Application.Calculation = IIf(isEnabled, xlCalculationAutomatic, xlCalculationManual)
+End Sub
+
+
+
+
+

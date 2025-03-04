@@ -24,7 +24,7 @@ End Sub
 Sub GetWaterSpecFromYangSoo_Q1()
   Dim thisname, fName As String
   Dim cell  As String
-  Dim time As Date
+  Dim Time As Date
   Dim bTemp, ec1, ph1 As Double
   
   
@@ -41,7 +41,7 @@ Sub GetWaterSpecFromYangSoo_Q1()
   ' Range("k2") = fname
    
   '------------------------------------------------------------------------
-  time = Workbooks(fName).Worksheets("w1").Range("c6").value
+  Time = Workbooks(fName).Worksheets("w1").Range("c6").value
   bTemp = Workbooks(fName).Worksheets("w1").Range("c7").value
   
   ec1 = Workbooks(fName).Worksheets("w1").Range("c8").value
@@ -49,7 +49,7 @@ Sub GetWaterSpecFromYangSoo_Q1()
   
   '------------------------------------------------------------------------
   
-  Range("c6").value = time
+  Range("c6").value = Time
   Range("c7").value = bTemp
   Range("c8").value = ec1
   Range("c9").value = ph1
