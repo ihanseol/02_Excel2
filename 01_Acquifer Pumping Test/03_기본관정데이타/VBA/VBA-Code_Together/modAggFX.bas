@@ -135,7 +135,7 @@ End Sub
 ' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
 
 Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
-    Dim WellData As Variant
+    Dim wellData As Variant
     Dim numberFormats As Object
     Set numberFormats = CreateObject("Scripting.Dictionary")
 
@@ -167,13 +167,13 @@ Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByV
     End With
 
     ' Get value from dataCell
-    WellData = dataCell.value
+    wellData = dataCell.value
     
     Cells(4 + wellIndex, 1).value = "W-" & wellIndex
     
     ' Set value and number format based on dataArrayName
     With Cells(4 + wellIndex, GetColumnIndex(dataArrayName))
-        .value = WellData
+        .value = wellData
         If numberFormats.Exists(dataArrayName) Then
             .NumberFormat = numberFormats(dataArrayName)
         End If

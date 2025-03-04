@@ -91,37 +91,42 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
     Range("L1").Select
 End Sub
 
-Private Sub WriteWellSummary(wd As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
-    ' Writes well summary data to G:K and Q:S ranges
-
+Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+    ' Writes well summary data to columns G:K and Q:S for a specific well
+    ' Parameters:
+    '   wellData: Structure containing well measurement data
+    '   wellIndex: Index of the well being processed
+    '   isSingleWellMode: Flag indicating single well (True) or all wells (False) operation
+    
     Dim rowNumber As Integer
-    Dim i As Integer
     Dim wellLabel As String
-
+    
+    ' Calculate target row and well identifier
     rowNumber = wellIndex + 2
     wellLabel = "W-" & wellIndex
-
-    ' Clear specific row if in single well mode
+    
+    ' Clear existing data if in single well mode
     If isSingleWellMode Then
         ClearRange "G" & rowNumber & ":K" & rowNumber
         ClearRange "Q" & rowNumber & ":S" & rowNumber
     End If
     
-    i = wellIndex
-
-    ' Write data to summary columns (G:K)
-    Range("G" & (i + 2)).value = "W-" & i
-    Range("H" & (i + 2)).value = wd.Q1
-    Range("I" & (i + 2)).value = wd.Q2
-    Range("J" & (i + 2)).value = wd.Q3
-    Range("K" & (i + 2)).value = wd.Ratio
-
-    Range("Q" & (i + 2)).value = "W-" & i
-    Range("R" & (i + 2)).value = wd.C
-    Range("S" & (i + 2)).value = wd.B
+    ' Write summary data using With blocks for efficiency
+    With Range("G" & rowNumber)
+        .value = wellLabel
+        .Offset(0, 1).value = wellData.Q1
+        .Offset(0, 2).value = wellData.Q2
+        .Offset(0, 3).value = wellData.Q3
+        .Offset(0, 4).value = wellData.Ratio
+    End With
     
+    With Range("Q" & rowNumber)
+        .value = wellLabel
+        .Offset(0, 1).value = wellData.C
+        .Offset(0, 2).value = wellData.B
+    End With
     
-    ' Apply background formatting
+    ' Apply alternating background formatting
     ApplyBackgroundFormatting rowNumber, "G", "K", wellIndex
     ApplyBackgroundFormatting rowNumber, "Q", "S", wellIndex
 End Sub
