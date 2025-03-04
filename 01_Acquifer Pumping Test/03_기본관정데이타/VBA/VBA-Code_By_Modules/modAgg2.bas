@@ -12,20 +12,27 @@ Private Type WellParameters
     Natural As Double
     Stable As Double
     Recover As Double
+    
     Radius As Double
     DeltaS As Double
     DeltaH As Double
+    
     DaeSoo As Double
+    
     T1 As Double
     T2 As Double
     TA As Double
+    
     K As Double
     Time As Double
+    
     S1 As Double
     S2 As Double
+    
     Schultz As Double
     Webber As Double
     Jcob As Double
+    
     Skin As Double
     Er As Double
 End Type
@@ -79,20 +86,26 @@ Private Function GetWellParameters(ws As Worksheet, wellIndex As Integer) As Wel
         .Natural = ws.Cells(row, "B").value
         .Stable = ws.Cells(row, "C").value
         .Recover = ws.Cells(row, "D").value
+        
         .Radius = ws.Cells(row, "H").value
         .DeltaS = ws.Cells(row, "L").value
         .DeltaH = ws.Cells(row, "F").value
+        
         .DaeSoo = ws.Cells(row, "N").value
+        
         .T1 = ws.Cells(row, "O").value
         .T2 = ws.Cells(row, "P").value
         .TA = ws.Cells(row, "Q").value
+        
         .Time = ws.Cells(row, "U").value
         .S1 = ws.Cells(row, "R").value
         .S2 = ws.Cells(row, "S").value
         .K = ws.Cells(row, "T").value
+        
         .Schultz = ws.Cells(row, "V").value
         .Webber = ws.Cells(row, "W").value
         .Jcob = ws.Cells(row, "X").value
+        
         .Skin = ws.Cells(row, "Y").value
         .Er = ws.Cells(row, "Z").value
     End With

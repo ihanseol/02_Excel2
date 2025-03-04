@@ -51,18 +51,18 @@ Sub MakeAverageAndMergeCells(ByVal nofwell As Integer)
     Cells(4, "o").value = "무경계조건"
     Cells(4, "h").value = 0.03
     
-    Call merge_cells("d", nofwell)
-    Call merge_cells("g", nofwell)
-    Call merge_cells("j", nofwell)
-    Call merge_cells("l", nofwell)
-    Call merge_cells("n", nofwell)
-    Call merge_cells("o", nofwell)
-    Call merge_cells("h", nofwell)
+    Call Merge_Cells("d", nofwell)
+    Call Merge_Cells("g", nofwell)
+    Call Merge_Cells("j", nofwell)
+    Call Merge_Cells("l", nofwell)
+    Call Merge_Cells("n", nofwell)
+    Call Merge_Cells("o", nofwell)
+    Call Merge_Cells("h", nofwell)
 
 End Sub
 
 
-Sub merge_cells(cel As String, ByVal nofwell As Integer)
+Sub Merge_Cells(cel As String, ByVal nofwell As Integer)
 
     Range(cel & CStr(4) & ":" & cel & CStr(nofwell + 3)).Select
     With Selection
