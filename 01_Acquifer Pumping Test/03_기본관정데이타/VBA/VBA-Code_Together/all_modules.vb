@@ -39,7 +39,6 @@ Class_Boolean
 modWaterQualityTest
 modWell
 modAggFX
-modAgg2
 modAgg1
 modAggStep
 modAggWhpa
@@ -57,5 +56,4 @@ Sheet_W3
 Sheet_Q4
 Sheet_Q5
 Sheet_Q6
-modAgg2B
-modAgg2A
+modAgg2
