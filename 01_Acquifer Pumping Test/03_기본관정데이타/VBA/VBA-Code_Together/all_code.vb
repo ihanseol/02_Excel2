@@ -11864,7 +11864,7 @@ Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As Bool
         Call EraseCellData("S3:U33")
         
         'Write37
-        Call EraseCellData("E37:AH43")
+        Call EraseCellData("D37:AH43")
         
         'Write36
         Call EraseCellData("E48:F137")
@@ -11929,7 +11929,6 @@ SINGLE_ITERATION:
         Call modAgg2.Wrote34_SkinFactor_Single(skin, er, i, isSingleWellImport)
         
         Call modAgg2.Write_SummaryTS(i)
-        
         Call TurnOnStuff
         
     
@@ -12018,25 +12017,25 @@ Sub WriteData37_RadiusOfInfluence_Single(TA As Variant, K As Variant, S2 As Vari
         Call EraseCellData(ColumnNumberToLetter(4 + i) & ip & ":" & ColumnNumberToLetter(4 + i) & (ip + 6))
     End If
     
-    Cells((ip + 0), (4 + i)).value = "W-" & i
+    Cells((ip + 0), (3 + i)).value = "W-" & i
     
-    Cells((ip + 1), (4 + i)).value = TA
-    Cells((ip + 1), (4 + i)).NumberFormat = "0.0000"
+    Cells((ip + 1), (3 + i)).value = TA
+    Cells((ip + 1), (3 + i)).NumberFormat = "0.0000"
     
-    Cells((ip + 2), (4 + i)).value = K
-    Cells((ip + 2), (4 + i)).NumberFormat = "0.0000"
+    Cells((ip + 2), (3 + i)).value = K
+    Cells((ip + 2), (3 + i)).NumberFormat = "0.0000"
     
     
-    Cells((ip + 3), (4 + i)).value = S2
-    Cells((ip + 3), (4 + i)).NumberFormat = "0.0000000"
+    Cells((ip + 3), (3 + i)).value = S2
+    Cells((ip + 3), (3 + i)).NumberFormat = "0.0000000"
     
-    Cells((ip + 4), (4 + i)).value = time_
-    Cells((ip + 4), (4 + i)).NumberFormat = "0.0000"
+    Cells((ip + 4), (3 + i)).value = time_
+    Cells((ip + 4), (3 + i)).NumberFormat = "0.0000"
     
-    Cells((ip + 5), (4 + i)).value = deltah
-    Cells((ip + 5), (4 + i)).NumberFormat = "0.00"
+    Cells((ip + 5), (3 + i)).value = deltah
+    Cells((ip + 5), (3 + i)).NumberFormat = "0.00"
     
-    Cells((ip + 6), (4 + i)).value = daeSoo
+    Cells((ip + 6), (3 + i)).value = daeSoo
     
     
     remainder = i Mod 2
