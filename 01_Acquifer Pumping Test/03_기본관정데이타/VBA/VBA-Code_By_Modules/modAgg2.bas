@@ -45,7 +45,7 @@ Sub GROK_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As
     wellCount = GetNumberOfWell()
 
     If Not isSingleWellImport Then
-        ClearAllDataRanges
+        Call ClearAllDataRanges
     End If
 
     For i = 1 To wellCount
@@ -157,12 +157,10 @@ Private Sub GROK_WriteWellData(wellIndex As Integer, params As WellParameters, _
         .Offset(0, 18).value = params.Stable - params.Recover
     End With
 
-    ApplyBackgroundFill Range(Cells(row, "C"), Cells(row, "J")), isEven
-    ApplyBackgroundFill Range(Cells(row, "L"), Cells(row, "Q")), isEven
-    ApplyBackgroundFill Range(Cells(row, "S"), Cells(row, "U")), isEven
+    Call ApplyBackgroundFill(Range(Cells(row, "C"), Cells(row, "J")), isEven)
+    Call ApplyBackgroundFill(Range(Cells(row, "L"), Cells(row, "Q")), isEven)
+    Call ApplyBackgroundFill(Range(Cells(row, "S"), Cells(row, "U")), isEven)
 End Sub
-
-
 
 
 ' WriteData34_skinfactor
@@ -188,7 +186,7 @@ Private Sub GROK_WriteSkinFactor(wellIndex As Integer, params As WellParameters,
         End With
     End With
 
-    ApplyBackgroundFill Range(Cells(baseRow + wellIndex - 1, "P"), Cells(baseRow + wellIndex - 1, "R")), isEven
+    Call ApplyBackgroundFill(Range(Cells(baseRow + wellIndex - 1, "P"), Cells(baseRow + wellIndex - 1, "R")), isEven)
 End Sub
 
 
@@ -233,7 +231,7 @@ Private Sub GROK_WriteRoiResult(wellIndex As Integer, params As WellParameters, 
         
     End With
 
-    ApplyBackgroundFill Range(Cells(baseRow + wellIndex - 1, "H"), Cells(baseRow + wellIndex - 1, "N")), isEven
+    Call ApplyBackgroundFill(Range(Cells(baseRow + wellIndex - 1, "H"), Cells(baseRow + wellIndex - 1, "N")), isEven)
 End Sub
 
 
@@ -272,7 +270,7 @@ Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellPara
         .Offset(6, 0).value = params.DaeSoo
     End With
 
-    ApplyBackgroundFill Range(Cells(startRow + 1, col), Cells(startRow + 6, col)), isEven
+    Call ApplyBackgroundFill(Range(Cells(startRow + 1, col), Cells(startRow + 6, col)), isEven)
 End Sub
 
 ' Write TS analysis (Section 3-6)
@@ -286,30 +284,35 @@ Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters,
         EraseCellData "C" & baseRow & ":F" & (baseRow + 2)
     End If
 
-    With Range("C" & baseRow)
-        .value = "W-" & wellIndex
-        .Offset(0, 1).value = "장기양수시험"
-        .Offset(1, 1).value = "수위회복시험"
-        .Offset(2, 1).value = "선택치"
 
-        With .Offset(0, 2)
+    Range("C" & baseRow).value = "W-" & wellIndex
+        
+    With Range("D" & baseRow)
+        .Offset(0, 0).value = "장기양수시험"
+        .Offset(1, 0).value = "수위회복시험"
+        .Offset(2, 0).value = "선택치"
+    End With
+
+
+    With Range("E" & baseRow)
+        With .Offset(0, 0)
             .value = params.T1: .NumberFormat = "0.0000"
         End With
-        With .Offset(1, 2)
+        With .Offset(1, 0)
             .value = params.T2: .NumberFormat = "0.0000"
         End With
-        With .Offset(2, 2)
+        With .Offset(2, 0)
             .value = params.TA: .NumberFormat = "0.0000": .Font.Bold = True
         End With
-        With .Offset(0, 3)
+        With .Offset(0, 1)
             .value = params.S2: .NumberFormat = "0.0000000"
         End With
-        With .Offset(2, 3)
+        With .Offset(2, 1)
             .value = params.S2: .NumberFormat = "0.0000000": .Font.Bold = True
         End With
     End With
-
-    ApplyBackgroundFill Range(Cells(baseRow, "C"), Cells(baseRow, "F")), isEven
+    
+    Call ApplyBackgroundFill(Range(Cells(baseRow, "C"), Cells(baseRow, "F")), isEven)
 End Sub
 
 
@@ -319,7 +322,7 @@ Private Sub ClearAllDataRanges()
     EraseCellData "L3:Q33"
     EraseCellData "S3:U33"
     EraseCellData "D37:AH43"
-    EraseCellData "E48:F137"
+    EraseCellData "D48:F137"
     EraseCellData "H48:N77"
     EraseCellData "P48:S77"
     EraseCellData "H80:J109"
@@ -327,6 +330,6 @@ End Sub
 
 ' Helper sub to apply background fill
 Private Sub ApplyBackgroundFill(rng As Range, isEven As Boolean)
-    BackGroundFill rng, isEven
+    Call BackGroundFill(rng, isEven)
 End Sub
 
