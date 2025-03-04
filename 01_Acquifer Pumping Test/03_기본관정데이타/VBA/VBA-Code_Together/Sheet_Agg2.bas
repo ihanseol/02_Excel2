@@ -7,7 +7,10 @@ End Sub
 Private Sub CommandButton2_Click()
     ' Collect All Data
 
-    Call modAgg2.ImportWellSpec(999, False)
+    ' Call modAgg2.ImportWellSpec(999, False)
+    ' Call modAgg2B.ImportWellSpec(999, False)
+    
+    Call modAgg2B.GROK_ImportWellSpec(999, False)
 End Sub
 
 

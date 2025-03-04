@@ -12,9 +12,6 @@ Sub Write_SummaryTS(ByVal Well As Integer)
 
 End Sub
 
-
-
-
 Sub ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
     Dim fName As String
     Dim nofwell, i As Integer
@@ -226,8 +223,6 @@ Sub WriteData37_RadiusOfInfluence_Single(TA As Variant, K As Variant, S2 As Vari
 
 
 End Sub
-
-
 
 
 ' 3-6, 수리상수산정결과

@@ -103,11 +103,12 @@ End Function
 ' Write all well data sections
 Private Sub GROK_WriteAllWellData(wellIndex As Integer, params As WellParameters, _
                             isSingleImport As Boolean)
-    WriteWellData wellIndex, params, isSingleImport
-    WriteRadiusOfInfluence wellIndex, params, isSingleImport
-    WriteTSAnalysis wellIndex, params, isSingleImport
-    WriteRadiusOfInfluence wellIndex, params, isSingleImport
-    ' WriteSkinFactor wellIndex, params, isSingleImport
+    Call GROK_WriteWellData(wellIndex, params, isSingleImport)
+    Call GROK_WriteRadiusOfInfluence(wellIndex, params, isSingleImport)
+    Call GROK_WriteTSAnalysis(wellIndex, params, isSingleImport)
+    Call GROK_WriteRadiusOfInfluence(wellIndex, params, isSingleImport)
+    Call GROK_WriteSkinFactor(wellIndex, params, isSingleImport)
+    Call GROK_WriteRoiResult(wellIndex, params, isSingleImport)
 End Sub
 
 ' Write summary T and S values
@@ -160,6 +161,83 @@ Private Sub GROK_WriteWellData(wellIndex As Integer, params As WellParameters, _
     ApplyBackgroundFill Range(Cells(row, "L"), Cells(row, "Q")), isEven
     ApplyBackgroundFill Range(Cells(row, "S"), Cells(row, "U")), isEven
 End Sub
+
+
+
+
+' WriteData34_skinfactor
+Private Sub GROK_WriteSkinFactor(wellIndex As Integer, params As WellParameters, _
+                           isSingleImport As Boolean)
+    Dim Values As Variant: Values = GetRowColumn("agg2_34_skinfactor")
+    Dim baseRow As Long: baseRow = Values(2)
+    Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
+
+    If isSingleImport Then
+        EraseCellData "P" & baseRow & ":R" & baseRow
+    End If
+
+    With Range("P" & (baseRow + wellIndex - 1))
+        .value = "W-" & wellIndex
+        
+        With .Offset(0, 1)
+            .value = params.Skin: .NumberFormat = "0.0000"
+        End With
+        
+        With .Offset(0, 2)
+            .value = params.Er: .NumberFormat = "0.0000"
+        End With
+    End With
+
+    ApplyBackgroundFill Range(Cells(baseRow + wellIndex - 1, "P"), Cells(baseRow + wellIndex - 1, "R")), isEven
+End Sub
+
+
+' WriteData38_ROI result
+Private Sub GROK_WriteRoiResult(wellIndex As Integer, params As WellParameters, _
+                           isSingleImport As Boolean)
+    Dim Values As Variant: Values = GetRowColumn("agg2_38_roi_result")
+    Dim baseRow As Long: baseRow = Values(2)
+    Dim isEven As Boolean: isEven = (wellIndex Mod 2 = 0)
+
+    If isSingleImport Then
+        EraseCellData "H" & baseRow & ":N" & baseRow
+    End If
+
+    With Range("H" & (baseRow + wellIndex - 1))
+        .value = "W-" & wellIndex
+        
+        With .Offset(0, 1)
+            .value = params.Schultz: .NumberFormat = "0.0"
+        End With
+        
+        With .Offset(0, 2)
+            .value = params.Webber: .NumberFormat = "0.0"
+        End With
+        
+        
+        With .Offset(0, 3)
+            .value = params.Jcob: .NumberFormat = "0.0"
+        End With
+        
+        With .Offset(0, 4)
+            .value = (params.Schultz + params.Webber + params.Webber) / 3: .NumberFormat = "0.0"
+        End With
+        
+        With .Offset(0, 5)
+            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Webber): .NumberFormat = "0.0"
+        End With
+        
+        With .Offset(0, 6)
+            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Webber): .NumberFormat = "0.0"
+        End With
+        
+    End With
+
+    ApplyBackgroundFill Range(Cells(baseRow + wellIndex - 1, "H"), Cells(baseRow + wellIndex - 1, "N")), isEven
+End Sub
+
+
+
 
 ' Write radius of influence (Section 3-7)
 Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellParameters, _
@@ -231,8 +309,9 @@ Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters,
         End With
     End With
 
-    ApplyBackgroundFill Range(Cells(baseRow, "C"), Cells(baseRow + 2, "F")), isEven
+    ApplyBackgroundFill Range(Cells(baseRow, "C"), Cells(baseRow, "F")), isEven
 End Sub
+
 
 ' Helper sub to clear all data ranges
 Private Sub ClearAllDataRanges()
@@ -250,11 +329,4 @@ End Sub
 Private Sub ApplyBackgroundFill(rng As Range, isEven As Boolean)
     BackGroundFill rng, isEven
 End Sub
-
-' Note: The following procedures are assumed to exist elsewhere in the codebase:
-' - GetNumberOfWell()
-' - EraseCellData()
-' - BackGroundFill()
-' - GetRowColumn()
-' - ColumnNumberToLetter()
 
