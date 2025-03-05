@@ -275,24 +275,24 @@ Public Sub getMotorPower()
     Dim nof_unique_tab As Integer
     Dim i, sheet    As Integer
     
-    Dim title()     As Variant
+    Dim Title()     As Variant
     Dim simdo()     As Variant
     Dim pump_q()    As Variant
     Dim motor_depth() As Variant
     Dim efficiency() As Variant
-    Dim hp()        As Variant
+    Dim Hp()        As Variant
     Dim stable_height()        As Variant
     
     Set rc = getkey_tabcolors()
     r_ans = getans_tabcolors()
     Call get_tabsize(nof_sheets, nof_unique_tab)
     
-    ReDim title(1 To nof_sheets)
+    ReDim Title(1 To nof_sheets)
     ReDim simdo(1 To nof_sheets)
     ReDim pump_q(1 To nof_sheets)
     ReDim motor_depth(1 To nof_sheets)
     ReDim efficiency(1 To nof_sheets)
-    ReDim hp(1 To nof_sheets)
+    ReDim Hp(1 To nof_sheets)
     ReDim stable_height(1 To nof_sheets)
     
     ip = lastRow() + 4
@@ -303,7 +303,7 @@ Public Sub getMotorPower()
     For i = 1 To nof_sheets
         Worksheets(CStr(i)).Activate
         
-        title(i) = Range("b2").value
+        Title(i) = Range("b2").value
         simdo(i) = Range("c7").value
         
         ' 채수계획량을 선택할것인지, 양수량을 선택할것인지
@@ -324,7 +324,7 @@ Public Sub getMotorPower()
            efficiency(i) = get_efficiency_dongho(pump_q(i))
         End If
         
-        hp(i) = Range("c17").value
+        Hp(i) = Range("c17").value
         stable_height(i) = Range("c21").value
     Next i
     
@@ -333,7 +333,7 @@ Public Sub getMotorPower()
     Call draw_motor_frame(nof_sheets, ip)
     
     For i = 1 To nof_sheets
-        Call insert_basic_entry(title(i), simdo(i), pump_q(i), motor_depth(i), efficiency(i), hp(i), i, ip)
+        Call insert_basic_entry(Title(i), simdo(i), pump_q(i), motor_depth(i), efficiency(i), Hp(i), i, ip)
         Call insert_cell_function(i, ip)
     Next i
     
@@ -343,7 +343,7 @@ Public Sub getMotorPower()
     ' -----------------------------------
     
     For i = 1 To nof_sheets
-        Call insert_downform(pump_q(i), motor_depth(i), efficiency(i), title(i), ip2 + i - 1, stable_height(i))
+        Call insert_downform(pump_q(i), motor_depth(i), efficiency(i), Title(i), ip2 + i - 1, stable_height(i))
     Next i
     
     Call DecoLine(i, ip2)
@@ -374,7 +374,7 @@ Sub Range_AlignLeft(ByVal rng As Range)
     Range("G38").Select
 End Sub
 
-Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, title As Variant, ByVal po As Integer, ByVal stable_height As Variant)
+Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, Title As Variant, ByVal po As Integer, ByVal stable_height As Variant)
     Dim tenper As Double
     Dim sum_simdo As Double
     
@@ -382,7 +382,7 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     tenper = Round(motor_simdo / 10, 1)
     sum_simdo = motor_simdo + tenper
     
-    Cells(po, "A").value = title
+    Cells(po, "A").value = Title
     Cells(po, "B").value = pump_q
     Cells(po, "C").value = motor_simdo
     Cells(po, "D").value = tenper
@@ -396,7 +396,7 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     ' 2025-02-27
     ' -----------------------------------
     Cells(po, "J").value = stable_height
-    Cells(po, "J").NumberFormat = "0.00"
+    Cells(po, "J").numberFormat = "0.00"
     
     ' -----------------------------------
     ' 2025-03-2
@@ -518,17 +518,17 @@ End Sub
 
 'ip : insertion point
 
-Private Sub insert_basic_entry(title As Variant, simdo As Variant, Q As Variant, motor_depth As Variant, _
-                                e As Variant, hp As Variant, ByVal i As Integer, ByVal po As Variant)
+Private Sub insert_basic_entry(Title As Variant, simdo As Variant, Q As Variant, motor_depth As Variant, _
+                                e As Variant, Hp As Variant, ByVal i As Integer, ByVal po As Variant)
     Dim mychar As String
     
     mychar = ColumnNumberToLetter(i + 1)
-    Range(mychar & CStr(po + 1)).value = title
+    Range(mychar & CStr(po + 1)).value = Title
     Range(mychar & CStr(po + 2)).value = simdo
     Range(mychar & CStr(po + 3)).value = Q
     Range(mychar & CStr(po + 4)).value = motor_depth
     Range(mychar & CStr(po + 7)).value = e / 100
-    Range(mychar & CStr(po + 11)).value = hp
+    Range(mychar & CStr(po + 11)).value = Hp
     
     Call SetFontMalgun(mychar, ip)
 End Sub

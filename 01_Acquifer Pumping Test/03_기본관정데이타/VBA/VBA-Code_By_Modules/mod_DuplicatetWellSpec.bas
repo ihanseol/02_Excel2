@@ -230,18 +230,18 @@ Function aFindCellByLoopingPartialMatch(wb As Workbook) As String
 
     Dim ws As Worksheet
     Dim cell As Range
-    Dim address As String
+    Dim Address As String
      
      For Each cell In wb.Worksheets("Well").Range("A1:AZ1").Cells
-        Debug.Print cell.address, cell.value
+        Debug.Print cell.Address, cell.value
     
         If aCellContains(cell, "") Then
-            address = cell.address
+            Address = cell.Address
             Exit For
         End If
     Next
     
-    aFindCellByLoopingPartialMatch = address
+    aFindCellByLoopingPartialMatch = Address
     
 End Function
 
@@ -249,7 +249,7 @@ End Function
 
 Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
 
-   Dim cpRange, title As String
+   Dim cpRange, Title As String
     
     cpRange = "A4:P" & (nofwell + 4 - 1)
     
@@ -268,9 +268,9 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
     ' 2024/12/26 Search Title location
     
     titleCell = aFindCellByLoopingPartialMatch(Workbooks(WB_NAME))
-    title = Workbooks(WB_NAME).Worksheets("Well").Range(titleCell).value
+    Title = Workbooks(WB_NAME).Worksheets("Well").Range(titleCell).value
     EraseCellData ("A1:G1")
-    Workbooks(this_WBNAME).Worksheets("Well").Range("D1") = title
+    Workbooks(this_WBNAME).Worksheets("Well").Range("D1") = Title
     
     ' End of Copy Title
     
@@ -289,7 +289,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     
     ' nl : natural level, sl : stable level
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
 
     WBNAME = "A" & GetNumeric2(well_no) & "_ge_OriginalSaveFile.xlsm"
     
@@ -307,7 +307,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
     sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
+    Casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
     T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
@@ -329,25 +329,25 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
+    Range("c20").numberFormat = "0.00"
     
     Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
+    Range("c21").numberFormat = "0.00"
     
     Range("c10") = 5
-    Range("c11") = casing - 5
+    Range("c11") = Casing - 5
     
     'in recover test, s' value
     Range("G6") = S3
         
     Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
+    Range("E5").numberFormat = "0.0000"
      
     Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
+    Range("E6").numberFormat = "0.0000"
     
     Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
+    Range("g5").numberFormat = "0.0000000"
     
     Range("G4") = S1
     

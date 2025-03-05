@@ -34,7 +34,7 @@ Sub initialize_wellstyle()
     Set rng = Range("C3:C22")
     Range("C3:C22").Select
     
-    Selection.NumberFormat = "General"
+    Selection.numberFormat = "General"
         
     With Selection
         .HorizontalAlignment = xlGeneral

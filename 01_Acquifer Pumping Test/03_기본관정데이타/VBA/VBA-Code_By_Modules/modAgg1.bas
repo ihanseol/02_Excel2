@@ -2,26 +2,26 @@ Attribute VB_Name = "modAgg1"
 '
 ' 2025/3/4, Aggregate1 Refactoring
 '
-
 ' Type definition for WellDataForAggregate1
 '
-Private Type WellDataForAggOne
-    Q1 As Double
-    QQ1 As Double
-    Q2 As Double
-    Q3 As Double
+Private Type WellDataOne
+    Q As Double '양수량
+    Q1 As Double '1단계 양수량
+    Qg As Double '가채수량
+    Qh As Double '한계양수량
+    
     Ratio As Double
     
-    S1 As Double
-    S2 As Double
+    Sd1 As Double ' 1단계 수위강하령
+    Sd2 As Double ' 4단계 수위강하량
     
     C As Double
     B As Double
 End Type
 
 ' Get well parameters from YangSoo sheet
-Private Function GetWellData(wellIndex As Integer) As WellDataForAggOne
-    Dim params As WellDataForAggOne
+Private Function GetWellData(wellIndex As Integer) As WellDataOne
+    Dim params As WellDataOne
     Dim ws As Worksheet
     Dim row As Long: row = 4 + wellIndex
     
@@ -29,16 +29,16 @@ Private Function GetWellData(wellIndex As Integer) As WellDataForAggOne
     Set ws = Worksheets("YangSoo")
 
     With params
-        .Q1 = ws.Cells(row, "aa").value
-        .QQ1 = ws.Cells(row, "ac").value
+        .Q = ws.Cells(row, "k").value
+        .Qg = ws.Cells(row, "ab").value
         
-        .Q2 = ws.Cells(row, "ab").value
-        .Q3 = ws.Cells(row, "k").value
+        .Q1 = ws.Cells(row, "ac").value
+        .Qh = ws.Cells(row, "aa").value
         
         .Ratio = ws.Cells(row, "ah").value
         
-        .S1 = ws.Cells(row, "ad").value
-        .S2 = ws.Cells(row, "ae").value
+        .Sd1 = ws.Cells(row, "ad").value
+        .Sd2 = ws.Cells(row, "ae").value
         
         .C = ws.Cells(row, "af").value
         .B = ws.Cells(row, "ag").value
@@ -55,7 +55,7 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
 
     Dim wellCount As Integer
     Dim wellIndex As Integer
-    Dim wd As WellDataForAggOne
+    Dim wd As WellDataOne
     
 
     ' Initialize core variables
@@ -92,7 +92,7 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
     Range("L1").Select
 End Sub
 
-Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+Private Sub WriteWellSummary(WellData As WellDataOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
     ' Writes well summary data to columns G:K and Q:S for a specific well
     ' Parameters:
     '   wellData: Structure containing well measurement data
@@ -115,16 +115,16 @@ Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As I
     ' Write summary data using With blocks for efficiency
     With Range("G" & rowNumber)
         .value = wellLabel
-        .Offset(0, 1).value = wellData.Q1
-        .Offset(0, 2).value = wellData.Q2
-        .Offset(0, 3).value = wellData.Q3
-        .Offset(0, 4).value = wellData.Ratio
+        .Offset(0, 1).value = WellData.Qh
+        .Offset(0, 2).value = WellData.Qg
+        .Offset(0, 3).value = WellData.Q
+        .Offset(0, 4).value = WellData.Ratio
     End With
     
     With Range("Q" & rowNumber)
         .value = wellLabel
-        .Offset(0, 1).value = wellData.C
-        .Offset(0, 2).value = wellData.B
+        .Offset(0, 1).value = WellData.C
+        .Offset(0, 2).value = WellData.B
     End With
     
     ' Apply alternating background formatting
@@ -132,7 +132,7 @@ Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As I
     ApplyBackgroundFormatting rowNumber, "Q", "S", wellIndex
 End Sub
 
-Private Sub WriteWaterIntake(wd As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+Private Sub WriteWaterIntake(wd As WellDataOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
     ' Calculates and writes tentative water intake data starting at row 43
 
     Dim startRow As Integer
@@ -152,9 +152,9 @@ Private Sub WriteWaterIntake(wd As WellDataForAggOne, ByVal wellIndex As Integer
     ' Write water intake data
     Cells(baseRow, "F").value = "W-" & CStr(wellIndex)
     Cells(baseRow, "G").value = wd.Q1
-    Cells(baseRow, "H").value = wd.S2
-    Cells(baseRow + 1, "H").value = wd.S1
-    Cells(baseRow, "I").value = wd.Q2
+    Cells(baseRow, "H").value = wd.Sd2
+    Cells(baseRow + 1, "H").value = wd.Sd1
+    Cells(baseRow, "I").value = wd.Qg
 
     ' Apply background formatting
     ApplyBackgroundFormatting baseRow, "F", "I", wellIndex, 2

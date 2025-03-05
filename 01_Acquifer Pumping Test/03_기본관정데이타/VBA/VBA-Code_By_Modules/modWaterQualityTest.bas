@@ -269,34 +269,34 @@ End Sub
 
 
 
-Function getEC_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
-    Sheets("p" & Well).Activate
+Function getEC_Q1(ByVal LOWHI As Integer, ByVal well As Integer)
+    Sheets("p" & well).Activate
     
     If LOWHI = cellLOW Then
-        getEC_Q1 = Sheets("p" & CStr(Well)).Range("e25").value
+        getEC_Q1 = Sheets("p" & CStr(well)).Range("e25").value
     Else
-        getEC_Q1 = Sheets("p" & CStr(Well)).Range("e24").value
+        getEC_Q1 = Sheets("p" & CStr(well)).Range("e24").value
     End If
 End Function
 
-Function getPH_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
-    Sheets("p" & CStr(Well)).Activate
+Function getPH_Q1(ByVal LOWHI As Integer, ByVal well As Integer)
+    Sheets("p" & CStr(well)).Activate
     
     If LOWHI = cellLOW Then
-        getPH_Q1 = Sheets("p" & CStr(Well)).Range("f25").value
+        getPH_Q1 = Sheets("p" & CStr(well)).Range("f25").value
     Else
-        getPH_Q1 = Sheets("p" & CStr(Well)).Range("f24").value
+        getPH_Q1 = Sheets("p" & CStr(well)).Range("f24").value
     End If
     
 End Function
 
-Function getTEMP_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
-    Sheets("p" & CStr(Well)).Activate
+Function getTEMP_Q1(ByVal LOWHI As Integer, ByVal well As Integer)
+    Sheets("p" & CStr(well)).Activate
 
     If LOWHI = cellLOW Then
-        getTEMP_Q1 = Sheets("p" & CStr(Well)).Range("d25").value
+        getTEMP_Q1 = Sheets("p" & CStr(well)).Range("d25").value
     Else
-        getTEMP_Q1 = Sheets("p" & CStr(Well)).Range("d24").value
+        getTEMP_Q1 = Sheets("p" & CStr(well)).Range("d24").value
     End If
 End Function
 
@@ -361,11 +361,11 @@ End Sub
 '******************************************************************************************************************************
 
 
-Function getEC_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getEC_Q2(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well, 2)
-    remainder = Well Mod 2
+    quo = WorksheetFunction.quotient(well, 2)
+    remainder = well Mod 2
     page = quo + remainder
     
     Sheets("p" & CStr(page)).Activate
@@ -385,11 +385,11 @@ Function getEC_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
     End If
 End Function
 
-Function getPH_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getPH_Q2(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well, 2)
-    remainder = Well Mod 2
+    quo = WorksheetFunction.quotient(well, 2)
+    remainder = well Mod 2
     page = quo + remainder
     
     Sheets("p" & CStr(page)).Activate
@@ -409,11 +409,11 @@ Function getPH_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
     End If
 End Function
 
-Function getTEMP_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getTEMP_Q2(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well, 2)
-    remainder = Well Mod 2
+    quo = WorksheetFunction.quotient(well, 2)
+    remainder = well Mod 2
     page = quo + remainder
     
     Sheets("p" & CStr(page)).Activate
@@ -533,11 +533,11 @@ End Sub
 ' 1, 2, 3 --> p1
 ' 4, 5, 6 --> p2
 
-Function getEC_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getEC_Q3(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well - 1, 3)
-    remainder = Well Mod 3
+    quo = WorksheetFunction.quotient(well - 1, 3)
+    remainder = well Mod 3
     page = quo + 1
        
     Select Case remainder
@@ -564,11 +564,11 @@ Function getEC_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
     End Select
 End Function
 
-Function getPH_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getPH_Q3(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well - 1, 3)
-    remainder = Well Mod 3
+    quo = WorksheetFunction.quotient(well - 1, 3)
+    remainder = well Mod 3
     page = quo + 1
        
     Select Case remainder
@@ -595,11 +595,11 @@ Function getPH_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
     End Select
 End Function
 
-Function getTEMP_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getTEMP_Q3(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well - 1, 3)
-    remainder = Well Mod 3
+    quo = WorksheetFunction.quotient(well - 1, 3)
+    remainder = well Mod 3
     page = quo + 1
        
     Select Case remainder

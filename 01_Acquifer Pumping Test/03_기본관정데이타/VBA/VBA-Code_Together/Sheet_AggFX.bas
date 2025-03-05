@@ -31,7 +31,7 @@ End Sub
 Private Sub CommandButton4_Click()
     'single well import
     
-    Dim singleWell  As Integer
+    Dim WellNumber  As Integer
     Dim WB_NAME As String
     
     
@@ -50,11 +50,11 @@ Private Sub CommandButton4_Click()
         MsgBox "WorkBook is Empty"
         Exit Sub
     Else
-        singleWell = CInt(ExtractNumberFromString(WB_NAME))
+        WellNumber = CInt(ExtractNumberFromString(WB_NAME))
     '   MsgBox (SingleWell)
     End If
     
-    Call GetBaseDataFromYangSoo(singleWell, True)
+    Call GetBaseDataFromYangSoo(WellNumber, True)
 
 End Sub
 

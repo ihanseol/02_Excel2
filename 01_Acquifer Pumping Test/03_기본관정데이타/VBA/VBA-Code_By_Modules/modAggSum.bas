@@ -18,8 +18,8 @@ Public gbIsFirstTime  As Boolean
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
     
-    acColumn = Split(Range("ip_motor_simdo").address, "$")(1)
-    acRow = Split(Range("ip_motor_simdo").address, "$")(2)
+    acColumn = Split(Range("ip_motor_simdo").Address, "$")(1)
+    acRow = Split(Range("ip_motor_simdo").Address, "$")(2)
     
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column
@@ -94,23 +94,23 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
         
         ' 자연수위
         Cells(11 + i, "G").value = Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "G").NumberFormat = "0.00"
+        Cells(11 + i, "G").numberFormat = "0.00"
         
         ' 안정수위
         Cells(11 + i, "H").value = Worksheets(CStr(i)).Range("c21").value
-        Cells(11 + i, "H").NumberFormat = "0.00"
+        Cells(11 + i, "H").numberFormat = "0.00"
         
          '수위강하량
         Cells(11 + i, "I").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "I").NumberFormat = "0.00"
+        Cells(11 + i, "I").numberFormat = "0.00"
         
         ' 투수량계수
         Cells(11 + i, "J").value = Worksheets(CStr(i)).Range("E7").value
-        Cells(11 + i, "J").NumberFormat = "0.0000"
+        Cells(11 + i, "J").numberFormat = "0.0000"
         
         ' 저류계수
         Cells(11 + i, "K").value = Worksheets(CStr(i)).Range("G7").value
-        Cells(11 + i, "K").NumberFormat = "0.0000000"
+        Cells(11 + i, "K").numberFormat = "0.0000000"
     Next i
 End Sub
 
@@ -147,11 +147,11 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
         
         ' 자연수위
         Cells(11 + i, "P").value = Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "P").NumberFormat = "0.00"
+        Cells(11 + i, "P").numberFormat = "0.00"
         
         ' 안정수위
         Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value
-        Cells(11 + i, "Q").NumberFormat = "0.00"
+        Cells(11 + i, "Q").numberFormat = "0.00"
         
         '수위강하량
 '        Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
@@ -159,11 +159,11 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
         
         ' 투수량계수
         Cells(11 + i, "R").value = Worksheets(CStr(i)).Range("E7").value
-        Cells(11 + i, "R").NumberFormat = "0.0000"
+        Cells(11 + i, "R").numberFormat = "0.0000"
          
         ' 저류계수
         Cells(11 + i, "S").value = Worksheets(CStr(i)).Range("G7").value
-        Cells(11 + i, "S").NumberFormat = "0.0000000"
+        Cells(11 + i, "S").numberFormat = "0.0000000"
     Next i
 End Sub
 

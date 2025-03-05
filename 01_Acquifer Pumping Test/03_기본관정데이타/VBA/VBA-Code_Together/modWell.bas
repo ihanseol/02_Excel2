@@ -85,7 +85,7 @@ Sub PressAll_Button()
         
     Sheets("YangSoo").Visible = True
     Sheets("YangSoo").Select
-    Call modAggFX.GetBaseDataFromYangSoo(999, False)
+    Call GetBaseDataFromYangSoo(999, False)
     Sheets("YangSoo").Visible = False
     
     Call Popup_MessageBox("YangSoo, Aggregate2 - ImportWellSpec ...")
@@ -252,7 +252,7 @@ Sub JojungButton()
     Call make_wellstyle
     Call DecorateWellBorder(nofwell)
     
-    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").address
+    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
     
     TurnOnStuff
 End Sub
@@ -304,9 +304,9 @@ End Sub
 
 
 
-Sub DeleteWorksheet(Well As Integer)
+Sub DeleteWorksheet(well As Integer)
     Application.DisplayAlerts = False
-    ThisWorkbook.Worksheets(CStr(Well)).Delete
+    ThisWorkbook.Worksheets(CStr(well)).Delete
     Application.DisplayAlerts = True
 End Sub
 
@@ -419,8 +419,8 @@ Sub ImportWell_MainWellPage()
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim address, Company As String
-    Dim simdo, diameter, Q, hp As Double
+    Dim Address, Company As String
+    Dim simdo, diameter, Q, Hp As Double
     
     nofwell = sheets_count()
     Sheets("Well").Select
@@ -434,19 +434,21 @@ Sub ImportWell_MainWellPage()
     wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
            
     For i = 1 To nofwell
-        address = wsYangSoo.Cells(4 + i, "ao").value
+        '2025/3/5
+        Address = Replace(wsYangSoo.Cells(4 + i, "ao").value, "충청남도 ", "")
+        Address = Replace(Address, "번지", "")
+        
         simdo = wsYangSoo.Cells(4 + i, "i").value
         diameter = wsYangSoo.Cells(4 + i, "g").value
         Q = wsYangSoo.Cells(4 + i, "k").value
-        hp = wsYangSoo.Cells(4 + i, "m").value
+        Hp = wsYangSoo.Cells(4 + i, "m").value
         
-        
-        wsWell.Cells(3 + i, "d").value = address
+        wsWell.Cells(3 + i, "d").value = Address
         wsWell.Cells(3 + i, "g").value = diameter
         wsWell.Cells(3 + i, "h").value = simdo
         wsWell.Cells(3 + i, "i").value = Q
         wsWell.Cells(3 + i, "j").value = Q
-        wsWell.Cells(3 + i, "l").value = hp
+        wsWell.Cells(3 + i, "l").value = Hp
     Next i
 
     
@@ -455,6 +457,9 @@ Sub ImportWell_MainWellPage()
     
     Application.CutCopyMode = False
 End Sub
+
+
+
 
 
 Sub DuplicateBasicWellData()

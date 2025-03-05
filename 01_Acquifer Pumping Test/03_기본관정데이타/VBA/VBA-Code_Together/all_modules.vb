@@ -38,7 +38,7 @@ mod_DuplicatetWellSpec
 Class_Boolean
 modWaterQualityTest
 modWell
-modAggFX
+modAggFX_Save
 modAggStep
 modAggWhpa
 modAggSum
@@ -57,3 +57,4 @@ Sheet_W3
 Sheet_Q4
 Sheet_Q5
 Sheet_Q6
+modAggFX_A

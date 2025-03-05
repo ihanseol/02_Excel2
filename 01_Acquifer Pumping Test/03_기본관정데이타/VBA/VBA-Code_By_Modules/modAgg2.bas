@@ -130,8 +130,8 @@ Private Sub GROK_WriteSummaryTS(wellIndex As Integer, params As WellParameters)
 
     With Range("H" & row)
         .value = "W-" & wellIndex
-        .Offset(0, 1).value = params.T1
-        .Offset(0, 2).value = params.S1
+        .Offset(0, 1).value = params.T2
+        .Offset(0, 2).value = params.S2
     End With
 End Sub
 
@@ -191,11 +191,11 @@ Private Sub GROK_WriteSkinFactor(wellIndex As Integer, params As WellParameters,
         .value = "W-" & wellIndex
         
         With .Offset(0, 1)
-            .value = params.Skin: .NumberFormat = "0.0000"
+            .value = params.Skin: .numberFormat = "0.0000"
         End With
         
         With .Offset(0, 2)
-            .value = params.Er: .NumberFormat = "0.0000"
+            .value = params.Er: .numberFormat = "0.0000"
         End With
     End With
 
@@ -218,28 +218,28 @@ Private Sub GROK_WriteRoiResult(wellIndex As Integer, params As WellParameters, 
         .value = "W-" & wellIndex
         
         With .Offset(0, 1)
-            .value = params.Schultz: .NumberFormat = "0.0"
+            .value = params.Schultz: .numberFormat = "0.0"
         End With
         
         With .Offset(0, 2)
-            .value = params.Webber: .NumberFormat = "0.0"
+            .value = params.Webber: .numberFormat = "0.0"
         End With
         
         
         With .Offset(0, 3)
-            .value = params.Jcob: .NumberFormat = "0.0"
+            .value = params.Jcob: .numberFormat = "0.0"
         End With
         
         With .Offset(0, 4)
-            .value = (params.Schultz + params.Webber + params.Webber) / 3: .NumberFormat = "0.0"
+            .value = (params.Schultz + params.Webber + params.Jcob) / 3: .numberFormat = "0.0"
         End With
         
         With .Offset(0, 5)
-            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Webber): .NumberFormat = "0.0"
+            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Jcob): .numberFormat = "0.0"
         End With
         
         With .Offset(0, 6)
-            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Webber): .NumberFormat = "0.0"
+            .value = Application.WorksheetFunction.min(params.Schultz, params.Webber, params.Jcob): .numberFormat = "0.0"
         End With
         
     End With
@@ -266,19 +266,19 @@ Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellPara
     With Cells(startRow, col)
         .Offset(0, 0).value = "W-" & wellIndex
         With .Offset(1, 0)
-            .value = params.TA: .NumberFormat = "0.0000"
+            .value = params.TA: .numberFormat = "0.0000"
         End With
         With .Offset(2, 0)
-            .value = params.K: .NumberFormat = "0.0000"
+            .value = params.K: .numberFormat = "0.0000"
         End With
         With .Offset(3, 0)
-            .value = params.S2: .NumberFormat = "0.0000000"
+            .value = params.S2: .numberFormat = "0.0000000"
         End With
         With .Offset(4, 0)
-            .value = params.Time: .NumberFormat = "0.0000"
+            .value = params.Time: .numberFormat = "0.0000"
         End With
         With .Offset(5, 0)
-            .value = params.DeltaH: .NumberFormat = "0.00"
+            .value = params.DeltaH: .numberFormat = "0.00"
         End With
         .Offset(6, 0).value = params.DaeSoo
     End With
@@ -309,19 +309,19 @@ Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters,
 
     With Range("E" & baseRow)
         With .Offset(0, 0)
-            .value = params.T1: .NumberFormat = "0.0000"
+            .value = params.T1: .numberFormat = "0.0000"
         End With
         With .Offset(1, 0)
-            .value = params.T2: .NumberFormat = "0.0000"
+            .value = params.T2: .numberFormat = "0.0000"
         End With
         With .Offset(2, 0)
-            .value = params.TA: .NumberFormat = "0.0000": .Font.Bold = True
+            .value = params.TA: .numberFormat = "0.0000": .Font.Bold = True
         End With
         With .Offset(0, 1)
-            .value = params.S2: .NumberFormat = "0.0000000"
+            .value = params.S2: .numberFormat = "0.0000000"
         End With
         With .Offset(2, 1)
-            .value = params.S2: .NumberFormat = "0.0000000": .Font.Bold = True
+            .value = params.S2: .numberFormat = "0.0000000": .Font.Bold = True
         End With
     End With
     

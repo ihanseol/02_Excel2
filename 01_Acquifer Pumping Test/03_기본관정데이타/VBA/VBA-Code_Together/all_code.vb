@@ -1755,24 +1755,24 @@ Public Sub getMotorPower()
     Dim nof_unique_tab As Integer
     Dim i, sheet    As Integer
     
-    Dim title()     As Variant
+    Dim Title()     As Variant
     Dim simdo()     As Variant
     Dim pump_q()    As Variant
     Dim motor_depth() As Variant
     Dim efficiency() As Variant
-    Dim hp()        As Variant
+    Dim Hp()        As Variant
     Dim stable_height()        As Variant
     
     Set rc = getkey_tabcolors()
     r_ans = getans_tabcolors()
     Call get_tabsize(nof_sheets, nof_unique_tab)
     
-    ReDim title(1 To nof_sheets)
+    ReDim Title(1 To nof_sheets)
     ReDim simdo(1 To nof_sheets)
     ReDim pump_q(1 To nof_sheets)
     ReDim motor_depth(1 To nof_sheets)
     ReDim efficiency(1 To nof_sheets)
-    ReDim hp(1 To nof_sheets)
+    ReDim Hp(1 To nof_sheets)
     ReDim stable_height(1 To nof_sheets)
     
     ip = lastRow() + 4
@@ -1783,7 +1783,7 @@ Public Sub getMotorPower()
     For i = 1 To nof_sheets
         Worksheets(CStr(i)).Activate
         
-        title(i) = Range("b2").value
+        Title(i) = Range("b2").value
         simdo(i) = Range("c7").value
         
         ' 채수계획량을 선택할것인지, 양수량을 선택할것인지
@@ -1804,7 +1804,7 @@ Public Sub getMotorPower()
            efficiency(i) = get_efficiency_dongho(pump_q(i))
         End If
         
-        hp(i) = Range("c17").value
+        Hp(i) = Range("c17").value
         stable_height(i) = Range("c21").value
     Next i
     
@@ -1813,7 +1813,7 @@ Public Sub getMotorPower()
     Call draw_motor_frame(nof_sheets, ip)
     
     For i = 1 To nof_sheets
-        Call insert_basic_entry(title(i), simdo(i), pump_q(i), motor_depth(i), efficiency(i), hp(i), i, ip)
+        Call insert_basic_entry(Title(i), simdo(i), pump_q(i), motor_depth(i), efficiency(i), Hp(i), i, ip)
         Call insert_cell_function(i, ip)
     Next i
     
@@ -1823,7 +1823,7 @@ Public Sub getMotorPower()
     ' -----------------------------------
     
     For i = 1 To nof_sheets
-        Call insert_downform(pump_q(i), motor_depth(i), efficiency(i), title(i), ip2 + i - 1, stable_height(i))
+        Call insert_downform(pump_q(i), motor_depth(i), efficiency(i), Title(i), ip2 + i - 1, stable_height(i))
     Next i
     
     Call DecoLine(i, ip2)
@@ -1854,7 +1854,7 @@ Sub Range_AlignLeft(ByVal rng As Range)
     Range("G38").Select
 End Sub
 
-Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, title As Variant, ByVal po As Integer, ByVal stable_height As Variant)
+Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Variant, Title As Variant, ByVal po As Integer, ByVal stable_height As Variant)
     Dim tenper As Double
     Dim sum_simdo As Double
     
@@ -1862,7 +1862,7 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     tenper = Round(motor_simdo / 10, 1)
     sum_simdo = motor_simdo + tenper
     
-    Cells(po, "A").value = title
+    Cells(po, "A").value = Title
     Cells(po, "B").value = pump_q
     Cells(po, "C").value = motor_simdo
     Cells(po, "D").value = tenper
@@ -1876,7 +1876,7 @@ Public Sub insert_downform(pump_q As Variant, motor_simdo As Variant, e As Varia
     ' 2025-02-27
     ' -----------------------------------
     Cells(po, "J").value = stable_height
-    Cells(po, "J").NumberFormat = "0.00"
+    Cells(po, "J").numberFormat = "0.00"
     
     ' -----------------------------------
     ' 2025-03-2
@@ -1998,17 +1998,17 @@ End Sub
 
 'ip : insertion point
 
-Private Sub insert_basic_entry(title As Variant, simdo As Variant, Q As Variant, motor_depth As Variant, _
-                                e As Variant, hp As Variant, ByVal i As Integer, ByVal po As Variant)
+Private Sub insert_basic_entry(Title As Variant, simdo As Variant, Q As Variant, motor_depth As Variant, _
+                                e As Variant, Hp As Variant, ByVal i As Integer, ByVal po As Variant)
     Dim mychar As String
     
     mychar = ColumnNumberToLetter(i + 1)
-    Range(mychar & CStr(po + 1)).value = title
+    Range(mychar & CStr(po + 1)).value = Title
     Range(mychar & CStr(po + 2)).value = simdo
     Range(mychar & CStr(po + 3)).value = Q
     Range(mychar & CStr(po + 4)).value = motor_depth
     Range(mychar & CStr(po + 7)).value = e / 100
-    Range(mychar & CStr(po + 11)).value = hp
+    Range(mychar & CStr(po + 11)).value = Hp
     
     Call SetFontMalgun(mychar, ip)
 End Sub
@@ -2027,7 +2027,7 @@ End Sub
 Option Explicit
 
 Public Sub rows_and_column()
-    Debug.Print Cells(20, 1).address(RowAbsolute:=False, ColumnAbsolute:=False)
+    Debug.Print Cells(20, 1).Address(RowAbsolute:=False, ColumnAbsolute:=False)
     Debug.Print Range("a20").row & " , " & Range("a20").Column
     
     Range("B2:Z44").Rows(3).Select
@@ -2763,7 +2763,7 @@ Function GetRangeStringFromSelection()
     Set selectedRange = Selection
 
     ' Get the address of the selected range
-    rangeAddress = selectedRange.address
+    rangeAddress = selectedRange.Address
     GetRangeStringFromSelection = rangeAddress
     
     ' Display the range address
@@ -2832,8 +2832,8 @@ Function GetRowColumn(name As String) As Variant
     Dim acColumn, acRow As Variant
     Dim result(1 To 2) As Variant
 
-    acColumn = Split(Range(name).address, "$")(1)
-    acRow = Split(Range(name).address, "$")(2)
+    acColumn = Split(Range(name).Address, "$")(1)
+    acRow = Split(Range(name).Address, "$")(2)
 
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column
@@ -3072,7 +3072,7 @@ Sub initialize_wellstyle()
     Set rng = Range("C3:C22")
     Range("C3:C22").Select
     
-    Selection.NumberFormat = "General"
+    Selection.numberFormat = "General"
         
     With Selection
         .HorizontalAlignment = xlGeneral
@@ -3840,32 +3840,32 @@ NEXT_ITERATION:
     TurnOnStuff
 End Sub
 
-Sub Write_InsertChart(Well As Integer, source_name As String)
+Sub Write_InsertChart(well As Integer, source_name As String)
     Dim fName As String
     Dim imagePath As String
 
     imagePath = Environ("TEMP") & "\tempChartImage.png"
 
-    fName = "A" & CStr(Well) & "_ge_OriginalSaveFile.xlsm"
+    fName = "A" & CStr(well) & "_ge_OriginalSaveFile.xlsm"
     If Not IsWorkBookOpen(fName) Then
         MsgBox "Please open the yangsoo data ! " & fName
         Exit Sub
     End If
 
-    Call SaveAndInsertChart(Well, source_name, "Chart 5", "d" & CStr(3 + 16 * (Well - 1)))
-    Call SaveAndInsertChart(Well, source_name, "Chart 7", "j" & CStr(3 + 16 * (Well - 1)))
-    Call SaveAndInsertChart(Well, source_name, "Chart 9", "p" & CStr(3 + 16 * (Well - 1)))
+    Call SaveAndInsertChart(well, source_name, "Chart 5", "d" & CStr(3 + 16 * (well - 1)))
+    Call SaveAndInsertChart(well, source_name, "Chart 7", "j" & CStr(3 + 16 * (well - 1)))
+    Call SaveAndInsertChart(well, source_name, "Chart 9", "p" & CStr(3 + 16 * (well - 1)))
 End Sub
 
 
-Sub SaveAndInsertChart(Well As Integer, source_name As String, chartName As String, targetRange As String)
+Sub SaveAndInsertChart(well As Integer, source_name As String, chartName As String, targetRange As String)
     Dim imagePath As String
     Dim fName As String
     Dim targetCell As Range
     Dim picWidth As Double, picHeight As Double
     
     imagePath = Environ("TEMP") & "\tempChartImage.png"
-    fName = "A" & CStr(Well) & "_ge_OriginalSaveFile.xlsm"
+    fName = "A" & CStr(well) & "_ge_OriginalSaveFile.xlsm"
 
     Windows(fName).Activate
     Worksheets("Input").ChartObjects(chartName).Activate
@@ -3937,7 +3937,7 @@ End Sub
 Private Sub CommandButton4_Click()
     'single well import
     
-    Dim singleWell  As Integer
+    Dim WellNumber  As Integer
     Dim WB_NAME As String
     
     
@@ -3956,11 +3956,11 @@ Private Sub CommandButton4_Click()
         MsgBox "WorkBook is Empty"
         Exit Sub
     Else
-        singleWell = CInt(ExtractNumberFromString(WB_NAME))
+        WellNumber = CInt(ExtractNumberFromString(WB_NAME))
     '   MsgBox (SingleWell)
     End If
     
-    Call GetBaseDataFromYangSoo(singleWell, True)
+    Call GetBaseDataFromYangSoo(WellNumber, True)
 
 End Sub
 
@@ -9716,18 +9716,18 @@ Function aFindCellByLoopingPartialMatch(wb As Workbook) As String
 
     Dim ws As Worksheet
     Dim cell As Range
-    Dim address As String
+    Dim Address As String
      
      For Each cell In wb.Worksheets("Well").Range("A1:AZ1").Cells
-        Debug.Print cell.address, cell.value
+        Debug.Print cell.Address, cell.value
     
         If aCellContains(cell, "") Then
-            address = cell.address
+            Address = cell.Address
             Exit For
         End If
     Next
     
-    aFindCellByLoopingPartialMatch = address
+    aFindCellByLoopingPartialMatch = Address
     
 End Function
 
@@ -9735,7 +9735,7 @@ End Function
 
 Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, ByVal nofwell As Integer)
 
-   Dim cpRange, title As String
+   Dim cpRange, Title As String
     
     cpRange = "A4:P" & (nofwell + 4 - 1)
     
@@ -9754,9 +9754,9 @@ Sub Duplicate_WELL_MAIN(ByVal this_WBNAME As String, ByVal WB_NAME As String, By
     ' 2024/12/26 Search Title location
     
     titleCell = aFindCellByLoopingPartialMatch(Workbooks(WB_NAME))
-    title = Workbooks(WB_NAME).Worksheets("Well").Range(titleCell).value
+    Title = Workbooks(WB_NAME).Worksheets("Well").Range(titleCell).value
     EraseCellData ("A1:G1")
-    Workbooks(this_WBNAME).Worksheets("Well").Range("D1") = title
+    Workbooks(this_WBNAME).Worksheets("Well").Range("D1") = Title
     
     ' End of Copy Title
     
@@ -9775,7 +9775,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     
     ' nl : natural level, sl : stable level
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
 
     WBNAME = "A" & GetNumeric2(well_no) & "_ge_OriginalSaveFile.xlsm"
     
@@ -9793,7 +9793,7 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
     sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
+    Casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
     T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
@@ -9815,25 +9815,25 @@ Sub ImportWellSpec_OLD(ByVal well_no As Integer, obj As Class_Boolean)
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
+    Range("c20").numberFormat = "0.00"
     
     Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
+    Range("c21").numberFormat = "0.00"
     
     Range("c10") = 5
-    Range("c11") = casing - 5
+    Range("c11") = Casing - 5
     
     'in recover test, s' value
     Range("G6") = S3
         
     Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
+    Range("E5").numberFormat = "0.0000"
      
     Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
+    Range("E6").numberFormat = "0.0000"
     
     Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
+    Range("g5").numberFormat = "0.0000000"
     
     Range("G4") = S1
     
@@ -10131,34 +10131,34 @@ End Sub
 
 
 
-Function getEC_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
-    Sheets("p" & Well).Activate
+Function getEC_Q1(ByVal LOWHI As Integer, ByVal well As Integer)
+    Sheets("p" & well).Activate
     
     If LOWHI = cellLOW Then
-        getEC_Q1 = Sheets("p" & CStr(Well)).Range("e25").value
+        getEC_Q1 = Sheets("p" & CStr(well)).Range("e25").value
     Else
-        getEC_Q1 = Sheets("p" & CStr(Well)).Range("e24").value
+        getEC_Q1 = Sheets("p" & CStr(well)).Range("e24").value
     End If
 End Function
 
-Function getPH_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
-    Sheets("p" & CStr(Well)).Activate
+Function getPH_Q1(ByVal LOWHI As Integer, ByVal well As Integer)
+    Sheets("p" & CStr(well)).Activate
     
     If LOWHI = cellLOW Then
-        getPH_Q1 = Sheets("p" & CStr(Well)).Range("f25").value
+        getPH_Q1 = Sheets("p" & CStr(well)).Range("f25").value
     Else
-        getPH_Q1 = Sheets("p" & CStr(Well)).Range("f24").value
+        getPH_Q1 = Sheets("p" & CStr(well)).Range("f24").value
     End If
     
 End Function
 
-Function getTEMP_Q1(ByVal LOWHI As Integer, ByVal Well As Integer)
-    Sheets("p" & CStr(Well)).Activate
+Function getTEMP_Q1(ByVal LOWHI As Integer, ByVal well As Integer)
+    Sheets("p" & CStr(well)).Activate
 
     If LOWHI = cellLOW Then
-        getTEMP_Q1 = Sheets("p" & CStr(Well)).Range("d25").value
+        getTEMP_Q1 = Sheets("p" & CStr(well)).Range("d25").value
     Else
-        getTEMP_Q1 = Sheets("p" & CStr(Well)).Range("d24").value
+        getTEMP_Q1 = Sheets("p" & CStr(well)).Range("d24").value
     End If
 End Function
 
@@ -10223,11 +10223,11 @@ End Sub
 '******************************************************************************************************************************
 
 
-Function getEC_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getEC_Q2(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well, 2)
-    remainder = Well Mod 2
+    quo = WorksheetFunction.quotient(well, 2)
+    remainder = well Mod 2
     page = quo + remainder
     
     Sheets("p" & CStr(page)).Activate
@@ -10247,11 +10247,11 @@ Function getEC_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
     End If
 End Function
 
-Function getPH_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getPH_Q2(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well, 2)
-    remainder = Well Mod 2
+    quo = WorksheetFunction.quotient(well, 2)
+    remainder = well Mod 2
     page = quo + remainder
     
     Sheets("p" & CStr(page)).Activate
@@ -10271,11 +10271,11 @@ Function getPH_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
     End If
 End Function
 
-Function getTEMP_Q2(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getTEMP_Q2(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well, 2)
-    remainder = Well Mod 2
+    quo = WorksheetFunction.quotient(well, 2)
+    remainder = well Mod 2
     page = quo + remainder
     
     Sheets("p" & CStr(page)).Activate
@@ -10395,11 +10395,11 @@ End Sub
 ' 1, 2, 3 --> p1
 ' 4, 5, 6 --> p2
 
-Function getEC_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getEC_Q3(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well - 1, 3)
-    remainder = Well Mod 3
+    quo = WorksheetFunction.quotient(well - 1, 3)
+    remainder = well Mod 3
     page = quo + 1
        
     Select Case remainder
@@ -10426,11 +10426,11 @@ Function getEC_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
     End Select
 End Function
 
-Function getPH_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getPH_Q3(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well - 1, 3)
-    remainder = Well Mod 3
+    quo = WorksheetFunction.quotient(well - 1, 3)
+    remainder = well Mod 3
     page = quo + 1
        
     Select Case remainder
@@ -10457,11 +10457,11 @@ Function getPH_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
     End Select
 End Function
 
-Function getTEMP_Q3(ByVal LOWHI As Integer, ByVal Well As Integer)
+Function getTEMP_Q3(ByVal LOWHI As Integer, ByVal well As Integer)
     Dim page, quo, remainder As Integer
     
-    quo = WorksheetFunction.quotient(Well - 1, 3)
-    remainder = Well Mod 3
+    quo = WorksheetFunction.quotient(well - 1, 3)
+    remainder = well Mod 3
     page = quo + 1
        
     Select Case remainder
@@ -10685,7 +10685,7 @@ Sub PressAll_Button()
         
     Sheets("YangSoo").Visible = True
     Sheets("YangSoo").Select
-    Call modAggFX.GetBaseDataFromYangSoo(999, False)
+    Call GetBaseDataFromYangSoo(999, False)
     Sheets("YangSoo").Visible = False
     
     Call Popup_MessageBox("YangSoo, Aggregate2 - ImportWellSpec ...")
@@ -10852,7 +10852,7 @@ Sub JojungButton()
     Call make_wellstyle
     Call DecorateWellBorder(nofwell)
     
-    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").address
+    Worksheets("1").Range("E21") = "=Well!" & Cells(5 + GetNumberOfWell(), "I").Address
     
     TurnOnStuff
 End Sub
@@ -10904,9 +10904,9 @@ End Sub
 
 
 
-Sub DeleteWorksheet(Well As Integer)
+Sub DeleteWorksheet(well As Integer)
     Application.DisplayAlerts = False
-    ThisWorkbook.Worksheets(CStr(Well)).Delete
+    ThisWorkbook.Worksheets(CStr(well)).Delete
     Application.DisplayAlerts = True
 End Sub
 
@@ -11019,8 +11019,8 @@ Sub ImportWell_MainWellPage()
     Dim fName As String
     Dim nofwell, i As Integer
     
-    Dim address, Company As String
-    Dim simdo, diameter, Q, hp As Double
+    Dim Address, Company As String
+    Dim simdo, diameter, Q, Hp As Double
     
     nofwell = sheets_count()
     Sheets("Well").Select
@@ -11034,19 +11034,21 @@ Sub ImportWell_MainWellPage()
     wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
            
     For i = 1 To nofwell
-        address = wsYangSoo.Cells(4 + i, "ao").value
+        '2025/3/5
+        Address = Replace(wsYangSoo.Cells(4 + i, "ao").value, "충청남도 ", "")
+        Address = Replace(Address, "번지", "")
+        
         simdo = wsYangSoo.Cells(4 + i, "i").value
         diameter = wsYangSoo.Cells(4 + i, "g").value
         Q = wsYangSoo.Cells(4 + i, "k").value
-        hp = wsYangSoo.Cells(4 + i, "m").value
+        Hp = wsYangSoo.Cells(4 + i, "m").value
         
-        
-        wsWell.Cells(3 + i, "d").value = address
+        wsWell.Cells(3 + i, "d").value = Address
         wsWell.Cells(3 + i, "g").value = diameter
         wsWell.Cells(3 + i, "h").value = simdo
         wsWell.Cells(3 + i, "i").value = Q
         wsWell.Cells(3 + i, "j").value = Q
-        wsWell.Cells(3 + i, "l").value = hp
+        wsWell.Cells(3 + i, "l").value = Hp
     Next i
 
     
@@ -11055,6 +11057,9 @@ Sub ImportWell_MainWellPage()
     
     Application.CutCopyMode = False
 End Sub
+
+
+
 
 
 Sub DuplicateBasicWellData()
@@ -11192,553 +11197,553 @@ Sub PushDrasticIndex()
     Call BaseData_DrasticIndex.print_drastic_string
     
 End Sub
-
-
-'<><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><>
-' 2024,12,25 Add import "Title "
 '
-
-
-Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
-    Dim nofwell As Integer
-    Dim i As Integer
-    Dim rngString As String
-
-    ' Arrays to store data
-    Dim dataArrays As Variant
-    dataArrays = Array("natural", "stable", "recover", "delta_h", "Sw", "radius", _
-                       "Rw", "well_depth", "casing", "Q", "delta_s", "hp", _
-                       "daeSoo", "T1", "T2", "TA", "S1", "S2", "K", "time_", _
-                       "shultze", "webber", "jacob", "skin", "er", "ER1", _
-                       "ER2", "ER3", "qh", "qg", "sd1", "sd2", "q1", "C", _
-                       "B", "ratio", "T0", "S0", "ER_MODE", "Address", "Company", "S3", "Title")
-
-    ' Check if all well data should be imported
-    nofwell = GetNumberOfWell()
-    If Not isSingleWellImport And singleWell = 999 Then
-        rngString = "A5:AR37"
-    Else
-       rngString = "A" & (singleWell + 5 - 1) & ":AR" & (singleWell + 5 - 1)
-    End If
-        
-    Call EraseCellData(rngString)
-
-    ' Loop through each well
-    For i = 1 To nofwell
-        ' Import data for all wells or only for the specified single well
-        If Not isSingleWellImport Or (isSingleWellImport And i = singleWell) Then
-            ImportDataForWell i, dataArrays
-        End If
-    Next i
-End Sub
-
-Sub ImportDataForWell(ByVal wellIndex As Integer, ByVal dataArrays As Variant)
-    Dim fName As String
-    Dim wb As Workbook
-    Dim wsInput As Worksheet
-    Dim wsSkinFactor As Worksheet
-    Dim wsSafeYield As Worksheet
-    Dim dataIdx As Integer
-    Dim cellOffset As Integer
-    Dim dataCell As Range
-
-    ' Open the workbook
-    fName = "A" & CStr(wellIndex) & "_ge_OriginalSaveFile.xlsm"
-    If Not IsWorkBookOpen(fName) Then
-        MsgBox "Please open the yangsoo data! " & fName
-        Exit Sub
-    End If
-    Set wb = Workbooks(fName)
-
-    ' Loop through data arrays and import values
-    For dataIdx = LBound(dataArrays) To UBound(dataArrays)
-        SetDataArrayValues wb, wellIndex, dataArrays(dataIdx)
-    Next dataIdx
-    
-    ' Close workbook
-    ' wb.Close SaveChanges:=False
-End Sub
-
-
-Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal dataArrayName As String)
-    Dim wsInput As Worksheet
-    Dim wsSkinFactor As Worksheet
-    Dim wsSafeYield As Worksheet
-    Dim dataCell As Range
-
-    
-    Dim dataRanges() As Variant
-    Dim addresses() As Variant
-    Dim i As Integer
-
-    ' Set references to worksheets
-    Set wsInput = wb.Worksheets("Input")
-    Set wsSkinFactor = wb.Worksheets("SkinFactor")
-    Set wsSafeYield = wb.Worksheets("SafeYield")
-
-    ' Define data ranges for each dataArrayName
-    dataRanges = Array(wsInput.Range("m51"), wsInput.Range("i48"), _
-                        wsInput.Range("m48"), wsInput.Range("m49"), _
-                        wsInput.Range("m44"), wsSkinFactor.Range("e4"), _
-                        wsInput.Range("m45"), wsInput.Range("i52"), _
-                        wsInput.Range("A31"), wsInput.Range("B31"), _
-                        wsSkinFactor.Range("c10"), wsSkinFactor.Range("c11"), _
-                        wsSkinFactor.Range("b16"), wsSkinFactor.Range("b4"), _
-                        wsSkinFactor.Range("c16"), wsSkinFactor.Range("d4"), _
-                        wsSkinFactor.Range("f4"), wsSkinFactor.Range("h10"), _
-                        wsSkinFactor.Range("d5"), wsSkinFactor.Range("h13"), _
-                        wsSkinFactor.Range("d16"), wsSkinFactor.Range("e10"), _
-                        wsSkinFactor.Range("i16"), wsSkinFactor.Range("e16"), _
-                        wsSkinFactor.Range("h16"), wsSkinFactor.Range("c13"), _
-                        wsSkinFactor.Range("c18"), wsSkinFactor.Range("c23"), _
-                        wsSkinFactor.Range("g6"), wsSkinFactor.Range("c8"), _
-                        wsSkinFactor.Range("k8"), wsSkinFactor.Range("k9"), _
-                        wsSkinFactor.Range("k10"), wsSafeYield.Range("b13"), _
-                        wsSafeYield.Range("b7"), wsSafeYield.Range("b3"), _
-                        wsSafeYield.Range("b4"), wsSafeYield.Range("b2"), _
-                        wsSafeYield.Range("b11"), wsInput.Range("i46"), _
-                        wsInput.Range("i47"), wsSkinFactor.Range("i13"), _
-                        wsInput.Range("i44"))
-
-    ' Array of data addresses
-    addresses = Array("Q", "hp", "natural", "stable", "radius", "Rw", _
-                        "well_depth", "casing", "C", "B", "recover", "Sw", _
-                        "delta_h", "delta_s", "daeSoo", "T0", "S0", "ER_MODE", _
-                        "T1", "T2", "TA", "S1", "S2", "K", "time_", "shultze", _
-                        "webber", "jacob", "skin", "er", "ER1", "ER2", "ER3", _
-                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address", _
-                        "Company", "S3", "Title")
-
-    ' Find index of dataArrayName in addresses array
-    For i = LBound(addresses) To UBound(addresses)
-        If addresses(i) = dataArrayName Then
-            Set dataCell = dataRanges(i)
-            Exit For
-        End If
-    Next i
-
-    ' Check if dataArrayName is found
-    If Not dataCell Is Nothing Then
-        SetCellValueForWell wellIndex, dataCell, dataArrayName
-    Else
-        MsgBox "Data array name not found: " & dataArrayName
-    End If
-End Sub
-
-
-' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
-
-Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
-    Dim wellData As Variant
-    Dim numberFormats As Object
-    Set numberFormats = CreateObject("Scripting.Dictionary")
-
-    ' Define number formats for each dataArrayName
-    With numberFormats
-        .Add "recover", "0.00"
-        .Add "Sw", "0.00"
-        .Add "S2", "0.0000000"
-        .Add "S3", "0.00"
-        .Add "T1", "0.0000"
-        .Add "T2", "0.0000"
-        .Add "TA", "0.0000"
-        .Add "qh", "0."
-        .Add "qg", "0.00"
-        .Add "q1", "0.00"
-        .Add "sd1", "0.00"
-        .Add "sd2", "0.00"
-        .Add "skin", "0.0000"
-        .Add "er", "0.0000"
-        .Add "ratio", "0.0%"
-        .Add "T0", "0.0000"
-        .Add "S0", "0.0000"
-        .Add "delta_s", "0.00"
-        .Add "time_", "0.0000"
-        .Add "shultze", "0.00"
-        .Add "webber", "0.00"
-        .Add "jacob", "0.00"
-        
-    End With
-
-    ' Get value from dataCell
-    wellData = dataCell.value
-    
-    Cells(4 + wellIndex, 1).value = "W-" & wellIndex
-    
-    ' Set value and number format based on dataArrayName
-    With Cells(4 + wellIndex, GetColumnIndex(dataArrayName))
-        .value = wellData
-        If numberFormats.Exists(dataArrayName) Then
-            .NumberFormat = numberFormats(dataArrayName)
-        End If
-    End With
-End Sub
-
-
-
-Function GetColumnIndex(ByVal columnName As String) As Integer
-    ' Define array to store column indices
-    Dim columnIndices As Variant
-    columnIndices = Array( _
-        11, 13, 2, 3, 7, 8, 9, 10, _
-        32, 33, 4, 5, 6, 12, 14, _
-        35, 36, 37, 15, 16, 17, 18, _
-        19, 20, 21, 22, 23, 24, 25, _
-        26, 38, 39, 40, 27, 28, 30, _
-        31, 29, 34, 41, 42, 43, 44 _
-    )
-
-    ' Define array to store column names
-    Dim columnNames As Variant
-    columnNames = Array( _
-        "Q", "hp", "natural", "stable", "radius", "Rw", "well_depth", "casing", _
-        "C", "B", "recover", "Sw", "delta_h", "delta_s", "daeSoo", _
-        "T0", "S0", "ER_MODE", "T1", "T2", "TA", "S1", _
-        "S2", "K", "time_", "shultze", "webber", "jacob", "skin", _
-        "er", "ER1", "ER2", "ER3", "qh", "qg", "sd1", _
-        "sd2", "q1", "ratio", "Address", "Company", "S3", "Title" _
-    )
-
-    ' Find index of columnName in columnNames array
-    Dim index As Integer
-    index = Application.match(columnName, columnNames, 0)
-
-    ' Check if columnName exists in columnNames array
-    If IsNumeric(index) Then
-        GetColumnIndex = columnIndices(index - 1)
-    Else
-        ' Return -1 if columnName is not found
-        GetColumnIndex = -1
-    End If
-End Function
-
-
-
-' in here by refctor by  openai
-' replace GetBaseDataFromYangSoo Module
 '
-'<><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><>
-
-Public Sub MyDebug(sPrintStr As String, Optional bClear As Boolean = False)
-   If bClear = True Then
-      Application.SendKeys "^g^{END}", True
-
-      DoEvents '  !!! DoEvents is VERY IMPORTANT here !!!
-
-      Debug.Print String(30, vbCrLf)
-   End If
-
-   Debug.Print sPrintStr
-End Sub
-
-
-'0 : skin factor, cell, C8
-'1 : Re1,         cell, E8
-'2 : Re2,         cell, H8
-'3 : Re3,         cell, G10
-
-Function DetermineEffectiveRadius(ERMode As String) As Integer
-    Dim Er, R As String
-    
-    Er = ERMode
-    'MsgBox er
-    R = Mid(Er, 5, 1)
-    
-    If R = "F" Then
-        DetermineEffectiveRadius = erRE0
-    Else
-        DetermineEffectiveRadius = val(R)
-    End If
-End Function
-
-
-Function CheckFileExistence(filePath As String) As Boolean
-   
-    If Dir(filePath) <> "" Then
-        CheckFileExistence = True
-    Else
-        CheckFileExistence = False
-    End If
-    
-End Function
-
-
-Sub WriteFormula()
- 
-    Dim formula1, formula2 As String
-    Dim nofwell As Integer
-    Dim i As Integer
-    Dim T, Q, Radius, Skin, Er As Double
-    Dim T0, S0 As Double
-    Dim ERMode As String
-    Dim ER1, ER2, ER3, B, S1 As Double
-    
-    ' Save array to a file
-    Dim filePath As String
-    Dim FileNum As Integer
-    
-    
-    nofwell = GetNumberOfWell()
-    Sheets("YangSoo").Select
-    
-    filePath = ThisWorkbook.Path & "\" & ActiveSheet.name & ".csv"
-    DeleteFileIfExists filePath
-    FileNum = FreeFile
-    
-    Open filePath For Output As FileNum
-        
-    Call MyDebug("Formula SkinFactor ... ", True)
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-    
-    ' 스킨계수
-    Call FormulaSkinFactorAndER("SKIN", FileNum)
-    
-    ' 유효우물반경
-    Call FormulaSkinFactorAndER("ER", FileNum)
-    
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-    
-    
-    Call FormulaChwiSoo(FileNum)
-    ' 3-7, 적정취수량
-    
-    Call FormulaRadiusOfInfluence(FileNum)
-    ' 양수영향반경
-        
-    Close FileNum
-
-End Sub
-
-
-
-Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
-    Dim formula1, formula2 As String
-    Dim nofwell As Integer
-    Dim i As Integer
-    Dim T, Q, Radius, Skin, Er As Double
-    Dim T0, S0 As Double
-    Dim ERMode As String
-    Dim ER1, ER2, ER3, B, S1 As Double
-    
-        
-    Call MyDebug("Formula SkinFactor ... ", True)
-    
-    nofwell = GetNumberOfWell()
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-    
-    
-    For i = 1 To nofwell
-        T = format(Cells(4 + i, "o").value, "0.0000")
-        Q = Cells(4 + i, "k").value
-        
-        T0 = format(Cells(4 + i, "AI").value, "0.0000")
-        S0 = format(Cells(4 + i, "AJ").value, "0.0000")
-        S1 = Cells(4 + i, "R").value
-                
-        delta_s = format(Cells(4 + i, "l").value, "0.00")
-        Radius = format(Cells(4 + i, "h").value, "0.000")
-        Skin = format(Cells(4 + i, "y").value, "0.0000")
-        Er = format(Cells(4 + i, "z").value, "0.0000")
-        
-        
-        B = format(Cells(4 + i, "AG").value, "0.0000")
-        ER1 = format(Cells(4 + i, "AL").value, "0.0000")
-        ER2 = format(Cells(4 + i, "AM").value, "0.0000")
-        ER3 = format(Cells(4 + i, "AN").value, "0.0000")
-        
-        
-        Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").value)
-        ' 경험식 1번
-        Case erRE1
-            
-            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~ sqrt {{2.25 TIMES  " & T0 & " TIMES  0.0833333} over {" & S0 & " TIMES  10 ^{5.46 TIMES  " & T & " TIMES  " & B & "}}} `=~" & ER1 & "m"
-            formula2 = "erRE1, 경험식 1번"
-            
-        ' 경험식 2번
-        Case erRE2
-            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~ sqrt {{2.25 TIMES  " & T0 & " TIMES  0.0833333} over {" & S0 & " TIMES  10 ^{4 pi TIMES " & T & " TIMES  " & B & "}}} `=~" & ER2 & "m"
-            formula2 = "erRE2, 경험식 2번"
-        ' 경험식 3번
-        Case erRE3
-            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & Radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
-            formula2 = "erRE3, 경험식 3번"
-            
-        Case Else
-            ' 스킨계수
-            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & Radius & " TIMES  " & Radius & ")} =`" & Skin
-            ' 유효우물반경
-            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & Radius & " TIMES e ^{-(" & Skin & ")} =" & Er & "m"
-        End Select
-        
-        
-        If Mode = "SKIN" Then
-            Debug.Print formula1
-            Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-            
-            Print #FileNum, formula1
-            Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        Else
-            Debug.Print formula2
-            Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-                
-            Print #FileNum, formula2
-            Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        End If
-    Next i
-
-End Sub
-
-
-Sub DeleteFileIfExists(filePath As String)
-    If Len(Dir(filePath)) > 0 Then ' Check if file exists
-        On Error Resume Next
-        Kill filePath ' Attempt to delete the file
-        
-        On Error GoTo 0
-        If Len(Dir(filePath)) > 0 Then
-            MsgBox "Unable to delete file '" & filePath & "'. The file may be in use.", vbExclamation
-        Else
-            ' MsgBox "File '" & filePath & "' has been deleted.", vbInformation
-            
-        End If
-    Else
-        ' MsgBox "File '" & filePath & "' does not exist.", vbExclamation
-    End If
-End Sub
-
-
-
-Sub FormulaChwiSoo(FileNum As Integer)
-' 3-7, 적정취수량
-
-    Dim formula As String
-    Dim nofwell As String
-    Dim i As Integer
-    Dim Q1, S1, S2, res As Double
-    
-    nofwell = GetNumberOfWell()
-    Sheets("YangSoo").Select
-        
-        
-    For i = 1 To 3
-        Debug.Print " "
-        Print #FileNum, " "
-    Next i
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-    
-    For i = 1 To nofwell
-        Q1 = Cells(4 + i, "ac").value
- 
-        S1 = format(Cells(4 + i, "ad").value, "0.00")
-        S2 = format(Cells(4 + i, "ae").value, "0.00")
-        res = format(Cells(4 + i, "ab").value, "0.00")
-        
-        'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
-        'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
-        
-        formula = "W-" & i & "호공~~Q_{& 2} = " & Q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
-        
-        Debug.Print formula
-        Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        
-        Print #FileNum, formula
-        Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        
-    Next i
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-      
-End Sub
-
-
-Sub FormulaRadiusOfInfluence(FileNum As Integer)
-' 양수영향반경
-
-    Call FormulaSUB_ROI("SCHULTZE", FileNum)
-    Call FormulaSUB_ROI("WEBBER", FileNum)
-    Call FormulaSUB_ROI("JCOB", FileNum)
-    
-End Sub
-
-
-
-
-Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
-  Dim formula1, formula2, formula3 As String
-    ' 슐츠, 웨버, 제이콥
-    
-    Dim nofwell As String
-    Dim i As Integer
-    Dim shultze, Webber, jacob, T, K, S, time_, delta_h As String
-    
-    nofwell = GetNumberOfWell()
-    Sheets("YangSoo").Select
-        
-        
-    For i = 1 To 3
-        Debug.Print " "
-        Print #FileNum, " "
-    Next i
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-    
-    
-    For i = 1 To nofwell
-        schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
-        Webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
-        jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
-        
-        T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
-        S = CStr(format(Cells(4 + i, "s").value, "0.0000000"))
-        K = CStr(format(Cells(4 + i, "t").value, "0.0000"))
-    
-        delta_h = CStr(format(Cells(4 + i, "f").value, "0.00"))
-        time_ = CStr(format(Cells(4 + i, "u").value, "0.0000"))
-        
-        
-        ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")
-        
-        formula1 = "W-" & i & "호공~~R _{W-" & i & "} ``=`` sqrt {6 TIMES  " & delta_h & " TIMES  " & K & " TIMES  " & time_ & "/" & S & "} ``=~" & schultze & "m"
-        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & Webber & "`m"
-        formula3 = "W-" & i & "호공~~r _{0(W-" & i & ")} `=~ sqrt {{2.25 TIMES  " & T & " TIMES  " & time_ & "} over {" & S & "}} `=~" & jacob & "m"
-        
-        
-        Select Case Mode
-            Case "SCHULTZE"
-                Debug.Print formula1
-                Print #FileNum, formula1
-            
-            Case "WEBBER"
-                Debug.Print formula2
-                Print #FileNum, formula2
-                
-            Case "JCOB"
-                Debug.Print formula3
-                Print #FileNum, formula3
-        End Select
-        
-        Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        
-    Next i
-    
-    Debug.Print "************************************************************************************************************************************************************************************************"
-    Print #FileNum, "************************************************************************************************************************************************************************************************"
-    
-End Sub
-
-
-
+''<><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><>
+'' 2024,12,25 Add import "Title "
+''
+'
+'
+'Sub GetBaseDataFromYangSoo(ByVal WellNumber As Integer, ByVal isSingleWellImport As Boolean)
+'    Dim nofwell As Integer
+'    Dim i As Integer
+'    Dim rngString As String
+'
+'    ' Arrays to store data
+'    Dim dataArrays As Variant
+'    dataArrays = Array("natural", "stable", "recover", "delta_h", "Sw", "radius", _
+'                       "Rw", "well_depth", "casing", "Q", "delta_s", "hp", _
+'                       "daeSoo", "T1", "T2", "TA", "S1", "S2", "K", "time_", _
+'                       "shultze", "webber", "jacob", "skin", "er", "ER1", _
+'                       "ER2", "ER3", "qh", "qg", "sd1", "sd2", "q1", "C", _
+'                       "B", "ratio", "T0", "S0", "ER_MODE", "Address", "Company", "S3", "Title")
+'
+'    ' Check if all well data should be imported
+'    nofwell = GetNumberOfWell()
+'    If Not isSingleWellImport And WellNumber = 999 Then
+'        rngString = "A5:AR37"
+'    Else
+'       rngString = "A" & (WellNumber + 5 - 1) & ":AR" & (WellNumber + 5 - 1)
+'    End If
+'
+'    Call EraseCellData(rngString)
+'
+'    ' Loop through each well
+'    For i = 1 To nofwell
+'        ' Import data for all wells or only for the specified single well
+'        If Not isSingleWellImport Or (isSingleWellImport And i = WellNumber) Then
+'            ImportDataForWell i, dataArrays
+'        End If
+'    Next i
+'End Sub
+'
+'Sub ImportDataForWell(ByVal wellIndex As Integer, ByVal dataArrays As Variant)
+'    Dim fName As String
+'    Dim wb As Workbook
+'    Dim wsInput As Worksheet
+'    Dim wsSkinFactor As Worksheet
+'    Dim wsSafeYield As Worksheet
+'    Dim dataIdx As Integer
+'    Dim cellOffset As Integer
+'    Dim dataCell As Range
+'
+'    ' Open the workbook
+'    fName = "A" & CStr(wellIndex) & "_ge_OriginalSaveFile.xlsm"
+'    If Not IsWorkBookOpen(fName) Then
+'        MsgBox "Please open the yangsoo data! " & fName
+'        Exit Sub
+'    End If
+'    Set wb = Workbooks(fName)
+'
+'    ' Loop through data arrays and import values
+'    For dataIdx = LBound(dataArrays) To UBound(dataArrays)
+'        SetDataArrayValues wb, wellIndex, dataArrays(dataIdx)
+'    Next dataIdx
+'
+'    ' Close workbook
+'    ' wb.Close SaveChanges:=False
+'End Sub
+'
+'
+'Sub SetDataArrayValues(ByVal wb As Workbook, ByVal wellIndex As Integer, ByVal dataArrayName As String)
+'    Dim wsInput As Worksheet
+'    Dim wsSkinFactor As Worksheet
+'    Dim wsSafeYield As Worksheet
+'    Dim dataCell As Range
+'
+'
+'    Dim dataRanges() As Variant
+'    Dim addresses() As Variant
+'    Dim i As Integer
+'
+'    ' Set references to worksheets
+'    Set wsInput = wb.Worksheets("Input")
+'    Set wsSkinFactor = wb.Worksheets("SkinFactor")
+'    Set wsSafeYield = wb.Worksheets("SafeYield")
+'
+'    ' Define data ranges for each dataArrayName
+'    dataRanges = Array(wsInput.Range("m51"), wsInput.Range("i48"), _
+'                        wsInput.Range("m48"), wsInput.Range("m49"), _
+'                        wsInput.Range("m44"), wsSkinFactor.Range("e4"), _
+'                        wsInput.Range("m45"), wsInput.Range("i52"), _
+'                        wsInput.Range("A31"), wsInput.Range("B31"), _
+'                        wsSkinFactor.Range("c10"), wsSkinFactor.Range("c11"), _
+'                        wsSkinFactor.Range("b16"), wsSkinFactor.Range("b4"), _
+'                        wsSkinFactor.Range("c16"), wsSkinFactor.Range("d4"), _
+'                        wsSkinFactor.Range("f4"), wsSkinFactor.Range("h10"), _
+'                        wsSkinFactor.Range("d5"), wsSkinFactor.Range("h13"), _
+'                        wsSkinFactor.Range("d16"), wsSkinFactor.Range("e10"), _
+'                        wsSkinFactor.Range("i16"), wsSkinFactor.Range("e16"), _
+'                        wsSkinFactor.Range("h16"), wsSkinFactor.Range("c13"), _
+'                        wsSkinFactor.Range("c18"), wsSkinFactor.Range("c23"), _
+'                        wsSkinFactor.Range("g6"), wsSkinFactor.Range("c8"), _
+'                        wsSkinFactor.Range("k8"), wsSkinFactor.Range("k9"), _
+'                        wsSkinFactor.Range("k10"), wsSafeYield.Range("b13"), _
+'                        wsSafeYield.Range("b7"), wsSafeYield.Range("b3"), _
+'                        wsSafeYield.Range("b4"), wsSafeYield.Range("b2"), _
+'                        wsSafeYield.Range("b11"), wsInput.Range("i46"), _
+'                        wsInput.Range("i47"), wsSkinFactor.Range("i13"), _
+'                        wsInput.Range("i44"))
+'
+'    ' Array of data addresses
+'    addresses = Array("Q", "hp", "natural", "stable", "radius", "Rw", _
+'                        "well_depth", "casing", "C", "B", "recover", "Sw", _
+'                        "delta_h", "delta_s", "daeSoo", "T0", "S0", "ER_MODE", _
+'                        "T1", "T2", "TA", "S1", "S2", "K", "time_", "shultze", _
+'                        "webber", "jacob", "skin", "er", "ER1", "ER2", "ER3", _
+'                        "qh", "qg", "sd1", "sd2", "q1", "ratio", "Address", _
+'                        "Company", "S3", "Title")
+'
+'    ' Find index of dataArrayName in addresses array
+'    For i = LBound(addresses) To UBound(addresses)
+'        If addresses(i) = dataArrayName Then
+'            Set dataCell = dataRanges(i)
+'            Exit For
+'        End If
+'    Next i
+'
+'    ' Check if dataArrayName is found
+'    If Not dataCell Is Nothing Then
+'        SetCellValueForWell wellIndex, dataCell, dataArrayName
+'    Else
+'        MsgBox "Data array name not found: " & dataArrayName
+'    End If
+'End Sub
+'
+'
+'' 2024-8-22 : 안정수위도달시간, time_ : 0.0000 로 수정
+'
+'Sub SetCellValueForWell(ByVal wellIndex As Integer, ByVal dataCell As Range, ByVal dataArrayName As String)
+'    Dim WellData As Variant
+'    Dim numberFormats As Object
+'    Set numberFormats = CreateObject("Scripting.Dictionary")
+'
+'    ' Define number formats for each dataArrayName
+'    With numberFormats
+'        .Add "recover", "0.00"
+'        .Add "Sw", "0.00"
+'        .Add "S2", "0.0000000"
+'        .Add "S3", "0.00"
+'        .Add "T1", "0.0000"
+'        .Add "T2", "0.0000"
+'        .Add "TA", "0.0000"
+'        .Add "qh", "0."
+'        .Add "qg", "0.00"
+'        .Add "q1", "0.00"
+'        .Add "sd1", "0.00"
+'        .Add "sd2", "0.00"
+'        .Add "skin", "0.0000"
+'        .Add "er", "0.0000"
+'        .Add "ratio", "0.0%"
+'        .Add "T0", "0.0000"
+'        .Add "S0", "0.0000"
+'        .Add "delta_s", "0.00"
+'        .Add "time_", "0.0000"
+'        .Add "shultze", "0.00"
+'        .Add "webber", "0.00"
+'        .Add "jacob", "0.00"
+'
+'    End With
+'
+'    ' Get value from dataCell
+'    WellData = dataCell.value
+'
+'    Cells(4 + wellIndex, 1).value = "W-" & wellIndex
+'
+'    ' Set value and number format based on dataArrayName
+'    With Cells(4 + wellIndex, GetColumnIndex(dataArrayName))
+'        .value = WellData
+'        If numberFormats.Exists(dataArrayName) Then
+'            .numberFormat = numberFormats(dataArrayName)
+'        End If
+'    End With
+'End Sub
+'
+'
+'
+'Function GetColumnIndex(ByVal columnName As String) As Integer
+'    ' Define array to store column indices
+'    Dim columnIndices As Variant
+'    columnIndices = Array( _
+'        11, 13, 2, 3, 7, 8, 9, 10, _
+'        32, 33, 4, 5, 6, 12, 14, _
+'        35, 36, 37, 15, 16, 17, 18, _
+'        19, 20, 21, 22, 23, 24, 25, _
+'        26, 38, 39, 40, 27, 28, 30, _
+'        31, 29, 34, 41, 42, 43, 44 _
+'    )
+'
+'    ' Define array to store column names
+'    Dim columnNames As Variant
+'    columnNames = Array( _
+'        "Q", "hp", "natural", "stable", "radius", "Rw", "well_depth", "casing", _
+'        "C", "B", "recover", "Sw", "delta_h", "delta_s", "daeSoo", _
+'        "T0", "S0", "ER_MODE", "T1", "T2", "TA", "S1", _
+'        "S2", "K", "time_", "shultze", "webber", "jacob", "skin", _
+'        "er", "ER1", "ER2", "ER3", "qh", "qg", "sd1", _
+'        "sd2", "q1", "ratio", "Address", "Company", "S3", "Title" _
+'    )
+'
+'    ' Find index of columnName in columnNames array
+'    Dim index As Integer
+'    index = Application.match(columnName, columnNames, 0)
+'
+'    ' Check if columnName exists in columnNames array
+'    If IsNumeric(index) Then
+'        GetColumnIndex = columnIndices(index - 1)
+'    Else
+'        ' Return -1 if columnName is not found
+'        GetColumnIndex = -1
+'    End If
+'End Function
+'
+'
+'
+'' in here by refctor by  openai
+'' replace GetBaseDataFromYangSoo Module
+''
+''<><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><><><><><><>><><>
+'
+'Public Sub MyDebug(sPrintStr As String, Optional bClear As Boolean = False)
+'   If bClear = True Then
+'      Application.SendKeys "^g^{END}", True
+'
+'      DoEvents '  !!! DoEvents is VERY IMPORTANT here !!!
+'
+'      Debug.Print String(30, vbCrLf)
+'   End If
+'
+'   Debug.Print sPrintStr
+'End Sub
+'
+'
+''0 : skin factor, cell, C8
+''1 : Re1,         cell, E8
+''2 : Re2,         cell, H8
+''3 : Re3,         cell, G10
+'
+'Function DetermineEffectiveRadius(ERMode As String) As Integer
+'    Dim Er, R As String
+'
+'    Er = ERMode
+'    'MsgBox er
+'    R = Mid(Er, 5, 1)
+'
+'    If R = "F" Then
+'        DetermineEffectiveRadius = erRE0
+'    Else
+'        DetermineEffectiveRadius = val(R)
+'    End If
+'End Function
+'
+'
+'Function CheckFileExistence(filePath As String) As Boolean
+'
+'    If Dir(filePath) <> "" Then
+'        CheckFileExistence = True
+'    Else
+'        CheckFileExistence = False
+'    End If
+'
+'End Function
+'
+'
+'Sub WriteFormula()
+'
+'    Dim formula1, formula2 As String
+'    Dim nofwell As Integer
+'    Dim i As Integer
+'    Dim T, Q, Radius, Skin, Er As Double
+'    Dim T0, S0 As Double
+'    Dim ERMode As String
+'    Dim ER1, ER2, ER3, B, S1 As Double
+'
+'    ' Save array to a file
+'    Dim filePath As String
+'    Dim FileNum As Integer
+'
+'
+'    nofwell = GetNumberOfWell()
+'    Sheets("YangSoo").Select
+'
+'    filePath = ThisWorkbook.Path & "\" & ActiveSheet.name & ".csv"
+'    DeleteFileIfExists filePath
+'    FileNum = FreeFile
+'
+'    Open filePath For Output As FileNum
+'
+'    Call MyDebug("Formula SkinFactor ... ", True)
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'    ' 스킨계수
+'    Call FormulaSkinFactorAndER("SKIN", FileNum)
+'
+'    ' 유효우물반경
+'    Call FormulaSkinFactorAndER("ER", FileNum)
+'
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'
+'    Call FormulaChwiSoo(FileNum)
+'    ' 3-7, 적정취수량
+'
+'    Call FormulaRadiusOfInfluence(FileNum)
+'    ' 양수영향반경
+'
+'    Close FileNum
+'
+'End Sub
+'
+'
+'
+'Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
+'    Dim formula1, formula2 As String
+'    Dim nofwell As Integer
+'    Dim i As Integer
+'    Dim T, Q, Radius, Skin, Er As Double
+'    Dim T0, S0 As Double
+'    Dim ERMode As String
+'    Dim ER1, ER2, ER3, B, S1 As Double
+'
+'
+'    Call MyDebug("Formula SkinFactor ... ", True)
+'
+'    nofwell = GetNumberOfWell()
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'
+'    For i = 1 To nofwell
+'        T = format(Cells(4 + i, "o").value, "0.0000")
+'        Q = Cells(4 + i, "k").value
+'
+'        T0 = format(Cells(4 + i, "AI").value, "0.0000")
+'        S0 = format(Cells(4 + i, "AJ").value, "0.0000")
+'        S1 = Cells(4 + i, "R").value
+'
+'        delta_s = format(Cells(4 + i, "l").value, "0.00")
+'        Radius = format(Cells(4 + i, "h").value, "0.000")
+'        Skin = format(Cells(4 + i, "y").value, "0.0000")
+'        Er = format(Cells(4 + i, "z").value, "0.0000")
+'
+'
+'        B = format(Cells(4 + i, "AG").value, "0.0000")
+'        ER1 = format(Cells(4 + i, "AL").value, "0.0000")
+'        ER2 = format(Cells(4 + i, "AM").value, "0.0000")
+'        ER3 = format(Cells(4 + i, "AN").value, "0.0000")
+'
+'
+'        Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").value)
+'        ' 경험식 1번
+'        Case erRE1
+'
+'            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~ sqrt {{2.25 TIMES  " & T0 & " TIMES  0.0833333} over {" & S0 & " TIMES  10 ^{5.46 TIMES  " & T & " TIMES  " & B & "}}} `=~" & ER1 & "m"
+'            formula2 = "erRE1, 경험식 1번"
+'
+'        ' 경험식 2번
+'        Case erRE2
+'            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~ sqrt {{2.25 TIMES  " & T0 & " TIMES  0.0833333} over {" & S0 & " TIMES  10 ^{4 pi TIMES " & T & " TIMES  " & B & "}}} `=~" & ER2 & "m"
+'            formula2 = "erRE2, 경험식 2번"
+'        ' 경험식 3번
+'        Case erRE3
+'            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & Radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
+'            formula2 = "erRE3, 경험식 3번"
+'
+'        Case Else
+'            ' 스킨계수
+'            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & Radius & " TIMES  " & Radius & ")} =`" & Skin
+'            ' 유효우물반경
+'            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & Radius & " TIMES e ^{-(" & Skin & ")} =" & Er & "m"
+'        End Select
+'
+'
+'        If Mode = "SKIN" Then
+'            Debug.Print formula1
+'            Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'
+'            Print #FileNum, formula1
+'            Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'        Else
+'            Debug.Print formula2
+'            Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'
+'            Print #FileNum, formula2
+'            Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'        End If
+'    Next i
+'
+'End Sub
+'
+'
+'Sub DeleteFileIfExists(filePath As String)
+'    If Len(Dir(filePath)) > 0 Then ' Check if file exists
+'        On Error Resume Next
+'        Kill filePath ' Attempt to delete the file
+'
+'        On Error GoTo 0
+'        If Len(Dir(filePath)) > 0 Then
+'            MsgBox "Unable to delete file '" & filePath & "'. The file may be in use.", vbExclamation
+'        Else
+'            ' MsgBox "File '" & filePath & "' has been deleted.", vbInformation
+'
+'        End If
+'    Else
+'        ' MsgBox "File '" & filePath & "' does not exist.", vbExclamation
+'    End If
+'End Sub
+'
+'
+'
+'Sub FormulaChwiSoo(FileNum As Integer)
+'' 3-7, 적정취수량
+'
+'    Dim formula As String
+'    Dim nofwell As String
+'    Dim i As Integer
+'    Dim Q1, S1, S2, res As Double
+'
+'    nofwell = GetNumberOfWell()
+'    Sheets("YangSoo").Select
+'
+'
+'    For i = 1 To 3
+'        Debug.Print " "
+'        Print #FileNum, " "
+'    Next i
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'    For i = 1 To nofwell
+'        Q1 = Cells(4 + i, "ac").value
+'
+'        S1 = format(Cells(4 + i, "ad").value, "0.00")
+'        S2 = format(Cells(4 + i, "ae").value, "0.00")
+'        res = format(Cells(4 + i, "ab").value, "0.00")
+'
+'        'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
+'        'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
+'
+'        formula = "W-" & i & "호공~~Q_{& 2} = " & Q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
+'
+'        Debug.Print formula
+'        Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'
+'        Print #FileNum, formula
+'        Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'
+'    Next i
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'End Sub
+'
+'
+'Sub FormulaRadiusOfInfluence(FileNum As Integer)
+'' 양수영향반경
+'
+'    Call FormulaSUB_ROI("SCHULTZE", FileNum)
+'    Call FormulaSUB_ROI("WEBBER", FileNum)
+'    Call FormulaSUB_ROI("JCOB", FileNum)
+'
+'End Sub
+'
+'
+'
+'
+'Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
+'  Dim formula1, formula2, formula3 As String
+'    ' 슐츠, 웨버, 제이콥
+'
+'    Dim nofwell As String
+'    Dim i As Integer
+'    Dim Shultze, Webber, Jacob, T, K, S, time_, delta_h As String
+'
+'    nofwell = GetNumberOfWell()
+'    Sheets("YangSoo").Select
+'
+'
+'    For i = 1 To 3
+'        Debug.Print " "
+'        Print #FileNum, " "
+'    Next i
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'
+'    For i = 1 To nofwell
+'        schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
+'        Webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
+'        Jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
+'
+'        T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
+'        S = CStr(format(Cells(4 + i, "s").value, "0.0000000"))
+'        K = CStr(format(Cells(4 + i, "t").value, "0.0000"))
+'
+'        delta_h = CStr(format(Cells(4 + i, "f").value, "0.00"))
+'        time_ = CStr(format(Cells(4 + i, "u").value, "0.0000"))
+'
+'
+'        ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")
+'
+'        formula1 = "W-" & i & "호공~~R _{W-" & i & "} ``=`` sqrt {6 TIMES  " & delta_h & " TIMES  " & K & " TIMES  " & time_ & "/" & S & "} ``=~" & schultze & "m"
+'        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & Webber & "`m"
+'        formula3 = "W-" & i & "호공~~r _{0(W-" & i & ")} `=~ sqrt {{2.25 TIMES  " & T & " TIMES  " & time_ & "} over {" & S & "}} `=~" & Jacob & "m"
+'
+'
+'        Select Case Mode
+'            Case "SCHULTZE"
+'                Debug.Print formula1
+'                Print #FileNum, formula1
+'
+'            Case "WEBBER"
+'                Debug.Print formula2
+'                Print #FileNum, formula2
+'
+'            Case "JCOB"
+'                Debug.Print formula3
+'                Print #FileNum, formula3
+'        End Select
+'
+'        Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'        Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+'
+'    Next i
+'
+'    Debug.Print "************************************************************************************************************************************************************************************************"
+'    Print #FileNum, "************************************************************************************************************************************************************************************************"
+'
+'End Sub
+'
+'
+'
 
 Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
 ' isSingleWellImport = True ---> SingleWell Import
@@ -11873,16 +11878,16 @@ Sub MakeAverageAndMergeCells(ByVal nofwell As Integer)
     
     
     Cells(4, "g").value = Round(t_sum / nofwell, 4)
-    Cells(4, "g").NumberFormat = "0.0000"
+    Cells(4, "g").numberFormat = "0.0000"
     
     Cells(4, "j").value = Round(daesoo_sum / nofwell, 1)
-    Cells(4, "j").NumberFormat = "0.0"
+    Cells(4, "j").numberFormat = "0.0"
         
     Cells(4, "l").value = Round(direction_sum / nofwell, 1)
-    Cells(4, "l").NumberFormat = "0.0"
+    Cells(4, "l").numberFormat = "0.0"
         
     Cells(4, "n").value = Round(gradient_sum / nofwell, 4)
-    Cells(4, "n").NumberFormat = "0.0000"
+    Cells(4, "n").numberFormat = "0.0000"
        
     Cells(4, "o").value = "무경계조건"
     Cells(4, "h").value = 0.03
@@ -11919,7 +11924,7 @@ End Sub
 Sub FindMergedCellsRange()
     Dim mergedRange As Range
     Set mergedRange = ActiveSheet.Range("A1").MergeArea
-    MsgBox "The range of merged cells is " & mergedRange.address
+    MsgBox "The range of merged cells is " & mergedRange.Address
 End Sub
 
 
@@ -12053,8 +12058,8 @@ Public gbIsFirstTime  As Boolean
 Sub Test_NameManager()
     Dim acColumn, acRow As Variant
     
-    acColumn = Split(Range("ip_motor_simdo").address, "$")(1)
-    acRow = Split(Range("ip_motor_simdo").address, "$")(2)
+    acColumn = Split(Range("ip_motor_simdo").Address, "$")(1)
+    acRow = Split(Range("ip_motor_simdo").Address, "$")(2)
     
     '  Row = ActiveCell.Row
     '  col = ActiveCell.Column
@@ -12129,23 +12134,23 @@ Sub Write26_AquiferCharacterization(nofwell As Integer)
         
         ' 자연수위
         Cells(11 + i, "G").value = Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "G").NumberFormat = "0.00"
+        Cells(11 + i, "G").numberFormat = "0.00"
         
         ' 안정수위
         Cells(11 + i, "H").value = Worksheets(CStr(i)).Range("c21").value
-        Cells(11 + i, "H").NumberFormat = "0.00"
+        Cells(11 + i, "H").numberFormat = "0.00"
         
          '수위강하량
         Cells(11 + i, "I").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "I").NumberFormat = "0.00"
+        Cells(11 + i, "I").numberFormat = "0.00"
         
         ' 투수량계수
         Cells(11 + i, "J").value = Worksheets(CStr(i)).Range("E7").value
-        Cells(11 + i, "J").NumberFormat = "0.0000"
+        Cells(11 + i, "J").numberFormat = "0.0000"
         
         ' 저류계수
         Cells(11 + i, "K").value = Worksheets(CStr(i)).Range("G7").value
-        Cells(11 + i, "K").NumberFormat = "0.0000000"
+        Cells(11 + i, "K").numberFormat = "0.0000000"
     Next i
 End Sub
 
@@ -12182,11 +12187,11 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
         
         ' 자연수위
         Cells(11 + i, "P").value = Worksheets(CStr(i)).Range("c20").value
-        Cells(11 + i, "P").NumberFormat = "0.00"
+        Cells(11 + i, "P").numberFormat = "0.00"
         
         ' 안정수위
         Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value
-        Cells(11 + i, "Q").NumberFormat = "0.00"
+        Cells(11 + i, "Q").numberFormat = "0.00"
         
         '수위강하량
 '        Cells(11 + i, "Q").value = Worksheets(CStr(i)).Range("c21").value - Worksheets(CStr(i)).Range("c20").value
@@ -12194,11 +12199,11 @@ Sub Write26_Right_AquiferCharacterization(nofwell As Integer)
         
         ' 투수량계수
         Cells(11 + i, "R").value = Worksheets(CStr(i)).Range("E7").value
-        Cells(11 + i, "R").NumberFormat = "0.0000"
+        Cells(11 + i, "R").numberFormat = "0.0000"
          
         ' 저류계수
         Cells(11 + i, "S").value = Worksheets(CStr(i)).Range("G7").value
-        Cells(11 + i, "S").NumberFormat = "0.0000000"
+        Cells(11 + i, "S").numberFormat = "0.0000000"
     Next i
 End Sub
 
@@ -12957,7 +12962,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     Dim i As Integer
     Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
     Dim wsYangSoo As Worksheet
 
     ' Set the well number
@@ -12973,7 +12978,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     DeltaS = wsYangSoo.Cells(4 + i, "L").value
     nl = wsYangSoo.Cells(4 + i, "B").value
     sl = wsYangSoo.Cells(4 + i, "C").value
-    casing = wsYangSoo.Cells(4 + i, "J").value
+    Casing = wsYangSoo.Cells(4 + i, "J").value
     T1 = wsYangSoo.Cells(4 + i, "O").value
     S1 = wsYangSoo.Cells(4 + i, "R").value
     T2 = wsYangSoo.Cells(4 + i, "P").value
@@ -12991,7 +12996,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     SetCellValueAndFormat Range("C20"), nl, "0.00"
     SetCellValueAndFormat Range("C21"), sl, "0.00"
     SetCellValueAndFormat Range("C10"), 5, "0"
-    SetCellValueAndFormat Range("C11"), casing - 5, "0"
+    SetCellValueAndFormat Range("C11"), Casing - 5, "0"
     SetCellValueAndFormat Range("G6"), S3, "0.00"
     SetCellValueAndFormat Range("E5"), T1, "0.0000"
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
@@ -13011,7 +13016,7 @@ End Sub
 ' Helper function to set cell value and format
 Sub SetCellValueAndFormat(cell As Range, value As Variant, format As String)
     cell.value = value
-    cell.NumberFormat = format
+    cell.numberFormat = format
 End Sub
 
 
@@ -13026,7 +13031,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     ' s3 - Recover Test 의 S값
     
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
     Dim wsYangSoo As Worksheet
     
     i = well_no
@@ -13039,7 +13044,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = wsYangSoo.Cells(4 + i, "B").value
     sl = wsYangSoo.Cells(4 + i, "C").value
-    casing = wsYangSoo.Cells(4 + i, "J").value
+    Casing = wsYangSoo.Cells(4 + i, "J").value
     
     
     T1 = wsYangSoo.Cells(4 + i, "O").value
@@ -13064,7 +13069,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     SetCellValueAndFormat Range("C20"), nl, "0.00"
     SetCellValueAndFormat Range("C21"), sl, "0.00"
     SetCellValueAndFormat Range("C10"), 5, "0"
-    SetCellValueAndFormat Range("C11"), casing - 5, "0"
+    SetCellValueAndFormat Range("C11"), Casing - 5, "0"
     SetCellValueAndFormat Range("G6"), S3, "0.00"
     SetCellValueAndFormat Range("E5"), T1, "0.0000"
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
@@ -13093,7 +13098,7 @@ Private Sub ImportEachWell_OLD()
     
     ' nl : natural level, sl : stable level
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
     
     BaseData_ETC_02.TurnOffStuff
     
@@ -13115,7 +13120,7 @@ Private Sub ImportEachWell_OLD()
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
     sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
+    Casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
     T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
@@ -13139,25 +13144,25 @@ Private Sub ImportEachWell_OLD()
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
+    Range("c20").numberFormat = "0.00"
     
     Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
+    Range("c21").numberFormat = "0.00"
     
     Range("c10") = 5
-    Range("c11") = casing - 5
+    Range("c11") = Casing - 5
     
     'in recover test, s' value
     Range("G6") = S3
         
     Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
+    Range("E5").numberFormat = "0.0000"
      
     Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
+    Range("E6").numberFormat = "0.0000"
     
     Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
+    Range("g5").numberFormat = "0.0000000"
     
     '2024/6/10 move to s1 this G4 cell
     Range("G4") = S1
@@ -13363,17 +13368,17 @@ Function FindCellByLoopingPartialMatch() As String
 
     Dim ws As Worksheet
     Dim cell As Range
-    Dim address As String
+    Dim Address As String
      
      For Each cell In Range("A1:AZ1").Cells
-        Debug.Print cell.address, cell.value
+        Debug.Print cell.Address, cell.value
     
         If CellContains(cell, "") Then
-            address = cell.address
+            Address = cell.Address
             Exit For
         End If
     Next
-    FindCellByLoopingPartialMatch = address
+    FindCellByLoopingPartialMatch = Address
     
 End Function
 
@@ -13514,8 +13519,8 @@ Private Sub GROK_WriteSummaryTS(wellIndex As Integer, params As WellParameters)
 
     With Range("H" & row)
         .value = "W-" & wellIndex
-        .Offset(0, 1).value = params.T1
-        .Offset(0, 2).value = params.S1
+        .Offset(0, 1).value = params.T2
+        .Offset(0, 2).value = params.S2
     End With
 End Sub
 
@@ -13575,11 +13580,11 @@ Private Sub GROK_WriteSkinFactor(wellIndex As Integer, params As WellParameters,
         .value = "W-" & wellIndex
         
         With .Offset(0, 1)
-            .value = params.Skin: .NumberFormat = "0.0000"
+            .value = params.Skin: .numberFormat = "0.0000"
         End With
         
         With .Offset(0, 2)
-            .value = params.Er: .NumberFormat = "0.0000"
+            .value = params.Er: .numberFormat = "0.0000"
         End With
     End With
 
@@ -13602,28 +13607,28 @@ Private Sub GROK_WriteRoiResult(wellIndex As Integer, params As WellParameters, 
         .value = "W-" & wellIndex
         
         With .Offset(0, 1)
-            .value = params.Schultz: .NumberFormat = "0.0"
+            .value = params.Schultz: .numberFormat = "0.0"
         End With
         
         With .Offset(0, 2)
-            .value = params.Webber: .NumberFormat = "0.0"
+            .value = params.Webber: .numberFormat = "0.0"
         End With
         
         
         With .Offset(0, 3)
-            .value = params.Jcob: .NumberFormat = "0.0"
+            .value = params.Jcob: .numberFormat = "0.0"
         End With
         
         With .Offset(0, 4)
-            .value = (params.Schultz + params.Webber + params.Webber) / 3: .NumberFormat = "0.0"
+            .value = (params.Schultz + params.Webber + params.Jcob) / 3: .numberFormat = "0.0"
         End With
         
         With .Offset(0, 5)
-            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Webber): .NumberFormat = "0.0"
+            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Jcob): .numberFormat = "0.0"
         End With
         
         With .Offset(0, 6)
-            .value = Application.WorksheetFunction.max(params.Schultz, params.Webber, params.Webber): .NumberFormat = "0.0"
+            .value = Application.WorksheetFunction.min(params.Schultz, params.Webber, params.Jcob): .numberFormat = "0.0"
         End With
         
     End With
@@ -13650,19 +13655,19 @@ Private Sub GROK_WriteRadiusOfInfluence(wellIndex As Integer, params As WellPara
     With Cells(startRow, col)
         .Offset(0, 0).value = "W-" & wellIndex
         With .Offset(1, 0)
-            .value = params.TA: .NumberFormat = "0.0000"
+            .value = params.TA: .numberFormat = "0.0000"
         End With
         With .Offset(2, 0)
-            .value = params.K: .NumberFormat = "0.0000"
+            .value = params.K: .numberFormat = "0.0000"
         End With
         With .Offset(3, 0)
-            .value = params.S2: .NumberFormat = "0.0000000"
+            .value = params.S2: .numberFormat = "0.0000000"
         End With
         With .Offset(4, 0)
-            .value = params.Time: .NumberFormat = "0.0000"
+            .value = params.Time: .numberFormat = "0.0000"
         End With
         With .Offset(5, 0)
-            .value = params.DeltaH: .NumberFormat = "0.00"
+            .value = params.DeltaH: .numberFormat = "0.00"
         End With
         .Offset(6, 0).value = params.DaeSoo
     End With
@@ -13693,19 +13698,19 @@ Private Sub GROK_WriteTSAnalysis(wellIndex As Integer, params As WellParameters,
 
     With Range("E" & baseRow)
         With .Offset(0, 0)
-            .value = params.T1: .NumberFormat = "0.0000"
+            .value = params.T1: .numberFormat = "0.0000"
         End With
         With .Offset(1, 0)
-            .value = params.T2: .NumberFormat = "0.0000"
+            .value = params.T2: .numberFormat = "0.0000"
         End With
         With .Offset(2, 0)
-            .value = params.TA: .NumberFormat = "0.0000": .Font.Bold = True
+            .value = params.TA: .numberFormat = "0.0000": .Font.Bold = True
         End With
         With .Offset(0, 1)
-            .value = params.S2: .NumberFormat = "0.0000000"
+            .value = params.S2: .numberFormat = "0.0000000"
         End With
         With .Offset(2, 1)
-            .value = params.S2: .NumberFormat = "0.0000000": .Font.Bold = True
+            .value = params.S2: .numberFormat = "0.0000000": .Font.Bold = True
         End With
     End With
     
@@ -13733,26 +13738,26 @@ End Sub
 '
 ' 2025/3/4, Aggregate1 Refactoring
 '
-
 ' Type definition for WellDataForAggregate1
 '
-Private Type WellDataForAggOne
-    Q1 As Double
-    QQ1 As Double
-    Q2 As Double
-    Q3 As Double
+Private Type WellDataOne
+    Q As Double '양수량
+    Q1 As Double '1단계 양수량
+    Qg As Double '가채수량
+    Qh As Double '한계양수량
+    
     Ratio As Double
     
-    S1 As Double
-    S2 As Double
+    Sd1 As Double ' 1단계 수위강하령
+    Sd2 As Double ' 4단계 수위강하량
     
     C As Double
     B As Double
 End Type
 
 ' Get well parameters from YangSoo sheet
-Private Function GetWellData(wellIndex As Integer) As WellDataForAggOne
-    Dim params As WellDataForAggOne
+Private Function GetWellData(wellIndex As Integer) As WellDataOne
+    Dim params As WellDataOne
     Dim ws As Worksheet
     Dim row As Long: row = 4 + wellIndex
     
@@ -13760,16 +13765,16 @@ Private Function GetWellData(wellIndex As Integer) As WellDataForAggOne
     Set ws = Worksheets("YangSoo")
 
     With params
-        .Q1 = ws.Cells(row, "aa").value
-        .QQ1 = ws.Cells(row, "ac").value
+        .Q = ws.Cells(row, "k").value
+        .Qg = ws.Cells(row, "ab").value
         
-        .Q2 = ws.Cells(row, "ab").value
-        .Q3 = ws.Cells(row, "k").value
+        .Q1 = ws.Cells(row, "ac").value
+        .Qh = ws.Cells(row, "aa").value
         
         .Ratio = ws.Cells(row, "ah").value
         
-        .S1 = ws.Cells(row, "ad").value
-        .S2 = ws.Cells(row, "ae").value
+        .Sd1 = ws.Cells(row, "ad").value
+        .Sd2 = ws.Cells(row, "ae").value
         
         .C = ws.Cells(row, "af").value
         .B = ws.Cells(row, "ag").value
@@ -13786,7 +13791,7 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
 
     Dim wellCount As Integer
     Dim wellIndex As Integer
-    Dim wd As WellDataForAggOne
+    Dim wd As WellDataOne
     
 
     ' Initialize core variables
@@ -13823,7 +13828,7 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
     Range("L1").Select
 End Sub
 
-Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+Private Sub WriteWellSummary(WellData As WellDataOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
     ' Writes well summary data to columns G:K and Q:S for a specific well
     ' Parameters:
     '   wellData: Structure containing well measurement data
@@ -13846,16 +13851,16 @@ Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As I
     ' Write summary data using With blocks for efficiency
     With Range("G" & rowNumber)
         .value = wellLabel
-        .Offset(0, 1).value = wellData.Q1
-        .Offset(0, 2).value = wellData.Q2
-        .Offset(0, 3).value = wellData.Q3
-        .Offset(0, 4).value = wellData.Ratio
+        .Offset(0, 1).value = WellData.Qh
+        .Offset(0, 2).value = WellData.Qg
+        .Offset(0, 3).value = WellData.Q
+        .Offset(0, 4).value = WellData.Ratio
     End With
     
     With Range("Q" & rowNumber)
         .value = wellLabel
-        .Offset(0, 1).value = wellData.C
-        .Offset(0, 2).value = wellData.B
+        .Offset(0, 1).value = WellData.C
+        .Offset(0, 2).value = WellData.B
     End With
     
     ' Apply alternating background formatting
@@ -13863,7 +13868,7 @@ Private Sub WriteWellSummary(wellData As WellDataForAggOne, ByVal wellIndex As I
     ApplyBackgroundFormatting rowNumber, "Q", "S", wellIndex
 End Sub
 
-Private Sub WriteWaterIntake(wd As WellDataForAggOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
+Private Sub WriteWaterIntake(wd As WellDataOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
     ' Calculates and writes tentative water intake data starting at row 43
 
     Dim startRow As Integer
@@ -13883,9 +13888,9 @@ Private Sub WriteWaterIntake(wd As WellDataForAggOne, ByVal wellIndex As Integer
     ' Write water intake data
     Cells(baseRow, "F").value = "W-" & CStr(wellIndex)
     Cells(baseRow, "G").value = wd.Q1
-    Cells(baseRow, "H").value = wd.S2
-    Cells(baseRow + 1, "H").value = wd.S1
-    Cells(baseRow, "I").value = wd.Q2
+    Cells(baseRow, "H").value = wd.Sd2
+    Cells(baseRow + 1, "H").value = wd.Sd1
+    Cells(baseRow, "I").value = wd.Qg
 
     ' Apply background formatting
     ApplyBackgroundFormatting baseRow, "F", "I", wellIndex, 2
@@ -14574,6 +14579,560 @@ End Sub
 
 
 
+
+
+
+
+
+'
+' Refactor By User Defined Type
+'
+
+
+' Define User-Defined Type for Well Data
+Private Type WellData
+    Natural As Double
+    Stable As Double
+    Recover As Double
+    
+    DeltaH As Double
+    Sw As Double
+    Radius As Double
+    
+    Rw As Double
+    WellDepth As Double
+    Casing As Double
+    
+    Q As Double
+    DeltaS As Double
+    Hp As Double
+    DaeSoo As Double
+    
+    T1 As Double
+    T2 As Double
+    TA As Double
+    S1 As Double
+    S2 As Double
+    
+    K As Double
+    Time As Double
+    
+    Shultze As Double
+    Webber As Double
+    Jacob As Double
+    Skin As Double
+    
+    Er As Double
+    ER1 As Double
+    ER2 As Double
+    ER3 As Double
+    
+    Qh As Double
+    Qg As Double
+    Sd1 As Double
+    Sd2 As Double
+    Q1 As Double
+    
+    C As Double
+    B As Double
+    Ratio As Double
+    
+    T0 As Double
+    S0 As Double
+    ERMode As String
+    Address As String
+    Company As String
+    
+    S3 As Double
+    Title As String
+End Type
+
+' Main procedure using UDT
+Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport As Boolean)
+    Dim nofwell As Integer
+    Dim i As Integer
+    Dim rngString As String
+    
+    ' Get total number of wells
+    nofwell = GetNumberOfWell()
+    
+    ' Determine range to clear based on import type
+    If Not isSingleWellImport And singleWell = 999 Then
+        rngString = "A5:AR37"
+    Else
+        rngString = "A" & (nofwell + 4) & ":AR" & (nofwell + 4)
+    End If
+    
+    Call EraseCellData(rngString)
+    
+    ' Process each well
+    For i = 1 To nofwell
+        If Not isSingleWellImport Or (isSingleWellImport And i = singleWell) Then
+            Dim well As WellData
+            well = ImportDataForWell(i)
+            SetWellDataToSheet i, well
+        End If
+    Next i
+End Sub
+
+' Function to import well data into UDT
+Private Function ImportDataForWell(ByVal wellIndex As Integer) As WellData
+    Dim fName As String
+    Dim wb As Workbook
+    Dim well As WellData
+    
+    ' Construct filename and check if workbook is open
+    fName = "A" & CStr(wellIndex) & "_ge_OriginalSaveFile.xlsm"
+    If Not IsWorkBookOpen(fName) Then
+        MsgBox "Please open the yangsoo data! " & fName
+        Exit Function
+    End If
+    
+    Set wb = Workbooks(fName)
+    
+    ' Get worksheet references
+    With wb
+        Dim wsInput As Worksheet: Set wsInput = .Worksheets("Input")
+        Dim wsSkinFactor As Worksheet: Set wsSkinFactor = .Worksheets("SkinFactor")
+        Dim wsSafeYield As Worksheet: Set wsSafeYield = .Worksheets("SafeYield")
+        
+        ' Populate UDT with data
+        With well
+            .Natural = wsInput.Range("m48").value ' 자연수위
+            .Stable = wsInput.Range("m49").value ' 안정수위
+            .Recover = wsSkinFactor.Range("c10").value ' 회복수위
+            .Sw = wsSkinFactor.Range("c11").value ' 회복수위
+            
+            .DeltaH = wsSkinFactor.Range("b16").value  ' 수위강하량
+            .Radius = wsInput.Range("m44").value '200 , 우물직경
+            .Rw = wsSkinFactor.Range("e4").value '0.1
+            
+            .WellDepth = wsInput.Range("m45").value ' 관정심도
+            .Casing = wsInput.Range("i52").value ' 케이싱심도
+            .Q = wsInput.Range("m51").value '양수량, 채수계획량
+            .C = wsInput.Range("a31").value ' 우물손실계수
+            .B = wsInput.Range("b31").value ' 대수층손실계수
+            
+            .DeltaS = wsSkinFactor.Range("b4").value '최초 1분간 수위강하량
+            .Hp = wsInput.Range("i48").value  ' 모터마력
+            .DaeSoo = wsSkinFactor.Range("c16").value ' 대수층두께
+            
+            .T1 = wsSkinFactor.Range("d5").value
+            .T2 = wsSkinFactor.Range("h13").value
+            .TA = wsSkinFactor.Range("d16").value
+            .S1 = wsSkinFactor.Range("e10").value
+            .S2 = wsSkinFactor.Range("i16").value
+            
+            .K = wsSkinFactor.Range("e16").value
+            .Time = wsSkinFactor.Range("h16").value
+            
+            .Shultze = wsSkinFactor.Range("c13").value
+            .Webber = wsSkinFactor.Range("c18").value
+            .Jacob = wsSkinFactor.Range("c23").value
+            
+            .Skin = wsSkinFactor.Range("g6").value
+            .Er = wsSkinFactor.Range("c8").value
+            
+            .ER1 = wsSkinFactor.Range("k8").value
+            .ER2 = wsSkinFactor.Range("k9").value
+            .ER3 = wsSkinFactor.Range("k10").value
+            
+            .Qh = wsInput.Range("d6").value
+            .Qg = wsSafeYield.Range("b8").value
+            
+            .Sd1 = wsSafeYield.Range("b3").value
+            .Sd2 = wsSafeYield.Range("b4").value
+            .Q1 = wsSafeYield.Range("b2").value
+            .Ratio = wsSafeYield.Range("b11").value
+            
+            .T0 = wsSkinFactor.Range("d4").value
+            .S0 = wsSkinFactor.Range("f4").value
+            
+            .ERMode = wsSkinFactor.Range("h10").value
+            .Address = wsInput.Range("i46").value
+            .Company = wsInput.Range("i47").value
+            
+            .S3 = wsSkinFactor.Range("i13").value
+            .Title = wsInput.Range("i44").value
+        End With
+    End With
+    
+    ImportDataForWell = well
+End Function
+
+' Procedure to set well data to worksheet
+Private Sub SetWellDataToSheet(ByVal wellIndex As Integer, well As WellData)
+    Dim row As Long: row = 4 + wellIndex
+    Cells(row, 1).value = "W-" & wellIndex
+    
+    With well
+        SetCellValue row, 2, .Natural, "0.00"
+        SetCellValue row, 3, .Stable, "0.00"
+        SetCellValue row, 4, .Recover, "0.00"
+        SetCellValue row, 5, .Sw, "0.00"
+        
+        SetCellValue row, 6, .DeltaH, "0.00"
+        SetCellValue row, 7, .Radius, "0."
+        
+        SetCellValue row, 8, .Rw, "0.000"
+        SetCellValue row, 9, .WellDepth, "0"
+        
+        SetCellValue row, 10, .Casing, "0"
+        SetCellValue row, 11, .Q, "0"
+        SetCellValue row, 12, .DeltaS, "0.00"
+        SetCellValue row, 13, .Hp, "0.0"
+        SetCellValue row, 14, .DaeSoo, "0.00"
+        
+        SetCellValue row, 15, .T1, "0.0000"
+        SetCellValue row, 16, .T2, "0.0000"
+        SetCellValue row, 17, .TA, "0.0000"
+        
+        SetCellValue row, 18, .S1, "0.0000000"
+        SetCellValue row, 19, .S2, "0.0000000"
+        
+        SetCellValue row, 20, .K, "0.0000"
+        SetCellValue row, 21, .Time, "0.0000"
+        SetCellValue row, 22, .Shultze, "0.00"
+        SetCellValue row, 23, .Webber, "0.00"
+        SetCellValue row, 24, .Jacob, "0.00"
+        
+        SetCellValue row, 25, .Skin, "0.0000"
+        SetCellValue row, 26, .Er, "0.0000"
+        SetCellValue row, 27, .Qh, "0"
+        SetCellValue row, 28, .Qg, "0.00"
+        
+        SetCellValue row, 29, .Q1, "0.00"
+        SetCellValue row, 30, .Sd1, "0.00"
+        SetCellValue row, 31, .Sd2, "0.00"
+        
+        SetCellValue row, 32, .C, "0.00"
+        SetCellValue row, 33, .B, "0.00"
+        SetCellValue row, 34, .Ratio, "0.0%"
+        
+        SetCellValue row, 35, .T0, "0.0000"
+        SetCellValue row, 36, .S0, "0.0000"
+        
+        SetCellValue row, 37, .ERMode, ""
+        SetCellValue row, 38, .ER1, "0.0000"
+        SetCellValue row, 39, .ER2, "0.0000"
+        SetCellValue row, 40, .ER3, "0.0000"
+        
+        SetCellValue row, 41, .Address, ""
+        SetCellValue row, 42, .Company, ""
+        SetCellValue row, 43, .S3, "0.00"
+        SetCellValue row, 44, .Title, ""
+    End With
+End Sub
+
+' Helper procedure to set cell value and format
+Private Sub SetCellValue(ByVal row As Long, ByVal col As Integer, ByVal value As Variant, ByVal numberFormat As String)
+    With Cells(row, col)
+        .value = value
+        If Len(numberFormat) > 0 Then .numberFormat = numberFormat
+    End With
+End Sub
+
+' Keep existing helper functions
+Public Sub MyDebug(sPrintStr As String, Optional bClear As Boolean = False)
+   If bClear = True Then
+      Application.SendKeys "^g^{END}", True
+      DoEvents
+      Debug.Print String(30, vbCrLf)
+   End If
+   Debug.Print sPrintStr
+End Sub
+
+Function DetermineEffectiveRadius(ERMode As String) As Integer
+    Dim Er As String, R As String
+    Er = ERMode
+    R = Mid(Er, 5, 1)
+    
+    If R = "F" Then
+        DetermineEffectiveRadius = 0 ' Assuming erRE0 = 0, adjust if different
+    Else
+        DetermineEffectiveRadius = val(R)
+    End If
+End Function
+
+Function CheckFileExistence(filePath As String) As Boolean
+    CheckFileExistence = (Dir(filePath) <> "")
+End Function
+
+
+
+Sub WriteFormula()
+ 
+    Dim formula1, formula2 As String
+    Dim nofwell As Integer
+    Dim i As Integer
+    Dim T, Q, Radius, Skin, Er As Double
+    Dim T0, S0 As Double
+    Dim ERMode As String
+    Dim ER1, ER2, ER3, B, S1 As Double
+    
+    ' Save array to a file
+    Dim filePath As String
+    Dim FileNum As Integer
+    
+    
+    nofwell = GetNumberOfWell()
+    Sheets("YangSoo").Select
+    
+    filePath = ThisWorkbook.Path & "\" & ActiveSheet.name & ".csv"
+    DeleteFileIfExists filePath
+    FileNum = FreeFile
+    
+    Open filePath For Output As FileNum
+        
+    Call MyDebug("Formula SkinFactor ... ", True)
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+    
+    ' 스킨계수
+    Call FormulaSkinFactorAndER("SKIN", FileNum)
+    
+    ' 유효우물반경
+    Call FormulaSkinFactorAndER("ER", FileNum)
+    
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+    
+    
+    Call FormulaChwiSoo(FileNum)
+    ' 3-7, 적정취수량
+    
+    Call FormulaRadiusOfInfluence(FileNum)
+    ' 양수영향반경
+        
+    Close FileNum
+
+End Sub
+
+
+
+Sub FormulaSkinFactorAndER(ByVal Mode As String, ByVal FileNum As Integer)
+    Dim formula1, formula2 As String
+    Dim nofwell As Integer
+    Dim i As Integer
+    Dim T, Q, Radius, Skin, Er As Double
+    Dim T0, S0 As Double
+    Dim ERMode As String
+    Dim ER1, ER2, ER3, B, S1 As Double
+    
+        
+    Call MyDebug("Formula SkinFactor ... ", True)
+    
+    nofwell = GetNumberOfWell()
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+    
+    
+    For i = 1 To nofwell
+        T = format(Cells(4 + i, "o").value, "0.0000")
+        Q = Cells(4 + i, "k").value
+        
+        T0 = format(Cells(4 + i, "AI").value, "0.0000")
+        S0 = format(Cells(4 + i, "AJ").value, "0.0000")
+        S1 = Cells(4 + i, "R").value
+                
+        delta_s = format(Cells(4 + i, "l").value, "0.00")
+        Radius = format(Cells(4 + i, "h").value, "0.000")
+        Skin = format(Cells(4 + i, "y").value, "0.0000")
+        Er = format(Cells(4 + i, "z").value, "0.0000")
+        
+        
+        B = format(Cells(4 + i, "AG").value, "0.0000")
+        ER1 = format(Cells(4 + i, "AL").value, "0.0000")
+        ER2 = format(Cells(4 + i, "AM").value, "0.0000")
+        ER3 = format(Cells(4 + i, "AN").value, "0.0000")
+        
+        
+        Select Case DetermineEffectiveRadius(Cells(4 + i, "AK").value)
+        ' 경험식 1번
+        Case erRE1
+            
+            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~ sqrt {{2.25 TIMES  " & T0 & " TIMES  0.0833333} over {" & S0 & " TIMES  10 ^{5.46 TIMES  " & T & " TIMES  " & B & "}}} `=~" & ER1 & "m"
+            formula2 = "erRE1, 경험식 1번"
+            
+        ' 경험식 2번
+        Case erRE2
+            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~ sqrt {{2.25 TIMES  " & T0 & " TIMES  0.0833333} over {" & S0 & " TIMES  10 ^{4 pi TIMES " & T & " TIMES  " & B & "}}} `=~" & ER2 & "m"
+            formula2 = "erRE2, 경험식 2번"
+        ' 경험식 3번
+        Case erRE3
+            formula1 = "W-" & i & "호공~~r _{e-" & i & "} `=~" & Radius & " TIMES  sqrt {{" & S1 & "} over {" & S0 & "}} `=~" & ER3 & "m"
+            formula2 = "erRE3, 경험식 3번"
+            
+        Case Else
+            ' 스킨계수
+            formula1 = "W-" & i & "호공~~ sigma  _{w-" & i & "} = {2 pi  TIMES  " & T & " TIMES  " & delta_s & " } over {" & Q & "} -1.15 TIMES  log {2.25 TIMES  " & T & " TIMES  (1/1440)} over {" & S0 & " TIMES  (" & Radius & " TIMES  " & Radius & ")} =`" & Skin
+            ' 유효우물반경
+            formula2 = "W-" & i & "호공~~r _{e-" & i & "} `=~r _{w} e ^{- sigma  _{w-" & i & "}} =" & Radius & " TIMES e ^{-(" & Skin & ")} =" & Er & "m"
+        End Select
+        
+        
+        If Mode = "SKIN" Then
+            Debug.Print formula1
+            Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+            
+            Print #FileNum, formula1
+            Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        Else
+            Debug.Print formula2
+            Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+                
+            Print #FileNum, formula2
+            Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        End If
+    Next i
+
+End Sub
+
+
+Sub DeleteFileIfExists(filePath As String)
+    If Len(Dir(filePath)) > 0 Then ' Check if file exists
+        On Error Resume Next
+        Kill filePath ' Attempt to delete the file
+        
+        On Error GoTo 0
+        If Len(Dir(filePath)) > 0 Then
+            MsgBox "Unable to delete file '" & filePath & "'. The file may be in use.", vbExclamation
+        Else
+            ' MsgBox "File '" & filePath & "' has been deleted.", vbInformation
+            
+        End If
+    Else
+        ' MsgBox "File '" & filePath & "' does not exist.", vbExclamation
+    End If
+End Sub
+
+
+
+Sub FormulaChwiSoo(FileNum As Integer)
+' 3-7, 적정취수량
+
+    Dim formula As String
+    Dim nofwell As String
+    Dim i As Integer
+    Dim Q1, S1, S2, res As Double
+    
+    nofwell = GetNumberOfWell()
+    Sheets("YangSoo").Select
+        
+        
+    For i = 1 To 3
+        Debug.Print " "
+        Print #FileNum, " "
+    Next i
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+    
+    For i = 1 To nofwell
+        Q1 = Cells(4 + i, "ac").value
+ 
+        S1 = format(Cells(4 + i, "ad").value, "0.00")
+        S2 = format(Cells(4 + i, "ae").value, "0.00")
+        res = format(Cells(4 + i, "ab").value, "0.00")
+        
+        'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =165.52㎥/일
+        'W-1호공~~Q _{& 2} =100 TIMES  ( {8.71} over {4.09} ) ^{2/3} =`165.52㎥/일
+        
+        formula = "W-" & i & "호공~~Q_{& 2} = " & Q1 & " TIMES ({" & S2 & "} over {" & S1 & "}) ^{2/3} = `" & res & " ㎥/일"
+        
+        Debug.Print formula
+        Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        
+        Print #FileNum, formula
+        Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        
+    Next i
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+      
+End Sub
+
+
+Sub FormulaRadiusOfInfluence(FileNum As Integer)
+' 양수영향반경
+
+    Call FormulaSUB_ROI("SCHULTZE", FileNum)
+    Call FormulaSUB_ROI("WEBBER", FileNum)
+    Call FormulaSUB_ROI("JCOB", FileNum)
+    
+End Sub
+
+
+
+
+Sub FormulaSUB_ROI(Mode As String, FileNum As Integer)
+  Dim formula1, formula2, formula3 As String
+    ' 슐츠, 웨버, 제이콥
+    
+    Dim nofwell As String
+    Dim i As Integer
+    Dim Shultze, Webber, Jacob, T, K, S, time_, delta_h As String
+    
+    nofwell = GetNumberOfWell()
+    Sheets("YangSoo").Select
+        
+        
+    For i = 1 To 3
+        Debug.Print " "
+        Print #FileNum, " "
+    Next i
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+    
+    
+    For i = 1 To nofwell
+        schultze = CStr(format(Cells(4 + i, "v").value, "0.0"))
+        Webber = CStr(format(Cells(4 + i, "w").value, "0.0"))
+        Jacob = CStr(format(Cells(4 + i, "x").value, "0.0"))
+        
+        T = CStr(format(Cells(4 + i, "q").value, "0.0000"))
+        S = CStr(format(Cells(4 + i, "s").value, "0.0000000"))
+        K = CStr(format(Cells(4 + i, "t").value, "0.0000"))
+    
+        delta_h = CStr(format(Cells(4 + i, "f").value, "0.00"))
+        time_ = CStr(format(Cells(4 + i, "u").value, "0.0000"))
+        
+        
+        ' Cells(4 + i, "y").value = Format(skin(i), "0.0000")
+        
+        formula1 = "W-" & i & "호공~~R _{W-" & i & "} ``=`` sqrt {6 TIMES  " & delta_h & " TIMES  " & K & " TIMES  " & time_ & "/" & S & "} ``=~" & schultze & "m"
+        formula2 = "W-" & i & "호공~~R _{W-" & i & "} ``=3`` sqrt {" & delta_h & " TIMES " & K & " TIMES " & time_ & "/" & S & "} `=`" & Webber & "`m"
+        formula3 = "W-" & i & "호공~~r _{0(W-" & i & ")} `=~ sqrt {{2.25 TIMES  " & T & " TIMES  " & time_ & "} over {" & S & "}} `=~" & Jacob & "m"
+        
+        
+        Select Case Mode
+            Case "SCHULTZE"
+                Debug.Print formula1
+                Print #FileNum, formula1
+            
+            Case "WEBBER"
+                Debug.Print formula2
+                Print #FileNum, formula2
+                
+            Case "JCOB"
+                Debug.Print formula3
+                Print #FileNum, formula3
+        End Select
+        
+        Debug.Print "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        Print #FileNum, "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        
+    Next i
+    
+    Debug.Print "************************************************************************************************************************************************************************************************"
+    Print #FileNum, "************************************************************************************************************************************************************************************************"
+    
+End Sub
 
 
 

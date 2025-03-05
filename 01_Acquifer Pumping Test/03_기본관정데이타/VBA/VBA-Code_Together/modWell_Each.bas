@@ -3,7 +3,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     Dim i As Integer
     Dim S1, S2, S3, T1, T2, RI1, RI2, RI3, ir, Skin As Double
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
     Dim wsYangSoo As Worksheet
 
     ' Set the well number
@@ -19,7 +19,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     DeltaS = wsYangSoo.Cells(4 + i, "L").value
     nl = wsYangSoo.Cells(4 + i, "B").value
     sl = wsYangSoo.Cells(4 + i, "C").value
-    casing = wsYangSoo.Cells(4 + i, "J").value
+    Casing = wsYangSoo.Cells(4 + i, "J").value
     T1 = wsYangSoo.Cells(4 + i, "O").value
     S1 = wsYangSoo.Cells(4 + i, "R").value
     T2 = wsYangSoo.Cells(4 + i, "P").value
@@ -37,7 +37,7 @@ Sub ImportEachWell(ByVal well_no As Integer)
     SetCellValueAndFormat Range("C20"), nl, "0.00"
     SetCellValueAndFormat Range("C21"), sl, "0.00"
     SetCellValueAndFormat Range("C10"), 5, "0"
-    SetCellValueAndFormat Range("C11"), casing - 5, "0"
+    SetCellValueAndFormat Range("C11"), Casing - 5, "0"
     SetCellValueAndFormat Range("G6"), S3, "0.00"
     SetCellValueAndFormat Range("E5"), T1, "0.0000"
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
@@ -57,7 +57,7 @@ End Sub
 ' Helper function to set cell value and format
 Sub SetCellValueAndFormat(cell As Range, value As Variant, format As String)
     cell.value = value
-    cell.NumberFormat = format
+    cell.numberFormat = format
 End Sub
 
 
@@ -72,7 +72,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     ' s3 - Recover Test 의 S값
     
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
     Dim wsYangSoo As Worksheet
     
     i = well_no
@@ -85,7 +85,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = wsYangSoo.Cells(4 + i, "B").value
     sl = wsYangSoo.Cells(4 + i, "C").value
-    casing = wsYangSoo.Cells(4 + i, "J").value
+    Casing = wsYangSoo.Cells(4 + i, "J").value
     
     
     T1 = wsYangSoo.Cells(4 + i, "O").value
@@ -110,7 +110,7 @@ Sub ImportWellSpecFX(ByVal well_no As Integer)
     SetCellValueAndFormat Range("C20"), nl, "0.00"
     SetCellValueAndFormat Range("C21"), sl, "0.00"
     SetCellValueAndFormat Range("C10"), 5, "0"
-    SetCellValueAndFormat Range("C11"), casing - 5, "0"
+    SetCellValueAndFormat Range("C11"), Casing - 5, "0"
     SetCellValueAndFormat Range("G6"), S3, "0.00"
     SetCellValueAndFormat Range("E5"), T1, "0.0000"
     SetCellValueAndFormat Range("E6"), T2, "0.0000"
@@ -139,7 +139,7 @@ Private Sub ImportEachWell_OLD()
     
     ' nl : natural level, sl : stable level
     Dim nl, sl, DeltaS As Double
-    Dim casing As Integer
+    Dim Casing As Integer
     
     BaseData_ETC_02.TurnOffStuff
     
@@ -161,7 +161,7 @@ Private Sub ImportEachWell_OLD()
     ' 자연수위, 안정수위, 케이싱 심도 결정
     nl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i4").value
     sl = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i6").value
-    casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
+    Casing = Workbooks(WBNAME).Worksheets("SkinFactor").Range("i10").value
     
     ' WkbkName.Close
     T1 = Workbooks(WBNAME).Worksheets("SkinFactor").Range("D5").value
@@ -185,25 +185,25 @@ Private Sub ImportEachWell_OLD()
     
     ' 자연수위, 안정수위, 케이싱 심도 결정
     Range("c20") = nl
-    Range("c20").NumberFormat = "0.00"
+    Range("c20").numberFormat = "0.00"
     
     Range("c21") = sl
-    Range("c21").NumberFormat = "0.00"
+    Range("c21").numberFormat = "0.00"
     
     Range("c10") = 5
-    Range("c11") = casing - 5
+    Range("c11") = Casing - 5
     
     'in recover test, s' value
     Range("G6") = S3
         
     Range("E5") = T1
-    Range("E5").NumberFormat = "0.0000"
+    Range("E5").numberFormat = "0.0000"
      
     Range("E6") = T2
-    Range("E6").NumberFormat = "0.0000"
+    Range("E6").numberFormat = "0.0000"
     
     Range("g5") = S2
-    Range("g5").NumberFormat = "0.0000000"
+    Range("g5").numberFormat = "0.0000000"
     
     '2024/6/10 move to s1 this G4 cell
     Range("G4") = S1

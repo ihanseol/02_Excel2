@@ -38,16 +38,16 @@ Sub MakeAverageAndMergeCells(ByVal nofwell As Integer)
     
     
     Cells(4, "g").value = Round(t_sum / nofwell, 4)
-    Cells(4, "g").NumberFormat = "0.0000"
+    Cells(4, "g").numberFormat = "0.0000"
     
     Cells(4, "j").value = Round(daesoo_sum / nofwell, 1)
-    Cells(4, "j").NumberFormat = "0.0"
+    Cells(4, "j").numberFormat = "0.0"
         
     Cells(4, "l").value = Round(direction_sum / nofwell, 1)
-    Cells(4, "l").NumberFormat = "0.0"
+    Cells(4, "l").numberFormat = "0.0"
         
     Cells(4, "n").value = Round(gradient_sum / nofwell, 4)
-    Cells(4, "n").NumberFormat = "0.0000"
+    Cells(4, "n").numberFormat = "0.0000"
        
     Cells(4, "o").value = "무경계조건"
     Cells(4, "h").value = 0.03
@@ -84,7 +84,7 @@ End Sub
 Sub FindMergedCellsRange()
     Dim mergedRange As Range
     Set mergedRange = ActiveSheet.Range("A1").MergeArea
-    MsgBox "The range of merged cells is " & mergedRange.address
+    MsgBox "The range of merged cells is " & mergedRange.Address
 End Sub
 
 

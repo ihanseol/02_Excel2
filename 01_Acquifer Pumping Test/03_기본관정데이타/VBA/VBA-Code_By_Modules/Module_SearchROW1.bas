@@ -10,17 +10,17 @@ Function FindCellByLoopingPartialMatch() As String
 
     Dim ws As Worksheet
     Dim cell As Range
-    Dim address As String
+    Dim Address As String
      
      For Each cell In Range("A1:AZ1").Cells
-        Debug.Print cell.address, cell.value
+        Debug.Print cell.Address, cell.value
     
         If CellContains(cell, "") Then
-            address = cell.address
+            Address = cell.Address
             Exit For
         End If
     Next
-    FindCellByLoopingPartialMatch = address
+    FindCellByLoopingPartialMatch = Address
     
 End Function
 

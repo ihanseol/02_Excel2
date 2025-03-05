@@ -1,7 +1,7 @@
 Option Explicit
 
 Public Sub rows_and_column()
-    Debug.Print Cells(20, 1).address(RowAbsolute:=False, ColumnAbsolute:=False)
+    Debug.Print Cells(20, 1).Address(RowAbsolute:=False, ColumnAbsolute:=False)
     Debug.Print Range("a20").row & " , " & Range("a20").Column
     
     Range("B2:Z44").Rows(3).Select
