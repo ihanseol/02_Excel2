@@ -24,6 +24,10 @@ Private Sub CommandButton_geumsan_Click()
    Call importRainfall_button("GEUMSAN")
 End Sub
 
+Private Sub CommandButton_incheon_Click()
+    Call importRainfall_button("incheon")
+End Sub
+
 Private Sub CommandButton_seosan_Click()
     Call importRainfall_button("SEOSAN")
 End Sub
@@ -31,6 +35,10 @@ End Sub
 
 Private Sub CommandButton_Seoul_Click()
      Call importRainfall_button("SEOUL")
+End Sub
+
+Private Sub CommandButton_suwon_Click()
+    Call importRainfall_button("suwon")
 End Sub
 
 Private Sub CommandButton1_Click()

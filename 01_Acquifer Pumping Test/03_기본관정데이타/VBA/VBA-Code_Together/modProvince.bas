@@ -353,6 +353,14 @@ Sub importRainfall_button(ByVal AREA As String)
             Range("S5").value = "서울경기"
             Range("T5").value = "서울"
             
+        Case "SUWON"
+            Range("S5").value = "서울경기"
+            Range("T5").value = "수원"
+            
+        Case "INCHEON"
+            Range("S5").value = "서울경기"
+            Range("T5").value = "인천"
+            
     End Select
 
 
