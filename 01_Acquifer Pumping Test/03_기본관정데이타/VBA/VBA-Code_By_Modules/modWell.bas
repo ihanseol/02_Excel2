@@ -94,7 +94,7 @@ Sub PressAll_Button()
 
     Sheets("Aggregate2").Visible = True
     Sheets("Aggregate2").Select
-    Call modAgg2.ImportWellSpec(999, False)
+    Call modAgg2.GROK_ImportWellSpec(999, False)
     Sheets("Aggregate2").Visible = False
     
     Call Popup_MessageBox("YangSoo, Aggregate1 - AggregateOne_Import ...")
@@ -102,7 +102,7 @@ Sub PressAll_Button()
 
     Sheets("Aggregate1").Visible = True
     Sheets("Aggregate1").Select
-    Call modAgg1.AggregateOne_Import(999, False)
+    Call modAgg1.ImportAggregateData(999, False)
     Sheets("Aggregate1").Visible = False
     
     Call Popup_MessageBox("YangSoo, AggStep - Import StepTest Data ...")
