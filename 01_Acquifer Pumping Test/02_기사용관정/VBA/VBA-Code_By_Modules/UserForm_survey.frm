@@ -165,8 +165,9 @@ Sub LoadSurveyData(area As String)
     End If
     
     
-    If area = "" Then
+    If area = "" Or area = "0" Then
         area = Default
+        Exit Sub
     End If
     
     values = tbl.ListColumns(area).DataBodyRange.Value

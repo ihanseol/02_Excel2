@@ -1482,8 +1482,9 @@ Sub LoadSurveyData(area As String)
     End If
     
     
-    If area = "" Then
+    If area = "" Or area = "0" Then
         area = Default
+        Exit Sub
     End If
     
     values = tbl.ListColumns(area).DataBodyRange.Value
@@ -1599,18 +1600,67 @@ Option Explicit
 ' 이곳에다가 기본적인 설정값을 세팅해준다.
 ' 파일이름과, 조사일같은것들을 ...
 
-Const EXPORT_DATE As String = "2024-06-03"
-Const EXPORT_ADDR_HEADER As String = "서울특별시 "
+Const EXPORT_DATE As String = "2025-02-13"
+Const EXPORT_ADDR_HEADER As String = "경기도 안양시 "
 Const EXPORT_FILE_NAME As String = "d:\05_Send\iyong_template.xlsx"
         
 ' 1인 1일당 급수량, 엑셀파일을 보고 검사
-' 서울특별시 강북구
-Const ONEMAN_WATER_SUPPLY As Double = 265.16
+' 경기도 안양시
+Const ONEMAN_WATER_SUPPLY As Double = 289.16
         
 Public Enum ALLOW_TYPE_VALUE
      at_HEOGA = 0
      at_SINGO = 1
 End Enum
+
+
+Sub SplitAddressHeader()
+    Dim arr() As String
+    Dim i As Integer
+    
+    
+    arr = Split(EXPORT_ADDR_HEADER, " ")
+        
+'    If UBound(arr) >= 2 Then
+'        Debug.Print arr(1)
+'    Else
+'        Debug.Print arr(0)
+'    End If
+'
+    For i = 0 To UBound(arr)
+        Debug.Print """" & arr(i) & """"
+    Next i
+End Sub
+
+' ends with given string
+' 2025/3/7
+'
+Function EndsWith(str As String, endStr As String) As Boolean
+    If Right(str, 1) = endStr Then
+        EndsWith = True
+    Else
+        EndsWith = False
+    End If
+End Function
+
+
+'
+' Make Address Header
+'
+Function MakeAddressHeader(str As String) As String
+    Dim arr() As String
+
+    arr = Split(EXPORT_ADDR_HEADER, " ")
+    
+    If EndsWith(str, "시") Then
+        MakeAddressHeader = arr(0) & " " & str
+    Else
+        MakeAddressHeader = EXPORT_ADDR_HEADER & str
+    End If
+    
+End Function
+
+
 
 
 Sub delay(ti As Integer)
@@ -2013,6 +2063,8 @@ Sub EraseSheetData()
 End Sub
 
 
+
+
 ' allowType = 1 - 신고공
 ' allowType = 0 - 허가공
 Public Sub make_datamid()
@@ -2032,7 +2084,8 @@ Public Sub make_datamid()
     For i = 1 To row_ss
         id = Cells(i + 1, "a").Value
         ' 주소헤더, 지역에 따라 값을 다시 설정해주어야 한다.
-        newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        ' newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        newAddress = MakeAddressHeader(Cells(i + 1, "c")) & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
         
         If Cells(i + 1, "b").Value = "신고공" Then
             allowType = 1
@@ -2062,7 +2115,7 @@ Public Sub make_datamid()
     For i = 1 To row_aa
     
         id = Cells(i + 1, "a").Value
-        newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        newAddress = MakeAddressHeader(Cells(i + 1, "c")) & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
         
         If Cells(i + 1, "b").Value = "신고공" Then
             allowType = 1
@@ -2091,7 +2144,7 @@ Public Sub make_datamid()
     For i = 1 To row_ii
     
         id = Cells(i + 1, "a").Value
-        newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        newAddress = MakeAddressHeader(Cells(i + 1, "c")) & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
         
         If Cells(i + 1, "b").Value = "신고공" Then
             allowType = 1
