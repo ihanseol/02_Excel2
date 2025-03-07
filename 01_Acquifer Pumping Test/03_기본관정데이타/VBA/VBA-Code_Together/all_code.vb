@@ -15613,8 +15613,8 @@ Private Function ImportDataForWell(ByVal wellIndex As Integer) As WellData
             .ER2 = wsSkinFactor.Range("k9").value
             .ER3 = wsSkinFactor.Range("k10").value
             
-            .Qh = wsInput.Range("d6").value
-            .Qg = wsSafeYield.Range("b8").value
+            .Qh = wsInput.Range("d6").value ' 한계양수량
+            .Qg = wsSafeYield.Range("b7").value  ' 가채수량
             
             .Sd1 = wsSafeYield.Range("b3").value
             .Sd2 = wsSafeYield.Range("b4").value
