@@ -1,21 +1,75 @@
-Attribute VB_Name = "mod_MakeFieldList"
+' ***************************************************************
+' mod_MakeFieldList
+'
+' ***************************************************************
+
+
 Option Explicit
 
 ' 이곳에다가 기본적인 설정값을 세팅해준다.
 ' 파일이름과, 조사일같은것들을 ...
 
-Const EXPORT_DATE As String = "2023-12-20"
-Const EXPORT_ADDR_HEADER As String = "서울특별시 "
+Const EXPORT_DATE As String = "2025-02-13"
+Const EXPORT_ADDR_HEADER As String = "경기도 안양시 "
 Const EXPORT_FILE_NAME As String = "d:\05_Send\iyong_template.xlsx"
         
 ' 1인 1일당 급수량, 엑셀파일을 보고 검사
-' 서울특별시 강북구
-Const ONEMAN_WATER_SUPPLY As Double = 265.16
+' 경기도 안양시
+Const ONEMAN_WATER_SUPPLY As Double = 289.16
         
 Public Enum ALLOW_TYPE_VALUE
      at_HEOGA = 0
      at_SINGO = 1
 End Enum
+
+
+Sub SplitAddressHeader()
+    Dim arr() As String
+    Dim i As Integer
+    
+    
+    arr = Split(EXPORT_ADDR_HEADER, " ")
+        
+'    If UBound(arr) >= 2 Then
+'        Debug.Print arr(1)
+'    Else
+'        Debug.Print arr(0)
+'    End If
+'
+    For i = 0 To UBound(arr)
+        Debug.Print """" & arr(i) & """"
+    Next i
+End Sub
+
+' ends with given string
+' 2025/3/7
+'
+Function EndsWith(str As String, endStr As String) As Boolean
+    If Right(str, 1) = endStr Then
+        EndsWith = True
+    Else
+        EndsWith = False
+    End If
+End Function
+
+
+'
+' Make Address Header
+'
+Function MakeAddressHeader(str As String) As String
+    Dim arr() As String
+
+    arr = Split(EXPORT_ADDR_HEADER, " ")
+    
+    If EndsWith(str, "시") Then
+        MakeAddressHeader = arr(0) & " " & str
+    Else
+        MakeAddressHeader = EXPORT_ADDR_HEADER & str
+    End If
+    
+End Function
+
+
 
 
 Sub delay(ti As Integer)
@@ -68,7 +122,7 @@ Sub ExportCurrentWorksheet(sh As String)
         
         Sheets(sh).Activate
         ActiveSheet.Copy
-        ActiveWorkbook.SaveAs Filename:=filePath, FileFormat:=xlOpenXMLWorkbook, ConflictResolution:=xlLocalSessionChanges
+        ActiveWorkbook.SaveAs fileName:=filePath, FileFormat:=xlOpenXMLWorkbook, ConflictResolution:=xlLocalSessionChanges
         ActiveWorkbook.Close savechanges:=False
     End If
 End Sub
@@ -103,7 +157,7 @@ End Function
 
 Sub Make_DataOut()
     Dim str_, address, id, purpose As String
-    Dim allowType, i, lastRow  As Integer
+    Dim allowType, i, lastrow  As Integer
     Dim simdo, diameter, hp, capacity, tochool, Q As Double
     Dim setting As String
     
@@ -121,9 +175,9 @@ Sub Make_DataOut()
     Sheets("data_mid").Activate
     
     Call initialize
-    lastRow = getlastrow()
+    lastrow = getlastrow()
     
-    For i = 2 To lastRow
+    For i = 2 To lastrow
     
         Call GetDataFromSheet(i, id, address, allowType, simdo, diameter, hp, capacity, tochool, purpose, Q)
         
@@ -418,6 +472,8 @@ Sub EraseSheetData()
 End Sub
 
 
+
+
 ' allowType = 1 - 신고공
 ' allowType = 0 - 허가공
 Public Sub make_datamid()
@@ -437,7 +493,8 @@ Public Sub make_datamid()
     For i = 1 To row_ss
         id = Cells(i + 1, "a").Value
         ' 주소헤더, 지역에 따라 값을 다시 설정해주어야 한다.
-        newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        ' newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        newAddress = MakeAddressHeader(Cells(i + 1, "c")) & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
         
         If Cells(i + 1, "b").Value = "신고공" Then
             allowType = 1
@@ -452,10 +509,13 @@ Public Sub make_datamid()
         Next j
         
         purpose = Cells(i + 1, "k").Value
-        Q = Cells(i + 1, "l").Value
+        Q = Cells(i + 1, "L").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        
+        If Q <> 0 Then
+            Call putdata(i, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
     
@@ -464,7 +524,7 @@ Public Sub make_datamid()
     For i = 1 To row_aa
     
         id = Cells(i + 1, "a").Value
-        newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        newAddress = MakeAddressHeader(Cells(i + 1, "c")) & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
         
         If Cells(i + 1, "b").Value = "신고공" Then
             allowType = 1
@@ -482,7 +542,9 @@ Public Sub make_datamid()
         Q = Cells(i + 1, "l").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i + row_ss, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        If Q <> 0 Then
+            Call putdata(i + row_ss, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
     Sheets("ii").Activate
@@ -491,7 +553,7 @@ Public Sub make_datamid()
     For i = 1 To row_ii
     
         id = Cells(i + 1, "a").Value
-        newAddress = EXPORT_ADDR_HEADER & Cells(i + 1, "c") & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
+        newAddress = MakeAddressHeader(Cells(i + 1, "c")) & " " & Cells(i + 1, "d") & " " & Cells(i + 1, "e") & " , " & id
         
         If Cells(i + 1, "b").Value = "신고공" Then
             allowType = 1
@@ -509,7 +571,9 @@ Public Sub make_datamid()
         Q = Cells(i + 1, "l").Value
         boundary = Cells(i + 1, "s").Value
         
-        Call putdata(i + row_ss + row_aa, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        If Q <> 0 Then
+            Call putdata(i + row_ss + row_aa, id, newAddress, allowType, well_data, purpose, Q, boundary)
+        End If
     Next i
     
 End Sub
