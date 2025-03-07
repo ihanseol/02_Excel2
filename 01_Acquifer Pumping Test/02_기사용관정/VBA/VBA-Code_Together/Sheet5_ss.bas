@@ -3,9 +3,6 @@
 '
 ' ***************************************************************
 
-
-
-
 Private Sub combobox_initialize()
 
 '    Dim tbl As ListObject

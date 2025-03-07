@@ -175,6 +175,11 @@ End Sub
 
 
 Function ss_water(ByVal qhp As Integer, ByVal strPurpose As String, Optional ByVal npopulation As Integer = 60) As Double
+
+    If qhp = 0 Then
+        Exit Function
+    End If
+
     '지열 냉난방
     If CheckSubstring(strPurpose, "냉") Then
         ss_water = qhp * 0.01
@@ -264,6 +269,10 @@ End Function
 
 Function aa_water(qhp As Integer, strPurpose As String, Optional ByVal nhead As Integer = 30) As Double
     'nhead - 축산업의 두수 ....
+
+    If qhp = 0 Then
+        Exit Function
+    End If
 
     ' 전작용
     If CheckSubstring(strPurpose, "전") Then
