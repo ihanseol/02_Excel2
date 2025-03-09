@@ -130,7 +130,7 @@ Sub get_weather_data()
     url = "https://data.kma.go.kr/stcs/grnd/grndRnList.do?pgmNo=69"
     Set driver = New Selenium.chromeDriver
     
-    driver.SetBinary "c:\ProgramData\00_chrome\chrome.exe" ' Update this path
+    ' driver.SetBinary "c:\ProgramData\00_chrome\chrome.exe" ' Update this path
     
     driver.Start
     driver.AddArgument "--headless"
