@@ -1,5 +1,438 @@
 Option Explicit
 
+
+Function data_GWANGJU() As Variant
+
+    Dim myArray() As Variant
+    ReDim myArray(1 To 30, 1 To 13)
+    
+    myArray(1, 1) = 1995
+    myArray(1, 2) = 42.3
+    myArray(1, 3) = 34.9
+    myArray(1, 4) = 28.1
+    myArray(1, 5) = 111.7
+    myArray(1, 6) = 75.5
+    myArray(1, 7) = 96.4
+    myArray(1, 8) = 110
+    myArray(1, 9) = 151.4
+    myArray(1, 10) = 40.5
+    myArray(1, 11) = 17.2
+    myArray(1, 12) = 35.1
+    myArray(1, 13) = 21.3
+    
+    myArray(2, 1) = 1996
+    myArray(2, 2) = 32.9
+    myArray(2, 3) = 11.8
+    myArray(2, 4) = 127.4
+    myArray(2, 5) = 38.4
+    myArray(2, 6) = 37.4
+    myArray(2, 7) = 302.9
+    myArray(2, 8) = 186.3
+    myArray(2, 9) = 261.7
+    myArray(2, 10) = 66.1
+    myArray(2, 11) = 60.7
+    myArray(2, 12) = 112.4
+    myArray(2, 13) = 30.8
+    
+    myArray(3, 1) = 1997
+    myArray(3, 2) = 19.3
+    myArray(3, 3) = 43.6
+    myArray(3, 4) = 68.3
+    myArray(3, 5) = 82.1
+    myArray(3, 6) = 101.6
+    myArray(3, 7) = 177.2
+    myArray(3, 8) = 358.3
+    myArray(3, 9) = 381.9
+    myArray(3, 10) = 22.8
+    myArray(3, 11) = 14
+    myArray(3, 12) = 136.4
+    myArray(3, 13) = 73.7
+    
+    myArray(4, 1) = 1998
+    myArray(4, 2) = 41.3
+    myArray(4, 3) = 44.4
+    myArray(4, 4) = 78.2
+    myArray(4, 5) = 124.2
+    myArray(4, 6) = 136.9
+    myArray(4, 7) = 369.6
+    myArray(4, 8) = 210.9
+    myArray(4, 9) = 531.2
+    myArray(4, 10) = 315.7
+    myArray(4, 11) = 57.4
+    myArray(4, 12) = 30.9
+    myArray(4, 13) = 2.3
+    
+    myArray(5, 1) = 1999
+    myArray(5, 2) = 41
+    myArray(5, 3) = 34.9
+    myArray(5, 4) = 111.9
+    myArray(5, 5) = 44.9
+    myArray(5, 6) = 106.9
+    myArray(5, 7) = 135.4
+    myArray(5, 8) = 220.7
+    myArray(5, 9) = 287.1
+    myArray(5, 10) = 281.7
+    myArray(5, 11) = 126.2
+    myArray(5, 12) = 22.1
+    myArray(5, 13) = 16.9
+    
+    myArray(6, 1) = 2000
+    myArray(6, 2) = 33.7
+    myArray(6, 3) = 15.4
+    myArray(6, 4) = 19.9
+    myArray(6, 5) = 16.3
+    myArray(6, 6) = 47.7
+    myArray(6, 7) = 197.7
+    myArray(6, 8) = 321.4
+    myArray(6, 9) = 538.3
+    myArray(6, 10) = 228.7
+    myArray(6, 11) = 31.7
+    myArray(6, 12) = 53.8
+    myArray(6, 13) = 6.4
+    
+    myArray(7, 1) = 2001
+    myArray(7, 2) = 50.4
+    myArray(7, 3) = 83.9
+    myArray(7, 4) = 26.9
+    myArray(7, 5) = 43.7
+    myArray(7, 6) = 21.4
+    myArray(7, 7) = 245.8
+    myArray(7, 8) = 270.8
+    myArray(7, 9) = 113.2
+    myArray(7, 10) = 135.3
+    myArray(7, 11) = 69.7
+    myArray(7, 12) = 15.3
+    myArray(7, 13) = 53.5
+    
+    myArray(8, 1) = 2002
+    myArray(8, 2) = 95.7
+    myArray(8, 3) = 13.5
+    myArray(8, 4) = 46.5
+    myArray(8, 5) = 117.8
+    myArray(8, 6) = 100.5
+    myArray(8, 7) = 108.5
+    myArray(8, 8) = 180
+    myArray(8, 9) = 584
+    myArray(8, 10) = 109
+    myArray(8, 11) = 38.6
+    myArray(8, 12) = 34.1
+    myArray(8, 13) = 30.5
+    
+    myArray(9, 1) = 2003
+    myArray(9, 2) = 45
+    myArray(9, 3) = 52.2
+    myArray(9, 4) = 70.6
+    myArray(9, 5) = 243.9
+    myArray(9, 6) = 141
+    myArray(9, 7) = 150.2
+    myArray(9, 8) = 564.9
+    myArray(9, 9) = 411
+    myArray(9, 10) = 206.3
+    myArray(9, 11) = 36.2
+    myArray(9, 12) = 38.4
+    myArray(9, 13) = 34.4
+    
+    myArray(10, 1) = 2004
+    myArray(10, 2) = 14
+    myArray(10, 3) = 54
+    myArray(10, 4) = 38.4
+    myArray(10, 5) = 63.7
+    myArray(10, 6) = 101.1
+    myArray(10, 7) = 153.8
+    myArray(10, 8) = 409.5
+    myArray(10, 9) = 570.5
+    myArray(10, 10) = 242
+    myArray(10, 11) = 3.4
+    myArray(10, 12) = 63.1
+    myArray(10, 13) = 28.8
+    
+    myArray(11, 1) = 2005
+    myArray(11, 2) = 10.6
+    myArray(11, 3) = 48.3
+    myArray(11, 4) = 66.7
+    myArray(11, 5) = 92.5
+    myArray(11, 6) = 74.1
+    myArray(11, 7) = 185
+    myArray(11, 8) = 273.8
+    myArray(11, 9) = 303.3
+    myArray(11, 10) = 108.5
+    myArray(11, 11) = 17.4
+    myArray(11, 12) = 42.8
+    myArray(11, 13) = 66.6
+    
+    myArray(12, 1) = 2006
+    myArray(12, 2) = 16.1
+    myArray(12, 3) = 51.9
+    myArray(12, 4) = 15
+    myArray(12, 5) = 87.8
+    myArray(12, 6) = 204.3
+    myArray(12, 7) = 226.7
+    myArray(12, 8) = 478.3
+    myArray(12, 9) = 295.5
+    myArray(12, 10) = 46.8
+    myArray(12, 11) = 18.2
+    myArray(12, 12) = 41.7
+    myArray(12, 13) = 37.9
+    
+    myArray(13, 1) = 2007
+    myArray(13, 2) = 12.1
+    myArray(13, 3) = 79.1
+    myArray(13, 4) = 100.3
+    myArray(13, 5) = 38.7
+    myArray(13, 6) = 116
+    myArray(13, 7) = 52
+    myArray(13, 8) = 232
+    myArray(13, 9) = 339.3
+    myArray(13, 10) = 490.7
+    myArray(13, 11) = 95.5
+    myArray(13, 12) = 3.3
+    myArray(13, 13) = 61.6
+    
+    myArray(14, 1) = 2008
+    myArray(14, 2) = 56.9
+    myArray(14, 3) = 11.1
+    myArray(14, 4) = 36.7
+    myArray(14, 5) = 54.2
+    myArray(14, 6) = 150.6
+    myArray(14, 7) = 273.2
+    myArray(14, 8) = 139.2
+    myArray(14, 9) = 157.5
+    myArray(14, 10) = 58.9
+    myArray(14, 11) = 15.3
+    myArray(14, 12) = 39.1
+    myArray(14, 13) = 14.5
+    
+    myArray(15, 1) = 2009
+    myArray(15, 2) = 36
+    myArray(15, 3) = 71.9
+    myArray(15, 4) = 42.1
+    myArray(15, 5) = 35.7
+    myArray(15, 6) = 114.9
+    myArray(15, 7) = 181.1
+    myArray(15, 8) = 607.4
+    myArray(15, 9) = 263.1
+    myArray(15, 10) = 22.6
+    myArray(15, 11) = 36.2
+    myArray(15, 12) = 26.7
+    myArray(15, 13) = 50.5
+    
+    myArray(16, 1) = 2010
+    myArray(16, 2) = 37.1
+    myArray(16, 3) = 135.8
+    myArray(16, 4) = 76
+    myArray(16, 5) = 133
+    myArray(16, 6) = 99
+    myArray(16, 7) = 70.6
+    myArray(16, 8) = 453
+    myArray(16, 9) = 337.6
+    myArray(16, 10) = 139.7
+    myArray(16, 11) = 42
+    myArray(16, 12) = 7.4
+    myArray(16, 13) = 41.9
+    
+    myArray(17, 1) = 2011
+    myArray(17, 2) = 7.4
+    myArray(17, 3) = 59.8
+    myArray(17, 4) = 23.1
+    myArray(17, 5) = 103
+    myArray(17, 6) = 142.9
+    myArray(17, 7) = 120
+    myArray(17, 8) = 277.5
+    myArray(17, 9) = 382.5
+    myArray(17, 10) = 13.5
+    myArray(17, 11) = 20.5
+    myArray(17, 12) = 136.8
+    myArray(17, 13) = 13.3
+    
+    myArray(18, 1) = 2012
+    myArray(18, 2) = 15.2
+    myArray(18, 3) = 18.6
+    myArray(18, 4) = 100.4
+    myArray(18, 5) = 82.5
+    myArray(18, 6) = 42.6
+    myArray(18, 7) = 83.1
+    myArray(18, 8) = 330.6
+    myArray(18, 9) = 473.5
+    myArray(18, 10) = 272
+    myArray(18, 11) = 82.8
+    myArray(18, 12) = 45.9
+    myArray(18, 13) = 79.6
+    
+    myArray(19, 1) = 2013
+    myArray(19, 2) = 20.6
+    myArray(19, 3) = 48
+    myArray(19, 4) = 76.9
+    myArray(19, 5) = 54.9
+    myArray(19, 6) = 86.5
+    myArray(19, 7) = 83.7
+    myArray(19, 8) = 349.1
+    myArray(19, 9) = 293.2
+    myArray(19, 10) = 88.5
+    myArray(19, 11) = 30.8
+    myArray(19, 12) = 95
+    myArray(19, 13) = 18.2
+    
+    myArray(20, 1) = 2014
+    myArray(20, 2) = 12.9
+    myArray(20, 3) = 8.6
+    myArray(20, 4) = 101.7
+    myArray(20, 5) = 62.5
+    myArray(20, 6) = 57
+    myArray(20, 7) = 72
+    myArray(20, 8) = 240.9
+    myArray(20, 9) = 370.2
+    myArray(20, 10) = 116.5
+    myArray(20, 11) = 105
+    myArray(20, 12) = 95.5
+    myArray(20, 13) = 47.5
+    
+    myArray(21, 1) = 2015
+    myArray(21, 2) = 47.2
+    myArray(21, 3) = 23.9
+    myArray(21, 4) = 36.5
+    myArray(21, 5) = 145.5
+    myArray(21, 6) = 48.6
+    myArray(21, 7) = 96.1
+    myArray(21, 8) = 164.3
+    myArray(21, 9) = 148.9
+    myArray(21, 10) = 66.6
+    myArray(21, 11) = 90.9
+    myArray(21, 12) = 121.9
+    myArray(21, 13) = 59.2
+    
+    myArray(22, 1) = 2016
+    myArray(22, 2) = 49.7
+    myArray(22, 3) = 45.2
+    myArray(22, 4) = 55.2
+    myArray(22, 5) = 185
+    myArray(22, 6) = 104.5
+    myArray(22, 7) = 116.1
+    myArray(22, 8) = 301.3
+    myArray(22, 9) = 81
+    myArray(22, 10) = 251.2
+    myArray(22, 11) = 216.7
+    myArray(22, 12) = 31.5
+    myArray(22, 13) = 44.9
+    
+    myArray(23, 1) = 2017
+    myArray(23, 2) = 11.7
+    myArray(23, 3) = 41.9
+    myArray(23, 4) = 33.2
+    myArray(23, 5) = 60.6
+    myArray(23, 6) = 30.2
+    myArray(23, 7) = 42.1
+    myArray(23, 8) = 211.6
+    myArray(23, 9) = 280.5
+    myArray(23, 10) = 108.8
+    myArray(23, 11) = 85.4
+    myArray(23, 12) = 2.1
+    myArray(23, 13) = 28.5
+    
+    myArray(24, 1) = 2018
+    myArray(24, 2) = 38.8
+    myArray(24, 3) = 22
+    myArray(24, 4) = 115.8
+    myArray(24, 5) = 127.4
+    myArray(24, 6) = 85.4
+    myArray(24, 7) = 222.4
+    myArray(24, 8) = 84.5
+    myArray(24, 9) = 397.1
+    myArray(24, 10) = 129.7
+    myArray(24, 11) = 125.2
+    myArray(24, 12) = 47.2
+    myArray(24, 13) = 32.4
+    
+    myArray(25, 1) = 2019
+    myArray(25, 2) = 16.4
+    myArray(25, 3) = 37
+    myArray(25, 4) = 33.9
+    myArray(25, 5) = 84.7
+    myArray(25, 6) = 78.8
+    myArray(25, 7) = 158
+    myArray(25, 8) = 242.2
+    myArray(25, 9) = 64.8
+    myArray(25, 10) = 165.8
+    myArray(25, 11) = 149.9
+    myArray(25, 12) = 22.8
+    myArray(25, 13) = 31.6
+    
+    myArray(26, 1) = 2020
+    myArray(26, 2) = 74.9
+    myArray(26, 3) = 47.8
+    myArray(26, 4) = 43.5
+    myArray(26, 5) = 55.3
+    myArray(26, 6) = 96.8
+    myArray(26, 7) = 199.9
+    myArray(26, 8) = 533.3
+    myArray(26, 9) = 738.1
+    myArray(26, 10) = 178.3
+    myArray(26, 11) = 12.1
+    myArray(26, 12) = 28.3
+    myArray(26, 13) = 18.7
+    
+    myArray(27, 1) = 2021
+    myArray(27, 2) = 33
+    myArray(27, 3) = 31.1
+    myArray(27, 4) = 122.4
+    myArray(27, 5) = 34.2
+    myArray(27, 6) = 139.4
+    myArray(27, 7) = 118.1
+    myArray(27, 8) = 227.6
+    myArray(27, 9) = 338.7
+    myArray(27, 10) = 131.1
+    myArray(27, 11) = 35.3
+    myArray(27, 12) = 85.8
+    myArray(27, 13) = 7.1
+    
+    myArray(28, 1) = 2022
+    myArray(28, 2) = 0.3
+    myArray(28, 3) = 2.7
+    myArray(28, 4) = 105.2
+    myArray(28, 5) = 49.4
+    myArray(28, 6) = 0.4
+    myArray(28, 7) = 131.7
+    myArray(28, 8) = 169
+    myArray(28, 9) = 106.4
+    myArray(28, 10) = 89.2
+    myArray(28, 11) = 38.3
+    myArray(28, 12) = 46.7
+    myArray(28, 13) = 30.6
+    
+    myArray(29, 1) = 2023
+    myArray(29, 2) = 26.8
+    myArray(29, 3) = 14.8
+    myArray(29, 4) = 34.8
+    myArray(29, 5) = 66.5
+    myArray(29, 6) = 190.1
+    myArray(29, 7) = 441.2
+    myArray(29, 8) = 684.6
+    myArray(29, 9) = 341.2
+    myArray(29, 10) = 152.5
+    myArray(29, 11) = 11.5
+    myArray(29, 12) = 71.9
+    myArray(29, 13) = 80.2
+    
+    myArray(30, 1) = 2024
+    myArray(30, 2) = 31.1
+    myArray(30, 3) = 111.3
+    myArray(30, 4) = 79.5
+    myArray(30, 5) = 79.6
+    myArray(30, 6) = 102
+    myArray(30, 7) = 149.1
+    myArray(30, 8) = 250.4
+    myArray(30, 9) = 132.1
+    myArray(30, 10) = 181.4
+    myArray(30, 11) = 98.2
+    myArray(30, 12) = 66.5
+    myArray(30, 13) = 9.8
+
+
+    data_GWANGJU = myArray
+
+End Function
+
+
+
 Function data_SEOUL() As Variant
 
     Dim myArray() As Variant

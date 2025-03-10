@@ -2,9 +2,9 @@ Attribute VB_Name = "modAggFX_A"
 '
 ' Refactor By User Defined Type
 '
-
-
 ' Define User-Defined Type for Well Data
+
+
 Private Type WellData
     Natural As Double
     Stable As Double
@@ -155,9 +155,9 @@ Private Function ImportDataForWell(ByVal wellIndex As Integer) As WellData
             .Qh = wsInput.Range("d6").value ' 한계양수량
             .Qg = wsSafeYield.Range("b7").value  ' 가채수량
             
-            .Sd1 = wsSafeYield.Range("b3").value
-            .Sd2 = wsSafeYield.Range("b4").value
-            .Q1 = wsSafeYield.Range("b2").value
+            .Sd1 = wsSafeYield.Range("b3").value '1단계 강하량
+            .Sd2 = wsSafeYield.Range("b4").value '4단계 강하량
+            .Q1 = wsSafeYield.Range("b2").value ' 1단계 양수량
             .Ratio = wsSafeYield.Range("b11").value
             
             .T0 = wsSkinFactor.Range("d4").value

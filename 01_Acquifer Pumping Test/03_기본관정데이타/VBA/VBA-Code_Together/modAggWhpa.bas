@@ -18,7 +18,9 @@ Sub WriteWellData_Single(Q As Variant, DaeSoo As Variant, T1 As Variant, S1 As V
     Cells(3 + i, "f").value = T1
     Cells(3 + i, "i").value = DaeSoo
     Cells(3 + i, "k").value = direction
-    Cells(3 + i, "m").value = format(gradient, "###0.0000")
+    
+    ' 2025/03/10 --> ABS Gradient
+    Cells(3 + i, "m").value = format(Abs(gradient), "###0.0000")
     Cells(4, "d").value = "5³â"
     
 End Sub
@@ -32,7 +34,9 @@ Sub MakeAverageAndMergeCells(ByVal nofwell As Integer)
         t_sum = t_sum + Range("F" & (i + 3)).value
         daesoo_sum = daesoo_sum + Range("I" & (i + 3)).value
         direction_sum = direction_sum + Range("K" & (i + 3)).value
-        gradient_sum = gradient_sum + Range("M" & (i + 3)).value
+        
+        ' 2025/03/10 --> ABS Gradient
+        gradient_sum = gradient_sum + Abs(Range("M" & (i + 3)).value)
     Next i
     
     
@@ -195,6 +199,7 @@ Sub DrawOutline()
     
     Application.ScreenUpdating = True
 End Sub
+
 
 
 
