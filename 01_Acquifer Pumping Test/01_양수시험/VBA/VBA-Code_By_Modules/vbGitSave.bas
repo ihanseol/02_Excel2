@@ -124,7 +124,7 @@ Sub SaveTextToFile(dataToPrint As String, pathToExport As String)
     
     Dim fileSystem As Object
     Dim textObject As Object
-    Dim fileName As String
+    Dim filename As String
     Dim newFile  As String
     Dim shellPath  As String
     

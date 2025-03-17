@@ -327,6 +327,45 @@ Private Sub Worksheet_Activate()
 End Sub
 
 
+Private Sub CommandButton_Long_Click()
+    Sheets("장회").Visible = True
+    Sheets("장회14").Visible = True
+    Sheets("단계").Visible = True
+    Sheets("장기28").Visible = True
+    Sheets("장기14").Visible = True
+    Sheets("회복").Visible = True
+    Sheets("회복12").Visible = True
+    
+    Sheets("장회").Activate
+    Call PrintSheetToPDF_Long(Sheets("장회"))
+    
+End Sub
+
+Private Sub CommandButton_Print_LS_Click()
+    Dim well As Integer
+    
+    Sheets("장회").Visible = True
+    Sheets("장회14").Visible = True
+    Sheets("단계").Visible = True
+    Sheets("장기28").Visible = True
+    Sheets("장기14").Visible = True
+    Sheets("회복").Visible = True
+    Sheets("회복12").Visible = True
+    
+    
+    
+    well = GetNumbers(shInput.Range("I54").Value)
+    
+    Sheets("단계").Activate
+    Call PrintSheetToPDF_LS(Sheets("단계"), "w" + CStr(well) + "-1.pdf")
+    
+    Sheets("장회").Activate
+    Call PrintSheetToPDF_LS(Sheets("장회"), "w" + CStr(well) + "-2.pdf")
+End Sub
+
+
+
+
 Private Sub CommandButton1_Click()
     Call recover_01
 End Sub
@@ -1163,13 +1202,44 @@ Public Function WB_HEAD() As String
     End If
     
     Debug.Print WB_HEAD
+    
 End Function
+
+Sub PrintSheetToPDF(ws As Worksheet, Optional filename As String = "None")
+    Dim filePath As String
+    
+    
+    If filename = "None" Then
+        filePath = MyDocsPath & "\" & shInput.Range("I54").Value & ".pdf"
+    Else
+        filePath = MyDocsPath + "\" + filename
+    End If
+    
+    ws.ExportAsFixedFormat Type:=xlTypePDF, _
+                           filename:=filePath, _
+                           Quality:=xlQualityStandard, _
+                           IncludeDocProperties:=True, _
+                           IgnorePrintAreas:=False, _
+                           OpenAfterPublish:=False ' Change to False if you don't want to open it automatically
+
+    ' MsgBox "PDF saved at: " & filePath, vbInformation, "Success"
+End Sub
+
+
+Sub PrintSheetToPDF_Long(ws As Worksheet)
+    Call PrintSheetToPDF(ws)
+End Sub
+
+Sub PrintSheetToPDF_LS(ws As Worksheet, filename As String)
+    Call PrintSheetToPDF(ws, filename)
+End Sub
+
 
 Sub janggi_01()
     
     Application.DisplayAlerts = False
     
-    ActiveWorkbook.SaveAs fileName:= _
+    ActiveWorkbook.SaveAs filename:= _
                           WB_HEAD + "_janggi_01.dat", FileFormat _
                           :=xlTextPrinter, CreateBackup:=False
   
@@ -1181,7 +1251,7 @@ Sub janggi_02()
     
     Application.DisplayAlerts = False
 
-    ActiveWorkbook.SaveAs fileName:= _
+    ActiveWorkbook.SaveAs filename:= _
                           WB_HEAD + "_janggi_02.dat", FileFormat _
                           :=xlTextPrinter, CreateBackup:=False
                           
@@ -1194,7 +1264,7 @@ Sub recover_01()
     
     Application.DisplayAlerts = False
     
-    ActiveWorkbook.SaveAs fileName:= _
+    ActiveWorkbook.SaveAs filename:= _
                           WB_HEAD + "_recover_01.dat", FileFormat:= _
                           xlTextPrinter, CreateBackup:=False
     
@@ -1206,7 +1276,7 @@ Sub step_01()
     
     Application.DisplayAlerts = False
     
-    ActiveWorkbook.SaveAs fileName:= _
+    ActiveWorkbook.SaveAs filename:= _
                           WB_HEAD + "_step_01.dat", FileFormat:= _
                           xlTextPrinter, CreateBackup:=False
     
@@ -1218,7 +1288,7 @@ Sub save_original()
 
     Application.DisplayAlerts = False
     
-    ActiveWorkbook.SaveAs fileName:=WB_HEAD + "_OriginalSaveFile", FileFormat:= _
+    ActiveWorkbook.SaveAs filename:=WB_HEAD + "_OriginalSaveFile", FileFormat:= _
                           xlOpenXMLWorkbookMacroEnabled, CreateBackup:=False
     
     Application.DisplayAlerts = True
@@ -2688,7 +2758,7 @@ Sub SaveTextToFile(dataToPrint As String, pathToExport As String)
     
     Dim fileSystem As Object
     Dim textObject As Object
-    Dim fileName As String
+    Dim filename As String
     Dim newFile  As String
     Dim shellPath  As String
     
