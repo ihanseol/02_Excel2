@@ -334,7 +334,7 @@ Private Sub CommandButton_Print_Long_Click()
 
     Sheets("장회").Visible = True
     Sheets("장회").Activate
-    Call PrintSheetToPDF_Long(Sheets("장회"), "w" + "-" + CStr(well))
+    Call PrintSheetToPDF_Long(Sheets("장회"), "w" + CStr(well))
     Sheets("장회").Visible = False
     
 End Sub
