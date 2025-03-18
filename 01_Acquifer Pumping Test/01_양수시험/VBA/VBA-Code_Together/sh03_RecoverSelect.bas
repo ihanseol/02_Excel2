@@ -1,8 +1,11 @@
 
 Private Sub CommandButton_Print_Long_Click()
+    Dim well As Integer
+    well = GetNumbers(shInput.Range("I54").Value)
+
     Sheets("장회").Visible = True
     Sheets("장회").Activate
-    Call PrintSheetToPDF_Long(Sheets("장회"))
+    Call PrintSheetToPDF_Long(Sheets("장회"), "w" + "-" + CStr(well))
     Sheets("장회").Visible = False
     
 End Sub

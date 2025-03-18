@@ -41,8 +41,8 @@ Sub PrintSheetToPDF(ws As Worksheet, Optional filename As String = "None")
 End Sub
 
 
-Sub PrintSheetToPDF_Long(ws As Worksheet)
-    Call PrintSheetToPDF(ws)
+Sub PrintSheetToPDF_Long(ws As Worksheet, filename As String)
+    Call PrintSheetToPDF(ws, filename)
 End Sub
 
 Sub PrintSheetToPDF_LS(ws As Worksheet, filename As String)

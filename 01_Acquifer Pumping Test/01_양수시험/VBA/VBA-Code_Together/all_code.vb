@@ -329,9 +329,12 @@ End Sub
 
 
 Private Sub CommandButton_Print_Long_Click()
+    Dim well As Integer
+    well = GetNumbers(shInput.Range("I54").Value)
+
     Sheets("장회").Visible = True
     Sheets("장회").Activate
-    Call PrintSheetToPDF_Long(Sheets("장회"))
+    Call PrintSheetToPDF_Long(Sheets("장회"), "w" + "-" + CStr(well))
     Sheets("장회").Visible = False
     
 End Sub
@@ -1215,8 +1218,8 @@ Sub PrintSheetToPDF(ws As Worksheet, Optional filename As String = "None")
 End Sub
 
 
-Sub PrintSheetToPDF_Long(ws As Worksheet)
-    Call PrintSheetToPDF(ws)
+Sub PrintSheetToPDF_Long(ws As Worksheet, filename As String)
+    Call PrintSheetToPDF(ws, filename)
 End Sub
 
 Sub PrintSheetToPDF_LS(ws As Worksheet, filename As String)
