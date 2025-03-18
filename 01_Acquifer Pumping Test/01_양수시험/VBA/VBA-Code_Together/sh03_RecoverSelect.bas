@@ -1,15 +1,9 @@
 
 Private Sub CommandButton_Print_Long_Click()
     Sheets("장회").Visible = True
-    Sheets("장회14").Visible = True
-    Sheets("단계").Visible = True
-    Sheets("장기28").Visible = True
-    Sheets("장기14").Visible = True
-    Sheets("회복").Visible = True
-    Sheets("회복12").Visible = True
-    
     Sheets("장회").Activate
     Call PrintSheetToPDF_Long(Sheets("장회"))
+    Sheets("장회").Visible = False
     
 End Sub
 
@@ -17,21 +11,17 @@ Private Sub CommandButton_Print_LS_Click()
     Dim well As Integer
     
     Sheets("장회").Visible = True
-    Sheets("장회14").Visible = True
     Sheets("단계").Visible = True
-    Sheets("장기28").Visible = True
-    Sheets("장기14").Visible = True
-    Sheets("회복").Visible = True
-    Sheets("회복12").Visible = True
-       
-    
     well = GetNumbers(shInput.Range("I54").Value)
     
     Sheets("단계").Activate
     Call PrintSheetToPDF_LS(Sheets("단계"), "w" + CStr(well) + "-1.pdf")
+    Sheets("단계").Visible = False
     
     Sheets("장회").Activate
     Call PrintSheetToPDF_LS(Sheets("장회"), "w" + CStr(well) + "-2.pdf")
+    Sheets("장회").Visible = False
+    
 End Sub
 
 
