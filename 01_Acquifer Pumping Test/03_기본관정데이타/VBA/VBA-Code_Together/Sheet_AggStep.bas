@@ -12,8 +12,9 @@ End Sub
 
 Private Sub CommandButton2_Click()
 'Collect Data
-    
+    Call TurnOffStuff
     Call WriteStepTestData(999, False)
+    Call TurnOnStuff
 End Sub
 
 

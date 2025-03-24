@@ -53,8 +53,10 @@ Sub GetWaterSpecFromYangSoo_Q1()
   Range("c7").value = bTemp
   Range("c8").value = ec1
   Range("c9").value = ph1
-    
+  
+  Call TurnOffStuff
   Call getModDataFromYangSooSingle(thisname, fName)
+  Call TurnOnStuff
 End Sub
 
 
@@ -109,9 +111,10 @@ Sub GetWaterSpecFromYangSoo_Q2()
   Range("d8").value = ec2
   Range("d9").value = ph2
   
-  
+  Call TurnOffStuff
   Call getModDataFromYangSooDual(thisname, fname1)
   Call getModDataFromYangSooDual(thisname, fname2)
+  Call TurnOnStuff
 End Sub
 
 
@@ -183,10 +186,11 @@ Sub GetWaterSpecFromYangSoo_Q3()
   Range("e8").value = ec3
   Range("e9").value = ph3
   
-  
+  Call TurnOffStuff
   Call getModDataFromYangSooTripple(thisname, fname1)
   Call getModDataFromYangSooTripple(thisname, fname2)
   Call getModDataFromYangSooTripple(thisname, fname3)
+  Call TurnOnStuff
 
 End Sub
 

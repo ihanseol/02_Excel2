@@ -16,7 +16,9 @@ Private Sub CommandButton2_Click()
         Exit Sub
     End If
     
+    Call TurnOffStuff
     Call GetBaseDataFromYangSoo(999, False)
+    Call TurnOnStuff
 End Sub
 
 

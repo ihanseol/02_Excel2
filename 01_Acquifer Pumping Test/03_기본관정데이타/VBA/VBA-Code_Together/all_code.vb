@@ -304,8 +304,10 @@ End Sub
 
 
 Private Sub CommandButton2_Click()
+    Call TurnOffStuff
     Call main_drasticindex
     Call print_drastic_string
+    Call TurnOnStuff
 End Sub
 
 Private Sub CommandButton3_Click()
@@ -3356,8 +3358,9 @@ End Sub
 '
 Private Sub CommandButton2_Click()
 ' Collect Data
-
-  Call modAgg1.ImportAggregateData(999, False)
+    Call TurnOffStuff
+    Call modAgg1.ImportAggregateData(999, False)
+    Call TurnOnStuff
 End Sub
 
 
@@ -3400,7 +3403,9 @@ End Sub
 
 Private Sub CommandButton2_Click()
     ' Collect All Data
+    Call TurnOffStuff
     Call modAgg2.GROK_ImportWellSpec(999, False)
+    Call TurnOnStuff
 End Sub
 
 
@@ -3684,8 +3689,9 @@ End Sub
 
 Private Sub CommandButton2_Click()
 'Collect Data
-    
+    Call TurnOffStuff
     Call WriteStepTestData(999, False)
+    Call TurnOnStuff
 End Sub
 
 
@@ -3738,8 +3744,9 @@ End Sub
 Private Sub CommandButton2_Click()
 'Collect Data
 
-   
-    Call WriteAllCharts(999, False)
+   Call TurnOffStuff
+   Call WriteAllCharts(999, False)
+   Call TurnOnStuff
 
 End Sub
 
@@ -3818,7 +3825,7 @@ Sub WriteAllCharts(ByVal singleWell As Integer, ByVal isSingleWellImport As Bool
     
     ' Call DeleteAllCharts
     
-    
+    Call TurnOffStuff
     If isSingleWellImport Then
         Call DeleteAllImages(singleWell)
     Else
@@ -3829,7 +3836,7 @@ Sub WriteAllCharts(ByVal singleWell As Integer, ByVal isSingleWellImport As Bool
     source_name = ActiveWorkbook.name
     
     
-    TurnOffStuff
+    Call TurnOffStuff
     
     For i = 1 To nofwell
     
@@ -3845,7 +3852,7 @@ SINGLE_ITERATION:
 NEXT_ITERATION:
     Next i
     
-    TurnOnStuff
+    Call TurnOnStuff
 End Sub
 
 Sub Write_InsertChart(well As Integer, source_name As String)
@@ -3930,7 +3937,9 @@ Private Sub CommandButton2_Click()
         Exit Sub
     End If
     
+    Call TurnOffStuff
     Call GetBaseDataFromYangSoo(999, False)
+    Call TurnOnStuff
 End Sub
 
 
@@ -11218,8 +11227,10 @@ Sub GetWaterSpecFromYangSoo_Q1()
   Range("c7").value = bTemp
   Range("c8").value = ec1
   Range("c9").value = ph1
-    
+  
+  Call TurnOffStuff
   Call getModDataFromYangSooSingle(thisname, fName)
+  Call TurnOnStuff
 End Sub
 
 
@@ -11274,9 +11285,10 @@ Sub GetWaterSpecFromYangSoo_Q2()
   Range("d8").value = ec2
   Range("d9").value = ph2
   
-  
+  Call TurnOffStuff
   Call getModDataFromYangSooDual(thisname, fname1)
   Call getModDataFromYangSooDual(thisname, fname2)
+  Call TurnOnStuff
 End Sub
 
 
@@ -11348,10 +11360,11 @@ Sub GetWaterSpecFromYangSoo_Q3()
   Range("e8").value = ec3
   Range("e9").value = ph3
   
-  
+  Call TurnOffStuff
   Call getModDataFromYangSooTripple(thisname, fname1)
   Call getModDataFromYangSooTripple(thisname, fname2)
   Call getModDataFromYangSooTripple(thisname, fname3)
+  Call TurnOnStuff
 
 End Sub
 
@@ -13064,7 +13077,11 @@ Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImport As B
     Dim wsInput As Worksheet
     Dim rngString As String
     
+    
+    Call TurnOffStuff
+    
     If ActiveSheet.name <> "AggStep" Then Sheets("AggStep").Select
+    
     
     If isSingleWellImport Then
         rngString = "C" & (singleWell + 5 - 1) & ":K" & (singleWell + 5 - 1)
@@ -13117,6 +13134,7 @@ NEXT_ITERATION:
 
     Next i
     
+    Call TurnOnStuff
     'Call Write31_StepTestData(a1, a2, a3, Q, h, delta_h, qsw, swq, nofwell)
 End Sub
 
@@ -14753,7 +14771,8 @@ Sub GROK_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As
     wsAggregate.Activate
 
     wellCount = GetNumberOfWell()
-
+    
+    Call TurnOffStuff
     If Not isSingleWellImport Then
         Call ClearAllDataRanges
     End If
@@ -14771,6 +14790,7 @@ Sub GROK_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As
 
     wsAggregate.Range("A1").Select
     Application.CutCopyMode = False
+    Call TurnOnStuff
 End Sub
 
 ' Helper function to determine if well should be processed
@@ -15111,8 +15131,10 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
     ' Initialize core variables
     wellCount = GetNumberOfWell()
     
+    
     Sheets("Aggregate1").Activate
 
+    Call TurnOffStuff
     ' Clear data ranges if importing all wells
     If Not isSingleWellMode Then
         ClearRange "G3:K35"
@@ -15128,18 +15150,16 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
             wd = GetWellData(wellIndex)
             
             ' Process data with optimizations disabled
-            TurnOffStuff
             
             Call WriteWellSummary(wd, wellIndex, isSingleWellMode)
             Call WriteWaterIntake(wd, wellIndex, isSingleWellMode)
-            
-            TurnOnStuff
         End If
     Next wellIndex
 
     ' Clean up
     Application.CutCopyMode = False
     Range("L1").Select
+    Call TurnOnStuff
 End Sub
 
 Private Sub WriteWellSummary(WellData As WellDataOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)
@@ -15302,6 +15322,7 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
     ' Get total number of wells
     nofwell = GetNumberOfWell()
     
+    Call TurnOffStuff
     ' Determine range to clear based on import type
     If Not isSingleWellImport And singleWell = 999 Then
         rngString = "A5:AR37"
@@ -15316,9 +15337,11 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
         If Not isSingleWellImport Or (isSingleWellImport And i = singleWell) Then
             Dim well As WellData
             well = ImportDataForWell(i)
-            SetWellDataToSheet i, well
+            Call SetWellDataToSheet(i, well)
         End If
     Next i
+    
+    Call TurnOnStuff
 End Sub
 
 ' Function to import well data into UDT
@@ -15326,82 +15349,84 @@ Private Function ImportDataForWell(ByVal wellIndex As Integer) As WellData
     Dim fName As String
     Dim wb As Workbook
     Dim well As WellData
-    
+
     ' Construct filename and check if workbook is open
     fName = "A" & CStr(wellIndex) & "_ge_OriginalSaveFile.xlsm"
     If Not IsWorkBookOpen(fName) Then
         MsgBox "Please open the yangsoo data! " & fName
         Exit Function
     End If
-    
+
     Set wb = Workbooks(fName)
+
     
     ' Get worksheet references
     With wb
         Dim wsInput As Worksheet: Set wsInput = .Worksheets("Input")
         Dim wsSkinFactor As Worksheet: Set wsSkinFactor = .Worksheets("SkinFactor")
         Dim wsSafeYield As Worksheet: Set wsSafeYield = .Worksheets("SafeYield")
-        
+
         ' Populate UDT with data
         With well
             .Natural = wsInput.Range("m48").value ' 자연수위
             .Stable = wsInput.Range("m49").value ' 안정수위
             .Recover = wsSkinFactor.Range("c10").value ' 회복수위
             .Sw = wsSkinFactor.Range("c11").value ' 회복수위
-            
+
             .DeltaH = wsSkinFactor.Range("b16").value  ' 수위강하량
             .Radius = wsInput.Range("m44").value '200 , 우물직경
             .Rw = wsSkinFactor.Range("e4").value '0.1
-            
+
             .WellDepth = wsInput.Range("m45").value ' 관정심도
             .Casing = wsInput.Range("i52").value ' 케이싱심도
             .Q = wsInput.Range("m51").value '양수량, 채수계획량
             .C = wsInput.Range("a31").value ' 우물손실계수
             .B = wsInput.Range("b31").value ' 대수층손실계수
-            
+
             .DeltaS = wsSkinFactor.Range("b4").value '최초 1분간 수위강하량
             .Hp = wsInput.Range("i48").value  ' 모터마력
             .DaeSoo = wsSkinFactor.Range("c16").value ' 대수층두께
-            
+
             .T1 = wsSkinFactor.Range("d5").value
             .T2 = wsSkinFactor.Range("h13").value
             .TA = wsSkinFactor.Range("d16").value
             .S1 = wsSkinFactor.Range("e10").value
             .S2 = wsSkinFactor.Range("i16").value
-            
+
             .K = wsSkinFactor.Range("e16").value
             .Time = wsSkinFactor.Range("h16").value
-            
+
             .Shultze = wsSkinFactor.Range("c13").value
             .Webber = wsSkinFactor.Range("c18").value
             .Jacob = wsSkinFactor.Range("c23").value
-            
+
             .Skin = wsSkinFactor.Range("g6").value
             .Er = wsSkinFactor.Range("c8").value
-            
+
             .ER1 = wsSkinFactor.Range("k8").value
             .ER2 = wsSkinFactor.Range("k9").value
             .ER3 = wsSkinFactor.Range("k10").value
-            
+
             .Qh = wsInput.Range("d6").value ' 한계양수량
             .Qg = wsSafeYield.Range("b7").value  ' 가채수량
-            
+
             .Sd1 = wsSafeYield.Range("b3").value '1단계 강하량
             .Sd2 = wsSafeYield.Range("b4").value '4단계 강하량
             .Q1 = wsSafeYield.Range("b2").value ' 1단계 양수량
             .Ratio = wsSafeYield.Range("b11").value
-            
+
             .T0 = wsSkinFactor.Range("d4").value
             .S0 = wsSkinFactor.Range("f4").value
-            
+
             .ERMode = wsSkinFactor.Range("h10").value
             .Address = wsInput.Range("i46").value
             .Company = wsInput.Range("i47").value
-            
+
             .S3 = wsSkinFactor.Range("i13").value
             .Title = wsInput.Range("i44").value
         End With
     End With
+
     
     ImportDataForWell = well
 End Function
@@ -15410,6 +15435,7 @@ End Function
 Private Sub SetWellDataToSheet(ByVal wellIndex As Integer, well As WellData)
     Dim row As Long: row = 4 + wellIndex
     Cells(row, 1).value = "W-" & wellIndex
+    
     
     With well
         SetCellValue row, 2, .Natural, "0.00"
@@ -15468,6 +15494,7 @@ Private Sub SetWellDataToSheet(ByVal wellIndex As Integer, well As WellData)
         SetCellValue row, 43, .S3, "0.00"
         SetCellValue row, 44, .Title, ""
     End With
+    
 End Sub
 
 ' Helper procedure to set cell value and format
@@ -15792,8 +15819,10 @@ End Sub
 
 
 Private Sub CommandButton2_Click()
+    Call TurnOffStuff
     Call main_drasticindex
     Call print_drastic_string
+    Call TurnOnStuff
 End Sub
 
 Private Sub CommandButton3_Click()
@@ -15934,8 +15963,1162 @@ End Sub
 
 
 Private Sub CommandButton2_Click()
+    Call TurnOffStuff
     Call main_drasticindex
     Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
+End Sub
+
+Private Sub CommandButton3_Click()
+    Call getWhpaData_AllWell
+End Sub
+
+Private Sub CommandButton7_Click()
+   Call getWhpaData_EachWell
+End Sub
+
+
+
+Private Sub CommandButton5_Click()
+    Call BaseData_DrasticIndex.ToggleDirection
+End Sub
+
+
+Private Function get_rf_number() As String
+    Dim rf_num As String
+
+    '=(max*rf_1*E17/1000)
+    get_rf_number = VBA.Mid(Range("F17").formula, 10, 1)
+
+End Function
+
+
+Private Sub Set_RechargeFactor_One()
+
+    Range("F17").formula = "=(max*rf_1*E17/1000)"
+    Range("F19").formula = "=(max*rf_1*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio"
+    Range("G19").formula = "=F19*allow_ratio"
+    
+    Range("E13").formula = "=Recharge!I24"
+    Range("F13").formula = "=rf_1"
+    Range("G13").formula = "=allow_ratio"
+    
+    Range("E26").formula = "=Recharge!C30"
+    
+End Sub
+
+Private Sub Set_RechargeFactor_Two()
+
+    Range("F17").formula = "=(max*rf_2*E17/1000)"
+    Range("F19").formula = "=(max*rf_2*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio2"
+    Range("G19").formula = "=F19*allow_ratio2"
+    
+    
+    Range("E13").formula = "=Recharge!I25"
+    Range("F13").formula = "=rf_2"
+    Range("G13").formula = "=allow_ratio2"
+    
+    
+    Range("E26").formula = "=Recharge!D30"
+End Sub
+
+
+Private Sub Set_RechargeFactor_Three()
+
+    Range("F17").formula = "=(max*rf_3*E17/1000)"
+    Range("F19").formula = "=(max*rf_3*E19/1000)/365"
+    
+    Range("G17").formula = "=F17*allow_ratio3"
+    Range("G19").formula = "=F19*allow_ratio3"
+    
+    Range("E13").formula = "=Recharge!I26"
+    Range("F13").formula = "=rf_3"
+    Range("G13").formula = "=allow_ratio3"
+    
+    Range("E26").formula = "=Recharge!E30"
+    
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+'Select Recharge Factor
+
+    
+   If Frame1.Controls("optionbutton1").value = True Then
+        Call Set_RechargeFactor_One
+   End If
+    
+   If Frame1.Controls("optionbutton2").value = True Then
+        Call Set_RechargeFactor_Two
+   End If
+    
+   If Frame1.Controls("optionbutton3").value = True Then
+        Call Set_RechargeFactor_Three
+   End If
+    
+
+End Sub
+
+
+
+' 2022/6/9 Import YangSoo Data
+' Radius of Influence - 양수영향반경
+' Effective Radius - 유효우물반경
+' 2024/6/7 - 스킨계수 추가해줌 ...
+' 2024/7/9 - 관정별 임포트 해오는것을, FX 에서 가져온다.
+
+Private Sub CommandButton8_Click()
+   
+   Call modWell_Each.ImportEachWell(Range("E15").value)
+        
+End Sub
+
+Private Sub Worksheet_Activate()
+
+    Select Case get_rf_number
+    
+        Case "1"
+             Frame1.Controls("optionbutton1").value = True
+             
+        Case "2"
+             Frame1.Controls("optionbutton2").value = True
+             
+        Case "3"
+             Frame1.Controls("optionbutton3").value = True
+             
+        Case Else
+            Frame1.Controls("optionbutton1").value = True
+           
+    End Select
+
+End Sub
+
+
+
+Private Sub CommandButton4_Click()
+    Call delete_allWhpaData
+End Sub
+
+
+
+Private Sub CommandButton2_Click()
+    Call TurnOffStuff
+    Call main_drasticindex
+    Call print_drastic_string
+    Call TurnOnStuff
 End Sub
 
 Private Sub CommandButton3_Click()

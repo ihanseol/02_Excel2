@@ -71,6 +71,7 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
     ' Get total number of wells
     nofwell = GetNumberOfWell()
     
+    Call TurnOffStuff
     ' Determine range to clear based on import type
     If Not isSingleWellImport And singleWell = 999 Then
         rngString = "A5:AR37"
@@ -85,9 +86,11 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
         If Not isSingleWellImport Or (isSingleWellImport And i = singleWell) Then
             Dim well As WellData
             well = ImportDataForWell(i)
-            SetWellDataToSheet i, well
+            Call SetWellDataToSheet(i, well)
         End If
     Next i
+    
+    Call TurnOnStuff
 End Sub
 
 ' Function to import well data into UDT
@@ -95,82 +98,84 @@ Private Function ImportDataForWell(ByVal wellIndex As Integer) As WellData
     Dim fName As String
     Dim wb As Workbook
     Dim well As WellData
-    
+
     ' Construct filename and check if workbook is open
     fName = "A" & CStr(wellIndex) & "_ge_OriginalSaveFile.xlsm"
     If Not IsWorkBookOpen(fName) Then
         MsgBox "Please open the yangsoo data! " & fName
         Exit Function
     End If
-    
+
     Set wb = Workbooks(fName)
+
     
     ' Get worksheet references
     With wb
         Dim wsInput As Worksheet: Set wsInput = .Worksheets("Input")
         Dim wsSkinFactor As Worksheet: Set wsSkinFactor = .Worksheets("SkinFactor")
         Dim wsSafeYield As Worksheet: Set wsSafeYield = .Worksheets("SafeYield")
-        
+
         ' Populate UDT with data
         With well
             .Natural = wsInput.Range("m48").value ' 자연수위
             .Stable = wsInput.Range("m49").value ' 안정수위
             .Recover = wsSkinFactor.Range("c10").value ' 회복수위
             .Sw = wsSkinFactor.Range("c11").value ' 회복수위
-            
+
             .DeltaH = wsSkinFactor.Range("b16").value  ' 수위강하량
             .Radius = wsInput.Range("m44").value '200 , 우물직경
             .Rw = wsSkinFactor.Range("e4").value '0.1
-            
+
             .WellDepth = wsInput.Range("m45").value ' 관정심도
             .Casing = wsInput.Range("i52").value ' 케이싱심도
             .Q = wsInput.Range("m51").value '양수량, 채수계획량
             .C = wsInput.Range("a31").value ' 우물손실계수
             .B = wsInput.Range("b31").value ' 대수층손실계수
-            
+
             .DeltaS = wsSkinFactor.Range("b4").value '최초 1분간 수위강하량
             .Hp = wsInput.Range("i48").value  ' 모터마력
             .DaeSoo = wsSkinFactor.Range("c16").value ' 대수층두께
-            
+
             .T1 = wsSkinFactor.Range("d5").value
             .T2 = wsSkinFactor.Range("h13").value
             .TA = wsSkinFactor.Range("d16").value
             .S1 = wsSkinFactor.Range("e10").value
             .S2 = wsSkinFactor.Range("i16").value
-            
+
             .K = wsSkinFactor.Range("e16").value
             .Time = wsSkinFactor.Range("h16").value
-            
+
             .Shultze = wsSkinFactor.Range("c13").value
             .Webber = wsSkinFactor.Range("c18").value
             .Jacob = wsSkinFactor.Range("c23").value
-            
+
             .Skin = wsSkinFactor.Range("g6").value
             .Er = wsSkinFactor.Range("c8").value
-            
+
             .ER1 = wsSkinFactor.Range("k8").value
             .ER2 = wsSkinFactor.Range("k9").value
             .ER3 = wsSkinFactor.Range("k10").value
-            
+
             .Qh = wsInput.Range("d6").value ' 한계양수량
             .Qg = wsSafeYield.Range("b7").value  ' 가채수량
-            
+
             .Sd1 = wsSafeYield.Range("b3").value '1단계 강하량
             .Sd2 = wsSafeYield.Range("b4").value '4단계 강하량
             .Q1 = wsSafeYield.Range("b2").value ' 1단계 양수량
             .Ratio = wsSafeYield.Range("b11").value
-            
+
             .T0 = wsSkinFactor.Range("d4").value
             .S0 = wsSkinFactor.Range("f4").value
-            
+
             .ERMode = wsSkinFactor.Range("h10").value
             .Address = wsInput.Range("i46").value
             .Company = wsInput.Range("i47").value
-            
+
             .S3 = wsSkinFactor.Range("i13").value
             .Title = wsInput.Range("i44").value
         End With
     End With
+
     
     ImportDataForWell = well
 End Function
@@ -179,6 +184,7 @@ End Function
 Private Sub SetWellDataToSheet(ByVal wellIndex As Integer, well As WellData)
     Dim row As Long: row = 4 + wellIndex
     Cells(row, 1).value = "W-" & wellIndex
+    
     
     With well
         SetCellValue row, 2, .Natural, "0.00"
@@ -237,6 +243,7 @@ Private Sub SetWellDataToSheet(ByVal wellIndex As Integer, well As WellData)
         SetCellValue row, 43, .S3, "0.00"
         SetCellValue row, 44, .Title, ""
     End With
+    
 End Sub
 
 ' Helper procedure to set cell value and format

@@ -41,7 +41,7 @@ Sub WriteAllCharts(ByVal singleWell As Integer, ByVal isSingleWellImport As Bool
     
     ' Call DeleteAllCharts
     
-    
+    Call TurnOffStuff
     If isSingleWellImport Then
         Call DeleteAllImages(singleWell)
     Else
@@ -52,7 +52,7 @@ Sub WriteAllCharts(ByVal singleWell As Integer, ByVal isSingleWellImport As Bool
     source_name = ActiveWorkbook.name
     
     
-    TurnOffStuff
+    Call TurnOffStuff
     
     For i = 1 To nofwell
     
@@ -68,7 +68,7 @@ SINGLE_ITERATION:
 NEXT_ITERATION:
     Next i
     
-    TurnOnStuff
+    Call TurnOnStuff
 End Sub
 
 Sub Write_InsertChart(well As Integer, source_name As String)

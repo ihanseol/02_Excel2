@@ -60,8 +60,10 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
     ' Initialize core variables
     wellCount = GetNumberOfWell()
     
+    
     Sheets("Aggregate1").Activate
 
+    Call TurnOffStuff
     ' Clear data ranges if importing all wells
     If Not isSingleWellMode Then
         ClearRange "G3:K35"
@@ -77,18 +79,16 @@ Sub ImportAggregateData(ByVal targetWell As Integer, ByVal isSingleWellMode As B
             wd = GetWellData(wellIndex)
             
             ' Process data with optimizations disabled
-            TurnOffStuff
             
             Call WriteWellSummary(wd, wellIndex, isSingleWellMode)
             Call WriteWaterIntake(wd, wellIndex, isSingleWellMode)
-            
-            TurnOnStuff
         End If
     Next wellIndex
 
     ' Clean up
     Application.CutCopyMode = False
     Range("L1").Select
+    Call TurnOnStuff
 End Sub
 
 Private Sub WriteWellSummary(WellData As WellDataOne, ByVal wellIndex As Integer, ByVal isSingleWellMode As Boolean)

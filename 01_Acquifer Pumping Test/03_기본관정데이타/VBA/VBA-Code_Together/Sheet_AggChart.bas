@@ -13,8 +13,9 @@ End Sub
 Private Sub CommandButton2_Click()
 'Collect Data
 
-   
-    Call WriteAllCharts(999, False)
+   Call TurnOffStuff
+   Call WriteAllCharts(999, False)
+   Call TurnOnStuff
 
 End Sub
 

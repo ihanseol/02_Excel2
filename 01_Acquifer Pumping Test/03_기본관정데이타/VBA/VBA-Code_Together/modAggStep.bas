@@ -17,7 +17,11 @@ Sub WriteStepTestData(ByVal singleWell As Integer, ByVal isSingleWellImport As B
     Dim wsInput As Worksheet
     Dim rngString As String
     
+    
+    Call TurnOffStuff
+    
     If ActiveSheet.name <> "AggStep" Then Sheets("AggStep").Select
+    
     
     If isSingleWellImport Then
         rngString = "C" & (singleWell + 5 - 1) & ":K" & (singleWell + 5 - 1)
@@ -70,6 +74,7 @@ NEXT_ITERATION:
 
     Next i
     
+    Call TurnOnStuff
     'Call Write31_StepTestData(a1, a2, a3, Q, h, delta_h, qsw, swq, nofwell)
 End Sub
 

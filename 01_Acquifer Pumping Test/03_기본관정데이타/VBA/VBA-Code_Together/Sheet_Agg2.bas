@@ -6,7 +6,9 @@ End Sub
 
 Private Sub CommandButton2_Click()
     ' Collect All Data
+    Call TurnOffStuff
     Call modAgg2.GROK_ImportWellSpec(999, False)
+    Call TurnOnStuff
 End Sub
 
 

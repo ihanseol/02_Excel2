@@ -16,8 +16,9 @@ End Sub
 '
 Private Sub CommandButton2_Click()
 ' Collect Data
-
-  Call modAgg1.ImportAggregateData(999, False)
+    Call TurnOffStuff
+    Call modAgg1.ImportAggregateData(999, False)
+    Call TurnOnStuff
 End Sub
 
 

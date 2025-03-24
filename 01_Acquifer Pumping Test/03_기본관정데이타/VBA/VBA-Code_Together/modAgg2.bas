@@ -49,7 +49,8 @@ Sub GROK_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As
     wsAggregate.Activate
 
     wellCount = GetNumberOfWell()
-
+    
+    Call TurnOffStuff
     If Not isSingleWellImport Then
         Call ClearAllDataRanges
     End If
@@ -67,6 +68,7 @@ Sub GROK_ImportWellSpec(ByVal singleWell As Integer, ByVal isSingleWellImport As
 
     wsAggregate.Range("A1").Select
     Application.CutCopyMode = False
+    Call TurnOnStuff
 End Sub
 
 ' Helper function to determine if well should be processed

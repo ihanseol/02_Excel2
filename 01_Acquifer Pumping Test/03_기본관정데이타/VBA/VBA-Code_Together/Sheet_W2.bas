@@ -6,8 +6,10 @@ End Sub
 
 
 Private Sub CommandButton2_Click()
+    Call TurnOffStuff
     Call main_drasticindex
     Call print_drastic_string
+    Call TurnOnStuff
 End Sub
 
 Private Sub CommandButton3_Click()
