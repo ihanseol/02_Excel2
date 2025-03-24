@@ -432,6 +432,8 @@ Sub ImportWell_MainWellPage()
     
     '2024,12,25 - Add Title
     wsWell.Range("D1").value = wsYangSoo.Cells(5, "AR").value
+    
+    Call TurnOffStuff
            
     For i = 1 To nofwell
         '2025/3/5
@@ -456,6 +458,7 @@ Sub ImportWell_MainWellPage()
     wsRecharge.Range("B32").value = Company
     
     Application.CutCopyMode = False
+    Call TurnOnStuff
 End Sub
 
 
