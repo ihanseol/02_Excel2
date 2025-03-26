@@ -9,17 +9,9 @@ End Sub
 
 ' Time Difference
 Private Sub CommandButton3_Click()
-    Dim mm As Integer
-    Dim dtLongTerm, dtStempTime As Date
-    
-    mm = ComboBox1.Value
-    
-    ' 장기양수시험 시작시간
-    dtLongTerm = Sheets("LongTest").Range("c10").Value
-    dtStepTime = dtLongTerm - mm / 1440
-    
-    Range("c12").Value = dtStepTime
+    Call Change_StepTest_Time
 End Sub
+
 
 Private Sub CommandButton4_Click()
     Dim dtToday, ntime, nDate As Date

@@ -2,6 +2,21 @@ Option Explicit
 Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr)
 
 
+Sub Change_StepTest_Time()
+    Dim diff_time As Integer
+    Dim dtLongTerm, dtStepTime As Date
+    
+    diff_time = Sheets("StepTest").ComboBox1.Value
+    
+    ' 장기양수시험 시작시간
+    dtLongTerm = Sheets("LongTest").Range("c10").Value
+    dtStepTime = dtLongTerm - diff_time / 1440
+    
+    Sheets("StepTest").Range("c12").Value = dtStepTime
+End Sub
+
+
+
 Sub CutDownNumber(po As String, cutdown As Integer)
     Dim i, chrcode As Integer
     For i = 1 To 5

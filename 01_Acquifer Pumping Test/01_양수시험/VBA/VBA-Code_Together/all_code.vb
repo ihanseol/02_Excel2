@@ -210,17 +210,9 @@ End Sub
 
 ' Time Difference
 Private Sub CommandButton3_Click()
-    Dim mm As Integer
-    Dim dtLongTerm, dtStempTime As Date
-    
-    mm = ComboBox1.Value
-    
-    ' 장기양수시험 시작시간
-    dtLongTerm = Sheets("LongTest").Range("c10").Value
-    dtStepTime = dtLongTerm - mm / 1440
-    
-    Range("c12").Value = dtStepTime
+    Call Change_StepTest_Time
 End Sub
+
 
 Private Sub CommandButton4_Click()
     Dim dtToday, ntime, nDate As Date
@@ -341,6 +333,9 @@ End Sub
 
 Private Sub CommandButton_Print_LS_Click()
     Dim well As Integer
+    
+    
+    Call Change_StepTest_Time
     
     Sheets("장회").Visible = True
     Sheets("단계").Visible = True
@@ -2122,6 +2117,21 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
 End Sub
 Option Explicit
 Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr)
+
+
+Sub Change_StepTest_Time()
+    Dim diff_time As Integer
+    Dim dtLongTerm, dtStepTime As Date
+    
+    diff_time = Sheets("StepTest").ComboBox1.Value
+    
+    ' 장기양수시험 시작시간
+    dtLongTerm = Sheets("LongTest").Range("c10").Value
+    dtStepTime = dtLongTerm - diff_time / 1440
+    
+    Sheets("StepTest").Range("c12").Value = dtStepTime
+End Sub
+
 
 
 Sub CutDownNumber(po As String, cutdown As Integer)

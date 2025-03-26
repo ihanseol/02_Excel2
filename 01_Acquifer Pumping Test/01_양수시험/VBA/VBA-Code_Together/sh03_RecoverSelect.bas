@@ -13,6 +13,9 @@ End Sub
 Private Sub CommandButton_Print_LS_Click()
     Dim well As Integer
     
+    
+    Call Change_StepTest_Time
+    
     Sheets("장회").Visible = True
     Sheets("단계").Visible = True
     well = GetNumbers(shInput.Range("I54").Value)
