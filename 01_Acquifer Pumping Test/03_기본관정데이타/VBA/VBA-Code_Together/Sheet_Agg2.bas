@@ -34,7 +34,7 @@ Private Sub CommandButton3_Click()
     '   MsgBox (SingleWell)
     End If
     
-    Call modAgg2.ImportWellSpec(singleWell, True)
+    Call modAgg2.GROK_ImportWellSpec(singleWell, True)
 
 End Sub
 

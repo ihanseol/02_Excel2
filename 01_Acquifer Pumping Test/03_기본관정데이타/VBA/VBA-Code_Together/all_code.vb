@@ -3389,7 +3389,7 @@ Private Sub CommandButton3_Click()
     '   MsgBox (SingleWell)
     End If
     
-    Call AggregateOne_Import(singleWell, True)
+    Call modAgg1.ImportAggregateData(singleWell, True)
 
 End Sub
 
@@ -3431,7 +3431,7 @@ Private Sub CommandButton3_Click()
     '   MsgBox (SingleWell)
     End If
     
-    Call modAgg2.ImportWellSpec(singleWell, True)
+    Call modAgg2.GROK_ImportWellSpec(singleWell, True)
 
 End Sub
 
@@ -15330,7 +15330,7 @@ Sub GetBaseDataFromYangSoo(ByVal singleWell As Integer, ByVal isSingleWellImport
     If Not isSingleWellImport And singleWell = 999 Then
         rngString = "A5:AR37"
     Else
-        rngString = "A" & (nofwell + 4) & ":AR" & (nofwell + 4)
+        rngString = "A" & (singleWell + 4) & ":AR" & (singleWell + 4)
     End If
     
     Call EraseCellData(rngString)

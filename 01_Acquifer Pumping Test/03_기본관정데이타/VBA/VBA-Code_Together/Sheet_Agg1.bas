@@ -47,7 +47,7 @@ Private Sub CommandButton3_Click()
     '   MsgBox (SingleWell)
     End If
     
-    Call AggregateOne_Import(singleWell, True)
+    Call modAgg1.ImportAggregateData(singleWell, True)
 
 End Sub
 
