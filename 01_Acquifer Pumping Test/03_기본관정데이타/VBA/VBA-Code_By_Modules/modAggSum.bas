@@ -173,6 +173,7 @@ End Sub
 
 Sub Write_RadiusOfInfluence(nofwell As Integer)
 ' 양수영향반경
+
     Dim i, ip_Row, remainder As Integer
     Dim unit, rngString01, rngString02 As String
     Dim values As Variant
@@ -304,7 +305,7 @@ Sub TestColumnLetter()
 
 End Sub
 
-Sub Write_Data(nofwell As Integer, category As String, sheetName As String, rangeCell As String, unitSuffix As String)
+Sub Write_Data(nofwell As Integer, category As String, numberFormatString As String, rangeCell As String, unitSuffix As String)
     ' Generalized subroutine to write data based on the category
     Dim i, ip_Row As Integer
     Dim unit, rngString As String
@@ -328,28 +329,36 @@ Sub Write_Data(nofwell As Integer, category As String, sheetName As String, rang
 
     For i = 1 To nofwell
         Cells(ip_Row, (i + 3)).value = "W-" & CStr(i)
-        Cells(ip_Row + 1, (i + 3)).value = Worksheets(CStr(i)).Range(rangeCell).value & unit
+        With Cells(ip_Row + 1, (i + 3))
+            ' 2025-3-30, change numberformat
+            .value = format(Worksheets(CStr(i)).Range(rangeCell).value, numberFormatString) & unit
+        End With
     Next i
 End Sub
 
 Sub Write_WaterIntake(nofwell As Integer)
-    Write_Data nofwell, "AggSum_Intake", "drastic", "C15", Sheets("drastic").Range("a16").value
+'  Sheets("drastic").Range("a16").value - unit m^3/day
+' 취수계획량
+
+    Write_Data nofwell, "AggSum_Intake", "#,##0.0", "C15", Sheets("drastic").Range("a16").value
 End Sub
 
 Sub Write_DiggingDepth(nofwell As Integer)
-    Write_Data nofwell, "AggSum_Simdo", "drastic", "C7", " m"
+' 굴착심도
+
+    Write_Data nofwell, "AggSum_Simdo", "#,##0", "C7", " m"
 End Sub
 
 Sub Write_MotorPower(nofwell As Integer)
-    Write_Data nofwell, "AggSum_MotorHP", "drastic", "C17", " Hp"
+' 모터마력
+    
+    Write_Data nofwell, "AggSum_MotorHP", "#,##0.0", "C17", " Hp"
 End Sub
 
 
-
+Sub Write_NaturalLevel(nofwell As Integer)
 ' 2024,3,4 자연수위
 ' 자연수위, 안정수위 최대값 최소값은 FX 에서 가지고 온다.
-
-Sub Write_NaturalLevel(nofwell As Integer)
 
     Dim ip_Row As Integer
     Dim values As Variant
@@ -359,7 +368,7 @@ Sub Write_NaturalLevel(nofwell As Integer)
     ip_Row = values(2)
 
 
-    Write_Data nofwell, "AggSum_NaturalLevel", "drastic", "C20", " m"
+    Write_Data nofwell, "AggSum_NaturalLevel", "#,##0.00", "C20", " m"
     
     
     Cells(ip_Row - 1, "E").value = Application.WorksheetFunction.max(Sheets("YangSoo").Range("B5:B37"))
@@ -368,17 +377,18 @@ Sub Write_NaturalLevel(nofwell As Integer)
     ' Debug.Print "Range(""D99"").value :", "", ConvertToDouble(Range("D99").value), ""
 End Sub
 
-' 2024,3,4 안정수위
-' 자연수위, 안정수위 최대값 최소값은 FX 에서 가지고 온다.
 
 Sub Write_StableLevel(nofwell As Integer)
+' 2024,3,4 안정수위
+' 자연수위, 안정수위 최대값 최소값은 FX 에서 가지고 온다.
+    
     Dim ip_Row As Integer
     Dim values As Variant
     
     values = GetRowColumn("AggSum_StableLevel")
     ip_Row = values(2)
 
-    Write_Data nofwell, "AggSum_StableLevel", "drastic", "C21", " m"
+    Write_Data nofwell, "AggSum_StableLevel", "#,##0.00", "C21", " m"
     
     Cells(ip_Row - 1, "E").value = Application.WorksheetFunction.max(Sheets("YangSoo").Range("C5:C37"))
     Cells(ip_Row - 1, "F").value = Application.WorksheetFunction.min(Sheets("YangSoo").Range("C5:C37"))
@@ -386,19 +396,26 @@ End Sub
 
 
 Sub Write_MotorTochool(nofwell As Integer)
-    Write_Data nofwell, "AggSum_ToChool", "drastic", "C19", " mm"
+' 토출구경
+
+    Write_Data nofwell, "AggSum_ToChool", "#,##0", "C19", " mm"
 End Sub
 
 Sub Write_MotorSimdo(nofwell As Integer)
-    Write_Data nofwell, "AggSum_MotorSimdo", "drastic", "C18", " m"
+' 모터심도
+
+    Write_Data nofwell, "AggSum_MotorSimdo", "#,##0", "C18", " m"
 End Sub
 
 Sub Write_WellDiameter(nofwell As Integer)
-    Write_Data nofwell, "AggSum_WellDiameter", "drastic", "C8", " mm"
+' 굴착직경
+
+    Write_Data nofwell, "AggSum_WellDiameter", "#,##0", "C8", " mm"
 End Sub
 
 Sub Write_CasingDepth(nofwell As Integer)
-    Write_Data nofwell, "AggSum_CasingDepth", "drastic", "C9", " m"
+' 케이싱심도
+    Write_Data nofwell, "AggSum_CasingDepth", "#,##0", "C9", " m"
 End Sub
 
 
